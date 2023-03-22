@@ -1,0 +1,1 @@
+export { DicesHolster } from './DicesHolster';

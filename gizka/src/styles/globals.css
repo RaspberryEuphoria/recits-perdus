@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+@font-face {
+  font-family: 'Kontrapunkt-Bold';
+  src: url('../../public/fonts/Kontrapunkt-Bold.otf');
+}
+
+@font-face {
+  font-family: 'Kontrapunkt-Light';
+  src: url('../../public/fonts/Kontrapunkt-Light.otf');
+}
+
+@font-face {
+  font-family: 'Kontrapunkt-LightItalic';
+  src: url('../../public/fonts/Kontrapunkt-LightItalic.otf');
+}
+
+@font-face {
+  font-family: 'Phonk Contrast DEMO';
+  src: url('../../public/fonts/Phonk Contrast DEMO.otf');
+}
+
+@font-face {
+  font-family: 'Phonk Regular DEMO';
+  src: url('../../public/fonts/Phonk Regular DEMO.otf');
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+:root {
+  --primary: #080a0f;
+  --primary-alt: #1c212f;
+  --secondary: #6c5a49;
+  --dark: #04060c;
+  --dark-05: rgba(4, 6, 12, 0.5);
+  --dark-08: rgba(4, 6, 12, 0.8);
+  --flashy: #ff2f4c;
+  --flashy-05: rgba(255, 47, 76, 0.5);
+  --flashy-08: rgba(255, 47, 76, 0.8);
+  --flashy-alt: #db243c;
+  --light: #e4eef5;
+  --light-05: rgba(228, 238, 245, 0.5);
+
+  --error: #e9001f;
+
+  --gutter-w: 2rem;
+
+  --space-05: 0.5rem;
+  --space-1: 1rem;
+  --space-2: 3rem;
+
+  --dice: #f29736;
+  --skill: #368ef2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Helpers */
+.full-y {
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.scroll-hidden {
+  overflow-y: hidden;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+}
+
+.scroller {
+  scrollbar-color: var(--primary-alt) var(--primary);
+  scrollbar-width: thin;
+}
+
+/* Custom css */
+body,
+html,
+#__next {
+  height: 100%;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-family: 'Kontrapunkt-Light';
+}
+
+.quest {
+  display: inline-block;
+  padding: 1rem;
+  background: var(--dark-05);
+  border: 1px solid var(--light);
+}
+
+.quest:hover {
+  background: var(--dark);
+}
+
+.quest h1 {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-family: 'Kontrapunkt';
+}
+
+.quest span {
+  color: var(--flashy);
+  font-family: 'Kontrapunkt-LightItalic';
+  font-style: italic;
+}
+
+.dialog-avatar {
+  position: absolute;
+  right: calc(35% + 5% + var(--gutter-w)); /* 35% aside width + 5% margin + 2rem avatar width */
+  bottom: var(--gutter-w);
+  width: calc(200px + 1rem);
+  height: calc(300px + 1rem);
+  padding: 1rem;
+  background: transparent;
+  border: 1px solid var(--light);
+}
+
+.dialog-avatar::after {
+  content: '';
+  position: absolute;
+  bottom: var(--gutter-w);
+  right: calc(var(--gutter-w) * -1);
+  width: var(--gutter-w);
+  height: 1px;
+  background: var(--light);
+}
+
+.dialog-avatar .author-name {
+  position: absolute;
+  top: 50%;
+  text-transform: uppercase;
+  font-family: 'Phonk Contrast DEMO';
+  font-size: 1.5rem;
+  transform: translateY(-50%) translateX(80%);
+  writing-mode: sideways-lr;
+}
+
+.dialog-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

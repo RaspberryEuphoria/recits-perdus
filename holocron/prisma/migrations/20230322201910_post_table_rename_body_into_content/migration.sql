@@ -1,0 +1,1 @@
+ALTER TABLE "Post" RENAME COLUMN "body" TO "content";

@@ -1,0 +1,1 @@
+export { DialogPost } from "./DialogPost";
