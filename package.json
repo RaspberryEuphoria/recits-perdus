@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "dev": "npx concurrently \"cd gizka && yarn dev\" \"cd holocron && yarn dev\""
+  }
+}
