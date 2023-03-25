@@ -24,6 +24,9 @@ export function HomePage() {
 
       if (!isHttpError(currentUser)) {
         setLocalStorage(currentUser);
+      } else {
+        // @todo show error message
+        alert('Identifiants incorrects');
       }
     }
   };
