@@ -1,14 +1,15 @@
 import { LoginForm } from '@/components/LoginForm';
-import { httpBffClient } from '@/services/http-client';
+import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { User } from '@/utils/types/user';
 import { RegisterForm } from '@/components/RegisterForm';
 
 import * as Styled from './styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/DesignSystem/Button';
 
 export function HomePage() {
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [activeForm, setActiveForm] = useState<'login' | 'register'>('login');
   const [currentUser, setLocalStorage] = useLocalStorage<User>('currentUser');
 
@@ -20,7 +21,10 @@ export function HomePage() {
 
     if (email && password) {
       const currentUser = await httpBffClient.post<User>('/user/login', { email, password });
-      setLocalStorage(currentUser);
+
+      if (!isHttpError(currentUser)) {
+        setLocalStorage(currentUser);
+      }
     }
   };
 
@@ -37,7 +41,10 @@ export function HomePage() {
         name,
         password,
       });
-      setLocalStorage(currentUser);
+
+      if (!isHttpError(currentUser)) {
+        setLocalStorage(currentUser);
+      }
     }
   };
 
@@ -46,6 +53,11 @@ export function HomePage() {
   };
 
   // @todo show skeleton loader
+  useEffect(() => {
+    setHasLoaded(true);
+  }, []);
+
+  if (!hasLoaded) return null;
 
   if (currentUser) {
     return <Styled.Home>Vous êtes connecté</Styled.Home>;
