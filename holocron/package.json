@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "prisma": "npx prisma studio",
+    "prisma:format": "npx prisma format",
     "db:migrate": "npx prisma migrate dev",
     "db:migrate:create": "npx prisma migrate dev --create-only"
   },
