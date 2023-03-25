@@ -46,7 +46,6 @@ export function LayoutMainSection(props: LayoutProps) {
 export function LayoutAsideSection(props: LayoutProps) {
   return (
     <>
-      <div className={styles.asideSectionBackground}></div>
       <aside className={[styles.asideSection, styles.overflowY, styles.scroller].join(' ')}>
         {props.children}
       </aside>
