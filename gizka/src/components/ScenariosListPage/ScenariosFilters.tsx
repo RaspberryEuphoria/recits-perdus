@@ -1,5 +1,5 @@
 type ScenariosFiltersProps = {
-  threadsCount: number;
+  scenariosCount: number;
   locations: string[];
   eras: string[];
   activeLocations: string[];
@@ -9,7 +9,7 @@ type ScenariosFiltersProps = {
 };
 
 export function ScenariosFilters({
-  threadsCount,
+  scenariosCount,
   locations: initialLocations,
   eras: initalEras,
   activeLocations,
@@ -20,7 +20,7 @@ export function ScenariosFilters({
   return (
     <div>
       <p>
-        <strong>{threadsCount}</strong> scénarios en cours.
+        <strong>{scenariosCount}</strong> scénarios en cours.
       </p>
       <h2>Filtrer par planète</h2>
       <ul>

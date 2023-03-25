@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ThreadStatus" AS ENUM ('INITIATED', 'IN_PROGRESS', 'FINISHED', 'LOCKED');
+CREATE TYPE "ScenarioStatus" AS ENUM ('INITIATED', 'IN_PROGRESS', 'FINISHED', 'LOCKED');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -42,21 +42,21 @@ CREATE TABLE "SkillsOnCharacters" (
 );
 
 -- CreateTable
-CREATE TABLE "Thread" (
+CREATE TABLE "Scenario" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "status" "ThreadStatus" NOT NULL DEFAULT 'INITIATED',
+    "status" "ScenarioStatus" NOT NULL DEFAULT 'INITIATED',
     "era" VARCHAR(255),
     "location" VARCHAR(255),
 
-    CONSTRAINT "Thread_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Scenario_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
     "content" TEXT NOT NULL,
-    "threadId" INTEGER NOT NULL,
+    "scenarioId" INTEGER NOT NULL,
     "characterId" INTEGER NOT NULL,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
@@ -75,7 +75,7 @@ ALTER TABLE "SkillsOnCharacters" ADD CONSTRAINT "SkillsOnCharacters_characterId_
 ALTER TABLE "SkillsOnCharacters" ADD CONSTRAINT "SkillsOnCharacters_skillId_fkey" FOREIGN KEY ("skillId") REFERENCES "Skill"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Post" ADD CONSTRAINT "Post_threadId_fkey" FOREIGN KEY ("threadId") REFERENCES "Thread"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Post" ADD CONSTRAINT "Post_scenarioId_fkey" FOREIGN KEY ("scenarioId") REFERENCES "Scenario"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

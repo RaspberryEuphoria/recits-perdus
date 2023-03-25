@@ -1,17 +1,17 @@
-import { Thread } from '../../thread/entities/thread';
+import { Scenario } from '../../scenario/entities/scenario';
 
 type Post = {
   id: number;
   content: string;
-  thread: Thread;
-  threadId: number;
+  scenario: Scenario;
+  scenarioId: number;
   // character: Character;
   characterId: number;
 };
 
 type CreatePostDto = {
   content: string;
-  threadId: number;
+  scenarioId: number;
   characterId: number;
 };
 

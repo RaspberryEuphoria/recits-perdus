@@ -19,13 +19,13 @@ export async function getServerSideProps(
   context: InferGetServerSidePropsType<any>,
 ): Promise<{ props: EnCoursWithIdProps }> {
   const { id } = context.query;
-  const threadId = id.split('-')[0];
-  const thread = await httpBffClient.get(`/thread/${threadId}`);
+  const scenarioId = id.split('-')[0];
+  const scenario = await httpBffClient.get(`/scenario/${scenarioId}`);
 
   return {
     props: {
       id,
-      posts: thread.posts,
+      posts: scenario.posts,
       dices: [],
     },
   };

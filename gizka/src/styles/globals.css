@@ -37,11 +37,16 @@
   --dark: #04060c;
   --dark-05: rgba(4, 6, 12, 0.5);
   --dark-08: rgba(4, 6, 12, 0.8);
-  --flashy: #ff2f4c;
+  --flashy: #3969a1;
+  --flashy-02: rgba(57, 105, 161, 0.2);
+  --flashy-05: rgba(57, 105, 161, 0.5);
+  --flashy-08: rgba(57, 105, 161, 0.8);
+  --flashy-alt: #2f4c7f;
+  /* --flashy: #ff2f4c;
   --flashy-02: rgba(255, 47, 76, 0.2);
   --flashy-05: rgba(255, 47, 76, 0.5);
   --flashy-08: rgba(255, 47, 76, 0.8);
-  --flashy-alt: #db243c;
+  --flashy-alt: #db243c; */
   --light: #e4eef5;
   --light-05: rgba(228, 238, 245, 0.5);
 

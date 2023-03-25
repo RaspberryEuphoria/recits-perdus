@@ -1,27 +1,27 @@
 import { Post } from '../../post/entities/post';
 
-enum ThreadStatus {
+enum ScenarioStatus {
   INITIATED = 'INITIATED',
   IN_PROGRESS = 'IN_PROGRESS',
   FINISHED = 'FINISHED',
   LOCKED = 'LOCKED',
 }
 
-type Thread = {
+type Scenario = {
   id: number;
   title: string;
   safeTitle: string;
   posts: Post[];
-  status: ThreadStatus;
+  status: ScenarioStatus;
   era: string;
   location: string;
   thumbnail: string;
 };
 
-type CreateThreadDto = {
+type CreateScenarioDto = {
   title: string;
   safeTitle: string;
-  status: ThreadStatus;
+  status: ScenarioStatus;
 };
 
-export { CreateThreadDto, Thread, ThreadStatus };
+export { CreateScenarioDto, Scenario, ScenarioStatus };

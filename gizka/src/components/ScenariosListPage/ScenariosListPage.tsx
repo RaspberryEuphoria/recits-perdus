@@ -1,9 +1,9 @@
-import { Thread } from '@/utils/types/thread';
+import { Scenario } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
 
 type ScenariosListPageProps = {
-  scenarios: Thread[];
+  scenarios: Scenario[];
 };
 
 export function ScenariosListPage({ scenarios }: ScenariosListPageProps) {

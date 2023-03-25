@@ -1,1 +1,1 @@
-export { DialogThread } from "./DialogThread";
+export { DialogThread } from './DialogThread';

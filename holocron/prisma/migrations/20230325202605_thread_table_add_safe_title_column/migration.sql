@@ -1,8 +1,8 @@
 /*
   Warnings:
 
-  - Added the required column `safeTitle` to the `Thread` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `safeTitle` to the `Scenario` table without a default value. This is not possible if the table is not empty.
 
 */
 -- AlterTable
-ALTER TABLE "Thread" ADD COLUMN     "safeTitle" TEXT NOT NULL;
+ALTER TABLE "Scenario" ADD COLUMN     "safeTitle" TEXT NOT NULL;

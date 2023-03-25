@@ -1,16 +1,16 @@
 import { PrismaClient } from '@prisma/client';
 
-import { CreateThreadDto, ThreadStatus } from '../domain/thread/entities/thread';
+import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/scenario';
 
-export class ThreadRepository {
+export class ScenarioRepository {
   private db: PrismaClient;
 
   constructor(db: PrismaClient) {
     this.db = db;
   }
 
-  async getAllThreadsByStatus(status: ThreadStatus) {
-    return this.db.thread.findMany({
+  async getAllScenariosByStatus(status: ScenarioStatus) {
+    return this.db.scenario.findMany({
       where: {
         status,
       },
@@ -21,7 +21,7 @@ export class ThreadRepository {
   }
 
   async getById(id: number) {
-    return this.db.thread.findUnique({
+    return this.db.scenario.findUnique({
       where: {
         id,
       },
@@ -35,9 +35,9 @@ export class ThreadRepository {
     });
   }
 
-  async create(thread: CreateThreadDto) {
-    return this.db.thread.create({
-      data: thread,
+  async create(scenario: CreateScenarioDto) {
+    return this.db.scenario.create({
+      data: scenario,
     });
   }
 }

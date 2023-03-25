@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE "Thread" ADD COLUMN     "thumbnail" VARCHAR(255);
+ALTER TABLE "Scenario" ADD COLUMN     "thumbnail" VARCHAR(255);

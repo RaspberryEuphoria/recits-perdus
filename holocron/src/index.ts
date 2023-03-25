@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import bodyParser from 'body-parser';
 import express from 'express';
 
-import { ThreadContainer } from './app/thread/thread.container';
+import { ScenarioContainer } from './app/scenario/scenario.container';
 import { UserContainer } from './app/user/user.container';
 import { AuthService } from './services/AuthService';
 
@@ -23,10 +23,10 @@ app.get('/', (_req, _res) => {
 app.listen(port, () => {
   console.log(`TypeScript with Express http://localhost:${port}/`);
 
-  const threadContainer = new ThreadContainer(prisma);
+  const scenarioContainer = new ScenarioContainer(prisma);
   const userContainer = new UserContainer(prisma, authService);
 
-  app.use('/thread', threadContainer.routes);
+  app.use('/scenario', scenarioContainer.routes);
   app.use('/user', userContainer.routes);
 });
 

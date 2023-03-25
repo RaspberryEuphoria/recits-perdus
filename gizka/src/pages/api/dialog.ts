@@ -17,10 +17,10 @@ export type Dialog = {
 export type DataDialogs = Array<Dialog>;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  // get threadId from url
-  // const threadId = req.query.id;
+  // get scenarioId from url
+  // const scenarioId = req.query.id;
   // if (req.method === 'POST') {
-  //   const dialog = await httpClient.post(`http://localhost:8080/thread/${threadId}/post`);
+  //   const dialog = await httpClient.post(`http://localhost:8080/scenario/${scenarioId}/post`);
   //   res.status(204).json(dialog);
   // }
   // res.status(200).json([]);

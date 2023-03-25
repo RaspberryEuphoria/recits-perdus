@@ -45,6 +45,8 @@ export function HomePage() {
         password,
       });
 
+      console.log(currentUser);
+
       if (!isHttpError(currentUser)) {
         setLocalStorage(currentUser);
       }

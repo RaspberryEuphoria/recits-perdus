@@ -23,7 +23,7 @@ let socket: Socket;
 export function DialogThread({ initialDialogs, currentUser, dices }: DialogThreadProps) {
   const router = useRouter();
 
-  const { id: threadId } = router.query;
+  const { id: scenarioId } = router.query;
   const [dialogs, setDialogs] = useState<Dialog[]>(initialDialogs);
   const [currentDialog, setCurrentDialog] = useState<string>();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -36,12 +36,12 @@ export function DialogThread({ initialDialogs, currentUser, dices }: DialogThrea
     if (!currentDialog || !currentUser) return;
 
     const newDialog = {
-      threadId: parseInt(threadId as string), // @todo: replace autoincrements ids with uuids?
+      scenarioId: parseInt(scenarioId as string), // @todo: replace autoincrements ids with uuids?
       characterId: 2,
       body: currentDialog,
     };
 
-    const dialog = await httpBffClient.post(`/thread/${threadId}/post`, newDialog);
+    const dialog = await httpBffClient.post(`/scenario/${scenarioId}/post`, newDialog);
     socket.emit('post-new-dialog', dialog);
 
     if (textareaRef?.current) {

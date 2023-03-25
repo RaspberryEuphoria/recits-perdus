@@ -29,7 +29,7 @@ model Character {
   userId Int
 
   skill  SkillsOnCharacters[]
-  thread CharactersOnThreads[]
+  scenario CharactersOnScenarios[]
   posts  Post[]
 }
 
@@ -52,30 +52,30 @@ model SkillsOnCharacters {
   skillId Int
 }
 
-model Thread {
+model Scenario {
   id        Int          @id @default(autoincrement())
   title     String
   safeTitle String
-  status    ThreadStatus @default(INITIATED)
+  status    ScenarioStatus @default(INITIATED)
   era       String?      @db.VarChar(255)
   location  String?      @db.VarChar(255)
   thumbnail String?      @db.VarChar(255)
 
   posts      Post[]
-  characters CharactersOnThreads[]
+  characters CharactersOnScenarios[]
 }
 
-model CharactersOnThreads {
+model CharactersOnScenarios {
   id Int @id @default(autoincrement())
 
   character   Character @relation(fields: [characterId], references: [id])
   characterId Int
 
-  thread   Thread @relation(fields: [threadId], references: [id])
-  threadId Int
+  scenario   Scenario @relation(fields: [scenarioId], references: [id])
+  scenarioId Int
 }
 
-enum ThreadStatus {
+enum ScenarioStatus {
   INITIATED
   IN_PROGRESS
   FINISHED
@@ -86,8 +86,8 @@ model Post {
   id      Int    @id @default(autoincrement())
   content String
 
-  thread   Thread @relation(fields: [threadId], references: [id])
-  threadId Int
+  scenario   Scenario @relation(fields: [scenarioId], references: [id])
+  scenarioId Int
 
   character   Character @relation(fields: [characterId], references: [id])
   characterId Int

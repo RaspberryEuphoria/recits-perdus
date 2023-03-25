@@ -3,8 +3,8 @@ import { CreateUserDto } from '../entities/user';
 
 function registerUserUsecase(userRepository: UserRepository) {
   return async function (user: CreateUserDto) {
-    const thread = await userRepository.create(user);
-    return thread;
+    const scenario = await userRepository.create(user);
+    return scenario;
   };
 }
 

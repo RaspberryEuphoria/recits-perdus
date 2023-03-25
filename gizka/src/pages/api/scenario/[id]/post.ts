@@ -18,11 +18,11 @@ export type DataDialogs = Array<Dialog>;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   const { query, body } = req;
-  const threadId = query.id;
+  const scenarioId = query.id;
 
   if (req.method === 'POST') {
     const { characterId, content } = body;
-    const dialog = await httpClient.post(`/thread/${threadId}/post`, {
+    const dialog = await httpClient.post(`/scenario/${scenarioId}/post`, {
       content,
       characterId,
     });

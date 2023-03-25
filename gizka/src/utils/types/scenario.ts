@@ -1,4 +1,4 @@
-enum ThreadStatus {
+enum ScenarioStatus {
   INITIATED = 'INITIATED',
   IN_PROGRESS = 'IN_PROGRESS',
   FINISHED = 'FINISHED',
@@ -8,21 +8,21 @@ enum ThreadStatus {
 type Post = {
   id: number;
   content: string;
-  thread: Thread;
-  threadId: number;
+  scenario: Scenario;
+  scenarioId: number;
   // character: Character;
   characterId: number;
 };
 
-type Thread = {
+type Scenario = {
   id: number;
   title: string;
   safeTitle: string;
   posts: Post[];
-  status: ThreadStatus;
+  status: ScenarioStatus;
   era: string;
   location: string;
   thumbnail: string;
 };
 
-export { ThreadStatus, type Thread };
+export { ScenarioStatus, type Scenario };

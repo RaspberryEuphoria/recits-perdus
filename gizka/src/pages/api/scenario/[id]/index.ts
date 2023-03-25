@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   if (req.method === 'GET') {
-    const thread = await httpClient.get(`/thread/${id}`);
-    res.status(200).json(thread);
+    const scenario = await httpClient.get(`/scenario/${id}`);
+    res.status(200).json(scenario);
   }
 }
