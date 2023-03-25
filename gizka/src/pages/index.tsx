@@ -26,7 +26,7 @@ export default function Home() {
     },
     {
       label: 'Scénarios en cours',
-      href: '/current',
+      href: '/scenarios/en-cours',
       description: 'Retrouvez tous les récits en cours.',
     },
     // ajouter "scénarios terminés"
