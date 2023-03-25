@@ -1,9 +1,9 @@
 import { ThreadRepository } from '../../../infrastructure/thread-sql.repository';
-import { CreateThreadDto } from '../entities/thread';
+import { CreateThreadDto, ThreadStatus } from '../entities/thread';
 
 function createThreadUsecase(threadRepository: ThreadRepository) {
   return async function (thread: CreateThreadDto) {
-    const newThread = await threadRepository.create(thread);
+    const newThread = await threadRepository.create({ ...thread, status: ThreadStatus.INITIATED });
     return newThread;
   };
 }

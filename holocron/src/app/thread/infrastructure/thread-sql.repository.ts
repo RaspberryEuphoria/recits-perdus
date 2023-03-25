@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { CreateThreadDto } from '../domain/thread/entities/thread';
+import { CreateThreadDto, ThreadStatus } from '../domain/thread/entities/thread';
 
 export class ThreadRepository {
   private db: PrismaClient;
@@ -9,8 +9,11 @@ export class ThreadRepository {
     this.db = db;
   }
 
-  async getAllThreads() {
+  async getAllThreadsByStatus(status: ThreadStatus) {
     return this.db.thread.findMany({
+      where: {
+        status,
+      },
       include: {
         posts: true,
       },

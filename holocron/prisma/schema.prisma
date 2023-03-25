@@ -11,10 +11,10 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  password String
 
   characters Character[]
 }
@@ -25,46 +25,56 @@ model Character {
   birthdate DateTime
   story     String
 
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 
-  posts     Post[]
-  skill     SkillsOnCharacters[]
+  posts Post[]
+  skill SkillsOnCharacters[]
 }
 
 model Skill {
-  id          Int      @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
   description String
 
-  skill       SkillsOnCharacters[]
+  skill SkillsOnCharacters[]
 }
 
 model SkillsOnCharacters {
-  id          Int      @id @default(autoincrement())
-  level       Int
+  id    Int @id @default(autoincrement())
+  level Int
 
   character   Character @relation(fields: [characterId], references: [id])
   characterId Int
 
-  skill       Skill     @relation(fields: [skillId], references: [id])
-  skillId     Int
+  skill   Skill @relation(fields: [skillId], references: [id])
+  skillId Int
 }
 
 model Thread {
-  id        Int      @id @default(autoincrement())
-  title     String
+  id       Int          @id @default(autoincrement())
+  title    String
+  status   ThreadStatus @default(INITIATED)
+  era      String?      @db.VarChar(255)
+  location String?      @db.VarChar(255)
 
-  posts     Post[]
+  posts Post[]
+}
+
+enum ThreadStatus {
+  INITIATED
+  IN_PROGRESS
+  FINISHED
+  LOCKED
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  content   String
+  id      Int    @id @default(autoincrement())
+  content String
 
-  thread    Thread   @relation(fields: [threadId], references: [id])
-  threadId  Int
+  thread   Thread @relation(fields: [threadId], references: [id])
+  threadId Int
 
-  character Character @relation(fields: [characterId], references: [id])
+  character   Character @relation(fields: [characterId], references: [id])
   characterId Int
 }
