@@ -1,8 +1,12 @@
+-- CreateEnum
+CREATE TYPE "ThreadStatus" AS ENUM ('INITIATED', 'IN_PROGRESS', 'FINISHED', 'LOCKED');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -41,6 +45,9 @@ CREATE TABLE "SkillsOnCharacters" (
 CREATE TABLE "Thread" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
+    "status" "ThreadStatus" NOT NULL DEFAULT 'INITIATED',
+    "era" VARCHAR(255),
+    "location" VARCHAR(255),
 
     CONSTRAINT "Thread_pkey" PRIMARY KEY ("id")
 );
@@ -48,7 +55,7 @@ CREATE TABLE "Thread" (
 -- CreateTable
 CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
-    "body" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
     "threadId" INTEGER NOT NULL,
     "characterId" INTEGER NOT NULL,
 
