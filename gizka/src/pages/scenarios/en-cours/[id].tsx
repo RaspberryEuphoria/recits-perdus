@@ -9,7 +9,7 @@ import { InferGetServerSidePropsType } from 'next';
 
 import { LayoutMainSection, LayoutAsideSection } from '../../../components/Layout';
 
-type EnCoursProps = {
+type EnCoursWithIdProps = {
   id: string;
   posts: DataDialogs;
   dices: DataDices;
@@ -17,10 +17,10 @@ type EnCoursProps = {
 
 export async function getServerSideProps(
   context: InferGetServerSidePropsType<any>,
-): Promise<{ props: EnCoursProps }> {
+): Promise<{ props: EnCoursWithIdProps }> {
   const { id } = context.query;
-
-  const thread = await httpBffClient.get(`/thread/${id}`);
+  const threadId = id.split('-')[0];
+  const thread = await httpBffClient.get(`/thread/${threadId}`);
 
   return {
     props: {
@@ -31,11 +31,18 @@ export async function getServerSideProps(
   };
 }
 
-export default function EnCours({ posts, dices }: EnCoursProps) {
+export default function EnCoursWithId({ posts, dices }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
   return (
     <>
-      <LayoutMainSection>LayoutMainSection</LayoutMainSection>
+      <LayoutMainSection
+        breadcrumb={[
+          { label: 'Accueil', href: '/' },
+          { label: 'Scénarios en cours', href: '/scenarios/en-cours' },
+        ]}
+      >
+        LayoutMainSection
+      </LayoutMainSection>
       <LayoutAsideSection>
         <DialogThread currentUser={currentUser} dices={dices} initialDialogs={posts} />
       </LayoutAsideSection>

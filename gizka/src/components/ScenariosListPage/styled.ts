@@ -1,19 +1,17 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 
 export const ScenariosList = styled.section`
-  padding: 2.5rem;
-`;
-
-export const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   flex-grow: 1;
   flex: 1 1 0px;
   gap: 1rem;
+  padding: 2.5rem;
 `;
 
-export const Scenario = styled.li<{ background: string }>`
+export const Scenario = styled(Link)<{ background: string }>`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -29,9 +27,11 @@ export const Scenario = styled.li<{ background: string }>`
   background-size: cover, auto, auto, auto;
   box-shadow: 0px 0px 10px 0px var(--flashy-05), inset 0px 0px 10px 0px var(--flashy-05);
   border-radius: 0.5rem;
+  color: inherit;
   font-size: 1.5rem;
   font-weight: bold;
   text-shadow: var(--primary) 1px 0 10px;
+  text-decoration: none;
 
   &:hover {
     box-shadow: 0px 0px 10px 0px var(--flashy), inset 0px 0px 10px 0px var(--flashy);

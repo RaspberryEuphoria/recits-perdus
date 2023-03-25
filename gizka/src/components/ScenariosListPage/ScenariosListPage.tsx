@@ -9,16 +9,18 @@ type ScenariosListPageProps = {
 export function ScenariosListPage({ scenarios }: ScenariosListPageProps) {
   return (
     <Styled.ScenariosList>
-      <Styled.List>
-        {scenarios.map((scenario) => (
-          <Styled.Scenario key={scenario.id} background={scenario.thumbnail}>
-            <Styled.ScenarioLabel>{scenario.title}</Styled.ScenarioLabel>
-            <Styled.ScenarioDescription>
-              {scenario.location}, {scenario.era}
-            </Styled.ScenarioDescription>
-          </Styled.Scenario>
-        ))}
-      </Styled.List>
+      {scenarios.map((scenario) => (
+        <Styled.Scenario
+          key={scenario.id}
+          background={scenario.thumbnail}
+          href={`/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}`}
+        >
+          <Styled.ScenarioLabel>{scenario.title} </Styled.ScenarioLabel>
+          <Styled.ScenarioDescription>
+            {scenario.location}, {scenario.era}
+          </Styled.ScenarioDescription>
+        </Styled.Scenario>
+      ))}
     </Styled.ScenariosList>
   );
 }

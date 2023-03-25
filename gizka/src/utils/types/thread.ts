@@ -17,6 +17,7 @@ type Post = {
 type Thread = {
   id: number;
   title: string;
+  safeTitle: string;
   posts: Post[];
   status: ThreadStatus;
   era: string;
