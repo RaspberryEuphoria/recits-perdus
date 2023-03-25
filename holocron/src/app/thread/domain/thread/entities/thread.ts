@@ -10,6 +10,7 @@ enum ThreadStatus {
 type Thread = {
   id: number;
   title: string;
+  safeTitle: string;
   posts: Post[];
   status: ThreadStatus;
   era: string;
@@ -19,6 +20,7 @@ type Thread = {
 
 type CreateThreadDto = {
   title: string;
+  safeTitle: string;
   status: ThreadStatus;
 };
 

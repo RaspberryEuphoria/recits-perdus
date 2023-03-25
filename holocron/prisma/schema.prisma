@@ -20,16 +20,17 @@ model User {
 }
 
 model Character {
-  id        Int      @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   name      String
-  birthdate DateTime
+  birthdate Int
   story     String
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  posts Post[]
-  skill SkillsOnCharacters[]
+  skill  SkillsOnCharacters[]
+  thread CharactersOnThreads[]
+  posts  Post[]
 }
 
 model Skill {
@@ -54,12 +55,24 @@ model SkillsOnCharacters {
 model Thread {
   id        Int          @id @default(autoincrement())
   title     String
+  safeTitle String
   status    ThreadStatus @default(INITIATED)
   era       String?      @db.VarChar(255)
   location  String?      @db.VarChar(255)
   thumbnail String?      @db.VarChar(255)
 
-  posts Post[]
+  posts      Post[]
+  characters CharactersOnThreads[]
+}
+
+model CharactersOnThreads {
+  id Int @id @default(autoincrement())
+
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
+
+  thread   Thread @relation(fields: [threadId], references: [id])
+  threadId Int
 }
 
 enum ThreadStatus {
