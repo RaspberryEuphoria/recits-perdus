@@ -6,25 +6,15 @@ type ScenariosListPageProps = {
   scenarios: Thread[];
 };
 
-const planets = ['Ruusan', 'Dantooine', 'Coruscant', 'Ossus', 'Kamino', 'Corellia'];
-const eras = [
-  'Guerres Mandaloriennes',
-  'Guerre des Clones',
-  'Guerre Civile Galactique',
-  'Legacy',
-  'Guerre des Clones',
-  'Guerres Mandaloriennes',
-];
-
 export function ScenariosListPage({ scenarios }: ScenariosListPageProps) {
   return (
     <Styled.ScenariosList>
       <Styled.List>
-        {scenarios.map((scenario, i) => (
-          <Styled.Scenario key={scenario.id} background={scenario.id + ''}>
+        {scenarios.map((scenario) => (
+          <Styled.Scenario key={scenario.id} background={scenario.thumbnail}>
             <Styled.ScenarioLabel>{scenario.title}</Styled.ScenarioLabel>
             <Styled.ScenarioDescription>
-              {planets[i]}, {eras[i]}
+              {scenario.location}, {scenario.era}
             </Styled.ScenarioDescription>
           </Styled.Scenario>
         ))}

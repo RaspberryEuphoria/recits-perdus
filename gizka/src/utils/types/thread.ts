@@ -19,6 +19,9 @@ type Thread = {
   title: string;
   posts: Post[];
   status: ThreadStatus;
+  era: string;
+  location: string;
+  thumbnail: string;
 };
 
 export { ThreadStatus, type Thread };

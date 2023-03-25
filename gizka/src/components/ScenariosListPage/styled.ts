@@ -23,7 +23,7 @@ export const Scenario = styled.li<{ background: string }>`
   max-width: 80%;
   height: 10rem;
   padding: 1rem;
-  background-image: url('/images/scenarios/${(props) => props.background}.png'),
+  background-image: url('/images/scenarios/thumbnails/${(props) => props.background}.png'),
     url('/images/dialog_background.png'),
     linear-gradient(43deg, var(--flashy-02) 0%, var(--flashy-08) 46%, var(--flashy-05) 100%);
   background-size: cover, auto, auto, auto;

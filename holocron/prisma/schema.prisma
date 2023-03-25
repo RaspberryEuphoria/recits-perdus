@@ -52,11 +52,12 @@ model SkillsOnCharacters {
 }
 
 model Thread {
-  id       Int          @id @default(autoincrement())
-  title    String
-  status   ThreadStatus @default(INITIATED)
-  era      String?      @db.VarChar(255)
-  location String?      @db.VarChar(255)
+  id        Int          @id @default(autoincrement())
+  title     String
+  status    ThreadStatus @default(INITIATED)
+  era       String?      @db.VarChar(255)
+  location  String?      @db.VarChar(255)
+  thumbnail String?      @db.VarChar(255)
 
   posts Post[]
 }
