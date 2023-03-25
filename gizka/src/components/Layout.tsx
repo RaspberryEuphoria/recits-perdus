@@ -1,8 +1,12 @@
+'use client';
+
 import { useLocalStorage } from '@/utils/hooks/localStorage';
+import Link from 'next/link';
 import styles from './Layout.module.css';
 
 type LayoutProps = {
   children: React.ReactNode;
+  breadcrumb?: Array<{ label: string; href: string }>;
 };
 
 type User = {
@@ -40,7 +44,21 @@ export function Layout(props: LayoutProps) {
 }
 
 export function LayoutMainSection(props: LayoutProps) {
-  return <section className={styles.mainSection}>{props.children}</section>;
+  return (
+    <section className={styles.mainSection}>
+      {props.breadcrumb && (
+        <nav className={styles.breadcrumb}>
+          {props.breadcrumb.map((item, index) => (
+            <Link href={item.href} key={item.label}>
+              {item.label}
+              {index < props.breadcrumb.length - 1 && <span> &gt; </span>}
+            </Link>
+          ))}
+        </nav>
+      )}
+      {props.children}
+    </section>
+  );
 }
 
 export function LayoutAsideSection(props: LayoutProps) {
