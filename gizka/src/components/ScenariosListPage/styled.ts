@@ -17,9 +17,9 @@ export const Scenario = styled(Link)<{ background: string }>`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  flex: 1 0 25%;
-  gap: 0.2rem;
-  max-width: 90%;
+  flex: 1 0 32%;
+  gap: 1%;
+  max-width: 32%;
   height: 10rem;
   padding: 1rem;
   background-image: url('/images/scenarios/thumbnails/${(props) => props.background}.png'),

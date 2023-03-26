@@ -6,6 +6,7 @@ type ScenariosFiltersProps = {
   activeEras: string[];
   filterByLocation: (event: React.ChangeEvent<HTMLInputElement>) => void;
   filterByEra: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  filterByCharacter: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function ScenariosFilters({
@@ -16,6 +17,7 @@ export function ScenariosFilters({
   activeEras,
   filterByLocation,
   filterByEra,
+  filterByCharacter,
 }: ScenariosFiltersProps) {
   return (
     <div>
@@ -54,6 +56,8 @@ export function ScenariosFilters({
           </li>
         ))}
       </ul>
+      <h2>Filtrer par personnage</h2>
+      <input type="text" onChange={filterByCharacter} />
     </div>
   );
 }

@@ -39,6 +39,7 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
   const [activeEras, setActiveEras] = useState<string[]>(
     erasWithoutDuplicates.sort(sortByAlphabeticalOrder),
   );
+  const [withCharacters, setWithCharacters] = useState<string[] | null>(null);
 
   const filterScenariosByLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -64,14 +65,49 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
     });
   };
 
-  useEffect(() => {
-    const filteredScenarios = initialScenarios.filter(
-      (scenario) =>
-        activeLocations.includes(scenario.location) && activeEras.includes(scenario.era),
+  const filterByCharacter = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (!value.length) {
+      setWithCharacters(null);
+      return;
+    }
+
+    setWithCharacters(
+      value
+        .split(',')
+        .map((character) => character.trim().toLocaleLowerCase())
+        .filter((v) => v),
     );
+  };
+
+  useEffect(() => {
+    const filteredScenarios = initialScenarios.filter((scenario) => {
+      const hasCharacters = withCharacters
+        ? scenario.characters.some((character) =>
+            withCharacters.some((withCharacter) =>
+              character.name.toLocaleLowerCase().includes(withCharacter),
+            ),
+          )
+        : true;
+
+      console.log(
+        withCharacters,
+        withCharacters && withCharacters.includes('qui-gon jinn'),
+        // withCharacters,
+        // scenario.characters.map((character) => character.name.toLocaleLowerCase()),
+        // hasCharacters,
+      );
+
+      return (
+        activeLocations.includes(scenario.location) &&
+        activeEras.includes(scenario.era) &&
+        hasCharacters
+      );
+    });
 
     setScenarios(filteredScenarios);
-  }, [activeEras, activeLocations, initialScenarios]);
+  }, [activeEras, activeLocations, withCharacters, initialScenarios]);
 
   return (
     <>
@@ -87,6 +123,7 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
           activeEras={activeEras}
           filterByLocation={filterScenariosByLocation}
           filterByEra={filterScenariosByEra}
+          filterByCharacter={filterByCharacter}
         />
       </LayoutAsideSection>
     </>
