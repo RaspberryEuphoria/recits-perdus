@@ -1,6 +1,22 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/scenario';
+
+type FullScenario = Prisma.ScenarioGetPayload<{
+  include: {
+    characters: {
+      include: {
+        character: {
+          select: {
+            name: true;
+            story: true;
+            birthdate: true;
+          };
+        };
+      };
+    };
+  };
+}>;
 
 export class ScenarioRepository {
   private db: PrismaClient;
@@ -10,14 +26,26 @@ export class ScenarioRepository {
   }
 
   async getAllScenariosByStatus(status: ScenarioStatus) {
-    return this.db.scenario.findMany({
+    const scenarios = await this.db.scenario.findMany({
       where: {
         status,
       },
       include: {
-        posts: true,
+        characters: {
+          include: {
+            character: {
+              select: {
+                name: true,
+                story: true,
+                birthdate: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    return scenarios.map(this.mapScenario);
   }
 
   async getById(id: number) {
@@ -39,5 +67,15 @@ export class ScenarioRepository {
     return this.db.scenario.create({
       data: scenario,
     });
+  }
+
+  private mapScenario(scenario: FullScenario) {
+    return {
+      ...scenario,
+      // Merge character without relation table "CharactersOnScenarios" fields
+      characters: scenario.characters.map(({ character }) => ({
+        ...character,
+      })),
+    };
   }
 }

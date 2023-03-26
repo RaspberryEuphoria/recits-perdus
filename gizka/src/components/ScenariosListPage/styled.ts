@@ -12,13 +12,14 @@ export const ScenariosList = styled.section`
 `;
 
 export const Scenario = styled(Link)<{ background: string }>`
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   flex: 1 0 25%;
   gap: 0.2rem;
-  max-width: 80%;
+  max-width: 90%;
   height: 10rem;
   padding: 1rem;
   background-image: url('/images/scenarios/thumbnails/${(props) => props.background}.png'),
@@ -28,10 +29,10 @@ export const Scenario = styled(Link)<{ background: string }>`
   box-shadow: 0px 0px 10px 0px var(--flashy-05), inset 0px 0px 10px 0px var(--flashy-05);
   border-radius: 0.5rem;
   color: inherit;
-  font-size: 1.5rem;
   font-weight: bold;
   text-shadow: var(--primary) 1px 0 10px;
   text-decoration: none;
+  text-align: center;
 
   &:hover {
     box-shadow: 0px 0px 10px 0px var(--flashy), inset 0px 0px 10px 0px var(--flashy);
@@ -43,12 +44,30 @@ export const ScenarioLabel = styled.span`
   font-weight: bold;
   text-transform: uppercase;
   font-size: 1.2rem;
-  text-align: center;
 `;
 
 export const ScenarioDescription = styled.span`
   font-family: 'Kontrapunkt-Light';
   font-weight: normal;
-  font-size: 1rem;
   color: var(--dice);
+  font-size: 0.9rem;
+`;
+
+export const CharactersList = styled.span`
+  margin-top: 1rem;
+  font-family: 'Kontrapunkt-Light';
+  font-weight: normal;
+`;
+
+export const CharactersCount = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--dark-08);
+  text-shadow: var(--light) 1px 0 10px;
 `;
