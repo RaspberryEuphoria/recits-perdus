@@ -7,6 +7,7 @@ enum ScenarioStatus {
   LOCKED = 'LOCKED',
 }
 
+// @todo replace by import from Prisma.Client instead
 type Scenario = {
   id: number;
   title: string;
@@ -16,12 +17,9 @@ type Scenario = {
   era: string;
   location: string;
   thumbnail: string;
+  introduction: string;
 };
 
-type CreateScenarioDto = {
-  title: string;
-  safeTitle: string;
-  status: ScenarioStatus;
-};
+type CreateScenarioDto = Pick<Scenario, 'title' | 'safeTitle' | 'status' | 'introduction'>;
 
 export { CreateScenarioDto, Scenario, ScenarioStatus };
