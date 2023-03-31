@@ -1,4 +1,3 @@
-import { Dialog } from '@/pages/api/dialog';
 import { useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'Socket.IO-client';
 
@@ -11,6 +10,7 @@ import { DataDices } from '@/pages/api/dices';
 import { User } from '@/utils/types/user';
 import { useRouter } from 'next/router';
 import { Post } from '@/utils/types/scenario';
+import { Character } from '@/utils/types/character';
 
 const MAX_LENGTH = 500;
 
@@ -19,6 +19,7 @@ type DialogThreadProps = {
   dices: DataDices;
   initialDialogs: Post[];
   introductionText: string;
+  nextPoster: Character;
 };
 
 let socket: Socket;
@@ -28,6 +29,7 @@ export function DialogThread({
   currentUser,
   dices,
   introductionText,
+  nextPoster,
 }: DialogThreadProps) {
   const router = useRouter();
 
@@ -83,6 +85,8 @@ export function DialogThread({
       </Styled.DialogThread>
       {currentUser && (
         <DialogTextarea
+          currentUserId={currentUser.id}
+          nextPoster={nextPoster}
           handleChange={handleChange}
           handlePost={addPost}
           innerRef={textareaRef}

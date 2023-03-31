@@ -8,13 +8,15 @@ import { GetServerSidePropsResult, InferGetServerSidePropsType } from 'next';
 
 import { LayoutMainSection, LayoutAsideSection } from '../../../components/Layout';
 import { Post, Scenario } from '@/utils/types/scenario';
-import { getCharactersList } from '@/utils/character/helpers';
+import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
+import { Character } from '@/utils/types/character';
 
 type EnCoursWithIdProps = {
   id: string;
   posts: Post[];
   dices: DataDices;
   introduction: string;
+  nextPoster: Character;
 };
 
 export async function getServerSideProps(
@@ -34,23 +36,22 @@ export async function getServerSideProps(
     props: {
       id,
       introduction: generateIntroduction(scenario),
+      nextPoster: getNextPoster(
+        scenario.characters,
+        scenario.posts[scenario.posts.length - 1]?.character,
+      ),
       posts: scenario.posts,
       dices: [],
     },
   };
 }
 
-function generateIntroduction(scenario: Scenario) {
-  const tokens = ['{{characters}}'];
-  const replacements = [getCharactersList(scenario.characters)];
-
-  return tokens.reduce(
-    (acc, token, index) => acc.replace(token, replacements[index]),
-    scenario.introduction,
-  );
-}
-
-export default function EnCoursWithId({ posts, dices, introduction }: EnCoursWithIdProps) {
+export default function EnCoursWithId({
+  posts,
+  dices,
+  introduction,
+  nextPoster,
+}: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
   return (
     <>
@@ -68,6 +69,7 @@ export default function EnCoursWithId({ posts, dices, introduction }: EnCoursWit
           dices={dices}
           initialDialogs={posts}
           introductionText={introduction}
+          nextPoster={nextPoster}
         />
       </LayoutAsideSection>
       {currentUser && <DicesHolster dices={dices} />}

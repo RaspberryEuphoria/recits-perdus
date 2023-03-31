@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import * as Styled from './styled';
 import { Button } from '@/components/DesignSystem/Button';
+import { Character } from '@/utils/types/character';
 
 const MAX_LENGTH = 500;
 
@@ -15,6 +16,8 @@ type DialogTextareaProps = {
   innerRef: React.RefObject<HTMLTextAreaElement>;
   value?: string;
   dices: DataDices;
+  nextPoster: Character;
+  currentUserId: number;
 };
 
 export function DialogTextarea({
@@ -23,7 +26,10 @@ export function DialogTextarea({
   innerRef,
   value,
   dices,
+  nextPoster,
+  currentUserId,
 }: DialogTextareaProps) {
+  const isItMyTurn = currentUserId === nextPoster.userId;
   const maskRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [activeDice, setActiveDice] = useState<Dice | null>();
@@ -45,7 +51,7 @@ export function DialogTextarea({
   const currentLength = value?.length || 0;
 
   const openTextarea = () => {
-    setIsOpen(true);
+    isItMyTurn && setIsOpen(true);
   };
 
   const closeTextarea = () => {
@@ -60,7 +66,7 @@ export function DialogTextarea({
     }
   };
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleButtonClick = () => {
     handlePost();
     closeTextarea();
   };
@@ -78,12 +84,15 @@ export function DialogTextarea({
   if (!isOpen) {
     return (
       <Styled.Textarea
-        placeholder="🖮 À vous de répondre"
+        placeholder={
+          isItMyTurn ? "🖮 C'est à vous de répondre" : `🖮 C'est à ${nextPoster.name} de répondre`
+        }
         onChange={handleChange}
         onClick={openTextarea}
         ref={innerRef}
         isOpen={isOpen}
         value={value}
+        disabled={!isItMyTurn}
       ></Styled.Textarea>
     );
   }

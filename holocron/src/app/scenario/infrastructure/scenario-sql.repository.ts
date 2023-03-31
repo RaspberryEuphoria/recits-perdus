@@ -8,6 +8,8 @@ type FullScenario = Prisma.ScenarioGetPayload<{
       include: {
         character: {
           select: {
+            userId: true;
+            id: true;
             name: true;
             story: true;
             birthdate: true;
@@ -35,6 +37,8 @@ export class ScenarioRepository {
           include: {
             character: {
               select: {
+                userId: true,
+                id: true,
                 name: true,
                 story: true,
                 birthdate: true,
@@ -63,6 +67,8 @@ export class ScenarioRepository {
           include: {
             character: {
               select: {
+                userId: true,
+                id: true,
                 name: true,
                 story: true,
                 birthdate: true,
