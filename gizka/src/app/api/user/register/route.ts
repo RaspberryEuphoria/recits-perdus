@@ -10,7 +10,5 @@ export async function POST(request: Request) {
     password,
   });
 
-  console.log(data);
-
   return NextResponse.json(data);
 }

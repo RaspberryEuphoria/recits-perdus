@@ -46,12 +46,12 @@ export function DialogThread({
     if (!currentDialog || !currentUser) return;
 
     const newDialog = {
-      scenarioId: parseInt(scenarioId as string),
-      characterId: 2,
-      body: currentDialog,
+      characterId: nextPoster.id,
+      content: currentDialog,
     };
 
-    const dialog = await httpBffClient.post(`/scenario/${scenarioId}/post`, newDialog);
+    const id = (scenarioId as string).split('-')[0];
+    const dialog = await httpBffClient.post(`/scenario/${id}/post`, newDialog);
     socket.emit('post-new-dialog', dialog);
 
     if (textareaRef?.current) {

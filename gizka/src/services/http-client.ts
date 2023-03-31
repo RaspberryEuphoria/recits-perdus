@@ -29,6 +29,7 @@ class HttpClient {
     return this.request<T>(url, {
       method: 'POST',
       headers: {
+        accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
@@ -39,6 +40,7 @@ class HttpClient {
     return this.request<T>(url, {
       method: 'PUT',
       headers: {
+        accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
@@ -55,6 +57,7 @@ class HttpClient {
     return this.request<T>(url, {
       method: 'PATCH',
       headers: {
+        accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),

@@ -43,6 +43,6 @@ export class ScenarioContainer {
   }
 
   createPost(post: CreatePostDto) {
-    return createPostUsecase(this.postRepository)(post);
+    return createPostUsecase(this.postRepository, this.scenarioRepository)(post);
   }
 }

@@ -20,6 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { query, body } = req;
   const scenarioId = query.id;
 
+  if (req.method === 'OPTIONS') {
+    return res.status(200).send('ok');
+  }
+
   if (req.method === 'POST') {
     const { characterId, content } = body;
     const dialog = await httpClient.post(`/scenario/${scenarioId}/post`, {

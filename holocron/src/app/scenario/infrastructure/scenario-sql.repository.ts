@@ -4,6 +4,11 @@ import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/s
 
 type FullScenario = Prisma.ScenarioGetPayload<{
   include: {
+    posts: {
+      include: {
+        character: true;
+      };
+    };
     characters: {
       include: {
         character: {
@@ -33,6 +38,11 @@ export class ScenarioRepository {
         status,
       },
       include: {
+        posts: {
+          include: {
+            character: true,
+          },
+        },
         characters: {
           include: {
             character: {
