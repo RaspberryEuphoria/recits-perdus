@@ -29,7 +29,6 @@ export async function getServerSideProps(): Promise<GetServerSidePropsResult<EnC
 }
 
 export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
-  const [scenarios, setScenarios] = useState(initialScenarios);
   const locationsWithoutDuplicates = [...new Set(initialScenarios.map(getLocation))];
   const erasWithoutDuplicates = [...new Set(initialScenarios.map(getEra))];
 
@@ -39,7 +38,8 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
   const [activeEras, setActiveEras] = useState<string[]>(
     erasWithoutDuplicates.sort(sortByAlphabeticalOrder),
   );
-  const [withCharacters, setWithCharacters] = useState<string[] | null>(null);
+  /** If activeCharacters is null or empty, we consider that all characters are active. */
+  const [activeCharacters, setActiveCharacters] = useState<string[] | null>(null);
 
   const filterScenariosByLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -65,15 +65,15 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
     });
   };
 
-  const filterByCharacter = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const filterScenariosByCharacter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     if (!value.length) {
-      setWithCharacters(null);
+      setActiveCharacters(null);
       return;
     }
 
-    setWithCharacters(
+    setActiveCharacters(
       value
         .split(',')
         .map((character) => character.trim().toLocaleLowerCase())
@@ -81,33 +81,25 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
     );
   };
 
-  useEffect(() => {
-    const filteredScenarios = initialScenarios.filter((scenario) => {
-      const hasCharacters = withCharacters
-        ? scenario.characters.some((character) =>
-            withCharacters.some((withCharacter) =>
-              character.name.toLocaleLowerCase().includes(withCharacter),
-            ),
-          )
-        : true;
+  const hasCharacters = (scenario: Scenario): boolean => {
+    if (!activeCharacters) return true;
 
-      console.log(
-        withCharacters,
-        withCharacters && withCharacters.includes('qui-gon jinn'),
-        // withCharacters,
-        // scenario.characters.map((character) => character.name.toLocaleLowerCase()),
-        // hasCharacters,
-      );
+    return scenario.characters.some((character) =>
+      activeCharacters.some((withCharacter) =>
+        character.name.toLocaleLowerCase().includes(withCharacter),
+      ),
+    );
+  };
 
-      return (
-        activeLocations.includes(scenario.location) &&
-        activeEras.includes(scenario.era) &&
-        hasCharacters
-      );
-    });
+  const isScenarioActive = (scenario: Scenario): boolean => {
+    return (
+      activeLocations.includes(scenario.location) &&
+      activeEras.includes(scenario.era) &&
+      hasCharacters(scenario)
+    );
+  };
 
-    setScenarios(filteredScenarios);
-  }, [activeEras, activeLocations, withCharacters, initialScenarios]);
+  const scenarios = initialScenarios.filter(isScenarioActive);
 
   return (
     <>
@@ -123,7 +115,7 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
           activeEras={activeEras}
           filterByLocation={filterScenariosByLocation}
           filterByEra={filterScenariosByEra}
-          filterByCharacter={filterByCharacter}
+          filterByCharacter={filterScenariosByCharacter}
         />
       </LayoutAsideSection>
     </>
