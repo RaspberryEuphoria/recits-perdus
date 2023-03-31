@@ -13,11 +13,15 @@ async function main() {
   }));
 
   await Promise.all(
-    usersToCreate.map(async (user) => {
-      const resOne = await fetch(`https://swapi.dev/api/people/${rand(1, 39)}`);
+    usersToCreate.map(async (user, index) => {
+      // swapi API starts at index 1
+      const apiIndex = index + index + 1;
+      const resOne = await fetch(`https://swapi.dev/api/people/${apiIndex}`);
       const randomCharacterOne = await resOne.json();
-      const resTwo = await fetch(`https://swapi.dev/api/people/${rand(40, 80)}`);
+      const resTwo = await fetch(`https://swapi.dev/api/people/${apiIndex + 1}`);
       const randomCharacterTwo = await resTwo.json();
+
+      console.log(index, randomCharacterOne.name, randomCharacterTwo.name);
 
       const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => ({
         name,
