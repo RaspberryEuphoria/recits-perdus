@@ -7,7 +7,7 @@ enum ScenarioStatus {
   LOCKED = 'LOCKED',
 }
 
-type Post = {
+export type Post = {
   id: number;
   content: string;
   scenario: Scenario;
@@ -24,6 +24,7 @@ type Scenario = {
   era: string;
   location: string;
   thumbnail: string;
+  introduction: string;
 
   posts: Post[];
   characters: Character[];

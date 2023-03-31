@@ -49,7 +49,7 @@ export class ScenarioRepository {
   }
 
   async getById(id: number) {
-    return this.db.scenario.findUnique({
+    const scenario = await this.db.scenario.findUnique({
       where: {
         id,
       },
@@ -59,8 +59,25 @@ export class ScenarioRepository {
             character: true,
           },
         },
+        characters: {
+          include: {
+            character: {
+              select: {
+                name: true,
+                story: true,
+                birthdate: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    if (!scenario) {
+      return null;
+    }
+
+    return this.mapScenario(scenario);
   }
 
   async create(scenario: CreateScenarioDto) {

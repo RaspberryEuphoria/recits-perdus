@@ -1,4 +1,4 @@
-import { DataDialogs, Dialog } from '@/pages/api/dialog';
+import { Dialog } from '@/pages/api/dialog';
 import { useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'Socket.IO-client';
 
@@ -10,21 +10,29 @@ import * as Styled from './styled';
 import { DataDices } from '@/pages/api/dices';
 import { User } from '@/utils/types/user';
 import { useRouter } from 'next/router';
+import { Post } from '@/utils/types/scenario';
+
 const MAX_LENGTH = 500;
 
 type DialogThreadProps = {
   currentUser: User | null;
   dices: DataDices;
-  initialDialogs: DataDialogs;
+  initialDialogs: Post[];
+  introductionText: string;
 };
 
 let socket: Socket;
 
-export function DialogThread({ initialDialogs, currentUser, dices }: DialogThreadProps) {
+export function DialogThread({
+  initialDialogs,
+  currentUser,
+  dices,
+  introductionText,
+}: DialogThreadProps) {
   const router = useRouter();
 
   const { id: scenarioId } = router.query;
-  const [dialogs, setDialogs] = useState<Dialog[]>(initialDialogs);
+  const [dialogs, setDialogs] = useState<Post[]>(initialDialogs);
   const [currentDialog, setCurrentDialog] = useState<string>();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -36,7 +44,7 @@ export function DialogThread({ initialDialogs, currentUser, dices }: DialogThrea
     if (!currentDialog || !currentUser) return;
 
     const newDialog = {
-      scenarioId: parseInt(scenarioId as string), // @todo: replace autoincrements ids with uuids?
+      scenarioId: parseInt(scenarioId as string),
       characterId: 2,
       body: currentDialog,
     };
@@ -68,7 +76,7 @@ export function DialogThread({ initialDialogs, currentUser, dices }: DialogThrea
   return (
     <Styled.Wrapper>
       <Styled.DialogThread>
-        <DialogPost content="Nos deux héros se retrouvent à la cantina..." />
+        <DialogPost content={introductionText} />
         {dialogs.map((dialog) => (
           <DialogPost key={dialog.id} {...dialog} />
         ))}

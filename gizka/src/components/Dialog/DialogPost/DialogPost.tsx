@@ -1,4 +1,3 @@
-import { DialogAuthor } from '@/pages/api/dialog';
 import styles from './DialogPost.module.css';
 
 type DialogPostProps = {

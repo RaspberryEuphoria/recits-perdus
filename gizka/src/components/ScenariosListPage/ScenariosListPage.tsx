@@ -2,6 +2,7 @@ import { Character } from '@/utils/types/character';
 import { Scenario } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
+import { getCharactersList } from '@/utils/character/helpers';
 
 type ScenariosListPageProps = {
   scenarios: Scenario[];
@@ -28,18 +29,4 @@ export function ScenariosListPage({ scenarios }: ScenariosListPageProps) {
       ))}
     </Styled.ScenariosList>
   );
-}
-
-function getCharactersList(characters: Character[]) {
-  const charactersNames = characters.map((character) => character.name);
-
-  if (characters.length === 1) {
-    return charactersNames[0];
-  }
-
-  if (characters.length === 2) {
-    return charactersNames.join(' et ');
-  }
-
-  return `${charactersNames.slice(0, -1).join(', ')} et ${charactersNames.slice(-1)}`;
 }
