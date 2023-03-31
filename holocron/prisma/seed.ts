@@ -113,10 +113,13 @@ async function main() {
 
   await Promise.all(
     scenarios.map(async (scenario) => {
-      const characters = await prisma.character.findMany({
-        take: rand(2, 4),
-        skip: rand(0, 2),
-      });
+      const characters = await prisma.character.findMany();
+
+      // shuffle characters with sort
+      characters.sort(() => Math.random() - 0.5);
+
+      // pick 2-4 random characters
+      characters.splice(rand(2, 4));
 
       return prisma.scenario.create({
         data: {
