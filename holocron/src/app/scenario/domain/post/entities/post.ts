@@ -7,12 +7,14 @@ type Post = {
   scenarioId: number;
   // character: Character;
   characterId: number;
+  isGameMaster: boolean;
 };
 
 type CreatePostDto = {
   content: string;
   scenarioId: number;
   characterId: number;
+  isGameMaster: boolean;
 };
 
 export { CreatePostDto, Post };
