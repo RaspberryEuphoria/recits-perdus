@@ -9,7 +9,7 @@ async function main() {
   const usersToCreate = ['rapsody', 'vader', 'kyle', 'revan', 'ego'].map((name) => ({
     name,
     email: `manon.dev.mion+${name}@gmail.com`,
-    password: '$2a$08$hYSBggo4M0YF4uxB2pqRQuWReuJUgfWfpJIlw3xUE8faLqqopZKfS',
+    password: '$2a$08$sRg1QXyZV4FFesS14SrG8uA/gF6jcYlezZGB1sbqOrbRFaqGwZrkG', // password
   }));
 
   await Promise.all(
