@@ -1,8 +1,8 @@
+import Head from 'next/head';
+
 import { NavBar } from '@/components/DesignSystem/NavBar';
-import { Menu } from '@/components/DesignSystem/Menu';
 import { HomePage } from '@/components/HomePage';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
-import Head from 'next/head';
 
 export default function Home() {
   const links = [
@@ -43,7 +43,6 @@ export default function Home() {
       </Head>
       <LayoutMainSection>
         <NavBar links={links} />
-        {/* <Menu links={links} /> */}
       </LayoutMainSection>
       <LayoutAsideSection>
         <HomePage />

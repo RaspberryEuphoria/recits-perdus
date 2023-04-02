@@ -1,6 +1,6 @@
-import { Scenario } from '@/utils/types/scenario';
 import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
+import { Scenario } from '@/utils/types/scenario';
 
 export function generateIntroduction(scenario: Scenario) {
   const tokens = ['{{characters}}'];

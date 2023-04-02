@@ -1,5 +1,7 @@
-import { httpClient } from '@/services/http-client';
 import type { NextApiRequest, NextApiResponse } from 'next';
+
+import { httpClient, HttpError } from '@/services/http-client';
+import { Post } from '@/utils/types/scenario';
 
 export type DialogAuthor = {
   firstname: string;
@@ -16,17 +18,17 @@ export type Dialog = {
 
 export type DataDialogs = Array<Dialog>;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Post | HttpError>) {
   const { query, body } = req;
   const scenarioId = query.id;
 
   if (req.method === 'OPTIONS') {
-    return res.status(200).send('ok');
+    return res.status(200);
   }
 
   if (req.method === 'POST') {
     const { characterId, content } = body;
-    const dialog = await httpClient.post(`/scenario/${scenarioId}/post`, {
+    const dialog = await httpClient.post<Post>(`/scenario/${scenarioId}/post`, {
       content,
       characterId,
     });

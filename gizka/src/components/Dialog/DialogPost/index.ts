@@ -1,1 +1,1 @@
-export { DialogPost } from "./DialogPost";
+export { DialogPost } from './DialogPost';

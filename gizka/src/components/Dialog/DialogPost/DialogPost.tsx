@@ -1,8 +1,10 @@
 import { TextColor } from '@/utils/constants';
+import { Character } from '@/utils/types/character';
+
 import styles from './DialogPost.module.css';
 
 type DialogPostProps = {
-  character?: any;
+  character?: Character;
   content: string;
   isGameMaster?: boolean;
 };

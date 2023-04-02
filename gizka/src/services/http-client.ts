@@ -1,4 +1,5 @@
-type HttpError = {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export type HttpError = {
   status: number;
   message: string;
 };
@@ -11,7 +12,7 @@ class HttpClient {
       const res = await fetch(`${this.baseUrl}${url}`, options);
       const data = await res.json();
       return data;
-    } catch (err) {
+    } catch (err: any) {
       return {
         status: err.status,
         message: err.message,
@@ -72,4 +73,4 @@ function isHttpError(data: any): data is HttpError {
   return data.status >= 300;
 }
 
-export { httpClient, httpBffClient, isHttpError };
+export { httpBffClient, httpClient, isHttpError };

@@ -1,8 +1,7 @@
-import { Character } from '@/utils/types/character';
+import { getCharactersList } from '@/utils/character/helpers';
 import { Scenario } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
-import { getCharactersList } from '@/utils/character/helpers';
 
 type ScenariosListPageProps = {
   scenarios: Scenario[];

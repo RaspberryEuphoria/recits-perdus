@@ -1,6 +1,7 @@
-import { DragItemsTypes } from '@/utils/constants';
 import Image from 'next/image';
 import { useDrag } from 'react-dnd';
+
+import { DragItemsTypes } from '@/utils/constants';
 
 import * as Styled from './styled';
 

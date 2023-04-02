@@ -1,10 +1,11 @@
+import { GetServerSidePropsResult } from 'next';
+import { useState } from 'react';
+
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { ScenariosListPage } from '@/components/ScenariosListPage';
 import { ScenariosFilters } from '@/components/ScenariosListPage/ScenariosFilters';
 import { httpClient, isHttpError } from '@/services/http-client';
 import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
-import { GetServerSidePropsResult } from 'next';
-import { useEffect, useState } from 'react';
 
 type EnCoursProps = {
   scenarios: Scenario[];

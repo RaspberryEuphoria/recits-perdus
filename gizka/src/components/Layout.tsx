@@ -1,7 +1,9 @@
 'use client';
 
-import { useLocalStorage } from '@/utils/hooks/localStorage';
 import Link from 'next/link';
+
+import { useLocalStorage } from '@/utils/hooks/localStorage';
+
 import styles from './Layout.module.css';
 
 type LayoutProps = {

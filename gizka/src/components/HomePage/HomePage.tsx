@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react';
+
+import { Button } from '@/components/DesignSystem/Button';
 import { LoginForm } from '@/components/LoginForm';
+import { RegisterForm } from '@/components/RegisterForm';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { User } from '@/utils/types/user';
-import { RegisterForm } from '@/components/RegisterForm';
 
 import * as Styled from './styled';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/DesignSystem/Button';
 
 export function HomePage() {
   const [hasLoaded, setHasLoaded] = useState(false);

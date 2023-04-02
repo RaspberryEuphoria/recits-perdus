@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { httpClient } from '@/services/http-client';
 
 export async function POST(request: Request) {

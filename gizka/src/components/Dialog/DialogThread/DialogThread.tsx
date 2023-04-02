@@ -1,22 +1,20 @@
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'Socket.IO-client';
 
-import { DialogTextarea } from '../DialogTextarea';
-import { DialogPost } from '../DialogPost';
 import { httpBffClient } from '@/services/http-client';
-
-import * as Styled from './styled';
-import { DataDices } from '@/pages/api/dices';
-import { User } from '@/utils/types/user';
-import { useRouter } from 'next/router';
-import { Post } from '@/utils/types/scenario';
 import { Character } from '@/utils/types/character';
+import { Post } from '@/utils/types/scenario';
+import { User } from '@/utils/types/user';
+
+import { DialogPost } from '../DialogPost';
+import { DialogTextarea } from '../DialogTextarea';
+import * as Styled from './styled';
 
 const MAX_LENGTH = 500;
 
 type DialogThreadProps = {
   currentUser: User | null;
-  dices: DataDices;
   initialDialogs: Post[];
   introductionText: string;
   nextPoster: Character;
@@ -28,7 +26,6 @@ let socket: Socket;
 export function DialogThread({
   initialDialogs,
   currentUser,
-  dices,
   introductionText,
   nextPoster,
   characters,
@@ -93,7 +90,6 @@ export function DialogThread({
           handlePost={addPost}
           innerRef={textareaRef}
           value={currentDialog}
-          dices={dices}
         />
       )}
     </Styled.Wrapper>

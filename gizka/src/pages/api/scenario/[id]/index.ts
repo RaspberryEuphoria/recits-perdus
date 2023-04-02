@@ -1,12 +1,16 @@
-import { httpClient } from '@/services/http-client';
-import { Scenario } from '@/utils/types/scenario';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
+import { httpClient, HttpError } from '@/services/http-client';
+import { Scenario } from '@/utils/types/scenario';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Scenario | HttpError>,
+) {
   const id = req.query.id;
 
   if (req.method === 'OPTIONS') {
-    return res.status(200).send('ok');
+    return res.status(200);
   }
 
   if (req.method === 'POST') {

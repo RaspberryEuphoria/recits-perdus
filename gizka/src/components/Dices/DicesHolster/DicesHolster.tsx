@@ -1,6 +1,6 @@
 import { DataDices } from '@/pages/api/dices';
-import { PlayDice } from '../PlayDice/PlayDice';
 
+import { PlayDice } from '../PlayDice/PlayDice';
 import * as Styled from './styled';
 
 type DicesHolsterProps = {

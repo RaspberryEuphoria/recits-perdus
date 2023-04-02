@@ -30,4 +30,4 @@ type Scenario = {
   characters: Character[];
 };
 
-export { ScenarioStatus, type Scenario };
+export { type Scenario, ScenarioStatus };
