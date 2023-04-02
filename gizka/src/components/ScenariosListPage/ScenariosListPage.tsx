@@ -22,7 +22,7 @@ export function ScenariosListPage({ scenarios }: ScenariosListPageProps) {
             {scenario.location}, {scenario.era}
           </Styled.ScenarioDescription>
           <Styled.CharactersList>
-            Avec {getCharactersList(scenario.characters)}
+            Avec {getCharactersList({ characters: scenario.characters })}
           </Styled.CharactersList>
           <Styled.CharactersCount></Styled.CharactersCount>
         </Styled.Scenario>

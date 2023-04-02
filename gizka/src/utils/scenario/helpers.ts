@@ -4,7 +4,7 @@ import { Character } from '@/utils/types/character';
 
 export function generateIntroduction(scenario: Scenario) {
   const tokens = ['{{characters}}'];
-  const replacements = [getCharactersList(scenario.characters)];
+  const replacements = [getCharactersList({ characters: scenario.characters, withColor: true })];
 
   return tokens.reduce(
     (acc, token, index) => acc.replace(token, replacements[index]),

@@ -20,6 +20,7 @@ type DialogThreadProps = {
   initialDialogs: Post[];
   introductionText: string;
   nextPoster: Character;
+  characters: Record<string, Character>;
 };
 
 let socket: Socket;
@@ -30,6 +31,7 @@ export function DialogThread({
   dices,
   introductionText,
   nextPoster,
+  characters,
 }: DialogThreadProps) {
   const router = useRouter();
 
@@ -80,7 +82,7 @@ export function DialogThread({
       <Styled.DialogThread>
         <DialogPost content={introductionText} />
         {dialogs.map((dialog) => (
-          <DialogPost key={dialog.id} {...dialog} />
+          <DialogPost key={dialog.id} {...dialog} character={characters[dialog.characterId]} />
         ))}
       </Styled.DialogThread>
       {currentUser && (

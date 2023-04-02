@@ -1,4 +1,7 @@
 import { PrismaClient, ScenarioStatus } from '@prisma/client';
+
+import { TextColor } from '../src/constants';
+
 const prisma = new PrismaClient();
 
 function rand(min: number, max: number) {
@@ -20,8 +23,6 @@ async function main() {
       const randomCharacterOne = await resOne.json();
       const resTwo = await fetch(`https://swapi.dev/api/people/${apiIndex + 1}`);
       const randomCharacterTwo = await resTwo.json();
-
-      console.log(index, randomCharacterOne.name, randomCharacterTwo.name);
 
       const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => ({
         name,
@@ -48,7 +49,8 @@ async function main() {
       era: 'Nouvelle République',
       location: 'Dagobah',
       thumbnail: '',
-      introduction: '{{characters}} arrivent dans les marais...',
+      introduction:
+        'La quête de {{characters}} les amène sur Dagobah, où ils vont devoir affronter leur part de côté obscur...',
     },
     {
       title: 'Un assaut désespéré',
@@ -57,7 +59,8 @@ async function main() {
       era: 'Nouvelle République',
       location: 'Dantooine',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        '{{characters}} se retrouvent sur Dantooine, où is seront la dernière ligne de défense contre les forces de l’Empire...',
     },
     {
       title: "La chute de l'Empire",
@@ -66,7 +69,8 @@ async function main() {
       era: 'Guerre Civile Galactique',
       location: 'Endor',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        'Contre toute attente, les forces de l’Empire ont réussi à s’emparer de la base rebelle d’Endor. Il revient à {{characters}} de les arrêter !',
     },
     {
       title: 'Retour parmi les vivants',
@@ -75,7 +79,8 @@ async function main() {
       era: 'Guerre Mandalorienne',
       location: 'Coruscant',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        "Alors qu'on les pensait morts, {{characters}} sont de retour sur la capitale de la République. Mais ils ne sont pas les seuls...",
     },
     {
       title: 'Rancor et Jawas ne font pas bon ménage !',
@@ -84,7 +89,8 @@ async function main() {
       era: 'Guerre Civile Galactique',
       location: 'Tatooine',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        '{{characters}} se retrouvent sur Tatooine, dans le palais de Jabba le Hutt. Mais ils ne sont pas les seuls à vouloir s’emparer de la précieuse cargaison de Jabba...',
     },
     {
       title: 'La guerre du Kolto',
@@ -93,7 +99,8 @@ async function main() {
       era: 'Guerre Mandalorienne',
       location: 'Manaan',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        "La guerre fait rage partout dans la galaxie, mais pas sur Manaan. Pourtant, {{characters}} vont devoir s’y rendre. C'est ici et nulle part ailleurs que se trouve le précieux Kolto...",
     },
     {
       title: 'Mauvais présage',
@@ -102,7 +109,8 @@ async function main() {
       era: 'Guerre des Clones',
       location: 'Kashyyyk',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        '{{characters}} se retrouvent sur Kashyyyk, où ils vont devoir affronter les forces de l’Empire...',
     },
     {
       title: 'Arnaque et secrets de famille',
@@ -111,9 +119,12 @@ async function main() {
       era: 'Guerre des Clones',
       location: 'Coruscant',
       thumbnail: '',
-      introduction: 'placeholder',
+      introduction:
+        '{{characters}} sont de retour sur Coruscant, pour un dîner en famille. Bien sûr, rien ne se passe comme prévu...',
     },
   ];
+
+  const colors = Object.values(TextColor);
 
   await Promise.all(
     scenarios.map(async (scenario) => {
@@ -135,11 +146,14 @@ async function main() {
         }),
       );
 
+      colors.sort(() => Math.random() - 0.5);
+
       return prisma.scenario.create({
         data: {
           ...scenario,
           characters: {
-            create: characters.map((character) => ({
+            create: characters.map((character, index) => ({
+              textColor: colors[index],
               characterId: character.id,
             })),
           },

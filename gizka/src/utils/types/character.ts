@@ -4,4 +4,5 @@ export type Character = {
   birthdate: Date;
   story: string;
   userId: number;
+  textColor: string;
 };

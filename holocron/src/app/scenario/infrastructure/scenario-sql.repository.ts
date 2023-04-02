@@ -106,8 +106,9 @@ export class ScenarioRepository {
     return {
       ...scenario,
       // Merge character without relation table "CharactersOnScenarios" fields
-      characters: scenario.characters.map(({ character }) => ({
+      characters: scenario.characters.map(({ textColor, character }) => ({
         ...character,
+        textColor,
       })),
     };
   }

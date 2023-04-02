@@ -68,6 +68,7 @@ model Scenario {
 
 model CharactersOnScenarios {
   id Int @id @default(autoincrement())
+  textColor String @db.VarChar(7)
 
   character   Character @relation(fields: [characterId], references: [id])
   characterId Int

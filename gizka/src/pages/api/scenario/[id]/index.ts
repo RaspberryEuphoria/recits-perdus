@@ -1,4 +1,5 @@
 import { httpClient } from '@/services/http-client';
+import { Scenario } from '@/utils/types/scenario';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
@@ -13,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   if (req.method === 'GET') {
-    const scenario = await httpClient.get(`/scenario/${id}`);
+    const scenario = await httpClient.get<Scenario>(`/scenario/${id}`);
     res.status(200).json(scenario);
   }
 }

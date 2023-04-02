@@ -17,6 +17,7 @@ type EnCoursWithIdProps = {
   dices: DataDices;
   introduction: string;
   nextPoster: Character;
+  characters: Record<string, Character>;
 };
 
 export async function getServerSideProps(
@@ -41,6 +42,11 @@ export async function getServerSideProps(
         scenario.posts[scenario.posts.length - 1]?.character,
       ),
       posts: scenario.posts,
+      // @TODO: add a mapper in the API to return this directly
+      characters: scenario.characters.reduce((acc, character) => {
+        acc[character.id] = character;
+        return acc;
+      }, {} as Record<string, Character>),
       dices: [],
     },
   };
@@ -51,6 +57,7 @@ export default function EnCoursWithId({
   dices,
   introduction,
   nextPoster,
+  characters,
 }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
   return (
@@ -66,6 +73,7 @@ export default function EnCoursWithId({
       <LayoutAsideSection>
         <DialogThread
           currentUser={currentUser}
+          characters={characters}
           dices={dices}
           initialDialogs={posts}
           introductionText={introduction}
