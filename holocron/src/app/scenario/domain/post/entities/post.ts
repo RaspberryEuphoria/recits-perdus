@@ -8,6 +8,7 @@ type Post = {
   // character: Character;
   characterId: number;
   isGameMaster: boolean;
+  turn: number;
 };
 
 type CreatePostDto = {
@@ -15,6 +16,7 @@ type CreatePostDto = {
   scenarioId: number;
   characterId: number;
   isGameMaster: boolean;
+  turn: number;
 };
 
 export { CreatePostDto, Post };

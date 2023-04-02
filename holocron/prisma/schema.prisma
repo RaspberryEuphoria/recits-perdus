@@ -84,9 +84,10 @@ enum ScenarioStatus {
 }
 
 model Post {
-  id      Int    @id @default(autoincrement())
-  content String
+  id           Int     @id @default(autoincrement())
+  content      String
   isGameMaster Boolean @default(false)
+  turn         Int
 
   scenario   Scenario @relation(fields: [scenarioId], references: [id])
   scenarioId Int
