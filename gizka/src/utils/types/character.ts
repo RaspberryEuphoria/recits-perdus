@@ -5,4 +5,5 @@ export type Character = {
   story: string;
   userId: number;
   textColor: string;
+  avatar: string;
 };

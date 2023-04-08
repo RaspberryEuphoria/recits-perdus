@@ -19,6 +19,7 @@ type DialogThreadProps = {
   introductionText: string;
   nextPoster: Character;
   characters: Record<string, Character>;
+  updateHighlightedCharacter: (character: Character | null) => void;
 };
 
 let socket: Socket;
@@ -29,6 +30,7 @@ export function DialogThread({
   introductionText,
   nextPoster,
   characters,
+  updateHighlightedCharacter,
 }: DialogThreadProps) {
   const router = useRouter();
 
@@ -74,12 +76,26 @@ export function DialogThread({
     if (!socket) socketInitializer();
   }, []);
 
+  const handlePostEnter = (character: Character) => {
+    updateHighlightedCharacter(character);
+  };
+
+  const handlePostLeave = () => {
+    updateHighlightedCharacter(null);
+  };
+
   return (
     <Styled.Wrapper>
       <Styled.DialogThread>
         <DialogPost content={introductionText} />
         {dialogs.map((dialog) => (
-          <DialogPost key={dialog.id} {...dialog} character={characters[dialog.characterId]} />
+          <DialogPost
+            key={dialog.id}
+            {...dialog}
+            character={characters[dialog.characterId]}
+            onMouseEnter={handlePostEnter}
+            onMouseLeave={handlePostLeave}
+          />
         ))}
       </Styled.DialogThread>
       {currentUser && (

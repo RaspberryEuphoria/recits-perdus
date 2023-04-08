@@ -2,7 +2,7 @@
   margin: 4rem 0;
   line-height: 2rem;
   font-size: 1.4rem;
-  font-family: "Kontrapunkt-Light";
+  font-family: 'Kontrapunkt-Light';
   text-shadow: 0 0 3px var(--primary), 1px 1px 3px var(--primary);
 }
 

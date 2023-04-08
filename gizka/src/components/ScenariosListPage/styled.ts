@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const ScenariosList = styled.section`
   display: flex;
+  align-content: flex-start;
   flex-wrap: wrap;
   flex-direction: row;
   flex-grow: 1;
@@ -27,7 +28,8 @@ export const Scenario = styled(Link)<{ background: string }>`
     linear-gradient(43deg, var(--flashy-02) 0%, var(--flashy-08) 46%, var(--flashy-05) 100%);
   background-size: cover, auto, auto, auto;
   box-shadow: 0px 0px 10px 0px var(--flashy-05), inset 0px 0px 10px 0px var(--flashy-05);
-  border-radius: 0.5rem;
+  border: 2px solid var(--flashy);
+  border-radius: 2px;
   color: inherit;
   font-weight: bold;
   text-shadow: var(--primary) 1px 0 10px;

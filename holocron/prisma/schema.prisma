@@ -24,6 +24,7 @@ model Character {
   name      String @db.VarChar(255)
   birthdate Int
   story     String
+  avatar    String? @db.VarChar(255)
 
   user   User @relation(fields: [userId], references: [id])
   userId Int

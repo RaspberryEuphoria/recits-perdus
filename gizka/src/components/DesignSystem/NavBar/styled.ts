@@ -4,9 +4,8 @@ export const NavBar = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  width: auto;
-  height: 100%;
-  margin-left: 2.5rem;
+  width: 100%;
+  margin: auto 2.5rem;
   padding: 2.5rem;
   justify-content: center;
 `;

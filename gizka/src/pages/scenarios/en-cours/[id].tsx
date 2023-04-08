@@ -1,5 +1,8 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import Image from 'next/image';
+import { useState } from 'react';
 
+import { CharacterList } from '@/components/CharacterList';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
@@ -63,6 +66,14 @@ export default function EnCoursWithId({
   characters,
 }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
+  const [lastPost] = posts.slice(-1);
+  const lastPoster = lastPost ? lastPost.character : null;
+  const [highlightedCharacter, setHighlightedCharacter] = useState<Character | null>(lastPoster);
+
+  const updateHighlightedCharacter = (character: Character | null) => {
+    setHighlightedCharacter(character || lastPoster);
+  };
+
   return (
     <>
       <LayoutMainSection
@@ -71,10 +82,11 @@ export default function EnCoursWithId({
           { label: 'Scénarios en cours', href: '/scenarios/en-cours' },
         ]}
       >
-        LayoutMainSection
+        <CharacterList characters={Object.values(characters)} />
       </LayoutMainSection>
       <LayoutAsideSection>
         <DialogThread
+          updateHighlightedCharacter={updateHighlightedCharacter}
           currentUser={currentUser}
           characters={characters}
           initialDialogs={posts}

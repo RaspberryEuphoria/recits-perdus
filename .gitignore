@@ -2,3 +2,5 @@ node_modules
 research
 .env
 *.log
+gizka/public/images/users/*
+todo.md
