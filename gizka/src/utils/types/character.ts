@@ -1,6 +1,7 @@
 export type Character = {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   birthdate: Date;
   story: string;
   userId: number;

@@ -24,11 +24,16 @@ async function main() {
       const resTwo = await fetch(`https://swapi.dev/api/people/${apiIndex + 1}`);
       const randomCharacterTwo = await resTwo.json();
 
-      const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => ({
-        name,
-        birthdate: 0,
-        story: '',
-      }));
+      const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => {
+        const [firstName, ...lastName] = name.split(' ');
+        return {
+          firstName,
+          lastName: lastName.join(' '),
+          birthdate: 0,
+          story: '',
+          avatar: 'avatar-x-20230304.jpg',
+        };
+      });
 
       return prisma.user.create({
         data: {

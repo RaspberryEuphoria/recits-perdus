@@ -23,7 +23,9 @@ export function CharacterList({ characters }: CharacterListProps) {
             width={200}
             height={230}
           />
-          <Styled.CharacterName color={character.textColor}>{character.name}</Styled.CharacterName>
+          <Styled.CharacterName color={character.textColor}>
+            {character.firstName}
+          </Styled.CharacterName>
         </Styled.Character>
       ))}
     </Styled.CharacterList>

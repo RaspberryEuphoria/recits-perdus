@@ -63,7 +63,9 @@ export function DialogTextarea({
     return (
       <Styled.Textarea
         placeholder={
-          isItMyTurn ? "🖮 C'est à vous de répondre" : `🖮 C'est à ${nextPoster.name} de répondre`
+          isItMyTurn
+            ? "🖮 C'est à vous de répondre"
+            : `🖮 C'est à ${nextPoster.firstName} ${nextPoster.lastName} de répondre`
         }
         onChange={handleChange}
         onClick={openTextarea}

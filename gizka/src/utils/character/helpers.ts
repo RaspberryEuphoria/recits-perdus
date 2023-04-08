@@ -22,6 +22,6 @@ export function getCharactersList({
 
 function getName(character: Character, withColor: boolean) {
   return withColor && character.textColor
-    ? `<strong style="color: ${character.textColor}">${character.name}</strong>`
-    : character.name;
+    ? `<strong style="color: ${character.textColor}">${character.firstName} ${character.lastName}</strong>`
+    : `${character.firstName} ${character.lastName}`;
 }
