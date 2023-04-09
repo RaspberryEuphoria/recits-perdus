@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { useLocalStorage } from '@/utils/hooks/localStorage';
@@ -22,6 +23,7 @@ export function Layout(props: LayoutProps) {
   return (
     <>
       <header className={styles.header}>
+        <Image src="/images/logo.png" alt="Gizka" width={354} height={118} quality={100} />
         {currentUser && (
           <span>
             Bienvenue, <strong>{currentUser.name}</strong>

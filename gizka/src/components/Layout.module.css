@@ -31,19 +31,41 @@
 
 .header,
 .footer {
-  min-height: 5rem;
+  position: relative;
   background: var(--primary);
 }
 
 .header {
   display: flex;
+  min-height: 7.5rem;
   align-items: center;
-  border-bottom: 2px solid white;
-  padding: 0 5rem;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--flashy);
+}
+
+.header::after {
+  position: absolute;
+  content: '';
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--flashy);
 }
 
 .footer {
-  border-top: 2px solid white;
+  min-height: 2.5rem;
+  border-top: 1px solid var(--flashy);
+}
+
+.footer::after {
+  position: absolute;
+  content: '';
+  top: 8px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--flashy);
 }
 
 .main {
@@ -70,7 +92,7 @@
   width: 35%;
   margin-right: 5%;
   background: url('../../public/images/dialog_background.png'), var(--dark-08);
-  border-left: 1px solid var(--light);
-  border-right: 1px solid var(--light);
+  border-left: 1px solid var(--flashy);
+  border-right: 1px solid var(--flashy);
   color: #e9e9e9;
 }

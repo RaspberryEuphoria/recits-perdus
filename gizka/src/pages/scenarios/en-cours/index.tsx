@@ -86,8 +86,10 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
     if (!activeCharacters) return true;
 
     return scenario.characters.some((character) =>
-      activeCharacters.some((withCharacter) =>
-        character.name.toLocaleLowerCase().includes(withCharacter),
+      activeCharacters.some(
+        (withCharacter) =>
+          character.firstName.toLocaleLowerCase().includes(withCharacter) ||
+          character.lastName.toLocaleLowerCase().includes(withCharacter),
       ),
     );
   };
