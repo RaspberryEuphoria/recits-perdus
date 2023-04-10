@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const scenarioId = query.id;
 
   if (req.method === 'OPTIONS') {
-    return res.status(200);
+    return res.status(204).end();
   }
 
   if (req.method === 'POST') {

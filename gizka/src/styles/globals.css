@@ -67,6 +67,9 @@
   --light-08: rgba(228, 238, 245, 0.8);
 
   --error: #e9001f;
+  --error-05: rgba(233, 0, 31, 0.5);
+  --success: #37f04b;
+  --success-05: rgba(55, 240, 75, 0.5);
 
   --gutter-w: 2rem;
 

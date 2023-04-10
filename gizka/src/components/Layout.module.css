@@ -88,8 +88,7 @@
 
 .asideSection {
   position: relative;
-  width: 35%;
-  width: 35%;
+  width: 40%;
   margin-right: 5%;
   background: url('../../public/images/dialog_background.png'), var(--dark-08);
   border-left: 1px solid var(--flashy);

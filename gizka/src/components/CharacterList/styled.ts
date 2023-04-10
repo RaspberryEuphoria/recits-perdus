@@ -12,8 +12,6 @@ export const Character = styled.div<{ color: string; colorAtLightOpacity: string
   display: flex;
   flex-direction: column;
   width: 204px; // 200 + border
-  /* background: var(--light-08); */
-  /* border: 2px solid var(--light); */
   background: url('/images/dialog_background.png'),
     ${({ colorAtLightOpacity }) => colorAtLightOpacity};
   background-size: auto, auto;

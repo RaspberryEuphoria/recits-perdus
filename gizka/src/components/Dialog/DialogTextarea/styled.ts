@@ -27,6 +27,7 @@ export const GameSection = styled.div`
   flex-direction: column;
   gap: var(--space-1);
   align-items: flex-end;
+  border: 50px solid transparent; // Prevent accidental click outside the modal
 `;
 
 export const Slots = styled.div`
@@ -68,7 +69,7 @@ export const Textarea = styled.textarea<TextareaProps>`
   padding: 1rem;
   background: var(--dark);
   border: none;
-  border-top: 1px solid var(--light);
+  border-top: 1px solid var(--flashy);
   outline: none;
   color: currentColor;
   font-size: 1.4rem;
