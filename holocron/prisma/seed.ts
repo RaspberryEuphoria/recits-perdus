@@ -31,7 +31,7 @@ async function main() {
           lastName: lastName.join(' '),
           birthdate: 0,
           story: '',
-          avatar: 'avatar-x-20230304.jpg',
+          avatar: `avatar-${firstName}.jpg`,
         };
       });
 
@@ -163,6 +163,37 @@ async function main() {
             })),
           },
         },
+      });
+    }),
+  );
+
+  const skills = [
+    {
+      name: 'Finesse',
+      description: 'Rapidité, agilité, et capacité en combat à distance',
+    },
+    {
+      name: 'Détermination',
+      description: 'Courage, volonté, empathie, sociabilité et loyauté',
+    },
+    {
+      name: 'Ténacité',
+      description: 'Force physique, endurance, agressivité, et capacité en combat au corps à corps',
+    },
+    {
+      name: 'Subterfuge',
+      description: 'Sournoiserie, tromperie et ruse',
+    },
+    {
+      name: 'Intuition',
+      description: 'Expertise, connaissances, et perception',
+    },
+  ];
+
+  await Promise.all(
+    skills.map(async (skill) => {
+      return prisma.skill.create({
+        data: skill,
       });
     }),
   );

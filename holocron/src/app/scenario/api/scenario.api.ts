@@ -67,6 +67,7 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
   router.post(`/:id/post`, async (_req, _res, next) => {
     try {
       const scenarioId = parseInt(_req.params.id);
+      console.log(JSON.stringify(_req.body, null, 4));
       const scenario = await scenarioContainer.createPost({ ..._req.body, scenarioId });
       _res.json(scenario);
     } catch (error) {

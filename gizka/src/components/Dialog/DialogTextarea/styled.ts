@@ -23,11 +23,19 @@ export const Mask = styled.div`
 `;
 
 export const GameSection = styled.div`
+  background: var(--primary);
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  align-items: flex-end;
-  border: 50px solid transparent; // Prevent accidental click outside the modal
+  align-items: flex-start;
+  width: 50vw;
+  height: 100vw;
+  overflow: auto;
+  border: 1px solid var(--flashy);
+  border-top: 0;
+  border-bottom: 0;
+  padding: 50px;
+  font-family: 'Roboto';
 `;
 
 export const Slots = styled.div`
@@ -41,26 +49,37 @@ export const Slots = styled.div`
   }
 `;
 
-export const Slot = styled.div<{ isDiceDragged?: boolean; isActive?: boolean }>`
+export const Help = styled.div`
+  color: var(--dice);
+
+  p {
+    color: var(--light);
+    margin: var(--space-05) 0 0 var(--space-1);
+    font-size: 0.8rem;
+  }
+`;
+
+export const SkillList = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  &::after {
+    content: '';
+    flex: auto;
+  }
+`;
+
+export const Skill = styled.div`
   display: flex;
   align-items: center;
-  gap: var(--space-1);
-  box-shadow: 0 0 0 0.5em transparent;
-
-  @keyframes pulse-d {
-    0% {
-      box-shadow: 0 0 0 0 var(--dice);
-    }
-  }
-
-  ${(props) => {
-    if (props.isDiceDragged) {
-      return `
-        animation: pulse-d 1s;
-        animation-iteration-count: infinite;
-    `;
-    }
-  }}
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  background: var(--flashy);
 `;
 
 export const Textarea = styled.textarea<TextareaProps>`
@@ -81,9 +100,11 @@ export const Textarea = styled.textarea<TextareaProps>`
   ${(props) => {
     if (props.isOpen) {
       return `
-        width: 50vw;
+        width: 100%;
         height: 15vw;
         border: 1px solid var(--light);
+        border-radius: var(--rounded);
+        font-family: 'Roboto';
       `;
     } else {
       return `
@@ -102,7 +123,7 @@ export const Textarea = styled.textarea<TextareaProps>`
 
 export const TextareaBar = styled.div`
   display: flex;
-  width: 50vw;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-1);

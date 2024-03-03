@@ -9,7 +9,7 @@ import styles from './Layout.module.css';
 
 type LayoutProps = {
   children: React.ReactNode;
-  breadcrumb?: Array<{ label: string; href: string }>;
+  breadcrumb: Array<{ label: string; href: string }>;
 };
 
 type User = {
@@ -52,12 +52,16 @@ export function LayoutMainSection(props: LayoutProps) {
     <section className={styles.mainSection}>
       {props.breadcrumb && (
         <nav className={styles.breadcrumb}>
-          {props.breadcrumb.map((item, index) => (
-            <Link href={item.href} key={item.label}>
-              {item.label}
-              {index < props.breadcrumb.length - 1 && <span> &gt; </span>}
-            </Link>
-          ))}
+          {props.breadcrumb.map((item, index) => {
+            return index < props.breadcrumb.length - 1 ? (
+              <Link href={item.href} key={item.label}>
+                {item.label}
+                <span> &gt; </span>
+              </Link>
+            ) : (
+              item.label
+            );
+          })}
         </nav>
       )}
       {props.children}

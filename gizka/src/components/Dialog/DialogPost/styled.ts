@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
+import ChallengeFailed from '@/public/images/icons/challenge_failed.png';
+import ChallengeSucceded from '@/public/images/icons/challenge_succeeded.png';
+import D10Icon from '@/public/images/icons/d10.png';
+
 export const DialogPost = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,7 +13,6 @@ export const DialogPost = styled.div`
   line-height: 2rem;
   font-size: 1.4rem;
   font-family: 'Kontrapunkt-Light';
-  text-shadow: 0 0 3px var(--primary), 1px 1px 3px var(--primary);
 
   &:first-of-type {
     margin-top: 0;
@@ -42,57 +45,77 @@ export const DialogAvatar = styled(Image)<{ color: string }>`
 `;
 
 export const DialogPostContent = styled.p<{ color: string }>`
+  text-shadow: 0 0 3px var(--primary), 1px 1px 3px var(--primary);
+
   & strong {
     color: ${({ color }) => color};
   }
+
+  & bold {
+    font-weight: bold;
+  }
 `;
 
-const DiceBorderRadius = '5px';
-
-export const DiceSkill = styled.div`
-  display: inline-block;
-  margin-right: auto;
-  margin-left: 0;
-  padding: 0 1rem;
-  border-radius: ${DiceBorderRadius} ${DiceBorderRadius} 0 0;
-`;
-
-export const DiceValue = styled.div`
+export const MoveOutcome = styled.div`
+  background: var(--secondary);
+  border-radius: var(--rounded);
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  border: 2px solid currentColor;
-  border-radius: 0 ${DiceBorderRadius} 0 ${DiceBorderRadius};
-
-  svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    fill: var(--light);
-  }
+  gap: var(--space-05);
+  padding: var(--space-05) var(--space-1);
 `;
 
-export const DiceResult = styled.div`
-  display: inline-block;
-  margin-left: auto;
-  margin-right: 0;
-  padding: 0 1rem;
-  border-radius: 0 0 ${DiceBorderRadius} ${DiceBorderRadius};
+export const MoveName = styled.span`
+  color: var(--flashy);
+  font-style: italic;
+  text-shadow: 2px 2px 2px var(--dark);
 `;
 
-export const Dice = styled.div<{ variant: 'success' | 'failure' }>`
+export const MoveResult = styled.div`
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  color: var(--light);
+  gap: var(--space-05);
+`;
 
-  & ${DiceSkill}, & ${DiceResult} {
-    background: ${({ variant }) =>
-      variant === 'success' ? 'var(--success-05)' : 'var(--error-05)'};
-  }
+export const MoveScore = styled.div<{ color: string }>`
+  align-items: center;
+  border: 3px dashed ${(props) => props.color};
+  border-radius: 1rem;
+  color: ${(props) => props.color};
+  display: flex;
+  font-family: 'Kontrapunkt-Bold';
+  font-size: 2rem;
+  font-weight: bold;
+  height: 65px;
+  justify-content: center;
+  margin-right: var(--space-1);
+  width: 65px;
+`;
 
-  & ${DiceValue} {
-    border-color: ${({ variant }) =>
-      variant === 'success' ? 'var(--success-05)' : 'var(--error-05)'};
-  }
+export const ChallengeDie = styled.div`
+  align-items: start;
+  background: url('${D10Icon.src}');
+  background-size: cover;
+  color: var(--dark);
+  display: flex;
+  font-family: 'Kontrapunkt-Bold';
+  font-size: 1.6rem;
+  font-weight: bold;
+  justify-content: center;
+  padding-top: 10px;
+  position: relative;
+  height: 88px;
+  width: 83px;
+`;
+
+export const ChallengeResult = styled.div<{ isSucces: boolean }>`
+  background: url('${({ isSucces }) => (isSucces ? ChallengeSucceded.src : ChallengeFailed.src)}');
+  background-size: cover;
+  bottom: 0;
+  position: absolute;
+  height: 40px;
+  right: 0;
+  width: 35px;
 `;
 
 export const D20 = styled.span`

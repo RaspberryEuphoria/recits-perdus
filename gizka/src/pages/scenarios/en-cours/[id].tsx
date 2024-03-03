@@ -1,12 +1,11 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import { CharacterList } from '@/components/CharacterList';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
-import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
+import { checkIfGameMaster, generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Post, Scenario } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
@@ -15,9 +14,11 @@ import { LayoutAsideSection, LayoutMainSection } from '../../../components/Layou
 
 type EnCoursWithIdProps = {
   id: string;
+  title: string;
   posts: Post[];
   introduction: string;
   nextPoster: Character;
+  nextPostIsGameMaster: boolean;
   characters: Record<string, Character>;
 };
 
@@ -44,11 +45,13 @@ export async function getServerSideProps(
   return {
     props: {
       id,
+      title: scenario.title,
       introduction: generateIntroduction(scenario),
       nextPoster: getNextPoster(
         scenario.characters,
         scenario.posts[scenario.posts.length - 1]?.character,
       ),
+      nextPostIsGameMaster: checkIfGameMaster(scenario.posts, scenario.characters.length),
       posts: scenario.posts,
       // @TODO: add a mapper in the API to return this directly?
       characters: scenario.characters.reduce((acc, character) => {
@@ -60,9 +63,11 @@ export async function getServerSideProps(
 }
 
 export default function EnCoursWithId({
+  title,
   posts,
   introduction,
   nextPoster,
+  nextPostIsGameMaster,
   characters,
 }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
@@ -80,11 +85,12 @@ export default function EnCoursWithId({
         breadcrumb={[
           { label: 'Accueil', href: '/' },
           { label: 'Scénarios en cours', href: '/scenarios/en-cours' },
+          { label: title, href: '#' },
         ]}
       >
         <CharacterList characters={Object.values(characters)} />
       </LayoutMainSection>
-      <LayoutAsideSection>
+      <LayoutAsideSection breadcrumb={[]}>
         <DialogThread
           updateHighlightedCharacter={updateHighlightedCharacter}
           currentUser={currentUser}
@@ -92,6 +98,7 @@ export default function EnCoursWithId({
           initialDialogs={posts}
           introductionText={introduction}
           nextPoster={nextPoster}
+          nextPostIsGameMaster={nextPostIsGameMaster}
         />
       </LayoutAsideSection>
     </>

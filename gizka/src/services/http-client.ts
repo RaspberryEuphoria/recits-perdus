@@ -9,7 +9,10 @@ class HttpClient {
 
   public async request<T>(url: string, options: RequestInit): Promise<T | HttpError> {
     try {
-      const res = await fetch(`${this.baseUrl}${url}`, options);
+      const res = await fetch(`${this.baseUrl}${url}`, {
+        ...options,
+        cache: 'no-store',
+      });
       const data = await res.json();
       return data;
     } catch (err: any) {

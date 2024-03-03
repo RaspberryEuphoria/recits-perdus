@@ -3,8 +3,8 @@ import { User } from '../entities/user';
 
 function loginUserUsecase(userRepository: UserRepository) {
   return async function (user: User) {
-    const scenario = await userRepository.login(user);
-    return scenario;
+    const loggedUser = await userRepository.login(user);
+    return loggedUser;
   };
 }
 

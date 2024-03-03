@@ -7,6 +7,9 @@ type FullScenario = Prisma.ScenarioGetPayload<{
     posts: {
       include: {
         character: true;
+        skill: true;
+        moveId: true;
+        dices: true;
       };
     };
     characters: {
@@ -20,6 +23,11 @@ type FullScenario = Prisma.ScenarioGetPayload<{
             story: true;
             birthdate: true;
             avatar: true;
+            skills: {
+              include: {
+                skill: true;
+              };
+            };
           };
         };
       };
@@ -43,6 +51,9 @@ export class ScenarioRepository {
         posts: {
           include: {
             character: true,
+            skill: true,
+            dices: true,
+            // moveId: true,
           },
         },
         characters: {
@@ -75,6 +86,8 @@ export class ScenarioRepository {
         posts: {
           include: {
             character: true,
+            skill: true,
+            dices: true,
           },
         },
         characters: {
@@ -88,6 +101,11 @@ export class ScenarioRepository {
                 story: true,
                 birthdate: true,
                 avatar: true,
+                skills: {
+                  include: {
+                    skill: true,
+                  },
+                },
               },
             },
           },
@@ -114,7 +132,22 @@ export class ScenarioRepository {
       // Merge character without relation table "CharactersOnScenarios" fields
       characters: scenario.characters.map(({ textColor, character }) => ({
         ...character,
+        skills: character.skills
+          ? character.skills.map((characterSkill) => ({
+              ...characterSkill,
+              name: characterSkill.skill.name,
+            }))
+          : [],
         textColor,
+      })),
+      posts: scenario.posts.map((post) => ({
+        ...post,
+        // characterSkill: post.characterSkill
+        //   ? {
+        //       ...post.characterSkill,
+        //       name: post.characterSkill.skill.name,
+        //     }
+        //   : null,
       })),
     };
   }

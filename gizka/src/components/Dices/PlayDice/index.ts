@@ -1,1 +1,0 @@
-export { PlayDice } from './PlayDice';

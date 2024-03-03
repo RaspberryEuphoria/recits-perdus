@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "CharactersOnScenarios" ADD COLUMN     "health" INTEGER NOT NULL DEFAULT 5,
+ADD COLUMN     "momentum" INTEGER NOT NULL DEFAULT 2,
+ADD COLUMN     "spirit" INTEGER NOT NULL DEFAULT 5;
+
+-- AlterTable
+ALTER TABLE "Scenario" ADD COLUMN     "supplies" INTEGER NOT NULL DEFAULT 5;

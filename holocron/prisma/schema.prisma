@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,72 +8,92 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique @db.VarChar(255)
-  name     String @db.VarChar(255)
-  password String
-
+  id         Int         @id @default(autoincrement())
+  email      String      @unique @db.VarChar(255)
+  name       String      @db.VarChar(255)
+  password   String
   characters Character[]
 }
 
 model Character {
-  id        Int     @id @default(autoincrement())
-  firstName String  @db.VarChar(255)
-  lastName  String  @db.VarChar(255)
-  birthdate Int
+  id        Int                     @id @default(autoincrement())
   story     String
-  avatar    String? @db.VarChar(255)
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  skill    SkillsOnCharacters[]
-  scenario CharactersOnScenarios[]
-  posts    Post[]
+  userId    Int
+  birthdate Int
+  avatar    String?                 @db.VarChar(255)
+  firstName String                  @db.VarChar(255)
+  lastName  String                  @db.VarChar(255)
+  user      User                    @relation(fields: [userId], references: [id])
+  scenario  CharactersOnScenarios[]
+  posts     Post[]
+  skills    SkillsOnCharacters[]
 }
 
 model Skill {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(255)
+  id          Int                  @id @default(autoincrement())
+  name        String               @db.VarChar(255)
   description String
-
-  skill SkillsOnCharacters[]
+  skill       SkillsOnCharacters[]
+  posts       Post[]
 }
 
 model SkillsOnCharacters {
-  id    Int @id @default(autoincrement())
-  level Int
-
-  character   Character @relation(fields: [characterId], references: [id])
+  id          Int       @id @default(autoincrement())
+  level       Int
   characterId Int
-
-  skill   Skill @relation(fields: [skillId], references: [id])
-  skillId Int
+  skillId     Int
+  character   Character @relation(fields: [characterId], references: [id])
+  skill       Skill     @relation(fields: [skillId], references: [id])
 }
 
 model Scenario {
-  id           Int            @id @default(autoincrement())
-  title        String         @db.VarChar(255)
-  safeTitle    String         @db.VarChar(255)
-  status       ScenarioStatus @default(INITIATED)
-  era          String?        @db.VarChar(255)
-  location     String?        @db.VarChar(255)
-  thumbnail    String?        @db.VarChar(255)
-  introduction String         @db.VarChar(500)
-
-  posts      Post[]
-  characters CharactersOnScenarios[]
+  id           Int                     @id @default(autoincrement())
+  title        String                  @db.VarChar(255)
+  status       ScenarioStatus          @default(INITIATED)
+  era          String?                 @db.VarChar(255)
+  location     String?                 @db.VarChar(255)
+  thumbnail    String?                 @db.VarChar(255)
+  safeTitle    String                  @db.VarChar(255)
+  introduction String                  @db.VarChar(500)
+  supplies     Int                     @default(5)
+  characters   CharactersOnScenarios[]
+  posts        Post[]
 }
 
 model CharactersOnScenarios {
-  id        Int    @id @default(autoincrement())
-  textColor String @db.VarChar(7)
-
-  character   Character @relation(fields: [characterId], references: [id])
+  id          Int       @id @default(autoincrement())
   characterId Int
+  scenarioId  Int
+  textColor   String    @db.VarChar(7)
+  health      Int       @default(5)
+  momentum    Int       @default(2)
+  spirit      Int       @default(5)
+  character   Character @relation(fields: [characterId], references: [id])
+  scenario    Scenario  @relation(fields: [scenarioId], references: [id])
+}
 
-  scenario   Scenario @relation(fields: [scenarioId], references: [id])
-  scenarioId Int
+model Post {
+  id           Int            @id @default(autoincrement())
+  content      String
+  scenarioId   Int
+  characterId  Int
+  isGameMaster Boolean        @default(false)
+  turn         Int
+  skillValue   Int?
+  skillId      Int?
+  skill        Skill?          @relation(fields: [skillId], references: [id])
+  moveId       String?        @db.VarChar(255)
+  dices        DicesOnPosts[]
+  character    Character      @relation(fields: [characterId], references: [id])
+  scenario     Scenario       @relation(fields: [scenarioId], references: [id])
+}
+
+model DicesOnPosts {
+  id     Int      @id @default(autoincrement())
+  value  Int
+  postId Int
+  post   Post     @relation(fields: [postId], references: [id])
+  type   DiceType
 }
 
 enum ScenarioStatus {
@@ -86,15 +103,7 @@ enum ScenarioStatus {
   LOCKED
 }
 
-model Post {
-  id           Int     @id @default(autoincrement())
-  content      String
-  isGameMaster Boolean @default(false)
-  turn         Int
-
-  scenario   Scenario @relation(fields: [scenarioId], references: [id])
-  scenarioId Int
-
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int
+enum DiceType {
+  ACTION
+  CHALLENGE
 }

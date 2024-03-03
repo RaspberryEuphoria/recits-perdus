@@ -106,10 +106,15 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
 
   return (
     <>
-      <LayoutMainSection breadcrumb={[{ label: 'Accueil', href: '/' }]}>
+      <LayoutMainSection
+        breadcrumb={[
+          { label: 'Accueil', href: '/' },
+          { label: 'Scénarios en cours', href: '#' },
+        ]}
+      >
         <ScenariosListPage scenarios={scenarios} />
       </LayoutMainSection>
-      <LayoutAsideSection>
+      <LayoutAsideSection breadcrumb={[]}>
         <ScenariosFilters
           scenariosCount={scenarios.length}
           locations={locationsWithoutDuplicates}

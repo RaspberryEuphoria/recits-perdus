@@ -1,1 +1,0 @@
-export { DicesHolster } from './DicesHolster';

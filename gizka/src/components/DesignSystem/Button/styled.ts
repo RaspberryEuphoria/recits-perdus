@@ -19,10 +19,17 @@ export const Button = styled.button<{ width?: string; outline?: boolean }>`
       color: var(--flashy);
     `}
 
-  &:hover {
+  &:hover&:not(:disabled) {
     cursor: pointer;
     animation: pulse 1s;
     box-shadow: 0 0 0 0.5em transparent;
+  }
+
+  &:disabled {
+    color: var(--light-05);
+    background: var(--dark);
+    border-color: var(--light-05);
+    cursor: not-allowed;
   }
 
   @keyframes pulse {

@@ -46,13 +46,13 @@
 */
 
 :root {
-  --primary: #080a0f;
+  --primary: #18181b;
   --primary-alt: #1c212f;
-  --secondary: #6c5a49;
-  --dark: #04060c;
-  --dark-05: rgba(4, 6, 12, 0.5);
-  --dark-08: rgba(4, 6, 12, 0.8);
-  --flashy: #3969a1;
+  --secondary: #2f2f35;
+  --dark: #101418;
+  --dark-05: rgba(16, 20, 24, 0.5);
+  --dark-08: rgba(16, 20, 24, 0.8);
+  --flashy: #11b6f7;
   --flashy-02: rgba(57, 105, 161, 0.2);
   --flashy-05: rgba(57, 105, 161, 0.5);
   --flashy-08: rgba(57, 105, 161, 0.8);
@@ -66,7 +66,7 @@
   --light-05: rgba(228, 238, 245, 0.5);
   --light-08: rgba(228, 238, 245, 0.8);
 
-  --error: #e9001f;
+  --error: #af3d4c;
   --error-05: rgba(233, 0, 31, 0.5);
   --success: #37f04b;
   --success-05: rgba(55, 240, 75, 0.5);
@@ -80,6 +80,8 @@
   --dice: #f2b636;
   --dice-05: rgba(242, 151, 54, 0.5);
   --skill: #368ef2;
+
+  --rounded: 0.258rem;
 }
 
 * {

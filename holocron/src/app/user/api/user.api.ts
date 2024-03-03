@@ -17,6 +17,7 @@ function userRoutes(userContainer: UserContainer) {
   router.post(`/login`, async (_req, _res, next) => {
     try {
       const user = await userContainer.login(_req.body);
+      console.log(user);
       _res.json(user);
     } catch (error) {
       next(error);

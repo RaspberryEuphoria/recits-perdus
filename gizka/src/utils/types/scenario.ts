@@ -1,4 +1,4 @@
-import { Character } from './character';
+import { Character, CharacterSkill } from './character';
 
 enum ScenarioStatus {
   INITIATED = 'INITIATED',
@@ -14,6 +14,10 @@ export type Post = {
   scenarioId: number;
   character: Character;
   characterId: number;
+  dice?: Array<Dice>;
+  characterSkill?: CharacterSkill;
+  nextPoster?: Character;
+  turn: number;
 };
 
 type Scenario = {
@@ -29,5 +33,22 @@ type Scenario = {
   posts: Post[];
   characters: Character[];
 };
+
+export type Dice = {
+  id: number;
+  value: number;
+  type: DiceType;
+};
+
+export enum DiceType {
+  ACTION = 'ACTION',
+  CHALLENGE = 'CHALLENGE',
+}
+
+export enum MoveResult {
+  SUCCESS = 'SUCCESS',
+  MIXED = 'MIXED',
+  FAILURE = 'FAILURE',
+}
 
 export { type Scenario, ScenarioStatus };

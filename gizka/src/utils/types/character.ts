@@ -7,4 +7,12 @@ export type Character = {
   userId: number;
   textColor: string;
   avatar: string;
+  skills: CharacterSkill[];
+};
+
+export type CharacterSkill = {
+  id: string;
+  skillId: number;
+  level: number;
+  name: string;
 };

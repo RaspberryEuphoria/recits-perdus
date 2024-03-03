@@ -10,15 +10,18 @@ import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usec
 import { getScenarioByIdUsecase } from './domain/scenario/usecases/getScenarioById.usecase';
 import { PostRepository } from './infrastructure/post-sql.repository';
 import { ScenarioRepository } from './infrastructure/scenario-sql.repository';
+import { SkillRepository } from './infrastructure/skill-sql.repository';
 
 export class ScenarioContainer {
   private scenarioRepository: ScenarioRepository;
   private postRepository: PostRepository;
+  private skillRepository: SkillRepository;
   private scenarioRoutes: Router;
 
   constructor(db: PrismaClient) {
     this.scenarioRepository = new ScenarioRepository(db);
     this.postRepository = new PostRepository(db);
+    this.skillRepository = new SkillRepository(db);
     this.scenarioRoutes = scenarioRoutes(this);
   }
 
@@ -43,6 +46,10 @@ export class ScenarioContainer {
   }
 
   createPost(post: CreatePostDto) {
-    return createPostUsecase(this.postRepository, this.scenarioRepository)(post);
+    return createPostUsecase(
+      this.postRepository,
+      this.scenarioRepository,
+      this.skillRepository,
+    )(post);
   }
 }

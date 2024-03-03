@@ -1,30 +1,56 @@
-import { Character, Post, Scenario } from '@prisma/client';
+import { Character, Post } from '@prisma/client';
 
 import { PostRepository } from '../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../infrastructure/scenario-sql.repository';
+import { SkillRepository } from '../../../infrastructure/skill-sql.repository';
 import { CreatePostDto } from '../entities/post';
+import { useMove } from './moves';
 
 export function createPostUsecase(
   postRepository: PostRepository,
   scenarioRepository: ScenarioRepository,
+  skillRepository: SkillRepository,
 ) {
-  return async (post: CreatePostDto) => {
-    const scenario = await scenarioRepository.getById(post.scenarioId);
-    if (!scenario) throw new Error(`Scenario ${post.scenarioId} not found`);
+  return async (postDto: CreatePostDto) => {
+    const scenario = await scenarioRepository.getById(postDto.scenarioId);
+    if (!scenario) throw new Error(`Scenario ${postDto.scenarioId} not found`);
 
     const nextPoster = getNextPoster(scenario.characters, scenario.posts);
-    const isAllowedToPost = post.characterId === nextPoster.id;
+    const isAllowedToPost = postDto.characterId === nextPoster.id;
 
     if (!isAllowedToPost) {
       throw new Error(
-        `Character ${post.characterId} is not allowed to post, next poster is ${nextPoster.id}`,
+        `Character ${postDto.characterId} is not allowed to post, next poster is ${nextPoster.id}`,
       );
     }
 
     const turn = getTurnForNewPost(scenario.posts, scenario.characters.length);
     const isGameMaster = checkIfGameMaster(scenario.posts, scenario.characters.length);
 
-    return postRepository.create({ ...post, turn, isGameMaster });
+    const { move, ...post } = postDto;
+    const hasMove = !!move;
+
+    const newPost = await postRepository.create({ ...post, turn, isGameMaster });
+
+    const nextPosterAfterNewPost = getNextPoster(scenario.characters, [...scenario.posts, newPost]);
+
+    if (!hasMove) {
+      return {
+        ...newPost,
+        nextPoster: nextPosterAfterNewPost,
+      };
+    }
+
+    const newPostWithMove = await useMove(
+      postRepository,
+      scenarioRepository,
+      skillRepository,
+    )(move, newPost.id);
+
+    return {
+      ...newPostWithMove,
+      nextPoster: nextPosterAfterNewPost,
+    };
   };
 }
 
@@ -51,6 +77,8 @@ export function getTurnForNewPost(posts: Post[], charactersCount: number) {
 }
 
 export function checkIfGameMaster(posts: Post[], charactersCount: number) {
+  return false; // This feature is currently disabled
+
   if (!posts.length) return false; // The GM never posts on the first turn
 
   const currentTurnPosts = getCurrentTurnPosts(posts);
@@ -60,7 +88,7 @@ export function checkIfGameMaster(posts: Post[], charactersCount: number) {
 function checkIfNewTurn(currentTurnPosts: Post[], charactersCount: number) {
   const currentTurn = currentTurnPosts[0].turn;
   if (currentTurn === 1) return currentTurnPosts.length === charactersCount;
-  return currentTurnPosts.length === charactersCount + 1; // +1 to account for the GM
+  return currentTurnPosts.length === charactersCount; // +1 to account for the GM
 }
 
 function getCurrentTurnPosts(posts: Post[]) {
