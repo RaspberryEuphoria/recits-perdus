@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import io, { Socket } from 'Socket.IO-client';
+import io, { Socket } from 'socket.io-client';
 
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
@@ -83,7 +83,7 @@ export function DialogThread({
     await httpBffClient.get('/socket');
 
     socket = io();
-    socket.on('receive-new-dialog', (newDialog) => {
+    socket.on('receive-new-dialog', async (newDialog) => {
       setDialogs((dialogs) => [...dialogs, newDialog]);
 
       if (newDialog.nextPoster) {

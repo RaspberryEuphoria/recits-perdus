@@ -1,24 +1,17 @@
 import { useState } from 'react';
 
 import D6Icon from '@/public/images/icons/d6.svg';
+import { Skill } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
 
 const title = 'Faire Face au Danger';
 
-export enum Attributes {
-  FINESSE = 'Finesse',
-  DETERMINATION = 'Détermination',
-  TENACITE = 'Ténacité',
-  SUBTERFUGE = 'Subterfuge',
-  INTUITION = 'Intuition',
-}
-
 export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
-  const [selectedAttribute, setSelectedAttribute] = useState<string | undefined>();
+  const [selectedAttribute, setSelectedAttribute] = useState<Skill | undefined>();
 
-  const selectAttribute = (attribute: string) => {
+  const selectAttribute = (attribute: Skill) => {
     onPick({ id, meta: { attribute } });
     setSelectedAttribute(attribute);
   };
@@ -39,8 +32,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           <li>
             Avec rapidité, agilité ou précision :{' '}
             <Styled.ClickToRoll
-              onClick={() => selectAttribute(Attributes.FINESSE)}
-              isSelected={selectedAttribute === Attributes.FINESSE}
+              onClick={() => selectAttribute(Skill.FINESSE)}
+              isSelected={selectedAttribute === Skill.FINESSE}
             >
               +finesse <D6Icon />
             </Styled.ClickToRoll>
@@ -48,8 +41,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           <li>
             Avec charme, loyauté ou courage :{' '}
             <Styled.ClickToRoll
-              onClick={() => selectAttribute(Attributes.DETERMINATION)}
-              isSelected={selectedAttribute === Attributes.DETERMINATION}
+              onClick={() => selectAttribute(Skill.DETERMINATION)}
+              isSelected={selectedAttribute === Skill.DETERMINATION}
             >
               +determination <D6Icon />
             </Styled.ClickToRoll>
@@ -57,8 +50,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           <li>
             Avec aggressivité, force ou endurance :{' '}
             <Styled.ClickToRoll
-              onClick={() => selectAttribute(Attributes.TENACITE)}
-              isSelected={selectedAttribute === Attributes.TENACITE}
+              onClick={() => selectAttribute(Skill.TENACITE)}
+              isSelected={selectedAttribute === Skill.TENACITE}
             >
               +tenacite <D6Icon />
             </Styled.ClickToRoll>
@@ -66,8 +59,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           <li>
             Avec tromperie, furtivité ou ruse :{' '}
             <Styled.ClickToRoll
-              onClick={() => selectAttribute(Attributes.SUBTERFUGE)}
-              isSelected={selectedAttribute === Attributes.SUBTERFUGE}
+              onClick={() => selectAttribute(Skill.SUBTERFUGE)}
+              isSelected={selectedAttribute === Skill.SUBTERFUGE}
             >
               +subterfuge <D6Icon />
             </Styled.ClickToRoll>
@@ -75,8 +68,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           <li>
             Avec expertise, perspicacité ou perception :{' '}
             <Styled.ClickToRoll
-              onClick={() => selectAttribute(Attributes.INTUITION)}
-              isSelected={selectedAttribute === Attributes.INTUITION}
+              onClick={() => selectAttribute(Skill.INTUITION)}
+              isSelected={selectedAttribute === Skill.INTUITION}
             >
               +intuition <D6Icon />
             </Styled.ClickToRoll>
@@ -84,7 +77,7 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
         </ul>
         <p>
           En cas de <strong>succès total</strong>, vous réussissez. Recevez <strong>+1</strong>{' '}
-          momentum.
+          élan.
         </p>
         <p>
           En cas de <strong>sucès partiel</strong>, vous réussissez, mais avec une complication.
@@ -93,7 +86,7 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
         <ul>
           <li>
             Vous êtes ralenti, perdez l&apos;avantage, ou faites face à un nouveau danger. Perdez{' '}
-            <strong>-1</strong> momentum.
+            <strong>-1</strong> élan.
           </li>
           <li>
             Vous êtes fatigué ou blessé: <em>Endurer une Blessure</em> (<strong>1</strong> blessure)

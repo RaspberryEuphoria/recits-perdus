@@ -23,6 +23,9 @@ type FullScenario = Prisma.ScenarioGetPayload<{
             story: true;
             birthdate: true;
             avatar: true;
+            health: true;
+            spirit: true;
+            momentum: true;
             skills: {
               include: {
                 skill: true;
@@ -126,11 +129,20 @@ export class ScenarioRepository {
     });
   }
 
+  async update(id: number, scenario: Partial<CreateScenarioDto>) {
+    return this.db.scenario.update({
+      where: {
+        id,
+      },
+      data: scenario,
+    });
+  }
+
   private mapScenario(scenario: FullScenario) {
     return {
       ...scenario,
       // Merge character without relation table "CharactersOnScenarios" fields
-      characters: scenario.characters.map(({ textColor, character }) => ({
+      characters: scenario.characters.map(({ textColor, health, spirit, momentum, character }) => ({
         ...character,
         skills: character.skills
           ? character.skills.map((characterSkill) => ({
@@ -139,6 +151,9 @@ export class ScenarioRepository {
             }))
           : [],
         textColor,
+        health,
+        spirit,
+        momentum,
       })),
       posts: scenario.posts.map((post) => ({
         ...post,

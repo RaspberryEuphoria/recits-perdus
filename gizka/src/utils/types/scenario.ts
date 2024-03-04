@@ -32,6 +32,7 @@ type Scenario = {
 
   posts: Post[];
   characters: Character[];
+  supplies: number;
 };
 
 export type Dice = {
@@ -49,6 +50,14 @@ export enum MoveResult {
   SUCCESS = 'SUCCESS',
   MIXED = 'MIXED',
   FAILURE = 'FAILURE',
+}
+
+export enum Skill {
+  FINESSE = 'Finesse',
+  DETERMINATION = 'Détermination',
+  TENACITE = 'Ténacité',
+  SUBTERFUGE = 'Subterfuge',
+  INTUITION = 'Intuition',
 }
 
 export { type Scenario, ScenarioStatus };

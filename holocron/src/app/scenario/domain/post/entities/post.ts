@@ -1,5 +1,3 @@
-import { Scenario } from '../../scenario/entities/scenario';
-
 type Post = {
   id: number;
   content: string;
@@ -48,4 +46,10 @@ type Move = {
   meta: Record<string, string>;
 };
 
-export { CreatePostDto, Move, Post };
+enum MoveResult {
+  SUCCESS = 'SUCCESS',
+  MIXED = 'MIXED',
+  FAILURE = 'FAILURE',
+}
+
+export { CreatePostDto, Dice, Move, MoveResult, Post };

@@ -1,6 +1,6 @@
 import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { Post, Scenario } from '@/utils/types/scenario';
+import { Post, Scenario, Skill } from '@/utils/types/scenario';
 
 export function generateIntroduction(scenario: Scenario) {
   const tokens = ['{{characters}}'];
@@ -56,6 +56,34 @@ export function convertHexadecimalColorToHsl(color: string, opacity = 1) {
 
 export function formatPostContent(content: string) {
   return content
-    .replace(/["«]([^"]+)["»]/g, `«&nbsp;<strong>$1</strong>&nbsp;»`)
-    .replace(/[*]([^"]+)[*]/g, `«&nbsp;<bold>$1</bold>&nbsp;»`);
+    .replace(/["«]([^"]+)["»]/g, `“<strong>$1</strong>”`)
+    .replace(/[*]([^"]+)[*]/g, `“<bold>$1</bold>”`);
 }
+
+export const skillWordings = {
+  [Skill.FINESSE]: {
+    defini: 'la ',
+    indefini: 'une ',
+    partitif: 'de ',
+  },
+  [Skill.DETERMINATION]: {
+    defini: 'la ',
+    indefini: 'une ',
+    partitif: 'de ',
+  },
+  [Skill.TENACITE]: {
+    defini: 'la ',
+    indefini: 'une ',
+    partitif: 'de ',
+  },
+  [Skill.SUBTERFUGE]: {
+    defini: 'le ',
+    indefini: 'un ',
+    partitif: 'de ',
+  },
+  [Skill.INTUITION]: {
+    defini: 'l’',
+    indefini: 'une ',
+    partitif: 'd’',
+  },
+};

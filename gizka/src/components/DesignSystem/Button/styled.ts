@@ -8,7 +8,7 @@ export const Button = styled.button<{ width?: string; outline?: boolean }>`
   border-color: transparent;
   outline: none;
   text-transform: uppercase;
-  font-family: 'Kontrapunkt-Bold';
+  font-family: 'Oxanium';
   font-size: 1.4rem;
 
   ${(props) =>

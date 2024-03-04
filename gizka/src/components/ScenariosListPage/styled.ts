@@ -6,8 +6,6 @@ export const ScenariosList = styled.section`
   align-content: flex-start;
   flex-wrap: wrap;
   flex-direction: row;
-  flex-grow: 1;
-  flex: 1 1 0px;
   gap: 1rem;
   padding: 2.5rem;
 `;
@@ -18,10 +16,7 @@ export const Scenario = styled(Link)<{ background: string }>`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  flex: 1 0 32%;
-  gap: 1%;
-  max-width: 32%;
-  height: 10rem;
+  flex: 0 0 30%;
   padding: 1rem;
   background-image: url('/images/scenarios/thumbnails/${(props) => props.background}.png'),
     url('/images/dialog_background.png'),
@@ -39,17 +34,21 @@ export const Scenario = styled(Link)<{ background: string }>`
   &:hover {
     box-shadow: 0px 0px 10px 0px var(--flashy), inset 0px 0px 10px 0px var(--flashy);
   }
+
+  @media (max-width: 1200px) {
+    flex: 0 0 100%;
+  }
 `;
 
 export const ScenarioLabel = styled.span`
-  font-family: 'Kontrapunkt-Bold';
+  font-family: 'Oxanium';
   font-weight: bold;
   text-transform: uppercase;
   font-size: 1.2rem;
 `;
 
 export const ScenarioDescription = styled.span`
-  font-family: 'Kontrapunkt-Light';
+  font-family: 'Oxanium';
   font-weight: normal;
   color: var(--dice);
   font-size: 0.9rem;
@@ -57,7 +56,7 @@ export const ScenarioDescription = styled.span`
 
 export const CharactersList = styled.span`
   margin-top: 1rem;
-  font-family: 'Kontrapunkt-Light';
+  font-family: 'Oxanium';
   font-weight: normal;
 `;
 

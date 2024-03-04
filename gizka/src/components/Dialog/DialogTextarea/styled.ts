@@ -92,7 +92,7 @@ export const Textarea = styled.textarea<TextareaProps>`
   outline: none;
   color: currentColor;
   font-size: 1.4rem;
-  font-family: 'Kontrapunkt-Light';
+  font-family: 'Oxanium';
   resize: none;
   transition: position ease-in 0.5s;
   z-index: 100;

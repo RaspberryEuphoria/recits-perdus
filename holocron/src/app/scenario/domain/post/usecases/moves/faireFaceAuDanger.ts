@@ -1,15 +1,20 @@
+import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { DiceType, Move, Moves, Post } from '../../entities/post';
+import { Dice, DiceType, Move, MoveResult, Moves } from '../../entities/post';
 
 export function faireFaceAuDangerUsecase(
   postRepository: PostRepository,
   scenarioRepository: ScenarioRepository,
   skillRepository: SkillRepository,
+  characterRepository: CharacterRepository,
 ) {
   const id = Moves.FAIRE_FACE_AU_DANGER;
-  console.log('faireFaceAuDangerUsecase');
+
+  async function onSuccess(characterId: number, scenarioId: number) {
+    return characterRepository.addMomentum(characterId, scenarioId, 1);
+  }
 
   return async (postId: number, move: Move) => {
     const post = await postRepository.getById(postId);
@@ -36,29 +41,56 @@ export function faireFaceAuDangerUsecase(
 
     const actionDie = rollD6();
     const challengeDices = [rollD10(), rollD10()];
+    const score = actionDie + characterSkill.level;
+
+    const dices = [
+      {
+        type: DiceType.ACTION,
+        value: actionDie,
+      },
+      {
+        type: DiceType.CHALLENGE,
+        value: challengeDices[0],
+      },
+      {
+        type: DiceType.CHALLENGE,
+        value: challengeDices[1],
+      },
+    ];
 
     const updatedPost = await postRepository.update(postId, {
       skillId: skill.id,
       skillValue: characterSkill.level,
       moveId: id,
-      dices: [
-        {
-          type: DiceType.ACTION,
-          value: actionDie,
-        },
-        {
-          type: DiceType.CHALLENGE,
-          value: challengeDices[0],
-        },
-        {
-          type: DiceType.CHALLENGE,
-          value: challengeDices[1],
-        },
-      ],
+      dices,
     });
+
+    const result = getDicesResult(score, dices);
+
+    console.log(result);
+
+    if (result === MoveResult.SUCCESS) {
+      await onSuccess(post.character.id, post.scenarioId);
+    }
 
     return updatedPost;
   };
+}
+
+function getDicesResult(score: number, challengeDices: Array<Dice>) {
+  if (challengeDices.every((dice) => dice.value >= score)) {
+    return MoveResult.FAILURE;
+  }
+
+  if (challengeDices.some((dice) => dice.value > score)) {
+    return MoveResult.MIXED;
+  }
+
+  if (challengeDices.every((dice) => dice.value < score)) {
+    return MoveResult.SUCCESS;
+  }
+
+  throw new Error(`Invalid dices result! ${JSON.stringify({ score, challengeDices }, null, 4)}`);
 }
 
 function rollD10() {

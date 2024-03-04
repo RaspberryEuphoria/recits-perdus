@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import { useState } from 'react';
 
 import { CharacterList } from '@/components/CharacterList';
 import { DialogThread } from '@/components/Dialog/DialogThread';
+import { ScenarioResources } from '@/components/ScenarioResources';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { checkIfGameMaster, generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
@@ -20,6 +20,7 @@ type EnCoursWithIdProps = {
   nextPoster: Character;
   nextPostIsGameMaster: boolean;
   characters: Record<string, Character>;
+  supplies: number;
 };
 
 export async function getServerSideProps(
@@ -54,6 +55,7 @@ export async function getServerSideProps(
       nextPostIsGameMaster: checkIfGameMaster(scenario.posts, scenario.characters.length),
       posts: scenario.posts,
       // @TODO: add a mapper in the API to return this directly?
+      supplies: scenario.supplies,
       characters: scenario.characters.reduce((acc, character) => {
         acc[character.id] = character;
         return acc;
@@ -69,15 +71,9 @@ export default function EnCoursWithId({
   nextPoster,
   nextPostIsGameMaster,
   characters,
+  supplies,
 }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
-  const [lastPost] = posts.slice(-1);
-  const lastPoster = lastPost ? lastPost.character : null;
-  const [highlightedCharacter, setHighlightedCharacter] = useState<Character | null>(lastPoster);
-
-  const updateHighlightedCharacter = (character: Character | null) => {
-    setHighlightedCharacter(character || lastPoster);
-  };
 
   return (
     <>
@@ -89,10 +85,10 @@ export default function EnCoursWithId({
         ]}
       >
         <CharacterList characters={Object.values(characters)} />
+        <ScenarioResources supplies={supplies} />
       </LayoutMainSection>
       <LayoutAsideSection breadcrumb={[]}>
         <DialogThread
-          updateHighlightedCharacter={updateHighlightedCharacter}
           currentUser={currentUser}
           characters={characters}
           initialDialogs={posts}

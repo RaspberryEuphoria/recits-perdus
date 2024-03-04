@@ -12,7 +12,7 @@ export const DialogPost = styled.div`
   margin: 4rem 0;
   line-height: 2rem;
   font-size: 1.4rem;
-  font-family: 'Kontrapunkt-Light';
+  font-family: 'Oxanium';
 
   &:first-of-type {
     margin-top: 0;
@@ -31,11 +31,9 @@ export const DialogInfos = styled.div`
   gap: 0.5rem;
 `;
 
-export const DialogPostAuthor = styled.span<{ color: string }>`
+export const DialogPostAuthor = styled.span`
   display: block;
   font-style: italic;
-  font-weight: bold;
-  color: ${({ color }) => color};
 `;
 
 export const DialogAvatar = styled(Image)<{ color: string }>`
@@ -56,7 +54,12 @@ export const DialogPostContent = styled.p<{ color: string }>`
   }
 `;
 
-export const MoveOutcome = styled.div`
+export const CharacterName = styled.span<{ color: string }>`
+  color: ${({ color }) => color};
+  font-weight: bold;
+`;
+
+export const DialogMove = styled.div`
   background: var(--secondary);
   border-radius: var(--rounded);
   display: flex;
@@ -83,7 +86,7 @@ export const MoveScore = styled.div<{ color: string }>`
   border-radius: 1rem;
   color: ${(props) => props.color};
   display: flex;
-  font-family: 'Kontrapunkt-Bold';
+  font-family: 'Oxanium';
   font-size: 2rem;
   font-weight: bold;
   height: 65px;
@@ -98,7 +101,7 @@ export const ChallengeDie = styled.div`
   background-size: cover;
   color: var(--dark);
   display: flex;
-  font-family: 'Kontrapunkt-Bold';
+  font-family: 'Oxanium';
   font-size: 1.6rem;
   font-weight: bold;
   justify-content: center;

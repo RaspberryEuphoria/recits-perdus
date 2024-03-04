@@ -1,3 +1,4 @@
+import { MoveOutcome } from '@/components/Moves/MoveOutcome';
 import { getFullName } from '@/utils/character/helpers';
 import { TextColor } from '@/utils/constants';
 import { formatPostContent } from '@/utils/scenario/helpers';
@@ -66,14 +67,16 @@ export function DialogPost({
           height={230}
           color={textColor}
         />
-        <Styled.DialogPostAuthor color={textColor}>{characterName}</Styled.DialogPostAuthor>
+        <Styled.CharacterName color={character.textColor}>
+          <Styled.DialogPostAuthor>{characterName}</Styled.DialogPostAuthor>
+        </Styled.CharacterName>
       </Styled.DialogInfos>
       <Styled.DialogPostContent
         dangerouslySetInnerHTML={{ __html: formatPostContent(content) }}
         color={textColor}
       />
-      {dices && skill && moveId && (
-        <MoveOutcome
+      {dices && skill && moveId && skillValue && (
+        <DialogMove
           character={character}
           dices={dices}
           skill={skill}
@@ -85,7 +88,7 @@ export function DialogPost({
   );
 }
 
-function MoveOutcome({
+function DialogMove({
   character,
   dices,
   skill,
@@ -110,10 +113,12 @@ function MoveOutcome({
   const result = getDicesResult(score, challengeDices);
 
   return (
-    <Styled.MoveOutcome>
+    <Styled.DialogMove>
       <p>
-        <span style={{ color: character.textColor }}>{character.firstName}</span>&nbsp;tente
-        de&nbsp;
+        <Styled.CharacterName color={character.textColor}>
+          {character.firstName}
+        </Styled.CharacterName>
+        &nbsp;se prépare à&nbsp;
         <Styled.MoveName>{getMoveById(moveId)}</Styled.MoveName>&nbsp;!
       </p>
       <Styled.MoveResult>
@@ -130,7 +135,8 @@ function MoveOutcome({
           </Styled.ChallengeDie>
         ))}
       </Styled.MoveResult>
-    </Styled.MoveOutcome>
+      <MoveOutcome id={moveId} result={result} character={character} skillName={skill.name} />
+    </Styled.DialogMove>
   );
 }
 
@@ -146,6 +152,8 @@ function getDicesResult(score: number, challengeDices: Array<Dice>) {
   if (challengeDices.every((dice) => dice.value < score)) {
     return MoveResult.SUCCESS;
   }
+
+  throw new Error(`Invalid dices result! ${JSON.stringify({ score, challengeDices }, null, 4)}`);
 }
 
 function getMoveById(moveId: string) {

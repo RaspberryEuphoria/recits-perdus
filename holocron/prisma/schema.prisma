@@ -54,7 +54,7 @@ model Scenario {
   location     String?                 @db.VarChar(255)
   thumbnail    String?                 @db.VarChar(255)
   safeTitle    String                  @db.VarChar(255)
-  introduction String                  @db.VarChar(500)
+  introduction String                  @db.VarChar(2500)
   supplies     Int                     @default(5)
   characters   CharactersOnScenarios[]
   posts        Post[]

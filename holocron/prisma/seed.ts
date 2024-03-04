@@ -9,6 +9,37 @@ function rand(min: number, max: number) {
 }
 
 async function main() {
+  const skills = [
+    {
+      name: 'Finesse',
+      description: 'Rapidité, agilité, et capacité en combat à distance',
+    },
+    {
+      name: 'Détermination',
+      description: 'Courage, volonté, empathie, sociabilité et loyauté',
+    },
+    {
+      name: 'Ténacité',
+      description: 'Force physique, endurance, agressivité, et capacité en combat au corps à corps',
+    },
+    {
+      name: 'Subterfuge',
+      description: 'Sournoiserie, tromperie et ruse',
+    },
+    {
+      name: 'Intuition',
+      description: 'Expertise, connaissances, et perception',
+    },
+  ];
+
+  await Promise.all(
+    skills.map(async (skill) => {
+      return prisma.skill.create({
+        data: skill,
+      });
+    }),
+  );
+
   const usersToCreate = ['rapsody', 'vader', 'kyle', 'revan', 'ego'].map((name) => ({
     name,
     email: `manon.dev.mion+${name}@gmail.com`,
@@ -25,6 +56,11 @@ async function main() {
       const randomCharacterTwo = await resTwo.json();
 
       const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => {
+        const characterSkills = skills.map((skill, i) => ({
+          skillId: i + 1,
+          level: rand(1, 5),
+        }));
+
         const [firstName, ...lastName] = name.split(' ');
         return {
           firstName,
@@ -32,6 +68,9 @@ async function main() {
           birthdate: 0,
           story: '',
           avatar: `avatar-${firstName}.jpg`,
+          skills: {
+            create: characterSkills,
+          },
         };
       });
 
@@ -163,37 +202,6 @@ async function main() {
             })),
           },
         },
-      });
-    }),
-  );
-
-  const skills = [
-    {
-      name: 'Finesse',
-      description: 'Rapidité, agilité, et capacité en combat à distance',
-    },
-    {
-      name: 'Détermination',
-      description: 'Courage, volonté, empathie, sociabilité et loyauté',
-    },
-    {
-      name: 'Ténacité',
-      description: 'Force physique, endurance, agressivité, et capacité en combat au corps à corps',
-    },
-    {
-      name: 'Subterfuge',
-      description: 'Sournoiserie, tromperie et ruse',
-    },
-    {
-      name: 'Intuition',
-      description: 'Expertise, connaissances, et perception',
-    },
-  ];
-
-  await Promise.all(
-    skills.map(async (skill) => {
-      return prisma.skill.create({
-        data: skill,
       });
     }),
   );

@@ -8,6 +8,7 @@ import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/sc
 import { createScenarioUsecase } from './domain/scenario/usecases/createScenario.usecase';
 import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usecase';
 import { getScenarioByIdUsecase } from './domain/scenario/usecases/getScenarioById.usecase';
+import { CharacterRepository } from './infrastructure/character-sql.repository';
 import { PostRepository } from './infrastructure/post-sql.repository';
 import { ScenarioRepository } from './infrastructure/scenario-sql.repository';
 import { SkillRepository } from './infrastructure/skill-sql.repository';
@@ -16,12 +17,14 @@ export class ScenarioContainer {
   private scenarioRepository: ScenarioRepository;
   private postRepository: PostRepository;
   private skillRepository: SkillRepository;
+  private characterRepository: CharacterRepository;
   private scenarioRoutes: Router;
 
   constructor(db: PrismaClient) {
     this.scenarioRepository = new ScenarioRepository(db);
     this.postRepository = new PostRepository(db);
     this.skillRepository = new SkillRepository(db);
+    this.characterRepository = new CharacterRepository(db);
     this.scenarioRoutes = scenarioRoutes(this);
   }
 
@@ -50,6 +53,7 @@ export class ScenarioContainer {
       this.postRepository,
       this.scenarioRepository,
       this.skillRepository,
+      this.characterRepository,
     )(post);
   }
 }

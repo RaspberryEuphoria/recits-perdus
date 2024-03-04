@@ -1,6 +1,8 @@
+import { Skill } from './scenario';
+
 export type Character = {
   id: number;
-  firstName: string;
+  firstName: Skill;
   lastName: string;
   birthdate: Date;
   story: string;
@@ -8,11 +10,14 @@ export type Character = {
   textColor: string;
   avatar: string;
   skills: CharacterSkill[];
+  health: number;
+  spirit: number;
+  momentum: number;
 };
 
 export type CharacterSkill = {
   id: string;
   skillId: number;
   level: number;
-  name: string;
+  name: Skill;
 };

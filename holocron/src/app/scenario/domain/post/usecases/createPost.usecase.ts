@@ -1,5 +1,6 @@
 import { Character, Post } from '@prisma/client';
 
+import { CharacterRepository } from '../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../infrastructure/skill-sql.repository';
@@ -10,6 +11,7 @@ export function createPostUsecase(
   postRepository: PostRepository,
   scenarioRepository: ScenarioRepository,
   skillRepository: SkillRepository,
+  characterRepository: CharacterRepository,
 ) {
   return async (postDto: CreatePostDto) => {
     const scenario = await scenarioRepository.getById(postDto.scenarioId);
@@ -45,6 +47,7 @@ export function createPostUsecase(
       postRepository,
       scenarioRepository,
       skillRepository,
+      characterRepository,
     )(move, newPost.id);
 
     return {
