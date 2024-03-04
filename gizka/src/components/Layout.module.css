@@ -20,11 +20,11 @@
 }
 
 .overflowY {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .scroller {
-  scrollbar-color: var(--primary-alt) var(--primary);
+  scrollbar-color: var(--flashy-05) var(--primary);
   scrollbar-width: thin;
 }
 /* End of helpers */
@@ -84,11 +84,14 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  max-width: 55%;
+  overflow-y: auto;
 }
 
 .asideSection {
   position: relative;
   width: 40%;
+  min-width: 40%;
   margin-right: 5%;
   background: url('../../public/images/dialog_background.png'), var(--dark-08);
   border-left: 1px solid var(--flashy);

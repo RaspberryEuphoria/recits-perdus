@@ -18,14 +18,19 @@ type User = {
 };
 
 export function Layout(props: LayoutProps) {
-  const [currentUser] = useLocalStorage<User>('currentUser');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentUser, _, clearValue] = useLocalStorage<User>('currentUser');
+
+  const logout = () => {
+    clearValue();
+  };
 
   return (
     <>
       <header className={styles.header}>
         <Image src="/images/logo.png" alt="Gizka" width={354} height={118} quality={100} />
         {currentUser && (
-          <span>
+          <span onClick={logout}>
             Bienvenue, <strong>{currentUser.name}</strong>
           </span>
         )}
@@ -49,7 +54,7 @@ export function Layout(props: LayoutProps) {
 
 export function LayoutMainSection(props: LayoutProps) {
   return (
-    <section className={styles.mainSection}>
+    <section className={[styles.mainSection, styles.scroller].join(' ')}>
       {props.breadcrumb && (
         <nav className={styles.breadcrumb}>
           {props.breadcrumb.map((item, index) => {
