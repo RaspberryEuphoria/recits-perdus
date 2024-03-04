@@ -2,7 +2,7 @@
   "name": "holocron",
   "version": "1.0.0",
   "description": "API for Récits Perdus",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.ts",
@@ -12,7 +12,9 @@
     "db:regenerate": "npx prisma migrate reset --force && yarn db:seed",
     "db:seed": "npx ts-node prisma/seed.ts",
     "db:migrate": "npx prisma migrate dev",
-    "db:migrate:create": "npx prisma migrate dev --create-only"
+    "db:migrate:create": "npx prisma migrate dev --create-only",
+    "tsc": "tsc",
+    "start:prod": "node src/index.js"
   },
   "dependencies": {
     "@prisma/client": "5",
