@@ -1,3 +1,4 @@
+import { Keyword } from '@/components/DesignSystem/Keyword';
 import { movesNames } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 
@@ -17,7 +18,7 @@ export function PayerLePrixOutcome(props: MoveOutcomeProps) {
           {character.firstName}
         </Styled.CharacterName>
         &nbsp; doit&nbsp;
-        <Styled.MoveName>{movesNames(move.moveId)}</Styled.MoveName>&nbsp;!
+        <Keyword stat="move">{movesNames(move.moveId)}</Keyword>&nbsp;!
       </p>
       <p>
         <ScoreToOutcome character={character} score={score} />
@@ -73,23 +74,22 @@ function ScoreToOutcome({ character, score }: { character: Character; score: num
   if (score >= 51 && score <= 59) {
     return (
       <>
-        Le danger désavantage <CharacterName /> (<Styled.Stat stat="momentum">-1</Styled.Stat>{' '}
-        élan).
+        Le danger désavantage <CharacterName /> (<Keyword stat="momentum">-1</Keyword> élan).
       </>
     );
   }
   if (score >= 60 && score <= 68) {
     return (
       <>
-        Le danger blesse une blessure à <CharacterName /> (
-        <Styled.Stat stat="health">-1</Styled.Stat> santé).
+        Le danger blesse une blessure à <CharacterName /> (<Keyword stat="health">-1</Keyword>{' '}
+        santé).
       </>
     );
   }
   if (score >= 69 && score <= 77) {
     return (
       <>
-        Le danger inflige du stress à <CharacterName /> (<Styled.Stat stat="spirit">-1</Styled.Stat>{' '}
+        Le danger inflige du stress à <CharacterName /> (<Keyword stat="spirit">-1</Keyword>{' '}
         esprit).
       </>
     );
@@ -97,8 +97,8 @@ function ScoreToOutcome({ character, score }: { character: Character; score: num
   if (score >= 78 && score <= 86) {
     return (
       <>
-        Le danger a des effets sur les ressources du groupe (
-        <Styled.Stat stat="supplies">-1</Styled.Stat> provisions).
+        Le danger a des effets sur les ressources du groupe (<Keyword stat="supplies">-1</Keyword>{' '}
+        provisions).
       </>
     );
   }

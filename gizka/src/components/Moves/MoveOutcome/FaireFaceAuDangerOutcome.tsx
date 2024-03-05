@@ -1,3 +1,4 @@
+import { Keyword } from '@/components/DesignSystem/Keyword';
 import { movesNames, skillWordings, statFrToEn } from '@/utils/scenario/helpers';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
@@ -41,7 +42,7 @@ export function FaireFaceAuDangerOutcome(props: MoveOutcomeProps) {
           {character.firstName}
         </Styled.CharacterName>
         &nbsp;se prépare à&nbsp;
-        <Styled.MoveName>{movesNames(move.moveId)}</Styled.MoveName>&nbsp;!
+        <Keyword stat="move">{movesNames(move.moveId)}</Keyword>&nbsp;!
       </p>
       <Styled.MoveResult>
         <Styled.MoveScore
@@ -68,7 +69,7 @@ function Success({ character, move }: MoveOutcomeProps) {
       Faisant preuve {skillWordings[move.skill.name].partitif}
       {move.skill.name.toLowerCase()} à toute épreuve,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      parvient à maîtriser la situation (<Styled.Stat stat="momentum">+1</Styled.Stat> élan).
+      parvient à maîtriser la situation (<Keyword stat="momentum">+1</Keyword> élan).
     </p>
   );
 }
@@ -81,7 +82,7 @@ function Mixed({ character, move }: MoveOutcomeProps) {
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
       ne manque pas de {move.skill.name.toLowerCase()} mais n&apos;a pas le contrôle de la situation
-      et fait face à des complications (<Styled.Stat stat={statFrToEn(stat)}>-1</Styled.Stat> {stat}
+      et fait face à des complications (<Keyword stat={statFrToEn(stat)}>-1</Keyword> {stat}
       ).
     </p>
   );

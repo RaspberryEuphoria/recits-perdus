@@ -71,7 +71,9 @@ export function DialogThread({
 
     socket.emit('post-new-dialog', newDialog);
 
-    if (currentMove) socket.emit('post-new-move');
+    console.log(dialog.action.move);
+
+    if (dialog.action.move) socket.emit('post-new-move');
     if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
 
     setCurrentDialog('');
@@ -86,6 +88,9 @@ export function DialogThread({
     socket = io();
     socket.on('receive-new-dialog', async (newDialog) => {
       setDialogs((dialogs) => [...dialogs, newDialog]);
+
+      console.log('newDialog');
+      console.log(newDialog);
 
       if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
       if (newDialog.move) socket.emit('post-new-move');

@@ -19,6 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       });
 
       socket.on('post-new-move', () => {
+        console.log('emit receive-new-move');
         socket.broadcast.emit('receive-new-move');
       });
     });

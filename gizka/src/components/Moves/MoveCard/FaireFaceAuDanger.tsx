@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { Keyword } from '@/components/DesignSystem/Keyword';
 import D6Icon from '@/public/images/icons/d6.svg';
 import HealthIcon from '@/public/images/icons/health.svg';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
 import SpiritIcon from '@/public/images/icons/spirit.svg';
 import SuppliesIcon from '@/public/images/icons/supplies.svg';
+import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
 import { Skill, Stat } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
@@ -22,21 +24,37 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
     return () => {
       onPick(null);
     };
-  }, [attribute, danger, id, onPick]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attribute, danger, id]);
 
   return (
     <Styled.MoveCard>
       <div>
         <h1>
-          {title}
+          <Keyword stat="move">{title}</Keyword>
           <Styled.CloseButton onClick={onClose}>Annuler &#8617;</Styled.CloseButton>
         </h1>
         <p>
           Lorsque vous essayez <strong>quelque chose de risqué</strong> ou réagissez à{' '}
           <strong>une menace immédiate</strong>, décrivez votre action et lancez des dés.{' '}
-          <Styled.Prompt>Comment agissez-vous ?</Styled.Prompt>
         </p>
 
+        <p>
+          En cas de <strong>succès total</strong>, vous réussissez. Recevez{' '}
+          <Keyword stat="momentum">+1</Keyword> élan.
+        </p>
+        <p>
+          En cas de <strong>succès partiel</strong>, vous réussissez, mais avec une complication.{' '}
+        </p>
+        <p>
+          En cas d&apos;<strong>échec</strong>, vous échouez, ou votre progression subit un
+          retournement dramatique. Vous devez <Keyword stat="move">Payer le Prix</Keyword>.
+        </p>
+
+        <Styled.Prompt>
+          <UnkownDieIcon />
+          Comment agissez-vous ?
+        </Styled.Prompt>
         <ul>
           <li>
             Avec rapidité, agilité ou précision :{' '}
@@ -84,14 +102,10 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
             </Styled.ClickToRoll>
           </li>
         </ul>
-        <p>
-          En cas de <strong>succès total</strong>, vous réussissez. Recevez <strong>+1</strong>{' '}
-          élan.
-        </p>
-        <p>
-          En cas de <strong>succès partiel</strong>, vous réussissez, mais avec une complication.{' '}
-          <Styled.Prompt>Qu&apos;êtes vous prêt à perdre ?</Styled.Prompt>
-        </p>
+        <Styled.Prompt>
+          <UnkownDieIcon />
+          Qu&apos;êtes vous prêt à perdre ?
+        </Styled.Prompt>
         <ul>
           <li>
             Vous êtes ralenti, perdez l&apos;avantage, ou faites face à un danger supplémentaire :{' '}
@@ -134,10 +148,6 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
             </Styled.ClickToRoll>
           </li>
         </ul>
-        <p>
-          En cas d&apos;<strong>échec</strong>, vous échouez, ou votre progression subit un
-          retournement dramatique. Vous devez <em>Payer le Prix</em>.
-        </p>
       </div>
     </Styled.MoveCard>
   );

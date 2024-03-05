@@ -12,12 +12,6 @@ export const MoveOutcome = styled.div`
   position: relative;
 `;
 
-export const MoveName = styled.span`
-  color: var(--move);
-  font-style: italic;
-  text-shadow: var(--shadow);
-`;
-
 export const MoveResult = styled.div`
   align-items: center;
   display: flex;
@@ -79,12 +73,6 @@ export const ChallengeResult = styled.div<{ isSucces: boolean }>`
 export const CharacterName = styled.span<{ color: string }>`
   color: ${({ color }) => color};
   font-weight: bold;
-`;
-
-export const Stat = styled.span<{ stat: string }>`
-  color: var(--${(props) => props.stat});
-  font-weight: bold;
-  text-transform: lowercase;
 `;
 
 export const Move = styled.span`

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Media } from '@/utils/constants';
+
 type TextareaProps = {
   isOpen: boolean;
 };
@@ -28,7 +30,7 @@ export const GameSection = styled.div`
   flex-direction: column;
   gap: var(--space-1);
   align-items: flex-start;
-  width: 50vw;
+  width: 65vw;
   height: 100vw;
   overflow: auto;
   border: 1px solid var(--flashy);
@@ -36,6 +38,10 @@ export const GameSection = styled.div`
   border-bottom: 0;
   padding: 50px;
   font-family: 'Roboto';
+
+  @media (max-width: ${Media.lg}) {
+    width: 80%;
+  }
 `;
 
 export const Slots = styled.div`

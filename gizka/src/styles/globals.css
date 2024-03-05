@@ -40,7 +40,7 @@
   --skill: #368ef2;
   --health: #f23636;
   --spirit: #24fae8;
-  --momentum: #fed168;
+  --momentum: #8c60dd;
   --supplies: #a1faa1;
 
   --bonus: #87d16c;
@@ -50,7 +50,10 @@
 
   --rounded: 0.258rem;
 
-  --media-md: 1200px;
+  --media-sm: 600px;
+  --media-md: 960px;
+  --media-lg: 1280px;
+  --media-xl: 1920px;
 
   --shadow: 2px 2px 2px var(--dark);
 }

@@ -8,7 +8,6 @@ type Post = {
   isGameMaster: boolean;
   turn: number;
 
-  moveId: string | null;
   dices?: Array<Dice>;
   // skill?: Skill;
 };

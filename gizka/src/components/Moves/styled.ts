@@ -19,12 +19,7 @@ export const MoveItem = styled.div`
   min-height: var(--space-2);
   font-weight: bold;
 
-  &:last-child {
-    /* border-bottom: none; */
-  }
-
   &:hover {
-    /* background: var(--flashy); */
     color: var(--flashy);
     border-color: var(--flashy);
   }

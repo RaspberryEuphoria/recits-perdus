@@ -18,6 +18,8 @@ export const MoveCard = styled.div`
     font-size: 1.5rem;
     justify-content: space-between;
     font-weight: bold;
+    margin-bottom: var(--space-1);
+    padding-left: var(--space-1);
   }
 
   ul,
@@ -44,14 +46,19 @@ export const CloseButton = styled.span`
   font-size: 0.8rem;
 `;
 
-export const Prompt = styled.span`
+export const Prompt = styled.div`
+  align-items: center;
   color: var(--flashy);
-  display: inline-block;
+  display: flex;
   font-style: italic;
+  gap: var(--space-05);
+  margin-top: 1rem;
   text-shadow: var(--shadow);
 
-  &::before {
-    content: '❗ ';
+  svg {
+    fill: currentColor;
+    height: 30px;
+    width: 30px;
   }
 `;
 

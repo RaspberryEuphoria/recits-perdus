@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/DesignSystem/Button';
 import { Moves } from '@/components/Moves';
@@ -61,9 +61,12 @@ export function DialogTextarea({
     closeTextarea();
   };
 
-  const onMovePicked = (move: Move | null) => {
-    handleMoveChange(move);
-  };
+  const onMovePicked = useCallback(
+    (move: Move | null) => {
+      handleMoveChange(move);
+    },
+    [handleMoveChange],
+  );
 
   useEffect(() => {
     if (isOpen) {

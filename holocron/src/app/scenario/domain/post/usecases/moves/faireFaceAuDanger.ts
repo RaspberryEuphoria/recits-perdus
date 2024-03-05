@@ -3,7 +3,7 @@ import { PostRepository } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
 import { createRoll } from '../../../../scenario.utils';
-import { Dice, DiceType, Move, MoveResult, Moves, Stat } from '../../entities/post';
+import { Dice, DiceType, Move, MoveResult, Moves, Post, Stat } from '../../entities/post';
 import { useMove } from '.';
 
 type MoveProps = {
@@ -92,15 +92,17 @@ export function faireFaceAuDanger(
       isResolved: true,
     });
 
-    await useMove(
+    const payThePriceMove = { id: Moves.PAYER_LE_PRIX, meta: { origin: 'previous_move' } };
+
+    return await useMove(
       postRepository,
       scenarioRepository,
       skillRepository,
       characterRepository,
-    )({ id: Moves.PAYER_LE_PRIX, meta: { origin: 'previous_move' } }, postId);
+    )(payThePriceMove, postId);
   }
 
-  return async (postId: number, move: Move) => {
+  return async (postId: number, move: Move): Promise<Post> => {
     if (!move.meta) {
       throw new Error(`Move ${move.id} meta not found`);
     }
@@ -169,6 +171,8 @@ export function faireFaceAuDanger(
     } else if (moveResult === MoveResult.FAILURE) {
       return onFailure(newMove);
     }
+
+    throw new Error(`Invalid move result: ${moveResult}`);
   };
 }
 

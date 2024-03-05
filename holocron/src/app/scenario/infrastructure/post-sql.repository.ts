@@ -65,6 +65,14 @@ export class PostRepository {
       where: {
         id: postId,
       },
+      include: {
+        moves: {
+          include: {
+            dices: true,
+            skill: true,
+          },
+        },
+      },
       data: {
         moves: {
           create: {
