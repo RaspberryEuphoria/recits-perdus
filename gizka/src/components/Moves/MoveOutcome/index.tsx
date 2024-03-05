@@ -1,19 +1,20 @@
 import { Character } from '@/utils/types/character';
-import { MoveResult, Skill } from '@/utils/types/scenario';
+import { Move, Moves } from '@/utils/types/scenario';
 
 import { FaireFaceAuDangerOutcome } from './FaireFaceAuDangerOutcome';
+import { PayerLePrixOutcome } from './PayerLePrixOutcome';
 
 export type MoveOutcomeProps = {
-  id: string;
-  result: MoveResult;
+  move: Move;
   character: Character;
-  skillName: Skill;
 };
 
 export function MoveOutcome(props: MoveOutcomeProps) {
-  switch (props.id) {
-    case 'FAIRE_FACE_AU_DANGER':
+  switch (props.move.moveId) {
+    case Moves.FAIRE_FACE_AU_DANGER:
       return <FaireFaceAuDangerOutcome {...props} />;
+    case Moves.PAYER_LE_PRIX:
+      return <PayerLePrixOutcome {...props} />;
     default:
       return null;
   }

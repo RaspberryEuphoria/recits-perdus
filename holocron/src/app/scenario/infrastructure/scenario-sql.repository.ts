@@ -7,9 +7,12 @@ type FullScenario = Prisma.ScenarioGetPayload<{
     posts: {
       include: {
         character: true;
-        skill: true;
-        moveId: true;
-        dices: true;
+        moves: {
+          include: {
+            skill: true;
+            dices: true;
+          };
+        };
       };
     };
     characters: {
@@ -54,9 +57,12 @@ export class ScenarioRepository {
         posts: {
           include: {
             character: true,
-            skill: true,
-            dices: true,
-            // moveId: true,
+            moves: {
+              include: {
+                skill: true,
+                dices: true,
+              },
+            },
           },
         },
         characters: {
@@ -77,7 +83,7 @@ export class ScenarioRepository {
       },
     });
 
-    return scenarios.map(this.mapScenario);
+    return scenarios.map(mapScenario);
   }
 
   async getById(id: number) {
@@ -89,8 +95,12 @@ export class ScenarioRepository {
         posts: {
           include: {
             character: true,
-            skill: true,
-            dices: true,
+            moves: {
+              include: {
+                skill: true,
+                dices: true,
+              },
+            },
           },
         },
         characters: {
@@ -120,7 +130,7 @@ export class ScenarioRepository {
       return null;
     }
 
-    return this.mapScenario(scenario);
+    return mapScenario(scenario);
   }
 
   async create(scenario: CreateScenarioDto) {
@@ -138,32 +148,53 @@ export class ScenarioRepository {
     });
   }
 
-  private mapScenario(scenario: FullScenario) {
-    return {
-      ...scenario,
-      // Merge character without relation table "CharactersOnScenarios" fields
-      characters: scenario.characters.map(({ textColor, health, spirit, momentum, character }) => ({
-        ...character,
-        skills: character.skills
-          ? character.skills.map((characterSkill) => ({
-              ...characterSkill,
-              name: characterSkill.skill.name,
-            }))
-          : [],
-        textColor,
-        health,
-        spirit,
-        momentum,
-      })),
-      posts: scenario.posts.map((post) => ({
-        ...post,
-        // characterSkill: post.characterSkill
-        //   ? {
-        //       ...post.characterSkill,
-        //       name: post.characterSkill.skill.name,
-        //     }
-        //   : null,
-      })),
-    };
+  async addSupplies(id: number, supplies: number) {
+    return this.changeSupplies(id, supplies);
   }
+
+  async removeSupplies(id: number, supplies: number) {
+    return this.changeSupplies(id, -supplies);
+  }
+
+  async changeSupplies(id: number, supplies: number) {
+    return this.db.scenario.update({
+      where: {
+        id,
+      },
+      data: {
+        supplies: {
+          increment: supplies,
+        },
+      },
+    });
+  }
+}
+
+function mapScenario(scenario: FullScenario) {
+  return {
+    ...scenario,
+    // Merge character without relation table "CharactersOnScenarios" fields
+    characters: scenario.characters.map(({ textColor, health, spirit, momentum, character }) => ({
+      ...character,
+      skills: character.skills
+        ? character.skills.map((characterSkill) => ({
+            ...characterSkill,
+            name: characterSkill.skill.name,
+          }))
+        : [],
+      textColor,
+      health,
+      spirit,
+      momentum,
+    })),
+    posts: scenario.posts.map((post) => ({
+      ...post,
+      // characterSkill: post.characterSkill
+      //   ? {
+      //       ...post.characterSkill,
+      //       name: post.characterSkill.skill.name,
+      //     }
+      //   : null,
+    })),
+  };
 }

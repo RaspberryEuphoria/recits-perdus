@@ -19,10 +19,6 @@ export default async function handler(
 
   if (req.method === 'GET') {
     const scenario = await httpClient.get<Scenario>(`/scenario/${id}`);
-    // console.log('Dices ===');
-    // console.log(JSON.stringify(scenario.posts[0].dices, null, 4));
-    // console.log(JSON.stringify(scenario.posts[0].moveId, null, 4));
-    // console.log(JSON.stringify(scenario.posts[0], null, 4));
     res.status(200).json(scenario);
   }
 }

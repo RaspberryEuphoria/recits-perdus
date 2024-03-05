@@ -22,6 +22,7 @@ type Dice = {
 export enum DiceType {
   CHALLENGE = 'CHALLENGE',
   ACTION = 'ACTION',
+  PRICE = 'PRICE',
 }
 
 type CreatePostDto = {
@@ -33,18 +34,30 @@ type CreatePostDto = {
   skillValue?: number;
   skillId?: number;
   moveId?: Moves;
-  move?: Move;
+  action?: {
+    move: Move;
+  };
   dices?: Array<Dice>;
 };
 
 export enum Moves {
   FAIRE_FACE_AU_DANGER = 'FAIRE_FACE_AU_DANGER',
+  PAYER_LE_PRIX = 'PAYER_LE_PRIX',
 }
 
 type Move = {
   id: string;
-  meta: Record<string, string>;
+  meta: MoveMeta;
 };
+
+type MoveMeta = Record<string, any>;
+
+enum Stat {
+  MOMENTUM = 'Élan',
+  HEALTH = 'Santé',
+  SPIRIT = 'Esprit',
+  SUPPLIES = 'Provisions',
+}
 
 enum MoveResult {
   SUCCESS = 'SUCCESS',
@@ -52,4 +65,4 @@ enum MoveResult {
   FAILURE = 'FAILURE',
 }
 
-export { CreatePostDto, Dice, Move, MoveResult, Post };
+export { CreatePostDto, Dice, Move, MoveResult, Post, Stat };

@@ -2,18 +2,15 @@ import { MoveOutcome } from '@/components/Moves/MoveOutcome';
 import { getFullName } from '@/utils/character/helpers';
 import { TextColor } from '@/utils/constants';
 import { formatPostContent } from '@/utils/scenario/helpers';
-import { Character, CharacterSkill } from '@/utils/types/character';
-import { Dice, DiceType, MoveResult } from '@/utils/types/scenario';
+import { Character } from '@/utils/types/character';
+import { Move } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
 
 type DialogPostProps = {
   character?: Character;
   content: string;
-  moveId?: string;
-  dices?: Array<Dice>;
-  skill?: CharacterSkill;
-  skillValue?: number;
+  moves?: Array<Move>;
   isGameMaster?: boolean;
   onMouseEnter?: (character: Character) => void;
   onMouseLeave?: (character: Character) => void;
@@ -22,10 +19,7 @@ type DialogPostProps = {
 export function DialogPost({
   character,
   content,
-  moveId,
-  dices,
-  skill,
-  skillValue,
+  moves,
   isGameMaster,
   onMouseEnter,
   onMouseLeave,
@@ -75,93 +69,20 @@ export function DialogPost({
         dangerouslySetInnerHTML={{ __html: formatPostContent(content) }}
         color={textColor}
       />
-      {dices && skill && moveId && skillValue && (
-        <DialogMove
-          character={character}
-          dices={dices}
-          skill={skill}
-          skillValue={skillValue}
-          moveId={moveId}
-        />
-      )}
+      {moves && moves.map((move) => <DialogMove key={move.id} character={character} move={move} />)}
     </Styled.DialogPost>
   );
 }
 
-function DialogMove({
-  character,
-  dices,
-  skill,
-  skillValue,
-  moveId,
-}: {
+type DialogMoveProps = {
   character: Character;
-  dices: Array<Dice>;
-  skill: CharacterSkill;
-  skillValue: number;
-  moveId: string;
-}) {
-  const actionDie = dices.find((dice) => dice.type === DiceType.ACTION);
+  move: Move;
+};
 
-  if (!actionDie) {
-    throw new Error('Action die not found');
-  }
-
-  const challengeDices = dices.filter((dice) => dice.type === DiceType.CHALLENGE);
-
-  const score = actionDie.value + skillValue;
-  const result = getDicesResult(score, challengeDices);
-
+function DialogMove({ character, move }: DialogMoveProps) {
   return (
     <Styled.DialogMove>
-      <p>
-        <Styled.CharacterName color={character.textColor}>
-          {character.firstName}
-        </Styled.CharacterName>
-        &nbsp;se prépare à&nbsp;
-        <Styled.MoveName>{getMoveById(moveId)}</Styled.MoveName>&nbsp;!
-      </p>
-      <Styled.MoveResult>
-        <Styled.MoveScore
-          title={`Dé d'action (${actionDie.value}) + attribut ${skill.name} (${skillValue})`}
-          color={character.textColor}
-        >
-          {score}
-        </Styled.MoveScore>
-        {challengeDices.map((dice) => (
-          <Styled.ChallengeDie key={dice.id}>
-            {dice.value}
-            <Styled.ChallengeResult isSucces={dice.value < score} />
-          </Styled.ChallengeDie>
-        ))}
-      </Styled.MoveResult>
-      <MoveOutcome id={moveId} result={result} character={character} skillName={skill.name} />
+      <MoveOutcome move={move} character={character} />
     </Styled.DialogMove>
   );
-}
-
-function getDicesResult(score: number, challengeDices: Array<Dice>) {
-  if (challengeDices.every((dice) => dice.value >= score)) {
-    return MoveResult.FAILURE;
-  }
-
-  if (challengeDices.some((dice) => dice.value >= score)) {
-    return MoveResult.MIXED;
-  }
-
-  if (challengeDices.every((dice) => dice.value < score)) {
-    return MoveResult.SUCCESS;
-  }
-
-  throw new Error(`Invalid dices result! ${JSON.stringify({ score, challengeDices }, null, 4)}`);
-}
-
-function getMoveById(moveId: string) {
-  const moves: Record<string, string> = {
-    FAIRE_FACE_AU_DANGER: 'Faire Face au Danger',
-  };
-
-  if (!moves[moveId]) throw new Error(`Move with id ${moveId} not found`);
-
-  return moves[moveId];
 }

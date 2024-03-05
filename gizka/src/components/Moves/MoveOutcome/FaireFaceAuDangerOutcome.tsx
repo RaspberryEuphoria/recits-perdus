@@ -1,14 +1,28 @@
-import { skillWordings } from '@/utils/scenario/helpers';
-import { MoveResult } from '@/utils/types/scenario';
+import { movesNames, skillWordings, statFrToEn } from '@/utils/scenario/helpers';
+import { DiceType, MoveResult } from '@/utils/types/scenario';
 
 import { MoveOutcomeProps } from '.';
 import * as Styled from './styled';
 
-export type FaireFaceAuDangerOutcomeProps = Pick<MoveOutcomeProps, 'character'>;
-
 export function FaireFaceAuDangerOutcome(props: MoveOutcomeProps) {
+  const { character, move } = props;
+  const {
+    dices,
+    skillValue,
+    skill: { name: skillName },
+  } = move;
+
+  const actionDie = dices.find((dice) => dice.type === DiceType.ACTION);
+  const challengeDices = dices.filter((dice) => dice.type === DiceType.CHALLENGE);
+
+  if (!actionDie) {
+    return <p>Oups ! Il y a un problème avec les dés !</p>;
+  }
+
+  const score = actionDie.value + skillValue;
+
   const Outcome = (props: MoveOutcomeProps) => {
-    switch (props.result) {
+    switch (props.move.moveResult) {
       case MoveResult.SUCCESS:
         return <Success {...props} />;
       case MoveResult.MIXED:
@@ -22,28 +36,64 @@ export function FaireFaceAuDangerOutcome(props: MoveOutcomeProps) {
 
   return (
     <Styled.MoveOutcome>
+      <p>
+        <Styled.CharacterName color={character.textColor}>
+          {character.firstName}
+        </Styled.CharacterName>
+        &nbsp;se prépare à&nbsp;
+        <Styled.MoveName>{movesNames(move.moveId)}</Styled.MoveName>&nbsp;!
+      </p>
+      <Styled.MoveResult>
+        <Styled.MoveScore
+          title={`Dé d'action (${actionDie.value}) + attribut ${skillName} (${skillValue})`}
+          color={character.textColor}
+        >
+          {score}
+        </Styled.MoveScore>
+        {challengeDices.map((dice) => (
+          <Styled.ChallengeDie key={dice.id}>
+            {dice.value}
+            <Styled.ChallengeResult isSucces={dice.value < score} />
+          </Styled.ChallengeDie>
+        ))}
+      </Styled.MoveResult>
       <Outcome {...props} />
     </Styled.MoveOutcome>
   );
 }
 
-function Success({ character, skillName }: MoveOutcomeProps) {
+function Success({ character, move }: MoveOutcomeProps) {
   return (
-    <div>
-      Faisant preuve {skillWordings[skillName].partitif}
-      {skillName.toLowerCase()} à toute épreuve,{' '}
+    <p>
+      Faisant preuve {skillWordings[move.skill.name].partitif}
+      {move.skill.name.toLowerCase()} à toute épreuve,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      parvient à maîtriser la situation (<Styled.MomentumBonus>+1</Styled.MomentumBonus> élan).
-    </div>
+      parvient à maîtriser la situation (<Styled.Stat stat="momentum">+1</Styled.Stat> élan).
+    </p>
   );
 }
 
-function Mixed({ character }: MoveOutcomeProps) {
-  // console.log(character);
-  return <div>Mixed</div>;
+function Mixed({ character, move }: MoveOutcomeProps) {
+  const meta = JSON.parse(move.meta);
+  const stat = meta.danger.toLowerCase();
+
+  return (
+    <p>
+      <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
+      ne manque pas de {move.skill.name.toLowerCase()} mais n&apos;a pas le contrôle de la situation
+      et fait face à des complications (<Styled.Stat stat={statFrToEn(stat)}>-1</Styled.Stat> {stat}
+      ).
+    </p>
+  );
 }
 
-function Failure({ character }: MoveOutcomeProps) {
-  // console.log(character);
-  return <div>Failure</div>;
+function Failure({ character, move }: MoveOutcomeProps) {
+  return (
+    <p>
+      Malgré {skillWordings[move.skill.name].possessif}
+      {move.skill.name.toLowerCase()},{' '}
+      <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
+      se retrouve dans une situation périlleuse !
+    </p>
+  );
 }

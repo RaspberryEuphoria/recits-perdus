@@ -11,9 +11,10 @@
     "prisma:generate": "npx prisma generate",
     "db:regenerate": "npx prisma migrate reset --force && yarn db:seed",
     "db:seed": "npx ts-node prisma/seed.ts",
-    "db:migrate": "npx prisma migrate dev",
+    "db:migrate:dev": "npx prisma migrate dev",
     "db:migrate:create": "npx prisma migrate dev --create-only",
-    "tsc": "tsc",
+    "db:migrate:prod": "npx prisma migrate deploy",
+    "build": "tsc",
     "start:prod": "node src/index.js"
   },
   "dependencies": {

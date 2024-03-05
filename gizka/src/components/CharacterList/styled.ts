@@ -1,6 +1,6 @@
-import { Media } from '@/utils/constants';
-
 import styled from 'styled-components';
+
+import { Media } from '@/utils/constants';
 
 export const CharacterList = styled.div`
   display: flex;

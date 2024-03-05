@@ -34,7 +34,7 @@ model Skill {
   name        String               @db.VarChar(255)
   description String
   skill       SkillsOnCharacters[]
-  posts       Post[]
+  moves       MovesOnPosts[]
 }
 
 model SkillsOnCharacters {
@@ -79,20 +79,30 @@ model Post {
   characterId  Int
   isGameMaster Boolean        @default(false)
   turn         Int
-  skillValue   Int?
-  skillId      Int?
-  skill        Skill?          @relation(fields: [skillId], references: [id])
-  moveId       String?        @db.VarChar(255)
-  dices        DicesOnPosts[]
+  moves        MovesOnPosts[]
   character    Character      @relation(fields: [characterId], references: [id])
   scenario     Scenario       @relation(fields: [scenarioId], references: [id])
 }
 
-model DicesOnPosts {
-  id     Int      @id @default(autoincrement())
+model MovesOnPosts {
+  id         Int            @id @default(autoincrement())
+  moveId     String
+  moveResult MoveResult
+  isResolved Boolean
+  postId     Int
+  post       Post           @relation(fields: [postId], references: [id])
+  skillValue Int?
+  skillId    Int?
+  skill      Skill?         @relation(fields: [skillId], references: [id])
+  dices      DicesOnMoves[]
+  meta       Json
+}
+
+model DicesOnMoves {
+  id     Int          @id @default(autoincrement())
   value  Int
-  postId Int
-  post   Post     @relation(fields: [postId], references: [id])
+  moveId Int
+  move   MovesOnPosts @relation(fields: [moveId], references: [id])
   type   DiceType
 }
 
@@ -106,4 +116,11 @@ enum ScenarioStatus {
 enum DiceType {
   ACTION
   CHALLENGE
+  PRICE
+}
+
+enum MoveResult {
+  SUCCESS
+  MIXED
+  FAILURE
 }

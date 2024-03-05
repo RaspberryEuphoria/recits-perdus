@@ -27,11 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   if (req.method === 'POST') {
-    const { characterId, content, move } = body;
+    const { characterId, content, action } = body;
     const dialog = await httpClient.post<Post>(`/scenario/${scenarioId}/post`, {
       content,
       characterId,
-      move,
+      action,
     });
 
     res.status(200).json(dialog);

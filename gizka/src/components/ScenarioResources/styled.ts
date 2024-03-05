@@ -1,6 +1,6 @@
-import { Media } from '@/utils/constants';
-
 import styled from 'styled-components';
+
+import { Media } from '@/utils/constants';
 
 export const ScenarioResources = styled.div`
   align-items: center;

@@ -14,7 +14,6 @@ export type Post = {
   scenarioId: number;
   character: Character;
   characterId: number;
-  dice?: Array<Dice>;
   characterSkill?: CharacterSkill;
   nextPoster?: Character;
   turn: number;
@@ -35,6 +34,22 @@ type Scenario = {
   supplies: number;
 };
 
+export type Move = {
+  id: number;
+  moveId: Moves;
+  skill: CharacterSkill;
+  skillId: number;
+  skillValue: number;
+  dices: Dice[];
+  moveResult: MoveResult;
+  meta: string;
+};
+
+export enum Moves {
+  FAIRE_FACE_AU_DANGER = 'FAIRE_FACE_AU_DANGER',
+  PAYER_LE_PRIX = 'PAYER_LE_PRIX',
+}
+
 export type Dice = {
   id: number;
   value: number;
@@ -44,6 +59,7 @@ export type Dice = {
 export enum DiceType {
   ACTION = 'ACTION',
   CHALLENGE = 'CHALLENGE',
+  PRICE = 'PRICE',
 }
 
 export enum MoveResult {
@@ -58,6 +74,13 @@ export enum Skill {
   TENACITE = 'Ténacité',
   SUBTERFUGE = 'Subterfuge',
   INTUITION = 'Intuition',
+}
+
+export enum Stat {
+  MOMENTUM = 'Élan',
+  HEALTH = 'Santé',
+  SPIRIT = 'Esprit',
+  SUPPLIES = 'Provisions',
 }
 
 export { type Scenario, ScenarioStatus };

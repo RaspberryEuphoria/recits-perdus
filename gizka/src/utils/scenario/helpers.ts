@@ -1,6 +1,6 @@
 import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { Post, Scenario, Skill } from '@/utils/types/scenario';
+import { Moves, Post, Scenario, Skill } from '@/utils/types/scenario';
 
 export function generateIntroduction(scenario: Scenario) {
   const tokens = ['{{characters}}'];
@@ -65,25 +65,68 @@ export const skillWordings = {
     defini: 'la ',
     indefini: 'une ',
     partitif: 'de ',
+    possessif: 'sa ',
   },
   [Skill.DETERMINATION]: {
     defini: 'la ',
     indefini: 'une ',
     partitif: 'de ',
+    possessif: 'sa ',
   },
   [Skill.TENACITE]: {
     defini: 'la ',
     indefini: 'une ',
     partitif: 'de ',
+    possessif: 'sa ',
   },
   [Skill.SUBTERFUGE]: {
     defini: 'le ',
     indefini: 'un ',
     partitif: 'de ',
+    possessif: 'son ',
   },
   [Skill.INTUITION]: {
     defini: 'l’',
     indefini: 'une ',
     partitif: 'd’',
+    possessif: 'son ',
   },
 };
+
+export function movesNames(moveId: string) {
+  const moves: Record<string, string> = {
+    [Moves.FAIRE_FACE_AU_DANGER]: 'Faire Face au Danger',
+    [Moves.PAYER_LE_PRIX]: 'Payer le Prix',
+  };
+
+  if (!moves[moveId]) throw new Error(`Move with id ${moveId} not found`);
+
+  return moves[moveId];
+}
+
+/** We're gonna need i18n and soon... */
+export function statEnToFr(stat: string) {
+  const stats: Record<string, string> = {
+    momentum: 'élan',
+    health: 'santé',
+    spirit: 'esprit',
+    supplies: 'provisions',
+  };
+
+  if (!stats[stat]) throw new Error(`Stat ${stat} not found`);
+
+  return stats[stat];
+}
+
+export function statFrToEn(stat: string) {
+  const stats: Record<string, string> = {
+    élan: 'momentum',
+    santé: 'health',
+    esprit: 'spirit',
+    provisions: 'supplies',
+  };
+
+  if (!stats[stat]) throw new Error(`Stat ${stat} not found`);
+
+  return stats[stat];
+}

@@ -20,24 +20,23 @@ const moves = [
 export function Moves({ onMovePicked }: MovesProps) {
   const [selectedMoveId, setSelectedMoveId] = useState<string | null>(null);
 
-  const handleMoveItemClick = (id: string) => {
-    onMovePicked({ id });
+  const openMoveCard = (id: string) => {
     setSelectedMoveId(id);
   };
 
-  const handleMoveCardClose = () => {
+  const closeMoveCard = () => {
     setSelectedMoveId(null);
     onMovePicked(null);
   };
 
   if (selectedMoveId) {
-    return <MoveCard id={selectedMoveId} onPick={onMovePicked} onClose={handleMoveCardClose} />;
+    return <MoveCard id={selectedMoveId} onPick={onMovePicked} onClose={closeMoveCard} />;
   }
 
   return (
     <Styled.MovesList>
       {moves.map((move) => (
-        <Styled.MoveItem key={move.id} onClick={() => handleMoveItemClick(move.id)}>
+        <Styled.MoveItem key={move.id} onClick={() => openMoveCard(move.id)}>
           {move.name}
         </Styled.MoveItem>
       ))}

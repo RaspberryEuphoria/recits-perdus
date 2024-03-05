@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { MAX_MOMENTUM } from '../../../rules';
+import { MAX_MOMENTUM, MIN_MOMENTUM } from '../../../rules';
 import { CreateCharacterDTO } from '../domain/character/entities/character';
 
 export class CharacterRepository {
@@ -19,7 +19,15 @@ export class CharacterRepository {
     });
   }
 
-  async addMomentum(characterId: number, scenarioId: number, momentum: number) {
+  async addHealth(characterId: number, scenarioId: number, health: number) {
+    return this.changeHealth(characterId, scenarioId, health);
+  }
+
+  async removeHealth(characterId: number, scenarioId: number, health: number) {
+    return this.changeHealth(characterId, scenarioId, -health);
+  }
+
+  async changeHealth(characterId: number, scenarioId: number, health: number) {
     const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
       where: {
         characterId,
@@ -31,11 +39,83 @@ export class CharacterRepository {
       throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
     }
 
-    if (characterOnScenario.momentum == MAX_MOMENTUM) {
-      console.log(
-        `Character ${characterId} has reached the maximum momentum of ${MAX_MOMENTUM}. Unable to add more.`,
-      );
+    if (characterOnScenario.health === 0) {
+      console.log(`Character ${characterId} already has 0 health`);
+      return characterOnScenario;
+    }
 
+    return this.db.charactersOnScenarios.update({
+      where: { id: characterOnScenario.id },
+      data: {
+        health: {
+          increment: health,
+        },
+      },
+    });
+  }
+
+  async addSpirit(characterId: number, scenarioId: number, spirit: number) {
+    return this.changeSpirit(characterId, scenarioId, spirit);
+  }
+
+  async removeSpirit(characterId: number, scenarioId: number, spirit: number) {
+    return this.changeSpirit(characterId, scenarioId, -spirit);
+  }
+
+  async changeSpirit(characterId: number, scenarioId: number, spirit: number) {
+    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
+      where: {
+        characterId,
+        scenarioId,
+      },
+    });
+
+    if (!characterOnScenario) {
+      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
+    }
+
+    if (characterOnScenario.spirit === 0) {
+      console.log(`Character ${characterId} already has 0 spirit`);
+      return characterOnScenario;
+    }
+
+    return this.db.charactersOnScenarios.update({
+      where: { id: characterOnScenario.id },
+      data: {
+        spirit: {
+          increment: spirit,
+        },
+      },
+    });
+  }
+
+  async addMomentum(characterId: number, scenarioId: number, momentum: number) {
+    return this.changeMomentum(characterId, scenarioId, momentum);
+  }
+
+  async removeMomentum(characterId: number, scenarioId: number, momentum: number) {
+    return this.changeMomentum(characterId, scenarioId, -momentum);
+  }
+
+  async changeMomentum(characterId: number, scenarioId: number, momentum: number) {
+    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
+      where: {
+        characterId,
+        scenarioId,
+      },
+    });
+
+    if (!characterOnScenario) {
+      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
+    }
+
+    if (characterOnScenario.momentum === MAX_MOMENTUM) {
+      console.log(`Character ${characterId} already has maximum momentum (${MAX_MOMENTUM})`);
+      return characterOnScenario;
+    }
+
+    if (characterOnScenario.momentum === MIN_MOMENTUM) {
+      console.log(`Character ${characterId} already has minimum momentum (${MIN_MOMENTUM})`);
       return characterOnScenario;
     }
 

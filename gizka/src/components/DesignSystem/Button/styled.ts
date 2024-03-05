@@ -34,7 +34,7 @@ export const Button = styled.button<{ width?: string; outline?: boolean }>`
 
   @keyframes pulse {
     0% {
-      box-shadow: 0 0 0 0 var(--flashy-alt);
+      box-shadow: 0 0 0 0 var(--flashy);
     }
   }
 `;

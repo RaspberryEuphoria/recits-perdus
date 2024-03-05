@@ -87,6 +87,7 @@ export default function EnCoursWithId({
   const [supplies, setSupplies] = useState<number>(initalSupplies);
 
   const socketInitializer = async () => {
+    console.log('[id] : socketInitializer');
     await httpBffClient.get('/socket');
 
     socket = io();
@@ -112,9 +113,7 @@ export default function EnCoursWithId({
     }
 
     return () => {
-      console.log('Unmounting page');
       if (socket && socket.connected) {
-        console.log('Disconnecting socket');
         socket.disconnect();
       }
     };

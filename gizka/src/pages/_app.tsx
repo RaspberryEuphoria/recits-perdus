@@ -7,9 +7,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Layout } from '@/components/Layout';
 
 export default function App({ Component, pageProps }: AppProps) {
-  console.log('pageProps');
-  console.log(pageProps);
-
   return (
     <DndProvider backend={HTML5Backend}>
       <Layout breadcrumb={[]} footer={pageProps.footer}>

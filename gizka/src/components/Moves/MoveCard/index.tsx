@@ -4,7 +4,7 @@ import { FaireFaceAuDanger } from './FaireFaceAuDanger';
 
 export type MoveCardProps = {
   id: string;
-  onPick: (move: Move) => void;
+  onPick: (move: Move | null) => void;
   onClose: () => void;
 };
 

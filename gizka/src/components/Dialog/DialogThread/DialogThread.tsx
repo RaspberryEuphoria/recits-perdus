@@ -38,7 +38,7 @@ export function DialogThread({
   const { id: scenarioId } = router.query;
   const [dialogs, setDialogs] = useState<Post[]>(initialDialogs);
   const [currentDialog, setCurrentDialog] = useState<string>();
-  const [currentMove, setCurrentMove] = useState<Move | null>();
+  const [currentMove, setCurrentMove] = useState<Move | null>(null);
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -57,7 +57,9 @@ export function DialogThread({
     const dialog = {
       characterId: nextPoster.id,
       content: currentDialog,
-      move: currentMove,
+      action: {
+        move: currentMove,
+      },
     };
 
     const id = (scenarioId as string).split('-')[0];
@@ -78,6 +80,7 @@ export function DialogThread({
   };
 
   const socketInitializer = async () => {
+    console.log('Dialog : socketInitializer');
     await httpBffClient.get('/socket');
 
     socket = io();
@@ -127,6 +130,7 @@ export function DialogThread({
           innerRef={textareaRef}
           value={currentDialog}
           asGameMaster={nextPostIsGameMaster}
+          move={currentMove}
         />
       )}
     </Styled.Wrapper>

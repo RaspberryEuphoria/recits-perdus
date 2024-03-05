@@ -17,6 +17,7 @@ type DialogTextareaProps = {
   nextPoster: Character;
   currentUserId: number;
   asGameMaster: boolean;
+  move: Move | null;
 };
 
 export type Move = {
@@ -33,11 +34,11 @@ export function DialogTextarea({
   nextPoster,
   currentUserId,
   asGameMaster,
+  move,
 }: DialogTextareaProps) {
   const isItMyTurn = currentUserId === nextPoster.userId;
   const maskRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [move, setMove] = useState<Move | null>(null);
   const currentLength = value?.length || 0;
 
   const openTextarea = () => {
@@ -55,14 +56,12 @@ export function DialogTextarea({
     }
   };
 
-  const handleButtonClick = () => {
+  const submit = () => {
     handlePost();
     closeTextarea();
-    setMove(null);
   };
 
   const onMovePicked = (move: Move | null) => {
-    setMove(move);
     handleMoveChange(move);
   };
 
@@ -97,7 +96,7 @@ export function DialogTextarea({
     );
   }
 
-  const isMoveValid = move ? move.meta : true;
+  const isMoveValid = move ? move?.meta?.isValid : true;
   const hasText = value;
   const isFormDisabled = !isMoveValid || !hasText || currentLength > MAX_LENGTH;
 
@@ -135,7 +134,7 @@ export function DialogTextarea({
           </Styled.Help>
 
           <Styled.TextareaBar>
-            <Button onClick={handleButtonClick} disabled={isFormDisabled}>
+            <Button onClick={submit} disabled={isFormDisabled}>
               C&apos;est parti !
             </Button>
             {currentLength > 0 && (

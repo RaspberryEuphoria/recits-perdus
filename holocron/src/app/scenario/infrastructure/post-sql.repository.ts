@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { CreatePostDto } from '../domain/post/entities/post';
+import { CreatePostDto, Dice, MoveResult } from '../domain/post/entities/post';
 
 export class PostRepository {
   private db: PrismaClient;
@@ -21,28 +21,6 @@ export class PostRepository {
     });
   }
 
-  async update(id: number, post: Partial<CreatePostDto>) {
-    const { dices } = post;
-
-    return this.db.post.update({
-      where: {
-        id,
-      },
-      data: {
-        ...post,
-        dices: {
-          createMany: {
-            data: dices || [],
-          },
-        },
-      },
-      include: {
-        dices: true,
-        skill: true,
-      },
-    });
-  }
-
   async getById(id: number) {
     const post = await this.db.post.findUnique({
       where: {
@@ -54,8 +32,6 @@ export class PostRepository {
             skills: true,
           },
         },
-        skill: true,
-        dices: true,
       },
     });
 
@@ -64,5 +40,48 @@ export class PostRepository {
     }
 
     return post;
+  }
+
+  async addMove({
+    postId,
+    skillId,
+    moveId,
+    moveResult,
+    isResolved,
+    skillValue,
+    dices,
+    meta,
+  }: {
+    postId: number;
+    skillId?: number;
+    skillValue?: number;
+    moveId: string;
+    moveResult: MoveResult;
+    isResolved: boolean;
+    dices: Dice[];
+    meta: Record<string, string | number>;
+  }) {
+    return this.db.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        moves: {
+          create: {
+            moveId,
+            skillId,
+            skillValue,
+            moveResult,
+            isResolved,
+            meta: JSON.stringify(meta),
+            dices: {
+              createMany: {
+                data: dices,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 }

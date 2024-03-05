@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 type ClickToRollProps = {
   isSelected: boolean;
+  variant?: 'attribute' | 'danger';
 };
 
 export const MoveCard = styled.div`
@@ -19,9 +20,17 @@ export const MoveCard = styled.div`
     font-weight: bold;
   }
 
+  ul,
+  ol {
+    margin: 1rem;
+  }
+
   ul {
     list-style: inside;
-    margin: 1rem;
+  }
+
+  ol {
+    list-style: lower-roman;
   }
 
   li {
@@ -35,11 +44,22 @@ export const CloseButton = styled.span`
   font-size: 0.8rem;
 `;
 
+export const Prompt = styled.span`
+  color: var(--flashy);
+  display: inline-block;
+  font-style: italic;
+  text-shadow: var(--shadow);
+
+  &::before {
+    content: '❗ ';
+  }
+`;
+
 export const ClickToRoll = styled.span<ClickToRollProps>`
   align-items: center;
   border-radius: var(--rounded);
-  border: 2px dashed var(--flashy);
-  color: var(--flashy);
+  border: 2px dashed var(--bonus);
+  color: var(--bonus);
   cursor: pointer;
   display: inline-flex;
   gap: var(--space-05);
@@ -54,24 +74,30 @@ export const ClickToRoll = styled.span<ClickToRollProps>`
   }
 
   &:hover {
-    color: var(--flashy-alt);
-    border-color: var(--flashy-alt);
+    border-style: solid;
 
     svg {
-      fill: var(--flashy-alt);
+      fill: currentColor;
     }
   }
 
   ${(props) => {
+    if (props.variant === 'danger') {
+      return `
+        color: var(--malus);
+        border-color: var(--malus);
+      `;
+    }
+  }}
+
+  ${(props) => {
     if (props.isSelected) {
       return `
-        color: var(--flashy-alt);
         background: var(--dark-05);
-        border-color: var(--flashy-alt);
         border-style: solid;
 
         svg {
-          fill: var(--flashy-alt);
+          fill: currentColor;
         }
       `;
     }
