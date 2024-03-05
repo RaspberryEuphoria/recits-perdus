@@ -54,29 +54,27 @@ export function DialogThread({
   const addPost = async () => {
     if (!currentDialog || !currentUser) return;
 
-    const newDialog = {
+    const dialog = {
       characterId: nextPoster.id,
       content: currentDialog,
       move: currentMove,
     };
 
     const id = (scenarioId as string).split('-')[0];
-    const dialog = await httpBffClient.post<Post>(`/scenario/${id}/post`, newDialog);
+    const newDialog = await httpBffClient.post<Post>(`/scenario/${id}/post`, dialog);
 
-    if (isHttpError(dialog)) {
-      throw new Error(`There was an error while adding a new dialog: ${dialog.message}`);
+    if (isHttpError(newDialog)) {
+      throw new Error(`There was an error while adding a new dialog: ${newDialog.message}`);
     }
-    socket.emit('post-new-dialog', dialog);
 
-    if (textareaRef?.current) {
-      textareaRef.current.value = '';
-    }
+    socket.emit('post-new-dialog', newDialog);
+
+    if (currentMove) socket.emit('post-new-move');
+    if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
 
     setCurrentDialog('');
-
-    if (dialog.nextPoster) {
-      setNextPoster(dialog.nextPoster);
-    }
+    setCurrentMove(null);
+    resetTextareaValue();
   };
 
   const socketInitializer = async () => {
@@ -86,16 +84,23 @@ export function DialogThread({
     socket.on('receive-new-dialog', async (newDialog) => {
       setDialogs((dialogs) => [...dialogs, newDialog]);
 
-      if (newDialog.nextPoster) {
-        setNextPoster(newDialog.nextPoster);
-      }
+      if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
+      if (newDialog.move) socket.emit('post-new-move');
 
       socket.off('receive-new-dialog');
     });
   };
 
+  const resetTextareaValue = () => {
+    if (textareaRef?.current) textareaRef.current.value = '';
+  };
+
   useEffect(() => {
-    if (!socket) socketInitializer();
+    if (!socket) {
+      socketInitializer();
+    } else if (socket.disconnected) {
+      socket.connect();
+    }
 
     return () => {
       if (socket && socket.connected) {

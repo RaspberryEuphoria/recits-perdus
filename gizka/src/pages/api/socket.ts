@@ -17,6 +17,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       socket.on('post-new-dialog', (newDialog) => {
         socket.broadcast.emit('receive-new-dialog', newDialog);
       });
+
+      socket.on('post-new-move', () => {
+        socket.broadcast.emit('receive-new-move');
+      });
     });
   }
 

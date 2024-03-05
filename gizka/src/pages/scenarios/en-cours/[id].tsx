@@ -1,4 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 
 import { CharacterList } from '@/components/CharacterList';
 import { DialogThread } from '@/components/Dialog/DialogThread';
@@ -56,24 +58,67 @@ export async function getServerSideProps(
       posts: scenario.posts,
       // @TODO: add a mapper in the API to return this directly?
       supplies: scenario.supplies,
-      characters: scenario.characters.reduce((acc, character) => {
-        acc[character.id] = character;
-        return acc;
-      }, {} as Record<string, Character>),
+      characters: mapScenarioCharacters(scenario.characters),
     },
   };
 }
 
+function mapScenarioCharacters(scenarioCharacters: Character[]) {
+  return scenarioCharacters.reduce((acc, character) => {
+    acc[character.id] = character;
+    return acc;
+  }, {} as Record<string, Character>);
+}
+
+let socket: Socket;
+
 export default function EnCoursWithId({
+  id,
   title,
   posts,
   introduction,
   nextPoster,
   nextPostIsGameMaster,
-  characters,
-  supplies,
+  characters: initalCharacters,
+  supplies: initalSupplies,
 }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
+  const [characters, setCharacters] = useState<Record<string, Character>>(initalCharacters);
+  const [supplies, setSupplies] = useState<number>(initalSupplies);
+
+  const socketInitializer = async () => {
+    await httpBffClient.get('/socket');
+
+    socket = io();
+    socket.on('receive-new-move', async () => {
+      const scenario = await httpBffClient.get<Scenario>(`/scenario/${id}`);
+
+      if (isHttpError(scenario)) {
+        throw new Error(
+          `There was an error while fetching the scenario ${id}: ${scenario.message}`,
+        );
+      }
+
+      setSupplies(scenario.supplies);
+      setCharacters(mapScenarioCharacters(scenario.characters));
+    });
+  };
+
+  useEffect(() => {
+    if (!socket) {
+      socketInitializer();
+    } else if (socket.disconnected) {
+      socket.connect();
+    }
+
+    return () => {
+      console.log('Unmounting page');
+      if (socket && socket.connected) {
+        console.log('Disconnecting socket');
+        socket.disconnect();
+      }
+    };
+  }, []);
 
   return (
     <>

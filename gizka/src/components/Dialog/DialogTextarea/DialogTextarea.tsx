@@ -58,6 +58,7 @@ export function DialogTextarea({
   const handleButtonClick = () => {
     handlePost();
     closeTextarea();
+    setMove(null);
   };
 
   const onMovePicked = (move: Move | null) => {
