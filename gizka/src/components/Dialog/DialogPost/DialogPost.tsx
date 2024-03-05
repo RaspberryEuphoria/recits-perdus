@@ -145,7 +145,7 @@ function getDicesResult(score: number, challengeDices: Array<Dice>) {
     return MoveResult.FAILURE;
   }
 
-  if (challengeDices.some((dice) => dice.value > score)) {
+  if (challengeDices.some((dice) => dice.value >= score)) {
     return MoveResult.MIXED;
   }
 
