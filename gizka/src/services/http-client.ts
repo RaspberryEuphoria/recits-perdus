@@ -8,10 +8,6 @@ class HttpClient {
   constructor(private baseUrl: string) {}
 
   public async request<T>(url: string, options: RequestInit): Promise<T | HttpError> {
-    console.log('Request to');
-    console.log(process.env.API_PREFIX_URL);
-    console.log(process.env.NEXT_PUBLIC_BFF_PREFIX_URL);
-
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         ...options,

@@ -98,7 +98,9 @@ export function DialogThread({
     if (!socket) socketInitializer();
 
     return () => {
-      // if (socket) socket.disconnect();
+      if (socket && socket.connected) {
+        socket.disconnect();
+      }
     };
   }, []);
 
