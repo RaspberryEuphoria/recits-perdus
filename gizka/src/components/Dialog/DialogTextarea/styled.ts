@@ -50,7 +50,7 @@ export const Slots = styled.div`
 `;
 
 export const Help = styled.div`
-  color: var(--dice);
+  color: var(--flashy-alt);
 
   p {
     color: var(--light);

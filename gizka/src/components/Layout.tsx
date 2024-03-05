@@ -10,6 +10,7 @@ import styles from './Layout.module.css';
 type LayoutProps = {
   children: React.ReactNode;
   breadcrumb: Array<{ label: string; href: string }>;
+  footer?: string[];
 };
 
 type User = {
@@ -47,7 +48,11 @@ export function Layout(props: LayoutProps) {
       >
         {props.children}
       </main>
-      <footer className={styles.footer}></footer>
+      <footer className={styles.footer}>
+        {props.footer?.map((child) => (
+          <p dangerouslySetInnerHTML={{ __html: child }} key={child} />
+        ))}
+      </footer>
     </>
   );
 }
@@ -55,13 +60,13 @@ export function Layout(props: LayoutProps) {
 export function LayoutMainSection(props: LayoutProps) {
   return (
     <section className={[styles.mainSection, styles.scroller].join(' ')}>
-      {props.breadcrumb && (
+      {props.breadcrumb?.length > 0 && (
         <nav className={styles.breadcrumb}>
           {props.breadcrumb.map((item, index) => {
             return index < props.breadcrumb.length - 1 ? (
               <Link href={item.href} key={item.label}>
                 {item.label}
-                <span> &gt; </span>
+                <span className={styles.separator}> 🢒 </span>
               </Link>
             ) : (
               item.label

@@ -54,24 +54,24 @@ export const ClickToRoll = styled.span<ClickToRollProps>`
   }
 
   &:hover {
-    color: var(--dice);
-    border-color: var(--dice);
+    color: var(--flashy-alt);
+    border-color: var(--flashy-alt);
 
     svg {
-      fill: var(--dice);
+      fill: var(--flashy-alt);
     }
   }
 
   ${(props) => {
     if (props.isSelected) {
       return `
-        color: var(--dice);
+        color: var(--flashy-alt);
         background: var(--dark-05);
-        border-color: var(--dice);
+        border-color: var(--flashy-alt);
         border-style: solid;
 
         svg {
-          fill: var(--dice);
+          fill: var(--flashy-alt);
         }
       `;
     }

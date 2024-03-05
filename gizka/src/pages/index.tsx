@@ -53,3 +53,14 @@ export default function Home() {
     </>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {
+      footer: [
+        `Programmé et designé avec ❤️ par <em>Harmonie</em>`,
+        `<em>Star Wars : Les Récits Perdus</em> est l&apos;héritier de <em>Tales of Galaxy</em>`,
+      ],
+    },
+  };
+}

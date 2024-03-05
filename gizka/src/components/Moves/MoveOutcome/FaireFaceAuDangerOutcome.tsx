@@ -39,11 +39,11 @@ function Success({ character, skillName }: MoveOutcomeProps) {
 }
 
 function Mixed({ character }: MoveOutcomeProps) {
-  console.log(character);
+  // console.log(character);
   return <div>Mixed</div>;
 }
 
 function Failure({ character }: MoveOutcomeProps) {
-  console.log(character);
+  // console.log(character);
   return <div>Failure</div>;
 }

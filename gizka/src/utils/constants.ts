@@ -11,3 +11,10 @@ export enum TextColor {
   Grey = '#7fafc8',
   Purple = '#8c3cdb',
 }
+
+export enum Media {
+  sm = '600px',
+  md = '960px',
+  lg = '1280px',
+  xl = '1920px',
+}

@@ -16,7 +16,7 @@
   --flashy-02: rgba(57, 105, 161, 0.2);
   --flashy-05: rgba(57, 105, 161, 0.5);
   --flashy-08: rgba(57, 105, 161, 0.8);
-  --flashy-alt: #2f4c7f;
+  --flashy-alt: #f2b636;
   /* --flashy: #ff2f4c;
   --flashy-02: rgba(255, 47, 76, 0.2);
   --flashy-05: rgba(255, 47, 76, 0.5);
@@ -37,8 +37,8 @@
   --space-1: 1rem;
   --space-2: 3rem;
 
-  --dice: #f2b636;
-  --dice-05: rgba(242, 151, 54, 0.5);
+  --flashy-alt: #f2b636;
+  --flashy-alt-05: rgba(242, 151, 54, 0.5);
   --skill: #368ef2;
 
   --health: #f23636;

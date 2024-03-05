@@ -1,3 +1,5 @@
+import { Media } from '@/utils/constants';
+
 import styled from 'styled-components';
 
 export const ScenarioResources = styled.div`
@@ -18,6 +20,10 @@ export const ScenarioResources = styled.div`
     fill: var(--supplies);
     height: 25px;
     width: 25px;
+  }
+
+  @media (max-width: ${Media.lg}) {
+    font-size: 1rem;
   }
 `;
 

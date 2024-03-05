@@ -9,6 +9,7 @@ import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
 
 type EnCoursProps = {
   scenarios: Scenario[];
+  footer: string[];
 };
 
 export async function getServerSideProps(): Promise<GetServerSidePropsResult<EnCoursProps>> {
@@ -25,6 +26,9 @@ export async function getServerSideProps(): Promise<GetServerSidePropsResult<EnC
   return {
     props: {
       scenarios,
+      footer: [
+        "Le saviez-vous ? Le foie de bantha est tellement enrichi en fer qu'une simple bouchée tuerait un Wookie.",
+      ],
     },
   };
 }

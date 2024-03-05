@@ -1,3 +1,5 @@
+import { Media } from '@/utils/constants';
+
 import styled from 'styled-components';
 
 export const CharacterList = styled.div`
@@ -59,18 +61,27 @@ export const CharacterName = styled.div<{ color: string }>`
   font-family: 'Exo 2';
   font-size: 1.5rem;
   text-transform: uppercase;
+
+  @media (max-width: ${Media.lg}) {
+    font-size: 1rem;
+  }
 `;
 
 export const Stats = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: 1.5rem;
   gap: var(--space-05);
+
+  @media (max-width: ${Media.lg}) {
+    font-size: 1rem;
+    gap: 0;
+  }
 `;
 
 export const Stat = styled.div<{ color: string }>`
   align-items: center;
   display: flex;
-  font-size: 1.5rem;
   flex-direction: row;
   gap: var(--space-05);
 

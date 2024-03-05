@@ -33,6 +33,7 @@
 .footer {
   position: relative;
   background: var(--primary);
+  padding: 0 var(--space-1);
 }
 
 .header {
@@ -41,6 +42,10 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--flashy);
+}
+
+.header strong {
+  color: var(--flashy-alt);
 }
 
 .header::after {
@@ -54,8 +59,13 @@
 }
 
 .footer {
-  min-height: 2.5rem;
+  align-items: center;
+  min-height: 4rem;
   border-top: 1px solid var(--flashy);
+  justify-content: space-between;
+  font-size: 0.7rem;
+  display: flex;
+  padding-top: 8px; /* to compensate for the border */
 }
 
 .footer::after {
@@ -86,6 +96,7 @@
   flex-direction: column;
   max-width: 55%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .asideSection {
@@ -97,4 +108,21 @@
   border-left: 1px solid var(--flashy);
   border-right: 1px solid var(--flashy);
   color: #e9e9e9;
+}
+
+.breadcrumb {
+  padding: var(--space-1);
+  background: var(--dark-08);
+  border-bottom: 1px solid var(--flashy);
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.breadcrumb a {
+  color: var(--flashy-alt);
+  text-decoration: none;
+}
+
+.separator {
+  color: var(--light);
 }

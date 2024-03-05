@@ -50,7 +50,7 @@ export const ScenarioLabel = styled.span`
 export const ScenarioDescription = styled.span`
   font-family: 'Oxanium';
   font-weight: normal;
-  color: var(--dice);
+  color: var(--flashy-alt);
   font-size: 0.9rem;
 `;
 
