@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
+import { MAX_MOMENTUM } from '../../../rules';
 import { CreateCharacterDTO } from '../domain/character/entities/character';
 
 export class CharacterRepository {
@@ -28,6 +29,14 @@ export class CharacterRepository {
 
     if (!characterOnScenario) {
       throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
+    }
+
+    if (characterOnScenario.momentum == MAX_MOMENTUM) {
+      console.log(
+        `Character ${characterId} has reached the maximum momentum of ${MAX_MOMENTUM}. Unable to add more.`,
+      );
+
+      return characterOnScenario;
     }
 
     return this.db.charactersOnScenarios.update({
