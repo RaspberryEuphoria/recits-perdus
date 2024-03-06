@@ -1,4 +1,5 @@
 import { GetServerSidePropsResult } from 'next';
+import Head from 'next/head';
 import { useState } from 'react';
 
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
@@ -110,6 +111,13 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
 
   return (
     <>
+      <Head>
+        <title>Scénarios en cours - Les Récits Perdus</title>
+        <meta
+          name="description"
+          content="Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars"
+        />
+      </Head>
       <LayoutMainSection
         breadcrumb={[
           { label: 'Accueil', href: '/' },

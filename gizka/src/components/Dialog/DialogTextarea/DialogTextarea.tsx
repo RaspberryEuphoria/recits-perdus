@@ -6,7 +6,7 @@ import { Button } from '@/components/DesignSystem/Button';
 import { Moves } from '@/components/Moves';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
-import { Post } from '@/utils/types/scenario';
+import { Post, Skill, Stat } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
 
@@ -19,7 +19,7 @@ type DialogTextareaProps = {
 
 export type Move = {
   id: string;
-  meta?: Record<string, string | number | boolean>;
+  meta?: Record<string, string | number | boolean | Skill | Stat | undefined>;
 };
 
 const MAX_LENGTH = 500;

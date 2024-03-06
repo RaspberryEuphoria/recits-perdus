@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
@@ -153,6 +154,16 @@ export default function EnCoursWithId({
 
   return (
     <>
+      <Head>
+        <title>{title} - Les Récits Perdus</title>
+        <meta
+          name="description"
+          content={`
+          Star Wars - Les Récits perdus : ${title}.
+          ${introduction}
+        `}
+        />
+      </Head>
       <LayoutMainSection
         breadcrumb={[
           { label: 'Accueil', href: '/' },

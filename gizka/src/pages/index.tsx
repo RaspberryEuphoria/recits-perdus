@@ -39,7 +39,7 @@ export default function Home() {
         <title>Star Wars - Les Récits Perdus</title>
         <meta
           name="description"
-          content="SWRP - Un Jeu de Rôle moderne par et pour des fans de Star Wars"
+          content="Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
