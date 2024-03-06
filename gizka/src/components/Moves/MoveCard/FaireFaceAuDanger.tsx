@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Keyword } from '@/components/DesignSystem/Keyword';
+import { Prompt } from '@/components/DesignSystem/Prompt';
 import D6Icon from '@/public/images/icons/d6.svg';
 import HealthIcon from '@/public/images/icons/health.svg';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
@@ -14,7 +15,7 @@ import * as Styled from './styled';
 
 const title = 'Faire Face au Danger';
 
-export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
+export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardProps) {
   const [attribute, setAttribute] = useState<Skill | undefined>();
   const [danger, setDanger] = useState<Stat | undefined>();
 
@@ -52,10 +53,10 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           retournement dramatique. Vous devez en <Keyword stat="move">Payer le Prix</Keyword>.
         </p>
 
-        <Styled.Prompt>
+        <Prompt>
           <UnkownDieIcon />
           Comment agissez-vous ?
-        </Styled.Prompt>
+        </Prompt>
         <ul>
           <li>
             Avec rapidité, agilité ou précision :{' '}
@@ -103,10 +104,10 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
             </Styled.ClickToRoll>
           </li>
         </ul>
-        <Styled.Prompt>
+        <Prompt>
           <UnkownDieIcon />
           Qu&apos;êtes vous prêt à perdre ?
-        </Styled.Prompt>
+        </Prompt>
         <ul>
           <li>
             Vous êtes ralenti, perdez l&apos;avantage, ou faites face à un danger supplémentaire :{' '}
@@ -150,6 +151,7 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           </li>
         </ul>
       </div>
+      {children}
     </Styled.MoveCard>
   );
 }

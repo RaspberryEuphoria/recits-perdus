@@ -1,4 +1,5 @@
 import { Keyword } from '@/components/DesignSystem/Keyword';
+import { ChallengeDie } from '@/components/Moves/ChallengeDie';
 import { movesNames, skillWordings, statFrToEn } from '@/utils/scenario/helpers';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
@@ -13,27 +14,13 @@ export function FaireFaceAuDangerOutcome(props: MoveOutcomeProps) {
     skill: { name: skillName },
   } = move;
 
-  const actionDie = dices.find((dice) => dice.type === DiceType.ACTION);
+  const [actionDie] = dices.filter((dice) => dice.type === DiceType.ACTION);
   const challengeDices = dices.filter((dice) => dice.type === DiceType.CHALLENGE);
+  const score = actionDie.value + skillValue;
 
   if (!actionDie) {
     return <p>Oups ! Il y a un problème avec les dés !</p>;
   }
-
-  const score = actionDie.value + skillValue;
-
-  const Outcome = (props: MoveOutcomeProps) => {
-    switch (props.move.moveResult) {
-      case MoveResult.SUCCESS:
-        return <Success {...props} />;
-      case MoveResult.MIXED:
-        return <Mixed {...props} />;
-      case MoveResult.FAILURE:
-        return <Failure {...props} />;
-      default:
-        return null;
-    }
-  };
 
   return (
     <Styled.MoveOutcome>
@@ -52,16 +39,26 @@ export function FaireFaceAuDangerOutcome(props: MoveOutcomeProps) {
           {score}
         </Styled.MoveScore>
         {challengeDices.map((dice) => (
-          <Styled.ChallengeDie key={dice.id}>
-            {dice.value}
-            <Styled.ChallengeResult isSucces={dice.value < score} />
-          </Styled.ChallengeDie>
+          <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
         ))}
       </Styled.MoveResult>
       <Outcome {...props} />
     </Styled.MoveOutcome>
   );
 }
+
+const Outcome = (props: MoveOutcomeProps) => {
+  switch (props.move.moveResult) {
+    case MoveResult.SUCCESS:
+      return <Success {...props} />;
+    case MoveResult.MIXED:
+      return <Mixed {...props} />;
+    case MoveResult.FAILURE:
+      return <Failure {...props} />;
+    default:
+      return null;
+  }
+};
 
 function Success({ character, move }: MoveOutcomeProps) {
   return (

@@ -1,3 +1,4 @@
+import { STATS_LIMITS } from '../../../../../../rules';
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
@@ -62,16 +63,22 @@ export function prendreUnAvantage(
       throw new Error(`Move ${move.id} meta not found`);
     }
 
-    const post = await postRepository.getById(postId);
+    const { attribute, hasMomentumBurn } = move.meta;
 
+    const post = await postRepository.getById(postId);
     if (!post) {
       throw new Error(`Post ${postId} not found`);
     }
 
-    const { attribute } = move.meta;
+    const characterOnScenario = await characterRepository.getOnScenario(
+      post.characterId,
+      post.scenarioId,
+    );
+    if (!characterOnScenario) {
+      throw new Error(`Character ${post.characterId} not found on scenario ${post.scenarioId}`);
+    }
 
     const skill = await skillRepository.getByName(attribute);
-
     if (!skill) {
       throw new Error(`Skill ${attribute} not found`);
     }
@@ -79,7 +86,6 @@ export function prendreUnAvantage(
     const characterSkill = post.character.skills.find(
       (characterSkill) => characterSkill.skillId === skill.id,
     );
-
     if (!characterSkill) {
       throw new Error(`Character ${post.characterId} does not have skill ${skill.id}`);
     }
@@ -91,22 +97,41 @@ export function prendreUnAvantage(
     const challengeDices = [rollD10(), rollD10()];
     const score = actionDie + characterSkill.level;
 
+    const moveResult = getDicesResult({
+      score,
+      challengeDices,
+      momentum: characterOnScenario.momentum,
+      hasMomentumBurn,
+    });
+
+    const nativeMoveResult = getDicesResult({
+      score,
+      challengeDices,
+      momentum: characterOnScenario.momentum,
+      hasMomentumBurn: false,
+    });
+
+    if (moveResult !== nativeMoveResult) {
+      await characterRepository.resetMomentum(post.characterId, post.scenarioId);
+    }
+
     const dices = [
       {
         type: DiceType.ACTION,
         value: actionDie,
+        isBurned: false,
       },
       {
         type: DiceType.CHALLENGE,
         value: challengeDices[0],
+        isBurned: hasMomentumBurn && challengeDices[0] < characterOnScenario.momentum,
       },
       {
         type: DiceType.CHALLENGE,
         value: challengeDices[1],
+        isBurned: hasMomentumBurn && challengeDices[1] < characterOnScenario.momentum,
       },
     ];
-
-    const moveResult = getDicesResult(score, challengeDices);
 
     const newMove = {
       moveResult,

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Keyword } from '@/components/DesignSystem/Keyword';
+import { Prompt } from '@/components/DesignSystem/Prompt';
 import D6Icon from '@/public/images/icons/d6.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
 import { Skill } from '@/utils/types/scenario';
@@ -10,7 +11,7 @@ import * as Styled from './styled';
 
 const title = 'Prendre un Avantage';
 
-export function PrendreUnAvantage({ id, onPick, onClose }: MoveCardProps) {
+export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardProps) {
   const [attribute, setAttribute] = useState<Skill | undefined>();
 
   useEffect(() => {
@@ -51,10 +52,10 @@ export function PrendreUnAvantage({ id, onPick, onClose }: MoveCardProps) {
           égarent. Vous devez en <Keyword stat="move">Payer le Prix</Keyword>.
         </p>
 
-        <Styled.Prompt>
+        <Prompt>
           <UnkownDieIcon />
           Comment agissez-vous ?
-        </Styled.Prompt>
+        </Prompt>
         <ul>
           <li>
             Avec rapidité, agilité ou précision :{' '}
@@ -103,6 +104,7 @@ export function PrendreUnAvantage({ id, onPick, onClose }: MoveCardProps) {
           </li>
         </ul>
       </div>
+      {children}
     </Styled.MoveCard>
   );
 }

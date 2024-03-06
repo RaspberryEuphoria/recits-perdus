@@ -16,6 +16,7 @@ type Dice = {
   id?: number;
   value: number;
   type: DiceType;
+  isBurned: boolean;
 };
 
 export enum DiceType {

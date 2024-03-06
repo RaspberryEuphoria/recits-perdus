@@ -48,7 +48,6 @@ export const Character = styled.div<{ color: string; colorAtLightOpacity: string
     display: block;
     border-radius: 2px 2px 0 0;
     max-width: 100%;
-    height: auto;
   }
 `;
 

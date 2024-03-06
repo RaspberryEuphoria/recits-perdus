@@ -1,3 +1,4 @@
+const DEFAULT_MOMENTUM = 2;
 export const MAX_MOMENTUM = 10;
 export const MIN_MOMENTUM = -6;
 
@@ -15,6 +16,7 @@ export const STATS_LIMITS = {
   momentum: {
     min: MIN_MOMENTUM,
     max: MAX_MOMENTUM,
+    default: DEFAULT_MOMENTUM,
   },
   health: {
     min: MIN_HEALTH,

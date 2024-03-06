@@ -1,6 +1,6 @@
 import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { Moves, Post, Scenario, Skill } from '@/utils/types/scenario';
+import { MoveResult, Moves, Post, Scenario, Skill } from '@/utils/types/scenario';
 
 export function generateIntroduction(scenario: Scenario) {
   const tokens = ['{{characters}}'];
@@ -131,4 +131,27 @@ export function statFrToEn(stat: string) {
   if (!stats[stat]) throw new Error(`Stat ${stat} not found`);
 
   return stats[stat];
+}
+
+/* This function get the *native* dice result, .ie without momentum burn */
+export function getDicesResult({
+  score,
+  challengeDices,
+}: {
+  score: number;
+  challengeDices: number[];
+}) {
+  if (challengeDices.every((dice) => dice >= score)) {
+    return MoveResult.FAILURE;
+  }
+
+  if (challengeDices.some((dice) => dice >= score)) {
+    return MoveResult.MIXED;
+  }
+
+  if (challengeDices.every((dice) => dice < score)) {
+    return MoveResult.SUCCESS;
+  }
+
+  throw new Error(`Invalid dices result! ${JSON.stringify({ score, challengeDices }, null, 4)}`);
 }

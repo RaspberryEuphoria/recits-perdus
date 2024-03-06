@@ -35,9 +35,10 @@ export function DialogTextarea({
   const router = useRouter();
   const { id: scenarioId } = router.query;
 
+  const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [content, setContent] = useState<string>(initialContent);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
-  const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
+  const [hasMomentumBurn, sethasMomentumBurn] = useState<boolean>(false);
 
   const currentLength = content?.length || 0;
 
@@ -48,11 +49,18 @@ export function DialogTextarea({
   const addPost = async () => {
     if (!content) return;
 
+    const move = currentMove
+      ? {
+          ...currentMove,
+          meta: { ...currentMove.meta, hasMomentumBurn },
+        }
+      : null;
+
     const dialog = {
       characterId: nextPoster.id,
       content: content,
       action: {
-        move: currentMove,
+        move,
       },
     };
 
@@ -75,9 +83,12 @@ export function DialogTextarea({
     setCurrentMove(move);
   };
 
+  const onBurnCheck = (hasMomentumBurn: boolean) => {
+    sethasMomentumBurn(hasMomentumBurn);
+  };
+
   const isMoveValid = currentMove ? currentMove?.meta?.isValid : true;
-  const hasText = content;
-  const isFormDisabled = !isMoveValid || !hasText || currentLength > MAX_LENGTH;
+  const isFormDisabled = !isMoveValid || !content || currentLength > MAX_LENGTH;
 
   useEffect(() => {
     const socketInitializer = async () => {
@@ -119,25 +130,25 @@ export function DialogTextarea({
           value={content}
         ></Styled.Textarea>
 
+        <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
+          {currentLength}/{MAX_LENGTH}
+        </Styled.Counter>
+
         <Styled.Help>
           2. <em>(Optionnel)</em> Choisissez une Tactique afin de progresser dans le scénario.
         </Styled.Help>
 
-        <Moves onMovePicked={onMovePicked} />
+        <Moves onMovePicked={onMovePicked} onBurnCheck={onBurnCheck} />
 
         <Styled.Help>
-          3. Envoyez votre message et résolvez votre Tactique éventuelle. Que la Force vous !
+          {currentMove ? 4 : 3}. Envoyez votre message et résolvez votre Tactique éventuelle. Que la
+          Force vous !
         </Styled.Help>
 
         <Styled.TextareaBar>
           <Button onClick={addPost} disabled={isFormDisabled}>
             C&apos;est parti !
           </Button>
-          {currentLength > 0 && (
-            <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
-              {currentLength}/{MAX_LENGTH}
-            </Styled.Counter>
-          )}
         </Styled.TextareaBar>
       </Styled.GameSection>
     </>

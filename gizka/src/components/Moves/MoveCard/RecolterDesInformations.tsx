@@ -7,7 +7,7 @@ import * as Styled from './styled';
 
 const title = 'Récolter Des Informations';
 
-export function RecolterDesInformations({ id, onPick, onClose }: MoveCardProps) {
+export function RecolterDesInformations({ id, onPick, onClose, children }: MoveCardProps) {
   useEffect(() => {
     onPick({ id, meta: { attribute: 'Intuition', isValid: true } });
 
@@ -49,6 +49,7 @@ export function RecolterDesInformations({ id, onPick, onClose }: MoveCardProps) 
           <Keyword stat="move">Payer le Prix</Keyword>.
         </p>
       </div>
+      {children}
     </Styled.MoveCard>
   );
 }

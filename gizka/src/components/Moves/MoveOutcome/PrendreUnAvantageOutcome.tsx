@@ -1,4 +1,5 @@
 import { Keyword } from '@/components/DesignSystem/Keyword';
+import { ChallengeDie } from '@/components/Moves/ChallengeDie';
 import { movesNames, skillWordings } from '@/utils/scenario/helpers';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
@@ -52,10 +53,7 @@ export function PrendreUnAvantageOutcome(props: MoveOutcomeProps) {
           {score}
         </Styled.MoveScore>
         {challengeDices.map((dice) => (
-          <Styled.ChallengeDie key={dice.id}>
-            {dice.value}
-            <Styled.ChallengeResult isSucces={dice.value < score} />
-          </Styled.ChallengeDie>
+          <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
         ))}
       </Styled.MoveResult>
       <Outcome {...props} />

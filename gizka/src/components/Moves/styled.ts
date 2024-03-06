@@ -24,3 +24,20 @@ export const MoveItem = styled.div`
     border-color: var(--flashy);
   }
 `;
+
+export const BurnMomentum = styled.div`
+  align-items: center;
+  color: var(--momentum);
+  gap: var(--space-05);
+  display: flex;
+
+  svg {
+    fill: currentColor;
+    height: 25px;
+    width: 25px;
+  }
+`;
+
+export const Paragraph = styled.p`
+  margin-top: 1rem;
+`;

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { MAX_MOMENTUM, MIN_MOMENTUM } from '../../../rules';
+import { MAX_MOMENTUM, MIN_MOMENTUM, STATS_LIMITS } from '../../../rules';
 import { CreateCharacterDTO } from '../domain/character/entities/character';
 
 export class CharacterRepository {
@@ -8,6 +8,15 @@ export class CharacterRepository {
 
   constructor(db: PrismaClient) {
     this.db = db;
+  }
+
+  async getOnScenario(characterId: number, scenarioId: number) {
+    return this.db.charactersOnScenarios.findFirst({
+      where: {
+        characterId,
+        scenarioId,
+      },
+    });
   }
 
   async update(id: number, character: Partial<CreateCharacterDTO>) {
@@ -27,7 +36,7 @@ export class CharacterRepository {
     return this.changeHealth(characterId, scenarioId, -health);
   }
 
-  async changeHealth(characterId: number, scenarioId: number, health: number) {
+  private async changeHealth(characterId: number, scenarioId: number, health: number) {
     const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
       where: {
         characterId,
@@ -62,7 +71,7 @@ export class CharacterRepository {
     return this.changeSpirit(characterId, scenarioId, -spirit);
   }
 
-  async changeSpirit(characterId: number, scenarioId: number, spirit: number) {
+  private async changeSpirit(characterId: number, scenarioId: number, spirit: number) {
     const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
       where: {
         characterId,
@@ -97,7 +106,7 @@ export class CharacterRepository {
     return this.changeMomentum(characterId, scenarioId, -momentum);
   }
 
-  async changeMomentum(characterId: number, scenarioId: number, momentum: number) {
+  private async changeMomentum(characterId: number, scenarioId: number, momentum: number) {
     const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
       where: {
         characterId,
@@ -121,6 +130,25 @@ export class CharacterRepository {
       where: { id: characterOnScenario.id },
       data: {
         momentum: newMomentum,
+      },
+    });
+  }
+
+  async resetMomentum(characterId: number, scenarioId: number) {
+    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
+      where: {
+        characterId,
+        scenarioId,
+      },
+    });
+
+    if (!characterOnScenario) {
+      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
+    }
+    return this.db.charactersOnScenarios.update({
+      where: { id: characterOnScenario.id },
+      data: {
+        momentum: STATS_LIMITS.momentum.default,
       },
     });
   }

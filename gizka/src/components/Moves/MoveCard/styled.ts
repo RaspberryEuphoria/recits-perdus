@@ -52,22 +52,6 @@ export const CloseButton = styled.span`
   font-size: 0.8rem;
 `;
 
-export const Prompt = styled.div`
-  align-items: center;
-  color: var(--flashy);
-  display: flex;
-  font-style: italic;
-  gap: var(--space-05);
-  margin-top: 1rem;
-  text-shadow: var(--shadow);
-
-  svg {
-    fill: currentColor;
-    height: 30px;
-    width: 30px;
-  }
-`;
-
 export const ClickToRoll = styled.span<ClickToRollProps>`
   align-items: center;
   border-radius: var(--rounded);

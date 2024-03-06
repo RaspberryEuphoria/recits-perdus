@@ -99,11 +99,12 @@ model MovesOnPosts {
 }
 
 model DicesOnMoves {
-  id     Int          @id @default(autoincrement())
-  value  Int
-  moveId Int
-  move   MovesOnPosts @relation(fields: [moveId], references: [id])
-  type   DiceType
+  id       Int          @id @default(autoincrement())
+  value    Int
+  moveId   Int
+  move     MovesOnPosts @relation(fields: [moveId], references: [id])
+  type     DiceType
+  isBurned Boolean
 }
 
 enum ScenarioStatus {

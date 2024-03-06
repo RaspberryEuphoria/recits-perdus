@@ -21,8 +21,9 @@ export function payerLePrix(
     const value = createRoll(10)();
 
     const priceDie = {
-      type: DiceType.PRICE,
       value,
+      type: DiceType.PRICE,
+      isBurned: false,
     };
 
     if (value >= 51 && value < 60) {

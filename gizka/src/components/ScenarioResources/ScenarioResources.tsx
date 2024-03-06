@@ -10,9 +10,7 @@ export function ScenarioResources({ supplies }: ScenarioResourcesProps) {
   return (
     <Styled.ScenarioResources>
       <SuppliesIcon />
-      <Styled.Label>
-        <strong>{supplies}</strong>&nbsp;Provisions
-      </Styled.Label>
+      <strong>{supplies}</strong> Provisions
     </Styled.ScenarioResources>
   );
 }

@@ -9,17 +9,25 @@ export type MoveCardProps = {
   id: string;
   onPick: (move: Move | null) => void;
   onClose: () => void;
+  children: React.ReactNode;
 };
 
 export function MoveCard(props: MoveCardProps) {
-  switch (props.id) {
+  const Component = GetComponent(props.id);
+  if (!Component) return null;
+
+  return <Component {...props} />;
+}
+
+const GetComponent = (id: string) => {
+  switch (id) {
     case Moves.FAIRE_FACE_AU_DANGER:
-      return <FaireFaceAuDanger {...props} />;
+      return FaireFaceAuDanger;
     case Moves.PRENDRE_UN_AVANTAGE:
-      return <PrendreUnAvantage {...props} />;
+      return PrendreUnAvantage;
     case Moves.RECOLTER_DES_INFORMATIONS:
-      return <RecolterDesInformations {...props} />;
+      return RecolterDesInformations;
     default:
       return null;
   }
-}
+};

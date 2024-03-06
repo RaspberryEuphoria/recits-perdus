@@ -53,22 +53,19 @@ export const Skill = styled.div`
 `;
 
 export const Textarea = styled.textarea`
-  width: 100%;
-  min-height: 5rem;
-  padding: 1rem;
   background: var(--dark);
-  border: none;
-  border-top: 1px solid var(--flashy);
+  border: 1px solid var(--light);
+  border-radius: var(--rounded);
   outline: none;
   color: currentColor;
   font-size: 1.4rem;
-  font-family: 'Oxanium';
+  font-family: 'Roboto';
+  height: 350px;
+  padding: 1rem;
+  min-height: 200px;
   resize: none;
   transition: position ease-in 0.5s;
-  min-height: 10rem;
-  border: 1px solid var(--light);
-  border-radius: var(--rounded);
-  font-family: 'Roboto';
+  width: 100%;
 
   &:focus {
     border-color: var(--flashy);
@@ -83,6 +80,7 @@ export const TextareaBar = styled.div`
   gap: var(--space-1);
 `;
 
-export const Counter = styled.span<CounterProps>`
+export const Counter = styled.div<CounterProps>`
+  align-self: end;
   color: ${(props) => (props.isOverLimit ? 'var(--error)' : 'currentColor')};
 `;
