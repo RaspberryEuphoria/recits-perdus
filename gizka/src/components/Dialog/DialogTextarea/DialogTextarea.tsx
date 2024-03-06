@@ -22,7 +22,7 @@ export type Move = {
   meta?: Record<string, string | number | boolean | Skill | Stat | undefined>;
 };
 
-const MAX_LENGTH = 500;
+const MAX_LENGTH = 750;
 
 let socket: Socket;
 
