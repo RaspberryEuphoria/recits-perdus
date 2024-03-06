@@ -41,8 +41,6 @@ export default function Home() {
           name="description"
           content="Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutMainSection>
         <NavBar links={links} />
