@@ -27,7 +27,7 @@ export const Tabs = styled.div`
   height: 100%;
 `;
 
-export const Tab = styled.button<{ isOpen: boolean }>`
+export const Tab = styled.button<{ isOpen: boolean; isDisabled: boolean }>`
   background: none;
   color: var(--light);
   border: none;
@@ -52,9 +52,17 @@ export const Tab = styled.button<{ isOpen: boolean }>`
         border-right: 0;
       }
     `}
-
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.isDisabled ? 'default' : 'pointer')};
     text-shadow: 0 0 5px var(--flashy);
   }
+
+  ${(props) =>
+    props.isDisabled &&
+    `
+      background: var(--primary);
+      color: var(--light-05);
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 `;

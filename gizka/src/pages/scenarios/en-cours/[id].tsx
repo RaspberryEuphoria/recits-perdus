@@ -160,8 +160,13 @@ export default function EnCoursWithId({
           { label: title, href: '#' },
         ]}
         tabs={[
-          { label: 'Statut', id: Tab.Status, isOpen: openTabId === Tab.Status },
-          { label: 'Répondre', id: Tab.Posting, isOpen: openTabId === Tab.Posting },
+          { label: 'Statut', id: Tab.Status, isOpen: openTabId === Tab.Status, isDisabled: false },
+          {
+            label: 'Jouer',
+            id: Tab.Posting,
+            isOpen: openTabId === Tab.Posting,
+            isDisabled: !isItMyTurn,
+          },
         ]}
         onTabChange={(tab: Tab) => setOpenTabId(tab)}
       >

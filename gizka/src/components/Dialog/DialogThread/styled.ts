@@ -28,7 +28,7 @@ export const Footer = styled.footer`
   width: 100%;
 `;
 
-export const SmallTextarea = styled.div`
+export const SmallTextarea = styled.div<{ isDisabled: boolean }>`
   color: var(--light-08);
   font-size: 1.4rem;
   font-family: 'Oxanium';
@@ -37,9 +37,14 @@ export const SmallTextarea = styled.div`
     text-shadow: 0 0 0.5rem var(--flashy);
   }
 
-  &:not(:disabled) {
-    cursor: pointer;
-  }
+  ${({ isDisabled }) =>
+    isDisabled
+      ? `
+        pointer-events: none;
+      `
+      : `
+        cursor: pointer;
+      `}
 `;
 
 export const ArrowButton = styled.div`

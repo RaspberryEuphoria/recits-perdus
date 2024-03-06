@@ -27,8 +27,8 @@ export function DialogThread({
   const threadRef = useRef<HTMLDivElement>(null);
 
   const placeholder = isItMyTurn
-    ? "🖮 C'est à vous de répondre"
-    : `🖮 C'est à ${nextPoster.firstName} ${nextPoster.lastName} de répondre`;
+    ? "🖮 C'est à vous de jouer"
+    : `🖮 C'est au tour de ${nextPoster.firstName} ${nextPoster.lastName}`;
 
   const scrollToBottom = () => {
     if (threadRef.current) threadRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -44,7 +44,9 @@ export function DialogThread({
       </Styled.DialogThread>
 
       <Styled.Footer>
-        <Styled.SmallTextarea onClick={openTextarea}>{placeholder}</Styled.SmallTextarea>
+        <Styled.SmallTextarea onClick={openTextarea} isDisabled={!isItMyTurn}>
+          {placeholder}
+        </Styled.SmallTextarea>
         <Styled.ArrowButton onClick={scrollToBottom}>
           <DownArrowIcon />
         </Styled.ArrowButton>

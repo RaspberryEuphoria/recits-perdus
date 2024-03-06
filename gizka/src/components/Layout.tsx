@@ -15,7 +15,7 @@ type LayoutProps = {
 
 type MainLayoutProps<T> = LayoutProps & {
   breadcrumb?: Array<{ label: string; href: string }>;
-  tabs?: Array<{ label: string; id: T; isOpen: boolean }>;
+  tabs?: Array<{ label: string; id: T; isOpen: boolean; isDisabled: boolean }>;
   onTabChange?: (tab: T) => void;
 };
 
@@ -104,7 +104,8 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
               <Styled.Tab
                 key={tab.label}
                 isOpen={tab.isOpen}
-                onClick={() => handleTabClick(tab.id)}
+                isDisabled={tab.isDisabled}
+                onClick={() => !tab.isDisabled && handleTabClick(tab.id)}
               >
                 {tab.label}
               </Styled.Tab>
