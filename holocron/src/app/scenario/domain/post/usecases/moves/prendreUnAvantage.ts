@@ -35,7 +35,18 @@ export function prendreUnAvantage(
     });
   }
 
-  async function onFailure({ postId }: MoveProps) {
+  async function onFailure({ postId, moveResult, skillId, skillValue, dices, meta }: MoveProps) {
+    await postRepository.addMove({
+      moveResult,
+      moveId,
+      postId,
+      skillId,
+      skillValue,
+      dices,
+      meta,
+      isResolved: true,
+    });
+
     const payThePriceMove = { id: Moves.PAYER_LE_PRIX, meta: { origin: 'previous_move' } };
 
     return await useMove(
