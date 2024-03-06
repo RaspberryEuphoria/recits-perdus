@@ -1,3 +1,5 @@
+import * as Styled from './styled';
+
 type ScenariosFiltersProps = {
   scenariosCount: number;
   locations: string[];
@@ -20,10 +22,11 @@ export function ScenariosFilters({
   filterByCharacter,
 }: ScenariosFiltersProps) {
   return (
-    <div>
-      <p>
-        <strong>{scenariosCount}</strong> scénarios en cours.
-      </p>
+    <Styled.Filters>
+      <h1>
+        <strong>{scenariosCount}</strong> scénarios en cours
+      </h1>
+
       <h2>Filtrer par planète</h2>
       <ul>
         {initialLocations.map((location) => (
@@ -57,7 +60,7 @@ export function ScenariosFilters({
         ))}
       </ul>
       <h2>Filtrer par personnage</h2>
-      <input type="text" onChange={filterByCharacter} />
-    </div>
+      <Styled.TextInput type="text" onChange={filterByCharacter} />
+    </Styled.Filters>
   );
 }

@@ -72,3 +72,35 @@ export const CharactersCount = styled.span`
   color: var(--dark-08);
   text-shadow: var(--light) 1px 0 10px;
 `;
+
+export const Filters = styled.div`
+  padding: var(--space-1);
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-1);
+
+    strong {
+      color: var(--flashy);
+    }
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    margin: var(--space-05) 0;
+  }
+`;
+
+export const TextInput = styled.input`
+  background: var(--secondary);
+  border: none;
+  border-radius: var(--rounded);
+  height: 2rem;
+  padding: var(--space-1);
+  width: 200px;
+
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+`;
