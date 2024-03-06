@@ -34,10 +34,11 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
           <Keyword stat="move">{title}</Keyword>
           <Styled.CloseButton onClick={onClose}>Annuler &#8617;</Styled.CloseButton>
         </h1>
-        <p>
-          Lorsque vous essayez <strong>quelque chose de risqué</strong> ou réagissez à{' '}
-          <strong>une menace immédiate</strong>, décrivez votre action et lancez des dés.{' '}
-        </p>
+        <Styled.Summary>
+          Lorsque{' '}
+          <strong>vous tentez quelque chose de risqué ou réagissez à une menace immédiate</strong>,
+          décrivez votre action et faites un jet.
+        </Styled.Summary>
 
         <p>
           En cas de <strong>succès total</strong>, vous réussissez. Recevez{' '}
@@ -48,7 +49,7 @@ export function FaireFaceAuDanger({ id, onPick, onClose }: MoveCardProps) {
         </p>
         <p>
           En cas d&apos;<strong>échec</strong>, vous échouez, ou votre progression subit un
-          retournement dramatique. Vous devez <Keyword stat="move">Payer le Prix</Keyword>.
+          retournement dramatique. Vous devez en <Keyword stat="move">Payer le Prix</Keyword>.
         </p>
 
         <Styled.Prompt>

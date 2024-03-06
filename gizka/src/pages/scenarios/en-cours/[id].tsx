@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 import { CharacterList } from '@/components/CharacterList';
+import { DialogTextarea } from '@/components/Dialog/DialogTextarea';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
-import { checkIfGameMaster, generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
+import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Post, Scenario } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
@@ -20,7 +21,6 @@ type EnCoursWithIdProps = {
   posts: Post[];
   introduction: string;
   nextPoster: Character;
-  nextPostIsGameMaster: boolean;
   characters: Record<string, Character>;
   supplies: number;
 };
@@ -54,9 +54,7 @@ export async function getServerSideProps(
         scenario.characters,
         scenario.posts[scenario.posts.length - 1]?.character,
       ),
-      nextPostIsGameMaster: checkIfGameMaster(scenario.posts, scenario.characters.length),
       posts: scenario.posts,
-      // @TODO: add a mapper in the API to return this directly?
       supplies: scenario.supplies,
       characters: mapScenarioCharacters(scenario.characters),
     },
@@ -70,42 +68,76 @@ function mapScenarioCharacters(scenarioCharacters: Character[]) {
   }, {} as Record<string, Character>);
 }
 
+enum Tab {
+  Status = 'status',
+  Posting = 'posting',
+}
+
 let socket: Socket;
 
 export default function EnCoursWithId({
   id,
   title,
-  posts,
   introduction,
-  nextPoster,
-  nextPostIsGameMaster,
+  posts: initialDialogs,
+  nextPoster: initialNextPoster,
   characters: initalCharacters,
   supplies: initalSupplies,
 }: EnCoursWithIdProps) {
   const [currentUser] = useLocalStorage<User>('currentUser');
+
+  const [openTabId, setOpenTabId] = useState<Tab>(Tab.Status);
   const [characters, setCharacters] = useState<Record<string, Character>>(initalCharacters);
+  const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [supplies, setSupplies] = useState<number>(initalSupplies);
+  const [dialogs, setDialogs] = useState<Post[]>(initialDialogs);
+  const [content, setContent] = useState<string>('');
 
-  const socketInitializer = async () => {
-    console.log('[id] : socketInitializer');
-    await httpBffClient.get('/socket');
+  const isItMyTurn = currentUser ? currentUser.id === nextPoster.userId : false;
 
-    socket = io();
-    socket.on('receive-new-move', async () => {
-      const scenario = await httpBffClient.get<Scenario>(`/scenario/${id}`);
+  const handleContentChange = (newContent: string) => {
+    setContent(newContent);
+  };
 
-      if (isHttpError(scenario)) {
-        throw new Error(
-          `There was an error while fetching the scenario ${id}: ${scenario.message}`,
-        );
-      }
+  const handleOpenTextarea = () => {
+    if (isItMyTurn) setOpenTabId(Tab.Posting);
+  };
 
-      setSupplies(scenario.supplies);
-      setCharacters(mapScenarioCharacters(scenario.characters));
-    });
+  const handleTextareaSubmit = () => {
+    setContent('');
+    setOpenTabId(Tab.Status);
   };
 
   useEffect(() => {
+    const socketInitializer = async () => {
+      console.log('[id] : socketInitializer');
+      await httpBffClient.get('/socket');
+
+      socket = io();
+
+      socket.on('receive-new-move', async () => {
+        const scenario = await httpBffClient.get<Scenario>(`/scenario/${id}`);
+
+        if (isHttpError(scenario)) {
+          throw new Error(
+            `There was an error while fetching the scenario ${id}: ${scenario.message}`,
+          );
+        }
+
+        setSupplies(scenario.supplies);
+        setCharacters(mapScenarioCharacters(scenario.characters));
+      });
+
+      socket.on('receive-new-dialog', async (newDialog) => {
+        setDialogs((dialogs) => [...dialogs, newDialog]);
+
+        if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
+        if (newDialog.move) socket.emit('post-new-move');
+
+        socket.off('receive-new-dialog');
+      });
+    };
+
     if (!socket) {
       socketInitializer();
     } else if (socket.disconnected) {
@@ -117,7 +149,7 @@ export default function EnCoursWithId({
         socket.disconnect();
       }
     };
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -127,18 +159,35 @@ export default function EnCoursWithId({
           { label: 'Scénarios en cours', href: '/scenarios/en-cours' },
           { label: title, href: '#' },
         ]}
+        tabs={[
+          { label: 'Statut', id: Tab.Status, isOpen: openTabId === Tab.Status },
+          { label: 'Répondre', id: Tab.Posting, isOpen: openTabId === Tab.Posting },
+        ]}
+        onTabChange={(tab: Tab) => setOpenTabId(tab)}
       >
-        <CharacterList characters={Object.values(characters)} />
-        <ScenarioResources supplies={supplies} />
+        {openTabId === Tab.Status && (
+          <>
+            <CharacterList characters={Object.values(characters)} />
+            <ScenarioResources supplies={supplies} />
+          </>
+        )}
+        {currentUser && openTabId === 'posting' && isItMyTurn && (
+          <DialogTextarea
+            nextPoster={nextPoster}
+            content={content}
+            onContentChange={handleContentChange}
+            onTextareaSubmit={handleTextareaSubmit}
+          />
+        )}
       </LayoutMainSection>
-      <LayoutAsideSection breadcrumb={[]}>
+      <LayoutAsideSection>
         <DialogThread
-          currentUser={currentUser}
           characters={characters}
-          initialDialogs={posts}
+          dialogs={dialogs}
           introductionText={introduction}
           nextPoster={nextPoster}
-          nextPostIsGameMaster={nextPostIsGameMaster}
+          isItMyTurn={isItMyTurn}
+          openTextarea={handleOpenTextarea}
         />
       </LayoutAsideSection>
     </>

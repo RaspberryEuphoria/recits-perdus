@@ -10,7 +10,7 @@ type MovesProps = {
 
 const moves = [
   { id: 'FAIRE_FACE_AU_DANGER', name: 'Faire Face au Danger' },
-  { id: 'PRENDRE_L_AVANTAGE', name: "Prendre l'Avantage" },
+  { id: 'PRENDRE_UN_AVANTAGE', name: 'Prendre Un Avantage' },
   { id: 'RECOLTER_DES_INFORMATIONS', name: 'Récolter des Informations' },
   { id: 'PRODIGUER_DES_SOINS', name: 'Prodiguer des Soins' },
   { id: 'RAVITAILLER', name: 'Ravitailler' },

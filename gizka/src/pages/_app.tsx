@@ -9,7 +9,7 @@ import { Layout } from '@/components/Layout';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <DndProvider backend={HTML5Backend}>
-      <Layout breadcrumb={[]} footer={pageProps.footer}>
+      <Layout footer={pageProps.footer}>
         <Component {...pageProps} />
       </Layout>
     </DndProvider>

@@ -5,6 +5,8 @@ import { SkillRepository } from '../../../../infrastructure/skill-sql.repository
 import { Move, Moves } from '../../entities/post';
 import { faireFaceAuDanger } from './faireFaceAuDanger';
 import { payerLePrix } from './payerLePrix';
+import { prendreUnAvantage } from './prendreUnAvantage';
+import { recolterDesInformations } from './recolterDesInformations';
 
 export function useMove(
   postRepository: PostRepository,
@@ -16,6 +18,20 @@ export function useMove(
     switch (move.id) {
       case Moves.FAIRE_FACE_AU_DANGER:
         return faireFaceAuDanger(
+          postRepository,
+          scenarioRepository,
+          skillRepository,
+          characterRepository,
+        )(postId, move);
+      case Moves.PRENDRE_UN_AVANTAGE:
+        return prendreUnAvantage(
+          postRepository,
+          scenarioRepository,
+          skillRepository,
+          characterRepository,
+        )(postId, move);
+      case Moves.RECOLTER_DES_INFORMATIONS:
+        return recolterDesInformations(
           postRepository,
           scenarioRepository,
           skillRepository,

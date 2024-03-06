@@ -96,6 +96,8 @@ export const skillWordings = {
 export function movesNames(moveId: string) {
   const moves: Record<string, string> = {
     [Moves.FAIRE_FACE_AU_DANGER]: 'Faire Face au Danger',
+    [Moves.PRENDRE_UN_AVANTAGE]: 'Prendre Un Avantage',
+    [Moves.RECOLTER_DES_INFORMATIONS]: 'Récolter des Informations',
     [Moves.PAYER_LE_PRIX]: 'Payer le Prix',
   };
 

@@ -8,7 +8,6 @@ export const Keyword = styled.span<{ stat: string }>`
       return `
         font-style: italic;
         text-shadow: var(--shadow);
-        text-transform: none;
       `;
     } else {
       return `

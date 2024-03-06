@@ -17,81 +17,25 @@ type MoveProps = {
   meta: Record<string, string | number>;
 };
 
-export function faireFaceAuDanger(
+export function prendreUnAvantage(
   postRepository: PostRepository,
   scenarioRepository: ScenarioRepository,
   skillRepository: SkillRepository,
   characterRepository: CharacterRepository,
 ) {
-  const moveId = Moves.FAIRE_FACE_AU_DANGER;
+  const moveId = Moves.PRENDRE_UN_AVANTAGE;
 
-  async function onSuccess({
-    characterId,
-    scenarioId,
-    postId,
-    skillId,
-    dices,
-    skillValue,
-    moveResult,
-    meta,
-  }: MoveProps) {
-    await characterRepository.addMomentum(characterId, scenarioId, 1);
+  async function onSuccessOrMixed(props: MoveProps, momentum: number) {
+    await characterRepository.addMomentum(props.characterId, props.scenarioId, momentum);
 
     return postRepository.addMove({
-      moveResult,
+      ...props,
       moveId,
-      postId,
-      skillId,
-      skillValue,
-      dices,
-      meta,
       isResolved: true,
     });
   }
 
-  async function onMixed(
-    { characterId, scenarioId, postId, skillId, dices, skillValue, moveResult, meta }: MoveProps,
-    danger: Stat,
-  ) {
-    switch (danger) {
-      case Stat.MOMENTUM:
-        await characterRepository.removeMomentum(characterId, scenarioId, 1);
-        break;
-      case Stat.HEALTH:
-        await characterRepository.removeHealth(characterId, scenarioId, 1);
-        break;
-      case Stat.SPIRIT:
-        await characterRepository.removeSpirit(characterId, scenarioId, 1);
-        break;
-      case Stat.SUPPLIES:
-        await scenarioRepository.removeSupplies(scenarioId, 1);
-        break;
-    }
-
-    return postRepository.addMove({
-      moveResult,
-      moveId,
-      postId,
-      skillId,
-      skillValue,
-      dices,
-      meta,
-      isResolved: false,
-    });
-  }
-
-  async function onFailure({ postId, skillId, dices, skillValue, moveResult, meta }: MoveProps) {
-    await postRepository.addMove({
-      moveResult,
-      moveId,
-      postId,
-      skillId,
-      skillValue,
-      dices,
-      meta,
-      isResolved: true,
-    });
-
+  async function onFailure({ postId }: MoveProps) {
     const payThePriceMove = { id: Moves.PAYER_LE_PRIX, meta: { origin: 'previous_move' } };
 
     return await useMove(
@@ -113,7 +57,7 @@ export function faireFaceAuDanger(
       throw new Error(`Post ${postId} not found`);
     }
 
-    const { attribute, danger } = move.meta;
+    const { attribute } = move.meta;
 
     const skill = await skillRepository.getByName(attribute);
 
@@ -164,12 +108,9 @@ export function faireFaceAuDanger(
       skillValue: characterSkill.level,
     };
 
-    if (moveResult === MoveResult.SUCCESS) {
-      return onSuccess(newMove);
-    }
-
-    if (moveResult === MoveResult.MIXED) {
-      return onMixed(newMove, danger);
+    if ([MoveResult.SUCCESS, MoveResult.MIXED].includes(moveResult)) {
+      const momentumGain = moveResult === MoveResult.SUCCESS ? 2 : 1;
+      return onSuccessOrMixed(newMove, momentumGain);
     }
 
     if (moveResult === MoveResult.FAILURE) {

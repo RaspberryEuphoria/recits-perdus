@@ -109,22 +109,18 @@ export class CharacterRepository {
       throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
     }
 
-    if (characterOnScenario.momentum === MAX_MOMENTUM) {
-      console.log(`Character ${characterId} already has maximum momentum (${MAX_MOMENTUM})`);
-      return characterOnScenario;
-    }
+    let newMomentum = characterOnScenario.momentum + momentum;
 
-    if (characterOnScenario.momentum === MIN_MOMENTUM) {
-      console.log(`Character ${characterId} already has minimum momentum (${MIN_MOMENTUM})`);
-      return characterOnScenario;
+    if (newMomentum > MAX_MOMENTUM) {
+      newMomentum = MAX_MOMENTUM;
+    } else if (newMomentum < MIN_MOMENTUM) {
+      newMomentum = MIN_MOMENTUM;
     }
 
     return this.db.charactersOnScenarios.update({
       where: { id: characterOnScenario.id },
       data: {
-        momentum: {
-          increment: momentum,
-        },
+        momentum: newMomentum,
       },
     });
   }

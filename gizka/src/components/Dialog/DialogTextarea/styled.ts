@@ -1,58 +1,22 @@
 import styled from 'styled-components';
 
-import { Media } from '@/utils/constants';
-
-type TextareaProps = {
-  isOpen: boolean;
-};
-
 type CounterProps = {
   isOverLimit: boolean;
 };
 
-export const Mask = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background: var(--dark-08);
-  z-index: 10;
-`;
-
 export const GameSection = styled.div`
-  background: var(--primary);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
   align-items: flex-start;
-  width: 65vw;
-  height: 100vw;
-  overflow: auto;
-  border: 1px solid var(--flashy);
   border-top: 0;
   border-bottom: 0;
-  padding: 50px;
-  font-family: 'Roboto';
-
-  @media (max-width: ${Media.lg}) {
-    width: 80%;
-  }
-`;
-
-export const Slots = styled.div`
-  position: relative;
   display: flex;
+  flex-direction: column;
+  font-family: 'Roboto';
   gap: var(--space-1);
-
-  &::after {
-    content: '';
-    position: absolute;
-  }
+  height: 100vw;
+  overflow: auto;
+  padding: var(--space-2);
+  scrollbar-color: var(--flashy-05) var(--primary);
+  scrollbar-width: thin;
 `;
 
 export const Help = styled.div`
@@ -88,7 +52,7 @@ export const Skill = styled.div`
   background: var(--flashy);
 `;
 
-export const Textarea = styled.textarea<TextareaProps>`
+export const Textarea = styled.textarea`
   width: 100%;
   min-height: 5rem;
   padding: 1rem;
@@ -101,30 +65,14 @@ export const Textarea = styled.textarea<TextareaProps>`
   font-family: 'Oxanium';
   resize: none;
   transition: position ease-in 0.5s;
-  z-index: 100;
+  min-height: 10rem;
+  border: 1px solid var(--light);
+  border-radius: var(--rounded);
+  font-family: 'Roboto';
 
-  ${(props) => {
-    if (props.isOpen) {
-      return `
-        width: 100%;
-        height: 15vw;
-        border: 1px solid var(--light);
-        border-radius: var(--rounded);
-        font-family: 'Roboto';
-      `;
-    } else {
-      return `
-        position: sticky;
-        bottom: 0;
-        align-self: flex-start;
-
-        &:hover {
-          &::placeholder {
-            text-shadow: 0 0 0.5rem var(--flashy);
-          }
-        }`;
-    }
-  }}
+  &:focus {
+    border-color: var(--flashy);
+  }
 `;
 
 export const TextareaBar = styled.div`

@@ -118,7 +118,7 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
       >
         <ScenariosListPage scenarios={scenarios} />
       </LayoutMainSection>
-      <LayoutAsideSection breadcrumb={[]}>
+      <LayoutAsideSection>
         <ScenariosFilters
           scenariosCount={scenarios.length}
           locations={locationsWithoutDuplicates}

@@ -10,6 +10,7 @@ export const MoveCard = styled.div`
   border-radius: var(--rounded);
   padding: var(--space-1);
   line-height: 1.5rem;
+  width: 100%;
 
   h1 {
     align-items: center;
@@ -20,6 +21,7 @@ export const MoveCard = styled.div`
     font-weight: bold;
     margin-bottom: var(--space-1);
     padding-left: var(--space-1);
+    text-transform: uppercase;
   }
 
   ul,
@@ -38,6 +40,10 @@ export const MoveCard = styled.div`
   li {
     margin: 0.5rem 0;
   }
+`;
+
+export const Summary = styled.p`
+  margin: var(--space-05) 0;
 `;
 
 export const CloseButton = styled.span`

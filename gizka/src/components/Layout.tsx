@@ -6,11 +6,17 @@ import Link from 'next/link';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 
 import styles from './Layout.module.css';
+import * as Styled from './Layout/styled';
 
 type LayoutProps = {
   children: React.ReactNode;
-  breadcrumb: Array<{ label: string; href: string }>;
   footer?: string[];
+};
+
+type MainLayoutProps<T> = LayoutProps & {
+  breadcrumb?: Array<{ label: string; href: string }>;
+  tabs?: Array<{ label: string; id: T; isOpen: boolean }>;
+  onTabChange?: (tab: T) => void;
 };
 
 type User = {
@@ -57,23 +63,55 @@ export function Layout(props: LayoutProps) {
   );
 }
 
-export function LayoutMainSection(props: LayoutProps) {
+export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
+  if (
+    (!props.breadcrumb && !props.tabs) ||
+    (props?.breadcrumb?.length === 0 && props?.tabs?.length === 0)
+  ) {
+    return (
+      <section className={[styles.mainSection, styles.scroller].join(' ')}>
+        {props.children}
+      </section>
+    );
+  }
+
+  const handleTabClick = (tabId: T) => {
+    if (props.onTabChange) {
+      props.onTabChange(tabId);
+    }
+  };
+
   return (
-    <section className={[styles.mainSection, styles.scroller].join(' ')}>
-      {props.breadcrumb?.length > 0 && (
-        <nav className={styles.breadcrumb}>
-          {props.breadcrumb.map((item, index) => {
-            return index < props.breadcrumb.length - 1 ? (
-              <Link href={item.href} key={item.label}>
-                {item.label}
-                <span className={styles.separator}> 🢒 </span>
-              </Link>
-            ) : (
-              item.label
-            );
-          })}
-        </nav>
-      )}
+    <section className={[styles.mainSection, styles.overflowY, styles.scroller].join(' ')}>
+      <Styled.Nav>
+        {props.breadcrumb && props.breadcrumb.length > 0 && (
+          <Styled.Bradcrumb>
+            {props.breadcrumb.map((item, index) => {
+              return props.breadcrumb && index < props.breadcrumb.length - 1 ? (
+                <Link href={item.href} key={item.label}>
+                  {item.label}
+                  <Styled.BradcrumbSeparator> 🢒 </Styled.BradcrumbSeparator>
+                </Link>
+              ) : (
+                item.label
+              );
+            })}
+          </Styled.Bradcrumb>
+        )}
+        {props.tabs && props.tabs.length > 0 && (
+          <Styled.Tabs>
+            {props.tabs.map((tab) => (
+              <Styled.Tab
+                key={tab.label}
+                isOpen={tab.isOpen}
+                onClick={() => handleTabClick(tab.id)}
+              >
+                {tab.label}
+              </Styled.Tab>
+            ))}
+          </Styled.Tabs>
+        )}
+      </Styled.Nav>
       {props.children}
     </section>
   );
