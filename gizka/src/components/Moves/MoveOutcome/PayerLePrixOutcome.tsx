@@ -51,14 +51,14 @@ function ScoreToOutcome({ character, score }: { character: Character; score: num
   if (score >= 11 && score <= 16) {
     return (
       <>
-        Le groupe est séparé de <CharacterName /> .
+        Le groupe est séparé de <CharacterName />.
       </>
     );
   }
   if (score >= 17 && score <= 23) {
     return (
       <>
-        L&apos;action de <CharacterName /> a un effet imprévu.
+        L&apos;action de <CharacterName /> a un effet imprévu et indésirable.
       </>
     );
   }

@@ -67,7 +67,7 @@ function Success({ character, move }: MoveOutcomeProps) {
       Par la force de {skillWordings[move.skill.name].possessif}
       {move.skill.name.toLowerCase()}{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      prend un avantage décisif, susceptible de renverser la situation à sa faveur (
+      prend un avantage décisif, susceptible de renverser la situation en sa faveur (
       <Keyword stat="momentum">+2</Keyword> élan).
     </p>
   );
@@ -86,13 +86,11 @@ function Mixed({ character, move }: MoveOutcomeProps) {
 
 function Failure({ character, move }: MoveOutcomeProps) {
   return (
-    <p style={{ textTransform: 'capitalize' }}>
-      {skillWordings[move.skill.name].defini}
-      {move.skill.name.toLowerCase()} de
-      <Styled.CharacterName color={character.textColor}>
-        {character.firstName}
-      </Styled.CharacterName>{' '}
-      ne suffit pas à prendre l&apos;ascendant. Pire, cette tentative a l&apos;effet inverse !
+    <p>
+      <span style={{ textTransform: 'capitalize' }}>{skillWordings[move.skill.name].defini}</span>
+      {move.skill.name.toLowerCase()} de{' '}
+      <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
+      ne suffit pas à prendre l&apos;ascendant, et la situation dégénère !
     </p>
   );
 }

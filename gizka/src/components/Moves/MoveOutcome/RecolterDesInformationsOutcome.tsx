@@ -66,8 +66,8 @@ function Success({ character }: MoveOutcomeProps) {
     <p>
       Après une investigation à la hauteur des plus grands détectives,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      révèle de nouvelles informations susceptibles qui seront d&apos;une grande aide pour la
-      mission (<Keyword stat="momentum">+2</Keyword> élan).
+      révèle de nouvelles informations qui seront d&apos;une grande aide pour la mission (
+      <Keyword stat="momentum">+2</Keyword> élan).
     </p>
   );
 }

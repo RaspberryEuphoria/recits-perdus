@@ -66,7 +66,7 @@ function Success({ character, move }: MoveOutcomeProps) {
       Faisant preuve {skillWordings[move.skill.name].partitif}
       {move.skill.name.toLowerCase()} à toute épreuve,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      parvient à maîtriser la situation (<Keyword stat="momentum">+1</Keyword> élan).
+      prend le contrôle de la situation (<Keyword stat="momentum">+1</Keyword> élan).
     </p>
   );
 }
@@ -91,7 +91,7 @@ function Failure({ character, move }: MoveOutcomeProps) {
       Malgré {skillWordings[move.skill.name].possessif}
       {move.skill.name.toLowerCase()},{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      se retrouve dans une situation périlleuse !
+      se retrouve dans une situation particulièrement périlleuse !
     </p>
   );
 }
