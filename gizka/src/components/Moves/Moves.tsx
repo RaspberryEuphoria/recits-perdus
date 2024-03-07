@@ -14,12 +14,15 @@ type MovesProps = {
 };
 
 const moves = [
-  { id: 'FAIRE_FACE_AU_DANGER', name: 'Faire Face au Danger' },
-  { id: 'PRENDRE_UN_AVANTAGE', name: 'Prendre Un Avantage' },
-  { id: 'RECOLTER_DES_INFORMATIONS', name: 'Récolter des Informations' },
-  { id: 'PRODIGUER_DES_SOINS', name: 'Prodiguer des Soins' },
-  { id: 'RAVITAILLER', name: 'Ravitailler' },
-  { id: 'MONTER_LE_CAMP', name: 'Monter le Camp' },
+  { id: 'FAIRE_FACE_AU_DANGER', name: 'Faire Face au Danger', isDisabled: false },
+  { id: 'PRENDRE_UN_AVANTAGE', name: 'Prendre Un Avantage', isDisabled: false },
+  { id: 'RECOLTER_DES_INFORMATIONS', name: 'Récolter des Informations', isDisabled: false },
+  { id: 'PRODIGUER_DES_SOINS', name: 'Prodiguer des Soins', isDisabled: true },
+  { id: 'RAVITAILLER', name: 'Ravitailler', isDisabled: true },
+  { id: 'MONTER_LE_CAMP', name: 'Monter le Camp', isDisabled: true },
+  { id: 'VOYAGER', name: 'Voyager', isDisabled: true },
+  { id: 'ATTEINDRE SA DESTINATION', name: 'Atteindre sa Destination', isDisabled: true },
+  { id: 'PERSUADER', name: 'Persuader', isDisabled: true },
 ];
 
 export function Moves({ onMovePicked, onBurnCheck }: MovesProps) {
@@ -57,8 +60,12 @@ export function Moves({ onMovePicked, onBurnCheck }: MovesProps) {
   return (
     <Styled.MovesList>
       {moves.map((move) => (
-        <Styled.MoveItem key={move.id} onClick={() => openMoveCard(move.id)}>
-          {move.name}
+        <Styled.MoveItem
+          key={move.id}
+          onClick={() => !move.isDisabled && openMoveCard(move.id)}
+          isDisabled={move.isDisabled}
+        >
+          {move.name} {move.isDisabled && '(WiP)'}
         </Styled.MoveItem>
       ))}
     </Styled.MovesList>

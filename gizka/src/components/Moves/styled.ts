@@ -7,7 +7,7 @@ export const MovesList = styled.div`
   grid-gap: 10px;
 `;
 
-export const MoveItem = styled.div`
+export const MoveItem = styled.div<{ isDisabled: boolean }>`
   align-items: center;
   background: var(--secondary);
   border: 1px solid var(--light-05);
@@ -19,10 +19,17 @@ export const MoveItem = styled.div`
   min-height: var(--space-2);
   font-weight: bold;
 
-  &:hover {
-    color: var(--flashy);
-    border-color: var(--flashy);
-  }
+  ${({ isDisabled }) =>
+    isDisabled
+      ? `
+          color: var(--light-05);
+          cursor: not-allowed;
+        `
+      : `
+          &:hover {
+            color: var(--flashy);
+            border-color: var(--flashy);
+        }`}
 `;
 
 export const BurnMomentum = styled.div`
