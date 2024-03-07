@@ -3,6 +3,7 @@ import { Move, Moves } from '@/utils/types/scenario';
 
 import { FaireFaceAuDangerOutcome } from './FaireFaceAuDangerOutcome';
 import { PayerLePrixOutcome } from './PayerLePrixOutcome';
+import { PrendreUnAvantageOutcome } from './PrendreUnAvantageOutcome';
 import { RecolterDesInformationsOutcome } from './RecolterDesInformationsOutcome';
 
 export type MoveOutcomeProps = {
@@ -15,7 +16,7 @@ export function MoveOutcome(props: MoveOutcomeProps) {
     case Moves.FAIRE_FACE_AU_DANGER:
       return <FaireFaceAuDangerOutcome {...props} />;
     case Moves.PRENDRE_UN_AVANTAGE:
-      return <FaireFaceAuDangerOutcome {...props} />;
+      return <PrendreUnAvantageOutcome {...props} />;
     case Moves.RECOLTER_DES_INFORMATIONS:
       return <RecolterDesInformationsOutcome {...props} />;
     case Moves.PAYER_LE_PRIX:
