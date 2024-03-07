@@ -18,7 +18,7 @@ export function payerLePrix(
       throw new Error(`Post ${postId} not found`);
     }
 
-    const value = createRoll(10)();
+    const value = createRoll(100)();
 
     const priceDie = {
       value,
