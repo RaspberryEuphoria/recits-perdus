@@ -43,10 +43,10 @@ export function createPostUsecase(
     }
 
     const newPostWithMove = await useMove(
-      postRepository,
       scenarioRepository,
-      skillRepository,
+      postRepository,
       characterRepository,
+      skillRepository,
     )(action.move, newPost.id);
 
     return {

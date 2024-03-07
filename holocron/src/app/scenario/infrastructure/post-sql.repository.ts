@@ -1,6 +1,16 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
-import { CreatePostDto, Dice, MoveResult } from '../domain/post/entities/post';
+import { CreatePostDto, Dice, MoveMeta, MoveResult } from '../domain/post/entities/post';
+
+export type PostWithCharacterSkills = Prisma.PostGetPayload<{
+  include: {
+    character: {
+      include: {
+        skills: true;
+      };
+    };
+  };
+}>;
 
 export class PostRepository {
   private db: PrismaClient;
@@ -21,7 +31,7 @@ export class PostRepository {
     });
   }
 
-  async getById(id: number) {
+  async getById(id: number): Promise<PostWithCharacterSkills | null> {
     const post = await this.db.post.findUnique({
       where: {
         id,
@@ -59,7 +69,7 @@ export class PostRepository {
     moveResult: MoveResult;
     isResolved: boolean;
     dices: Dice[];
-    meta: Record<string, string | number>;
+    meta: MoveMeta;
   }) {
     return this.db.post.update({
       where: {

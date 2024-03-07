@@ -48,11 +48,15 @@ export enum Moves {
 }
 
 type Move = {
-  id: string;
+  id: Moves;
   meta: MoveMeta;
 };
 
-type MoveMeta = Record<string, any>;
+type MoveMeta = {
+  danger?: Stat;
+  attribute: string;
+  hasMomentumBurn: boolean;
+};
 
 enum Stat {
   MOMENTUM = 'Élan',
@@ -67,4 +71,4 @@ enum MoveResult {
   FAILURE = 'FAILURE',
 }
 
-export { CreatePostDto, Dice, Move, MoveResult, Post, Stat };
+export { CreatePostDto, Dice, Move, MoveMeta, MoveResult, Post, Stat };

@@ -1,23 +1,19 @@
+import { Post } from '@prisma/client';
+
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { createRoll } from '../../../../scenario.utils';
 import { DiceType, Move, MoveResult, Moves } from '../../entities/post';
 
+const moveId = Moves.PAYER_LE_PRIX;
+
 export function payerLePrix(
-  postRepository: PostRepository,
   scenarioRepository: ScenarioRepository,
+  postRepository: PostRepository,
   characterRepository: CharacterRepository,
 ) {
-  const moveId = Moves.PAYER_LE_PRIX;
-
-  return async (postId: number, move: Move) => {
-    const post = await postRepository.getById(postId);
-
-    if (!post) {
-      throw new Error(`Post ${postId} not found`);
-    }
-
+  return async (move: Move, post: Post) => {
     const value = createRoll(100)();
 
     const priceDie = {
@@ -27,24 +23,24 @@ export function payerLePrix(
     };
 
     if (value >= 51 && value < 60) {
-      await characterRepository.removeMomentum(post.character.id, post.scenarioId, 1);
+      await characterRepository.removeMomentum(post.characterId, post.scenarioId, 1);
     } else if (value >= 60 && value < 69) {
-      await characterRepository.removeHealth(post.character.id, post.scenarioId, 1);
+      await characterRepository.removeHealth(post.characterId, post.scenarioId, 1);
     } else if (value >= 69 && value < 78) {
-      await characterRepository.removeSpirit(post.character.id, post.scenarioId, 1);
+      await characterRepository.removeSpirit(post.characterId, post.scenarioId, 1);
     } else if (value >= 78 && value < 87) {
       await scenarioRepository.removeSupplies(post.scenarioId, 1);
     }
 
     const newMove = {
-      postId,
-      moveId,
-      meta: move.meta,
-      moveResult: MoveResult.SUCCESS,
-      characterId: post.character.id,
-      scenarioId: post.scenarioId,
+      characterId: post.characterId,
       dices: [priceDie],
       isResolved: true,
+      meta: move.meta,
+      moveId,
+      moveResult: MoveResult.SUCCESS,
+      postId: post.id,
+      scenarioId: post.scenarioId,
     };
 
     return postRepository.addMove(newMove);

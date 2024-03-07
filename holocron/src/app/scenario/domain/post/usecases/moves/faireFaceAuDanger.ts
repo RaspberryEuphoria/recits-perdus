@@ -1,59 +1,59 @@
-import { STATS_LIMITS } from '../../../../../../rules';
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
-import { PostRepository } from '../../../../infrastructure/post-sql.repository';
+import {
+  PostRepository,
+  PostWithCharacterSkills,
+} from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { createRoll, getDicesResult } from '../../../../scenario.utils';
-import { Dice, DiceType, Move, MoveResult, Moves, Post, Stat } from '../../entities/post';
+import { Move, MoveResult, Moves, Post, Stat } from '../../entities/post';
 import { useMove } from '.';
+import { ActionMoveProps, prepareActionMove } from './prepareActionMove';
 
-type MoveProps = {
-  characterId: number;
-  scenarioId: number;
-  postId: number;
-  skillId: number;
-  skillValue: number;
-  moveResult: MoveResult;
-  dices: Dice[];
-  meta: Record<string, string | number>;
-};
+const moveId = Moves.FAIRE_FACE_AU_DANGER;
 
 export function faireFaceAuDanger(
-  postRepository: PostRepository,
   scenarioRepository: ScenarioRepository,
-  skillRepository: SkillRepository,
+  postRepository: PostRepository,
   characterRepository: CharacterRepository,
+  skillRepository: SkillRepository,
 ) {
-  const moveId = Moves.FAIRE_FACE_AU_DANGER;
+  return async (move: Move, post: PostWithCharacterSkills): Promise<Post> => {
+    const actionMove = await prepareActionMove(characterRepository, skillRepository)(move, post);
 
-  async function onSuccess({
-    characterId,
-    scenarioId,
-    postId,
-    skillId,
-    dices,
-    skillValue,
-    moveResult,
-    meta,
-  }: MoveProps) {
-    await characterRepository.addMomentum(characterId, scenarioId, 1);
+    const { moveResult, meta } = actionMove;
+
+    if (moveResult === MoveResult.SUCCESS) {
+      return onSuccess(actionMove);
+    }
+
+    if (moveResult === MoveResult.MIXED) {
+      if (!meta.danger) {
+        throw new Error(`Move ${move.id} requires a danger!`);
+      }
+
+      return onMixed(actionMove, meta.danger);
+    }
+
+    if (moveResult === MoveResult.FAILURE) {
+      return onFailure(actionMove);
+    }
+
+    throw new Error(`Invalid move result: ${moveResult}`);
+  };
+
+  async function onSuccess(move: ActionMoveProps) {
+    await characterRepository.addMomentum(move.characterId, move.scenarioId, 1);
 
     return postRepository.addMove({
-      moveResult,
+      ...move,
       moveId,
-      postId,
-      skillId,
-      skillValue,
-      dices,
-      meta,
       isResolved: true,
     });
   }
 
-  async function onMixed(
-    { characterId, scenarioId, postId, skillId, dices, skillValue, moveResult, meta }: MoveProps,
-    danger: Stat,
-  ) {
+  async function onMixed(move: ActionMoveProps, danger: Stat) {
+    const { characterId, scenarioId } = move;
+
     switch (danger) {
       case Stat.MOMENTUM:
         await characterRepository.removeMomentum(characterId, scenarioId, 1);
@@ -70,138 +70,29 @@ export function faireFaceAuDanger(
     }
 
     return postRepository.addMove({
-      moveResult,
+      ...move,
       moveId,
-      postId,
-      skillId,
-      skillValue,
-      dices,
-      meta,
       isResolved: false,
     });
   }
 
-  async function onFailure({ postId, skillId, dices, skillValue, moveResult, meta }: MoveProps) {
+  async function onFailure(move: ActionMoveProps) {
     await postRepository.addMove({
-      moveResult,
+      ...move,
       moveId,
-      postId,
-      skillId,
-      skillValue,
-      dices,
-      meta,
       isResolved: true,
     });
 
-    const payThePriceMove = { id: Moves.PAYER_LE_PRIX, meta: { origin: 'previous_move' } };
-
-    return await useMove(
-      postRepository,
-      scenarioRepository,
-      skillRepository,
-      characterRepository,
-    )(payThePriceMove, postId);
-  }
-
-  return async (postId: number, move: Move): Promise<Post> => {
-    if (!move.meta) {
-      throw new Error(`Move ${move.id} meta not found`);
-    }
-
-    const { attribute, danger, hasMomentumBurn } = move.meta;
-
-    const post = await postRepository.getById(postId);
-    if (!post) {
-      throw new Error(`Post ${postId} not found`);
-    }
-
-    const characterOnScenario = await characterRepository.getOnScenario(
-      post.characterId,
-      post.scenarioId,
-    );
-    if (!characterOnScenario) {
-      console.log(`Character ${post.characterId} not found on scenario ${post.scenarioId}`);
-      throw new Error(`Character ${post.characterId} not found on scenario ${post.scenarioId}`);
-    }
-
-    const skill = await skillRepository.getByName(attribute);
-    if (!skill) {
-      throw new Error(`Skill ${attribute} not found`);
-    }
-
-    const characterSkill = post.character.skills.find(
-      (characterSkill) => characterSkill.skillId === skill.id,
-    );
-    if (!characterSkill) {
-      throw new Error(`Character ${post.characterId} does not have skill ${skill.id}`);
-    }
-
-    const rollD6 = createRoll(6);
-    const rollD10 = createRoll(10);
-
-    const actionDie = rollD6();
-    const challengeDices = [rollD10(), rollD10()];
-    const score = actionDie + characterSkill.level;
-
-    const moveResult = getDicesResult({
-      score,
-      challengeDices,
-      momentum: characterOnScenario.momentum,
-      hasMomentumBurn,
-    });
-
-    const nativeMoveResult = getDicesResult({
-      score,
-      challengeDices,
-      momentum: characterOnScenario.momentum,
-      hasMomentumBurn: false,
-    });
-
-    if (moveResult !== nativeMoveResult) {
-      await characterRepository.resetMomentum(post.characterId, post.scenarioId);
-    }
-
-    const dices = [
-      {
-        type: DiceType.ACTION,
-        value: actionDie,
-        isBurned: false,
-      },
-      {
-        type: DiceType.CHALLENGE,
-        value: challengeDices[0],
-        isBurned: hasMomentumBurn && challengeDices[0] < characterOnScenario.momentum,
-      },
-      {
-        type: DiceType.CHALLENGE,
-        value: challengeDices[1],
-        isBurned: hasMomentumBurn && challengeDices[1] < characterOnScenario.momentum,
-      },
-    ];
-
-    const newMove = {
-      moveResult,
-      postId,
-      dices,
-      meta: move.meta,
-      characterId: post.character.id,
-      scenarioId: post.scenarioId,
-      skillId: skill.id,
-      skillValue: characterSkill.level,
+    const payThePriceMove = {
+      id: Moves.PAYER_LE_PRIX,
+      meta: { attribute: '', origin: 'previous_move', hasMomentumBurn: false },
     };
 
-    if (moveResult === MoveResult.SUCCESS) {
-      return onSuccess(newMove);
-    }
-
-    if (moveResult === MoveResult.MIXED) {
-      return onMixed(newMove, danger);
-    }
-
-    if (moveResult === MoveResult.FAILURE) {
-      return onFailure(newMove);
-    }
-
-    throw new Error(`Invalid move result: ${moveResult}`);
-  };
+    return useMove(
+      scenarioRepository,
+      postRepository,
+      characterRepository,
+      skillRepository,
+    )(payThePriceMove, move.postId);
+  }
 }
