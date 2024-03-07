@@ -10,13 +10,10 @@ export const DialogPost = styled.div`
   font-size: 1.4rem;
   font-family: 'Oxanium';
 
+  // This is the Introduction
   &:first-of-type {
     margin-top: 0;
     text-align: center;
-  }
-
-  &:last-of-type {
-    margin-bottom: 0;
   }
 `;
 

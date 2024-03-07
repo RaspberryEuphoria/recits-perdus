@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
 `;
 
 export const DialogThread = styled.div`
-  position: relative;
   padding: var(--space-2);
   white-space: pre-line;
 `;
