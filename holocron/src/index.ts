@@ -9,7 +9,15 @@ import { AuthService } from './services/AuthService';
 const app: express.Application = express();
 const port = 8080;
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: [
+    {
+      emit: 'event',
+      level: 'query',
+    },
+  ],
+});
+
 const authService = new AuthService();
 
 app.use(bodyParser.json());

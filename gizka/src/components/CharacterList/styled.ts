@@ -11,7 +11,7 @@ export const CharacterList = styled.div`
   width: 100%;
 `;
 
-export const CharacterSheet = styled.div`
+export const CharacterPreview = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@ export const CharacterSheet = styled.div`
   max-width: 20%;
 `;
 
-export const Character = styled.div<{ color: string; colorAtLightOpacity: string }>`
+export const CharacterAvatar = styled.div<{ color: string; colorAtLightOpacity: string }>`
   display: flex;
   flex-direction: column;
   /* width: 204px; // 200 + border */
@@ -37,10 +37,6 @@ export const Character = styled.div<{ color: string; colorAtLightOpacity: string
   &:hover {
     box-shadow: 0px 0px 10px 0px ${({ color }) => color},
       inset 0px 0px 10px 0px ${({ color }) => color};
-  }
-
-  &:hover {
-    /* transform: scale(1.1); */
     cursor: pointer;
   }
 
@@ -52,7 +48,7 @@ export const Character = styled.div<{ color: string; colorAtLightOpacity: string
   }
 `;
 
-export const CharacterName = styled.div<{ color: string }>`
+export const CharacterName = styled.div`
   width: 100%;
   margin: 1rem 0;
   color: var(--light);
@@ -67,7 +63,7 @@ export const CharacterName = styled.div<{ color: string }>`
   }
 `;
 
-export const Stats = styled.div`
+export const Stats = styled.div<{ color: string }>`
   display: flex;
   flex-direction: column;
   font-size: 1.5rem;

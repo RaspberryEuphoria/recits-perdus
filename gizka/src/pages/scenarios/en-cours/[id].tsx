@@ -177,10 +177,9 @@ export default function EnCoursWithId({
         onTabChange={(tab: Tab) => setOpenTabId(tab)}
       >
         {openTabId === Tab.Status && (
-          <>
-            <CharacterList characters={Object.values(characters)} />
+          <CharacterList characters={Object.values(characters)}>
             <ScenarioResources supplies={supplies} />
-          </>
+          </CharacterList>
         )}
         {currentUser && openTabId === 'posting' && isItMyTurn && (
           <DialogTextarea

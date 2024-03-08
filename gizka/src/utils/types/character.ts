@@ -20,4 +20,7 @@ export type CharacterSkill = {
   skillId: number;
   level: number;
   name: Skill;
+  skill: {
+    description: string;
+  };
 };

@@ -8,6 +8,9 @@ export const Nav = styled.nav`
   display: flex;
   font-size: 0.8rem;
   font-weight: bold;
+  top: 0;
+  left: 0;
+  position: sticky;
 
   a {
     color: var(--flashy-alt);
