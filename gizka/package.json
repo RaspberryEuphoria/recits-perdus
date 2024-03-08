@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "rm -rf .next && mv build .next",
     "start:prod": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pm2": "pm2 start pm2.json"
   },
   "dependencies": {
     "@next/font": "13.1.2",
@@ -14,6 +16,7 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
+    "cors": "^2.8.5",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.2",
     "next": "13.2.4",
@@ -22,8 +25,8 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.2.0",
-    "socket.io": "^4.5.4",
-    "socket.io-client": "^4.5.4",
+    "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
     "styled-components": "^5.3.6",
     "typescript": "4.9.4"
   },

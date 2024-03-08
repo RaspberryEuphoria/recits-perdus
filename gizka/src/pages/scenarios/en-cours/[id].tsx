@@ -109,48 +109,43 @@ export default function EnCoursWithId({
     setOpenTabId(Tab.Status);
   };
 
+  const socketInitializer = async () => {
+    await httpBffClient.get('/socket');
+
+    socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
+      path: '/api/socket',
+    });
+
+    socket.on('receive-new-move', async () => {
+      const scenario = await httpBffClient.get<Scenario>(`/scenario/${id}`);
+
+      if (isHttpError(scenario)) {
+        throw new Error(
+          `There was an error while fetching the scenario ${id}: ${scenario.message}`,
+        );
+      }
+
+      setSupplies(scenario.supplies);
+      setCharacters(mapScenarioCharacters(scenario.characters));
+    });
+
+    socket.on('receive-new-dialog', async (newDialog) => {
+      setDialogs((dialogs) => [...dialogs, newDialog]);
+
+      if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
+      if (newDialog.move) socket.emit('post-new-move');
+
+      socket.off('receive-new-dialog');
+    });
+  };
+
   useEffect(() => {
-    const socketInitializer = async () => {
-      console.log('[id] : socketInitializer');
-      await httpBffClient.get('/socket');
-
-      socket = io();
-
-      socket.on('receive-new-move', async () => {
-        const scenario = await httpBffClient.get<Scenario>(`/scenario/${id}`);
-
-        if (isHttpError(scenario)) {
-          throw new Error(
-            `There was an error while fetching the scenario ${id}: ${scenario.message}`,
-          );
-        }
-
-        setSupplies(scenario.supplies);
-        setCharacters(mapScenarioCharacters(scenario.characters));
-      });
-
-      socket.on('receive-new-dialog', async (newDialog) => {
-        setDialogs((dialogs) => [...dialogs, newDialog]);
-
-        if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
-        if (newDialog.move) socket.emit('post-new-move');
-
-        socket.off('receive-new-dialog');
-      });
-    };
-
-    if (!socket) {
-      socketInitializer();
-    } else if (socket.disconnected) {
-      socket.connect();
-    }
+    socketInitializer();
 
     return () => {
-      if (socket && socket.connected) {
-        socket.disconnect();
-      }
+      if (socket) socket.disconnect();
     };
-  }, [id]);
+  }, []);
 
   return (
     <>

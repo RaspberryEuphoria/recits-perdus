@@ -56,7 +56,7 @@ export function DialogPost({
       <Styled.DialogInfos>
         <Styled.DialogAvatar
           src={avatarSrc}
-          alt="bloblo"
+          alt="[Avatar manquant]"
           width={200}
           height={230}
           color={textColor}

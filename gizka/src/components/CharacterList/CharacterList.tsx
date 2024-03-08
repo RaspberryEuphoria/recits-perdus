@@ -23,7 +23,7 @@ export function CharacterList({ characters }: CharacterListProps) {
           >
             <Image
               src={`/images/users/avatars/${character.avatar}`}
-              alt="bloblo"
+              alt="[Avatar manquant]"
               width={200}
               height={230}
               quality={100}

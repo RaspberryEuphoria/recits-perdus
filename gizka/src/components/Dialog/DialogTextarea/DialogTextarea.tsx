@@ -90,22 +90,19 @@ export function DialogTextarea({
   const isMoveValid = currentMove ? currentMove?.meta?.isValid : true;
   const isFormDisabled = !isMoveValid || !content || currentLength > MAX_LENGTH;
 
-  useEffect(() => {
-    const socketInitializer = async () => {
-      await httpBffClient.get('/socket');
-      socket = io();
-    };
+  const socketInitializer = async () => {
+    await httpBffClient.get('/socket');
 
-    if (!socket) {
-      socketInitializer();
-    } else if (socket.disconnected) {
-      socket.connect();
-    }
+    socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
+      path: '/api/socket',
+    });
+  };
+
+  useEffect(() => {
+    socketInitializer();
 
     return () => {
-      if (socket && socket.connected) {
-        socket.disconnect();
-      }
+      if (socket) socket.disconnect();
     };
   }, []);
 
