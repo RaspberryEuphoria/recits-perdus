@@ -71,10 +71,6 @@ export function prepareActionMove(
 
     const usedBurn = hasMomentumBurn && moveResult !== nativeMoveResult;
 
-    if (moveResult !== nativeMoveResult) {
-      await characterRepository.resetMomentum(post.characterId, post.scenarioId);
-    }
-
     const dices = [
       {
         type: DiceType.ACTION,
@@ -92,6 +88,10 @@ export function prepareActionMove(
         isBurned: usedBurn && challengeDices[1] < characterOnScenario.momentum,
       },
     ];
+
+    if (moveResult !== nativeMoveResult) {
+      await characterRepository.resetMomentum(post.characterId, post.scenarioId);
+    }
 
     const newMove = {
       dices,
