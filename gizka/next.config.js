@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  distDir: process.env.DIST_DIR || '.next',
   async headers() {
     return [
       {
