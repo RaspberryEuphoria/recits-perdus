@@ -4,6 +4,10 @@ import { TextColor } from '../src/constants';
 
 const prisma = new PrismaClient();
 
+type SwApiCharacter = {
+  name: string;
+};
+
 function rand(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -51,9 +55,9 @@ async function main() {
       // swapi API starts at index 1
       const apiIndex = index + index + 1;
       const resOne = await fetch(`https://swapi.dev/api/people/${apiIndex}`);
-      const randomCharacterOne = await resOne.json();
+      const randomCharacterOne = (await resOne.json()) as SwApiCharacter;
       const resTwo = await fetch(`https://swapi.dev/api/people/${apiIndex + 1}`);
-      const randomCharacterTwo = await resTwo.json();
+      const randomCharacterTwo = (await resTwo.json()) as SwApiCharacter;
 
       const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => {
         const characterSkills = skills.map((skill, i) => ({

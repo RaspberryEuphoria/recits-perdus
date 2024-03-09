@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import bodyParser from 'body-parser';
+import { WebhookClient } from 'discord.js';
 import express from 'express';
 
 import { ScenarioContainer } from './app/scenario/scenario.container';
@@ -9,16 +10,13 @@ import { AuthService } from './services/AuthService';
 const app: express.Application = express();
 const port = 8080;
 
-const prisma = new PrismaClient({
-  log: [
-    {
-      emit: 'event',
-      level: 'query',
-    },
-  ],
-});
-
+const prisma = new PrismaClient();
 const authService = new AuthService();
+
+const discordWebhookClient = new WebhookClient({
+  id: `${process.env.DISCORD_HOLONET_CHANNEL_ID}`,
+  token: `${process.env.DISCORD_HOLONET_CHANNEL_TOKEN}`,
+});
 
 app.use(bodyParser.json());
 
@@ -31,7 +29,7 @@ app.get('/', (_req, _res) => {
 app.listen(port, () => {
   console.log(`TypeScript with Express http://localhost:${port}/`);
 
-  const scenarioContainer = new ScenarioContainer(prisma);
+  const scenarioContainer = new ScenarioContainer(prisma, discordWebhookClient);
   const userContainer = new UserContainer(prisma, authService);
 
   app.use('/scenario', scenarioContainer.routes);

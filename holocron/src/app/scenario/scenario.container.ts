@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { WebhookClient } from 'discord.js';
 import { Router } from 'express';
 
 import { scenarioRoutes } from './api/scenario.api';
@@ -20,7 +21,7 @@ export class ScenarioContainer {
   private characterRepository: CharacterRepository;
   private scenarioRoutes: Router;
 
-  constructor(db: PrismaClient) {
+  constructor(db: PrismaClient, private readonly discordWebhookClient: WebhookClient) {
     this.scenarioRepository = new ScenarioRepository(db);
     this.postRepository = new PostRepository(db);
     this.skillRepository = new SkillRepository(db);
@@ -54,6 +55,7 @@ export class ScenarioContainer {
       this.scenarioRepository,
       this.skillRepository,
       this.characterRepository,
+      this.discordWebhookClient,
     )(post);
   }
 }
