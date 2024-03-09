@@ -1,0 +1,15 @@
+{
+  "scenarios": {
+    "title": "Les Récits Perdus",
+    "en-cours": {
+      "breadcrumb": {
+        "home": "Accueil",
+        "current": "Scénarios en cours"
+      },
+      "tabs": {
+        "status": "Statut",
+        "play": "Jouer"
+      }
+    }
+  }
+}

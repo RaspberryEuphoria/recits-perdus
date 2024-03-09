@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import Head from 'next/head';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
@@ -24,6 +25,7 @@ type EnCoursWithIdProps = {
   nextPoster: Character;
   characters: Record<string, Character>;
   supplies: number;
+  messages: Record<string, unknown>;
 };
 
 export async function getServerSideProps(
@@ -58,6 +60,7 @@ export async function getServerSideProps(
       posts: scenario.posts,
       supplies: scenario.supplies,
       characters: mapScenarioCharacters(scenario.characters),
+      messages: (await import(`@/public/locales/fr/scenarios.json`)).default,
     },
   };
 }
@@ -85,6 +88,7 @@ export default function EnCoursWithId({
   characters: initalCharacters,
   supplies: initalSupplies,
 }: EnCoursWithIdProps) {
+  const t = useTranslations('scenarios');
   const [currentUser] = useLocalStorage<User>('currentUser');
 
   const [openTabId, setOpenTabId] = useState<Tab>(Tab.Status);
@@ -150,25 +154,32 @@ export default function EnCoursWithId({
   return (
     <>
       <Head>
-        <title>{title} - Les Récits Perdus</title>
+        <title>
+          {title} - {t('title')}
+        </title>
         <meta
           name="description"
           content={`
-          Star Wars - Les Récits perdus : ${title}.
+          Star Wars - ${t('title')} : ${title}.
           ${introduction}
         `}
         />
       </Head>
       <LayoutMainSection
         breadcrumb={[
-          { label: 'Accueil', href: '/' },
-          { label: 'Scénarios en cours', href: '/scenarios/en-cours' },
+          { label: t('en-cours.breadcrumb.home'), href: '/' },
+          { label: t('en-cours.breadcrumb.current'), href: '/scenarios/en-cours' },
           { label: title, href: '#' },
         ]}
         tabs={[
-          { label: 'Statut', id: Tab.Status, isOpen: openTabId === Tab.Status, isDisabled: false },
           {
-            label: 'Jouer',
+            label: t('en-cours.tabs.status'),
+            id: Tab.Status,
+            isOpen: openTabId === Tab.Status,
+            isDisabled: false,
+          },
+          {
+            label: t('en-cours.tabs.play'),
             id: Tab.Posting,
             isOpen: openTabId === Tab.Posting,
             isDisabled: !isItMyTurn,
@@ -181,7 +192,7 @@ export default function EnCoursWithId({
             <ScenarioResources supplies={supplies} />
           </CharacterList>
         )}
-        {currentUser && openTabId === 'posting' && isItMyTurn && (
+        {currentUser && openTabId === Tab.Posting && isItMyTurn && (
           <DialogTextarea
             nextPoster={nextPoster}
             content={content}

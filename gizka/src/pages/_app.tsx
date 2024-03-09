@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { NextIntlClientProvider } from 'next-intl';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -21,9 +22,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="mask-icon" href={SafariPinnedTab.src} color="#5bbad5" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout footer={pageProps.footer}>
-        <Component {...pageProps} />
-      </Layout>
+      <NextIntlClientProvider locale="fr" timeZone="Europe/France" messages={pageProps.messages}>
+        <Layout footer={pageProps.footer}>
+          <Component {...pageProps} />
+        </Layout>
+      </NextIntlClientProvider>
     </DndProvider>
   );
 }
