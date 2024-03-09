@@ -18,6 +18,12 @@ const discordWebhookClient = new WebhookClient({
   token: `${process.env.DISCORD_HOLONET_CHANNEL_TOKEN}`,
 });
 
+const mockDiscordWebhookClient = {
+  send: (message: string) => {
+    console.log(message);
+  },
+} as WebhookClient;
+
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -30,7 +36,10 @@ app.get('/', (_req, _res) => {
 app.listen(port, () => {
   console.log(`TypeScript with Express http://localhost:${port}/`);
 
-  const scenarioContainer = new ScenarioContainer(prisma, discordWebhookClient);
+  const scenarioContainer = new ScenarioContainer(
+    prisma,
+    process.env.DISCORD_ENABLED ? discordWebhookClient : mockDiscordWebhookClient,
+  );
   const userContainer = new UserContainer(prisma, authService);
 
   app.use('/scenario', scenarioContainer.routes);
