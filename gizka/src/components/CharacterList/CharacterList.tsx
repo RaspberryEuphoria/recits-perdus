@@ -42,7 +42,7 @@ export function CharacterList({ characters, children }: CharacterListProps) {
               onClick={() => selectCharacter(character)}
             >
               <Image
-                src={`/images/users/avatars/${character.avatar}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`}
                 alt="[Avatar manquant]"
                 width={200}
                 height={230}

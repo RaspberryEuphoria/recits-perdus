@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import BackgroundStarmapImage from '@/public/images/background_starmap.png';
+import LogoImage from '@/public/images/logo.png';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 
 import styles from './Layout.module.css';
@@ -35,7 +37,7 @@ export function Layout(props: LayoutProps) {
   return (
     <>
       <header className={styles.header}>
-        <Image src="/images/logo.png" alt="Gizka" width={354} height={118} quality={100} />
+        <Image src={LogoImage.src} alt="Les Récits Perdus" width={354} height={118} quality={100} />
         {currentUser && (
           <span onClick={logout}>
             Bienvenue, <strong>{currentUser.name}</strong>
@@ -50,7 +52,7 @@ export function Layout(props: LayoutProps) {
           styles.fullH,
           styles.scrollHidden,
         ].join(' ')}
-        style={{ backgroundImage: 'url(/images/background_starmap.png)' }}
+        style={{ backgroundImage: `url(${BackgroundStarmapImage.src})` }}
       >
         {props.children}
       </main>

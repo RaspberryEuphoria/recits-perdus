@@ -1,40 +1,13 @@
-import { GetServerSidePropsResult } from 'next';
-import Head from 'next/head';
+'use client';
+
 import { useState } from 'react';
 
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { ScenariosListPage } from '@/components/ScenariosListPage';
 import { ScenariosFilters } from '@/components/ScenariosListPage/ScenariosFilters';
-import { httpClient, isHttpError } from '@/services/http-client';
-import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
+import { Scenario } from '@/utils/types/scenario';
 
-type EnCoursProps = {
-  scenarios: Scenario[];
-  footer: string[];
-};
-
-export async function getServerSideProps(): Promise<GetServerSidePropsResult<EnCoursProps>> {
-  const scenarios = await httpClient.get<Scenario[]>(
-    `/scenario?status=${ScenarioStatus.IN_PROGRESS}`,
-  );
-
-  if (isHttpError(scenarios)) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      scenarios,
-      footer: [
-        "Le saviez-vous ? Le foie de bantha est tellement enrichi en fer qu'une simple bouchée tuerait un Wookie.",
-      ],
-    },
-  };
-}
-
-export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
+export function EnCoursPage({ scenarios: initialScenarios }: { scenarios: Scenario[] }) {
   const locationsWithoutDuplicates = [...new Set(initialScenarios.map(getLocation))];
   const erasWithoutDuplicates = [...new Set(initialScenarios.map(getEra))];
 
@@ -111,13 +84,6 @@ export default function EnCours({ scenarios: initialScenarios }: EnCoursProps) {
 
   return (
     <>
-      <Head>
-        <title>Scénarios en cours - Les Récits Perdus</title>
-        <meta
-          name="description"
-          content="Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars"
-        />
-      </Head>
       <LayoutMainSection
         breadcrumb={[
           { label: 'Accueil', href: '/' },

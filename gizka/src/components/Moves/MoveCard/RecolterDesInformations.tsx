@@ -30,7 +30,7 @@ export function RecolterDesInformations({ id, onPick, onClose, children }: MoveC
             vous fouillez une zone, posez des questions, menez une investigation ou remontez une
             piste
           </strong>
-          , décrivez votre action et faites un jet (+intuition).
+          , décrivez votre action et faites un jet +intuition.
         </Styled.Summary>
 
         <p>

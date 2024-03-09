@@ -1,4 +1,5 @@
-import { useRouter } from 'next/router';
+'use client';
+
 import { useEffect, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
@@ -6,11 +7,12 @@ import { Button } from '@/components/DesignSystem/Button';
 import { Moves } from '@/components/Moves';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
-import { Post, Skill, Stat } from '@/utils/types/scenario';
+import { Moves as MoveId, Post, Skill, Stat } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
 
 type DialogTextareaProps = {
+  scenarioId: string;
   nextPoster: Character;
   content: string;
   onContentChange: (content: string) => void;
@@ -18,7 +20,7 @@ type DialogTextareaProps = {
 };
 
 export type Move = {
-  id: string;
+  id: MoveId;
   meta?: Record<string, string | number | boolean | Skill | Stat | undefined>;
 };
 
@@ -27,14 +29,12 @@ const MAX_LENGTH = 750;
 let socket: Socket;
 
 export function DialogTextarea({
+  scenarioId,
   nextPoster: initialNextPoster,
   content: initialContent,
   onContentChange,
   onTextareaSubmit,
 }: DialogTextareaProps) {
-  const router = useRouter();
-  const { id: scenarioId } = router.query;
-
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [content, setContent] = useState<string>(initialContent);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
@@ -96,6 +96,9 @@ export function DialogTextarea({
     socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
       path: '/api/socket',
     });
+
+    console.log('Init socket');
+    console.log(socket);
   };
 
   useEffect(() => {

@@ -1,0 +1,20 @@
+{
+  "moves": {
+    "FAIRE_FACE_AU_DANGER": {
+      "name": "Faire face au danger"
+    },
+    "PRENDRE_UN_AVANTAGE": {
+      "name": "Prendre un avantage"
+    },
+    "RECOLTER_DES_INFORMATIONS": {
+      "name": "Récolter des informations"
+    },
+    "PRODIGUER_DES_SOINS": {
+      "name": "Prodiguer des soins",
+      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous tentez de soigner vos propres blessures, faites un jet +astuce ou +temerite, en utilisant la caractéristique la plus faible."
+    },
+    "PAYER_LE_PRIX": {
+      "name": "Payer le prix"
+    }
+  }
+}

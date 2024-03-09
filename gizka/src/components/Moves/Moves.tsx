@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import MomentumIcon from '@/public/images/icons/momentum.svg';
+import { Moves as MoveId } from '@/utils/types/scenario';
 
 import { Checkbox } from '../DesignSystem/Checkbox';
 import { Prompt } from '../DesignSystem/Prompt';
@@ -14,21 +15,21 @@ type MovesProps = {
 };
 
 const moves = [
-  { id: 'FAIRE_FACE_AU_DANGER', name: 'Faire Face au Danger', isDisabled: false },
-  { id: 'PRENDRE_UN_AVANTAGE', name: 'Prendre Un Avantage', isDisabled: false },
-  { id: 'RECOLTER_DES_INFORMATIONS', name: 'Récolter des Informations', isDisabled: false },
-  { id: 'PRODIGUER_DES_SOINS', name: 'Prodiguer des Soins', isDisabled: true },
-  { id: 'RAVITAILLER', name: 'Ravitailler', isDisabled: true },
-  { id: 'MONTER_LE_CAMP', name: 'Monter le Camp', isDisabled: true },
-  { id: 'VOYAGER', name: 'Voyager', isDisabled: true },
-  { id: 'ATTEINDRE SA DESTINATION', name: 'Atteindre sa Destination', isDisabled: true },
-  { id: 'PERSUADER', name: 'Persuader', isDisabled: true },
+  { id: MoveId.FAIRE_FACE_AU_DANGER, name: 'Faire Face au Danger', isDisabled: false },
+  { id: MoveId.PRENDRE_UN_AVANTAGE, name: 'Prendre Un Avantage', isDisabled: false },
+  { id: MoveId.RECOLTER_DES_INFORMATIONS, name: 'Récolter des Informations', isDisabled: false },
+  { id: MoveId.PRODIGUER_DES_SOINS, name: 'Prodiguer des Soins', isDisabled: false },
+  { id: MoveId.RAVITAILLER, name: 'Ravitailler', isDisabled: true },
+  { id: MoveId.MONTER_LE_CAMP, name: 'Monter le Camp', isDisabled: true },
+  { id: MoveId.VOYAGER, name: 'Voyager', isDisabled: true },
+  { id: MoveId.ATTEINDRE_SA_DESTINATION, name: 'Atteindre sa Destination', isDisabled: true },
+  { id: MoveId.PERSUADER, name: 'Persuader', isDisabled: true },
 ];
 
 export function Moves({ onMovePicked, onBurnCheck }: MovesProps) {
-  const [selectedMoveId, setSelectedMoveId] = useState<string | null>(null);
+  const [selectedMoveId, setSelectedMoveId] = useState<MoveId | null>(null);
 
-  const openMoveCard = (id: string) => {
+  const openMoveCard = (id: MoveId) => {
     setSelectedMoveId(id);
   };
 

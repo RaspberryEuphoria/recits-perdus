@@ -1,5 +1,5 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import Head from 'next/head';
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
@@ -7,17 +7,15 @@ import { io, Socket } from 'socket.io-client';
 import { CharacterList } from '@/components/CharacterList';
 import { DialogTextarea } from '@/components/Dialog/DialogTextarea';
 import { DialogThread } from '@/components/Dialog/DialogThread';
+import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
-import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Post, Scenario } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
 
-import { LayoutAsideSection, LayoutMainSection } from '../../../components/Layout';
-
-type EnCoursWithIdProps = {
+type EnCoursWithIdPageProps = {
   id: string;
   title: string;
   posts: Post[];
@@ -25,45 +23,7 @@ type EnCoursWithIdProps = {
   nextPoster: Character;
   characters: Record<string, Character>;
   supplies: number;
-  messages: Record<string, unknown>;
 };
-
-export async function getServerSideProps(
-  context: GetServerSidePropsContext,
-): Promise<GetServerSidePropsResult<EnCoursWithIdProps>> {
-  const id = context.query.id as string;
-
-  if (!id) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const [scenarioId] = id.split('-');
-  const scenario = await httpBffClient.get<Scenario>(`/scenario/${scenarioId}`);
-
-  if (isHttpError(scenario)) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      id,
-      title: scenario.title,
-      introduction: generateIntroduction(scenario),
-      nextPoster: getNextPoster(
-        scenario.characters,
-        scenario.posts[scenario.posts.length - 1]?.character,
-      ),
-      posts: scenario.posts,
-      supplies: scenario.supplies,
-      characters: mapScenarioCharacters(scenario.characters),
-      messages: (await import(`@/public/locales/fr/scenarios.json`)).default,
-    },
-  };
-}
 
 function mapScenarioCharacters(scenarioCharacters: Character[]) {
   return scenarioCharacters.reduce((acc, character) => {
@@ -79,7 +39,7 @@ enum Tab {
 
 let socket: Socket;
 
-export default function EnCoursWithId({
+export function EnCoursWithIdPage({
   id,
   title,
   introduction,
@@ -87,7 +47,7 @@ export default function EnCoursWithId({
   nextPoster: initialNextPoster,
   characters: initalCharacters,
   supplies: initalSupplies,
-}: EnCoursWithIdProps) {
+}: EnCoursWithIdPageProps) {
   const t = useTranslations('scenarios');
   const [currentUser] = useLocalStorage<User>('currentUser');
 
@@ -153,18 +113,6 @@ export default function EnCoursWithId({
 
   return (
     <>
-      <Head>
-        <title>
-          {title} - {t('title')}
-        </title>
-        <meta
-          name="description"
-          content={`
-          Star Wars - ${t('title')} : ${title}.
-          ${introduction}
-        `}
-        />
-      </Head>
       <LayoutMainSection
         breadcrumb={[
           { label: t('en-cours.breadcrumb.home'), href: '/' },
@@ -194,6 +142,7 @@ export default function EnCoursWithId({
         )}
         {currentUser && openTabId === Tab.Posting && isItMyTurn && (
           <DialogTextarea
+            scenarioId={id}
             nextPoster={nextPoster}
             content={content}
             onContentChange={handleContentChange}

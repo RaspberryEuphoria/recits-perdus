@@ -19,6 +19,7 @@ const discordWebhookClient = new WebhookClient({
 });
 
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
 app.get('/', (_req, _res) => {
   _res.json({

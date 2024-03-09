@@ -233,64 +233,6 @@ body {
   flex-direction: column;
   color: white;
   font-family: 'Oxanium';
-}
 
-.quest {
-  display: inline-block;
-  padding: 1rem;
-  background: var(--dark-05);
-  border: 1px solid var(--light);
-}
-
-.quest:hover {
-  background: var(--dark);
-}
-
-.quest h1 {
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  font-family: 'Oxanium';
-}
-
-.quest span {
-  color: var(--flashy);
-  font-family: 'Oxanium';
-  font-style: italic;
-}
-
-.dialog-avatar {
-  position: absolute;
-  right: calc(35% + 5% + var(--gutter-w)); /* 35% aside width + 5% margin + 2rem avatar width */
-  bottom: var(--gutter-w);
-  width: calc(200px + 1rem);
-  height: calc(300px + 1rem);
-  padding: 1rem;
-  background: transparent;
-  border: 1px solid var(--light);
-}
-
-.dialog-avatar::after {
-  content: '';
-  position: absolute;
-  bottom: var(--gutter-w);
-  right: calc(var(--gutter-w) * -1);
-  width: var(--gutter-w);
-  height: 1px;
-  background: var(--light);
-}
-
-.dialog-avatar .author-name {
-  position: absolute;
-  top: 50%;
-  text-transform: uppercase;
-  font-family: 'Phonk Contrast DEMO';
-  font-size: 1.5rem;
-  transform: translateY(-50%) translateX(80%);
-  writing-mode: sideways-lr;
-}
-
-.dialog-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background: 'blue';
 }

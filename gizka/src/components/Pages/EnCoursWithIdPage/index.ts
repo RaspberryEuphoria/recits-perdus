@@ -1,0 +1,1 @@
+export { EnCoursWithIdPage } from './EnCoursWithIdPage';

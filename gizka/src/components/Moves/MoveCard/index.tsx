@@ -3,10 +3,11 @@ import { Moves } from '@/utils/types/scenario';
 
 import { FaireFaceAuDanger } from './FaireFaceAuDanger';
 import { PrendreUnAvantage } from './PrendreUnAvantage';
+import { ProdiguerDesSoins } from './ProdiguerDesSoins';
 import { RecolterDesInformations } from './RecolterDesInformations';
 
 export type MoveCardProps = {
-  id: string;
+  id: Moves;
   onPick: (move: Move | null) => void;
   onClose: () => void;
   children: React.ReactNode;
@@ -19,7 +20,7 @@ export function MoveCard(props: MoveCardProps) {
   return <Component {...props} />;
 }
 
-const GetComponent = (id: string) => {
+const GetComponent = (id: Moves) => {
   switch (id) {
     case Moves.FAIRE_FACE_AU_DANGER:
       return FaireFaceAuDanger;
@@ -27,6 +28,8 @@ const GetComponent = (id: string) => {
       return PrendreUnAvantage;
     case Moves.RECOLTER_DES_INFORMATIONS:
       return RecolterDesInformations;
+    case Moves.PRODIGUER_DES_SOINS:
+      return ProdiguerDesSoins;
     default:
       return null;
   }

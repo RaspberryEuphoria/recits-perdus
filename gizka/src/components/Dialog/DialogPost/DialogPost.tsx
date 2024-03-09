@@ -46,16 +46,13 @@ export function DialogPost({
 
   const textColor = isGameMaster ? TextColor.GameMaster : character.textColor;
 
-  const avatarSrc = isGameMaster
-    ? '/images/avatars/gamemaster-1.jpg'
-    : `/images/users/avatars/${character.avatar}`;
   const characterName = isGameMaster ? 'Maître du Jeu' : getFullName(character);
 
   return (
     <Styled.DialogPost onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Styled.DialogInfos>
         <Styled.DialogAvatar
-          src={avatarSrc}
+          src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`}
           alt="[Avatar manquant]"
           width={200}
           height={230}
