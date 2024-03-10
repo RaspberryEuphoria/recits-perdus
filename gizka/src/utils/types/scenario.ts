@@ -16,6 +16,7 @@ export type Post = {
   characterId: number;
   characterSkill?: CharacterSkill;
   nextPoster?: Character;
+  moves?: Move[];
   turn: number;
 };
 

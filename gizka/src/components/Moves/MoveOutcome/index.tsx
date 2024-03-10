@@ -4,11 +4,13 @@ import { Move, Moves } from '@/utils/types/scenario';
 import { FaireFaceAuDangerOutcome } from './FaireFaceAuDangerOutcome';
 import { PayerLePrixOutcome } from './PayerLePrixOutcome';
 import { PrendreUnAvantageOutcome } from './PrendreUnAvantageOutcome';
+import { ProdiguerDesSoinsOutcome } from './ProdiguerDesSoinsOutcome';
 import { RecolterDesInformationsOutcome } from './RecolterDesInformationsOutcome';
 
 export type MoveOutcomeProps = {
   move: Move;
   character: Character;
+  characters: Record<string, Character>;
 };
 
 export function MoveOutcome(props: MoveOutcomeProps) {
@@ -21,6 +23,8 @@ export function MoveOutcome(props: MoveOutcomeProps) {
       return <RecolterDesInformationsOutcome {...props} />;
     case Moves.PAYER_LE_PRIX:
       return <PayerLePrixOutcome {...props} />;
+    case Moves.PRODIGUER_DES_SOINS:
+      return <ProdiguerDesSoinsOutcome {...props} />;
     default:
       return null;
   }

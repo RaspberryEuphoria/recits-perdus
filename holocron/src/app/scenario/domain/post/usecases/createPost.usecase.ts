@@ -127,7 +127,11 @@ function moveIdToString(moveId: Moves) {
       return "essaie de prendre l'avantage";
     case Moves.RECOLTER_DES_INFORMATIONS:
       return 'récolte des informations';
+    case Moves.PRODIGUER_DES_SOINS:
+      return 'prodigue des soins';
     case Moves.PAYER_LE_PRIX:
       return 'paie le prix';
+    default:
+      return 'a joué son tour';
   }
 }

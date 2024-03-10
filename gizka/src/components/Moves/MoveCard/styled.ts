@@ -3,6 +3,7 @@ import styled from 'styled-components';
 type ClickToRollProps = {
   isSelected: boolean;
   variant?: 'attribute' | 'danger';
+  color?: string;
 };
 
 export const MoveCard = styled.div`
@@ -79,10 +80,19 @@ export const ClickToRoll = styled.span<ClickToRollProps>`
   }
 
   ${(props) => {
-    if (props.variant === 'danger') {
+    if (props.variant === 'danger' && !props.color) {
       return `
         color: var(--malus);
         border-color: var(--malus);
+      `;
+    }
+  }}
+
+  ${(props) => {
+    if (props.color) {
+      return `
+        color: ${props.color};
+        border-color: ${props.color};
       `;
     }
   }}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import MomentumIcon from '@/public/images/icons/momentum.svg';
+import { Character } from '@/utils/types/character';
 import { Moves as MoveId } from '@/utils/types/scenario';
 
 import { Checkbox } from '../DesignSystem/Checkbox';
@@ -9,9 +10,11 @@ import { Move } from '../Dialog/DialogTextarea/DialogTextarea';
 import { MoveCard } from './MoveCard';
 import * as Styled from './styled';
 
-type MovesProps = {
+export type MovesProps = {
   onMovePicked: (move: Move | null) => void;
   onBurnCheck: (hasMomentumBurn: boolean) => void;
+  character: Character;
+  characters: Character[];
 };
 
 const moves = [
@@ -26,7 +29,7 @@ const moves = [
   { id: MoveId.PERSUADER, name: 'Persuader', isDisabled: true },
 ];
 
-export function Moves({ onMovePicked, onBurnCheck }: MovesProps) {
+export function Moves({ onMovePicked, onBurnCheck, character, characters }: MovesProps) {
   const [selectedMoveId, setSelectedMoveId] = useState<MoveId | null>(null);
 
   const openMoveCard = (id: MoveId) => {
@@ -44,7 +47,13 @@ export function Moves({ onMovePicked, onBurnCheck }: MovesProps) {
 
   if (selectedMoveId) {
     return (
-      <MoveCard id={selectedMoveId} onPick={onMovePicked} onClose={closeMoveCard}>
+      <MoveCard
+        id={selectedMoveId}
+        onPick={onMovePicked}
+        onClose={closeMoveCard}
+        character={character}
+        characters={characters}
+      >
         <Prompt stat="momentum">
           <MomentumIcon />
           <label htmlFor="burn">Brûler de l&apos;élan ?</label>{' '}

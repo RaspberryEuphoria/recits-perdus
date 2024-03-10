@@ -37,9 +37,14 @@ export function DialogThread({
   return (
     <Styled.Wrapper>
       <Styled.DialogThread ref={threadRef}>
-        <DialogPost content={introductionText} />
+        <DialogPost content={introductionText} characters={characters} />
         {dialogs.map((dialog) => (
-          <DialogPost key={dialog.id} {...dialog} character={characters[dialog.characterId]} />
+          <DialogPost
+            key={dialog.id}
+            {...dialog}
+            character={characters[dialog.characterId]}
+            characters={characters}
+          />
         ))}
       </Styled.DialogThread>
 

@@ -98,6 +98,7 @@ export function movesNames(moveId: string) {
     [Moves.FAIRE_FACE_AU_DANGER]: 'Faire Face au Danger',
     [Moves.PRENDRE_UN_AVANTAGE]: 'Prendre Un Avantage',
     [Moves.RECOLTER_DES_INFORMATIONS]: 'Récolter des Informations',
+    [Moves.PRODIGUER_DES_SOINS]: 'Prodiguer des Soins',
     [Moves.PAYER_LE_PRIX]: 'Payer le Prix',
   };
 

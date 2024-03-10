@@ -3,71 +3,98 @@ import { useEffect, useState } from 'react';
 
 import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Prompt } from '@/components/DesignSystem/Prompt';
-import D6Icon from '@/public/images/icons/d6.svg';
 import HealthIcon from '@/public/images/icons/health.svg';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
-import SpiritIcon from '@/public/images/icons/spirit.svg';
 import SuppliesIcon from '@/public/images/icons/supplies.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
+import { getFullName } from '@/utils/character/helpers';
+import { Character } from '@/utils/types/character';
 import { Skill, Stat } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
 
-export function ProdiguerDesSoins({ id, onPick, onClose, children }: MoveCardProps) {
+export function ProdiguerDesSoins({
+  id,
+  onPick,
+  onClose,
+  character,
+  characters,
+  children,
+}: MoveCardProps) {
   const t = useTranslations('moves');
-  const [target, setTarget] = useState('');
+  const [targetId, setTargetId] = useState<number>();
   const [danger, setDanger] = useState<Stat | undefined>();
+  const injuredCharacters = characters.sort((a, b) => a.health - b.health);
 
   useEffect(() => {
-    const attribute = Skill.TENACITE;
-    onPick({ id, meta: { attribute, danger, isValid: Boolean(danger && attribute) } });
+    const attribute = targetId ? getAttribute(character, targetId) : Skill.INTUITION;
+
+    onPick({
+      id,
+      meta: { targetId, attribute, danger, isValid: Boolean(danger && targetId) },
+    });
 
     return () => {
       onPick(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [danger, id]);
+  }, [danger, targetId, id]);
 
   return (
     <Styled.MoveCard>
       <div>
         <h1>
           <Keyword stat="move">{t(`${id}.name`)}</Keyword>
-          <Styled.CloseButton onClick={onClose}>Annuler &#8617;</Styled.CloseButton>
+          <Styled.CloseButton onClick={onClose}>{t('buttons.cancel')} &#8617;</Styled.CloseButton>
         </h1>
         <Styled.Summary>{t(`${id}.summary`)}</Styled.Summary>
 
         <p>
-          En cas de <strong>succès total</strong>, vous réussissez. Recevez{' '}
-          <Keyword stat="momentum">+1</Keyword> élan.
+          {t.rich(`${id}.results.strong-hit`, {
+            important: (chunks) => <strong>{chunks}</strong>,
+            health: (chunks) => <Keyword stat="health">{chunks}</Keyword>,
+          })}
         </p>
         <p>
-          En cas de <strong>succès partiel</strong>, vous réussissez, mais avec une complication.{' '}
+          {t.rich(`${id}.results.weak-hit`, {
+            important: (chunks) => <strong>{chunks}</strong>,
+            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
+            momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
+          })}
         </p>
         <p>
-          En cas d&apos;<strong>échec</strong>, vous échouez, ou votre progression subit un
-          retournement dramatique. Vous devez en <Keyword stat="move">Payer le Prix</Keyword>.
+          {t.rich(`${id}.results.miss`, {
+            important: (chunks) => <strong>{chunks}</strong>,
+            move: (chunks) => <Keyword stat="move">{chunks}</Keyword>,
+          })}
         </p>
 
         <Prompt>
           <UnkownDieIcon />
-          Qui voulez-vous soigner ?
+          {t(`prompts.heal`)}
         </Prompt>
         <ul>
-          {/* <li>
-            Avec rapidité, agilité ou précision :{' '}
-            <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.FINESSE)}
-              isSelected={attribute === Skill.FINESSE}
-            >
-              +finesse <D6Icon />
+          {injuredCharacters.map((character) => (
+            <li key={character.id}>
+              <Styled.ClickToRoll
+                onClick={() => setTargetId(character.id)}
+                isSelected={targetId === character.id}
+                color={character.textColor}
+              >
+                {getFullName(character, false)} {character.health}/5 <HealthIcon />
+              </Styled.ClickToRoll>{' '}
+            </li>
+          ))}
+          <li>
+            <Styled.ClickToRoll onClick={() => setTargetId(0)} isSelected={targetId === 0}>
+              {t(`${id}.prompts.target.someone-else`)}
             </Styled.ClickToRoll>
-          </li> */}
+          </li>
         </ul>
         <Prompt>
           <UnkownDieIcon />
-          Qu&apos;êtes vous prêt à perdre ?
+          {t(`prompts.danger`)}
         </Prompt>
         <ul>
           <li>
@@ -95,4 +122,21 @@ export function ProdiguerDesSoins({ id, onPick, onClose, children }: MoveCardPro
       {children}
     </Styled.MoveCard>
   );
+}
+
+function getAttribute(character: Character, targetId: number) {
+  if (targetId !== character.id) return Skill.INTUITION;
+
+  const intuition = character.skills.find((skill) => skill.name === Skill.INTUITION);
+  const tenacite = character.skills.find((skill) => skill.name === Skill.TENACITE);
+
+  if (!intuition || !tenacite) {
+    throw new Error(`Character ${character.id} does not have the required skills`);
+  }
+
+  if (intuition.level > tenacite.level) {
+    return Skill.INTUITION;
+  }
+
+  return Skill.TENACITE;
 }

@@ -6,8 +6,10 @@ import { io, Socket } from 'socket.io-client';
 
 import { CharacterList } from '@/components/CharacterList';
 import { DialogTextarea } from '@/components/Dialog/DialogTextarea';
+import { Move } from '@/components/Dialog/DialogTextarea/DialogTextarea';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
+import { Moves } from '@/components/Moves';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
@@ -147,6 +149,17 @@ export function EnCoursWithIdPage({
             content={content}
             onContentChange={handleContentChange}
             onTextareaSubmit={handleTextareaSubmit}
+            renderMoves={(
+              onMovePicked: (move: Move | null) => void,
+              onBurnCheck: (hasMomentumBurn: boolean) => void,
+            ) => (
+              <Moves
+                onMovePicked={onMovePicked}
+                onBurnCheck={onBurnCheck}
+                character={nextPoster}
+                characters={Object.values(characters)}
+              />
+            )}
           />
         )}
       </LayoutMainSection>

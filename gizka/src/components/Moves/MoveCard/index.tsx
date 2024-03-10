@@ -1,4 +1,5 @@
 import { Move } from '@/components/Dialog/DialogTextarea/DialogTextarea';
+import { Character } from '@/utils/types/character';
 import { Moves } from '@/utils/types/scenario';
 
 import { FaireFaceAuDanger } from './FaireFaceAuDanger';
@@ -10,6 +11,8 @@ export type MoveCardProps = {
   id: Moves;
   onPick: (move: Move | null) => void;
   onClose: () => void;
+  character: Character;
+  characters: Character[];
   children: React.ReactNode;
 };
 

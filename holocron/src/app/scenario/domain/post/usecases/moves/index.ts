@@ -11,6 +11,7 @@ import { Move, Moves } from '../../entities/post';
 import { faireFaceAuDanger } from './faireFaceAuDanger';
 import { payerLePrix } from './payerLePrix';
 import { prendreUnAvantage } from './prendreUnAvantage';
+import { prodiguerDesSoins } from './prodiguerDesSoins';
 import { recolterDesInformations } from './recolterDesInformations';
 
 type MoveFunction = (
@@ -53,6 +54,8 @@ function getMoveById(id: Moves): MoveFunction {
       return recolterDesInformations;
     case Moves.PAYER_LE_PRIX:
       return payerLePrix;
+    case Moves.PRODIGUER_DES_SOINS:
+      return prodiguerDesSoins;
     default:
       throw new Error(`Move ${id} not implemented`);
   }

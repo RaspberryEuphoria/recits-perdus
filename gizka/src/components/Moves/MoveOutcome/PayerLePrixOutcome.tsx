@@ -81,7 +81,7 @@ function ScoreToOutcome({ character, score }: { character: Character; score: num
   if (score >= 60 && score <= 68) {
     return (
       <>
-        Le danger blesse une blessure à <CharacterName /> (<Keyword stat="health">-1</Keyword>{' '}
+        Le danger inflige une blessure à <CharacterName /> (<Keyword stat="health">-1</Keyword>{' '}
         santé).
       </>
     );

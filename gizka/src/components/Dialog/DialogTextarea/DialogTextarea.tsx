@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
 import { Button } from '@/components/DesignSystem/Button';
-import { Moves } from '@/components/Moves';
+import { MovesProps } from '@/components/Moves/Moves';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
 import { Moves as MoveId, Post, Skill, Stat } from '@/utils/types/scenario';
@@ -17,6 +17,10 @@ type DialogTextareaProps = {
   content: string;
   onContentChange: (content: string) => void;
   onTextareaSubmit: () => void;
+  renderMoves: (
+    onMovePicked: (move: Move | null) => void,
+    onBurnCheck: (hasMomentumBurn: boolean) => void,
+  ) => ReactElement<MovesProps>;
 };
 
 export type Move = {
@@ -34,6 +38,7 @@ export function DialogTextarea({
   content: initialContent,
   onContentChange,
   onTextareaSubmit,
+  renderMoves,
 }: DialogTextareaProps) {
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [content, setContent] = useState<string>(initialContent);
@@ -87,6 +92,8 @@ export function DialogTextarea({
     sethasMomentumBurn(hasMomentumBurn);
   };
 
+  const moves = renderMoves(onMovePicked, onBurnCheck);
+
   const isMoveValid = currentMove ? currentMove?.meta?.isValid : true;
   const isFormDisabled = !isMoveValid || !content || currentLength > MAX_LENGTH;
 
@@ -96,9 +103,6 @@ export function DialogTextarea({
     socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
       path: '/api/socket',
     });
-
-    console.log('Init socket');
-    console.log(socket);
   };
 
   useEffect(() => {
@@ -138,7 +142,7 @@ export function DialogTextarea({
           2. <em>(Optionnel)</em> Choisissez une Tactique afin de progresser dans le scénario.
         </Styled.Help>
 
-        <Moves onMovePicked={onMovePicked} onBurnCheck={onBurnCheck} />
+        {moves}
 
         <Styled.Help>
           {currentMove ? 4 : 3}. Envoyez votre message et résolvez votre Tactique éventuelle. Que la

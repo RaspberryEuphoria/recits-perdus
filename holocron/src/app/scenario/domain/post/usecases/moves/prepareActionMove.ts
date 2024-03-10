@@ -1,7 +1,7 @@
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import { PostWithCharacterSkills } from '../../../../infrastructure/post-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { createRoll, getDicesResult } from '../../../../scenario.utils';
+import { createRoll, getDicesResult, resolveChallengeDices } from '../../../../scenario.utils';
 import { Dice, DiceType, Move, MoveMeta, MoveResult } from '../../entities/post';
 
 export type ActionMoveProps = {
@@ -51,45 +51,32 @@ export function prepareActionMove(
     const rollD6 = createRoll(6);
     const rollD10 = createRoll(10);
 
-    const actionDie = rollD6();
-    const challengeDices = [rollD10(), rollD10()];
-    const score = actionDie + skillValue;
+    const actionRoll = rollD6();
+    const challengeRolls = [rollD10(), rollD10()];
+    const score = actionRoll + skillValue;
+
+    const challengeDices = resolveChallengeDices(
+      score,
+      challengeRolls,
+      characterOnScenario.momentum,
+      hasMomentumBurn,
+    );
 
     const moveResult = getDicesResult({
       score,
       challengeDices,
-      momentum: characterOnScenario.momentum,
-      hasMomentumBurn,
     });
-
-    const nativeMoveResult = getDicesResult({
-      score,
-      challengeDices,
-      momentum: characterOnScenario.momentum,
-      hasMomentumBurn: false,
-    });
-
-    const usedBurn = hasMomentumBurn && moveResult !== nativeMoveResult;
 
     const dices = [
       {
         type: DiceType.ACTION,
-        value: actionDie,
+        value: actionRoll,
         isBurned: false,
       },
-      {
-        type: DiceType.CHALLENGE,
-        value: challengeDices[0],
-        isBurned: usedBurn && challengeDices[0] < characterOnScenario.momentum,
-      },
-      {
-        type: DiceType.CHALLENGE,
-        value: challengeDices[1],
-        isBurned: usedBurn && challengeDices[1] < characterOnScenario.momentum,
-      },
+      ...challengeDices,
     ];
 
-    if (moveResult !== nativeMoveResult) {
+    if (dices.some((dice) => dice.isBurned)) {
       await characterRepository.resetMomentum(post.characterId, post.scenarioId);
     }
 

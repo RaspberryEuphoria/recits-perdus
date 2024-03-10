@@ -1,20 +1,93 @@
 {
   "moves": {
     "FAIRE_FACE_AU_DANGER": {
-      "name": "Faire face au danger"
+      "name": "Faire Face au Danger"
     },
     "PRENDRE_UN_AVANTAGE": {
-      "name": "Prendre un avantage"
+      "name": "Prendre un Avantage"
     },
     "RECOLTER_DES_INFORMATIONS": {
-      "name": "Récolter des informations"
+      "name": "Récolter des Informations"
     },
     "PRODIGUER_DES_SOINS": {
-      "name": "Prodiguer des soins",
-      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous tentez de soigner vos propres blessures, faites un jet +astuce ou +temerite, en utilisant la caractéristique la plus faible."
+      "name": "Prodiguer des Soins",
+      "name-self": "Se Soigner",
+      "action": "essaie de",
+      "to": "à",
+      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous tentez de soigner vos propres blessures, faites un jet +astuce ou +temerite, en utilisant la caractéristique la plus faible.",
+      "prompts": {
+        "target": {
+          "someone-else": "Une personne hors du groupe"
+        }
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vos soint sont utiles. Donnez ou récupérez <health>+2</health> santé.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous réussissez, comme précédemment, mais vous devez subir <supplies>-1</supplies> provisions ou <momentum>-1</momentum> élan.",
+        "miss": "En cas d’<important>échec</important>, votre aide est inefficace. Vous devez en <move>Payer le Prix</move>."
+      },
+      "outcomes": {
+        "complications": "De légères complications lui prennent plus de temps que prévu"
+      }
     },
     "PAYER_LE_PRIX": {
-      "name": "Payer le prix"
+      "name": "Payer le Prix"
+    },
+    "prompts": {
+      "action": "Comment agissez-vous ?",
+      "heal": "Qui voulez-vous soigner ?",
+      "danger": "Qu'êtes vous prêt à perdre ?",
+      "burn": "Brûler de l'élan ?"
+    },
+    "stats": {
+      "health": "santé"
+    },
+    "buttons": {
+      "cancel": "Annuler"
+    },
+    "outcomes": {
+      "thanks-to": "Grâce à",
+      "with": "Avec",
+      "demonstrating": "Faisant preuve",
+      "despite": "Malgré",
+      "even-though": "Même si",
+      "regardless-of": "En dépit de ses efforts",
+      "achieves": "parvient à",
+      "manages": "réussit à",
+      "is-able-to": "est capable de",
+      "fails": "échoue à",
+      "is-unable-to": "est incapable de"
+    },
+    "skills": {
+      "Intuition": {
+        "defini": "l’",
+        "indefini": "une ",
+        "partitif": "d’",
+        "possessif": "son "
+      },
+      "Astuce": {
+        "defini": "la ",
+        "indefini": "une ",
+        "partitif": "de ",
+        "possessif": "sa "
+      },
+      "Ténacité": {
+        "defini": "la ",
+        "indefini": "une ",
+        "partitif": "de ",
+        "possessif": "sa "
+      },
+      "Finesse": {
+        "defini": "la ",
+        "indefini": "une ",
+        "partitif": "de ",
+        "possessif": "sa "
+      },
+      "Determination": {
+        "defini": "la ",
+        "indefini": "une ",
+        "partitif": "de ",
+        "possessif": "sa "
+      }
     }
   }
 }

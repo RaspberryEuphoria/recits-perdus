@@ -1,6 +1,5 @@
 import { MoveOutcome } from '@/components/Moves/MoveOutcome';
 import { getFullName } from '@/utils/character/helpers';
-import { TextColor } from '@/utils/constants';
 import { formatPostContent } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Move } from '@/utils/types/scenario';
@@ -9,18 +8,18 @@ import * as Styled from './styled';
 
 type DialogPostProps = {
   character?: Character;
+  characters: Record<string, Character>;
   content: string;
   moves?: Array<Move>;
-  isGameMaster?: boolean;
   onMouseEnter?: (character: Character) => void;
   onMouseLeave?: (character: Character) => void;
 };
 
 export function DialogPost({
   character,
+  characters,
   content,
   moves,
-  isGameMaster,
   onMouseEnter,
   onMouseLeave,
 }: DialogPostProps) {
@@ -44,9 +43,8 @@ export function DialogPost({
     );
   }
 
-  const textColor = isGameMaster ? TextColor.GameMaster : character.textColor;
-
-  const characterName = isGameMaster ? 'Maître du Jeu' : getFullName(character);
+  const textColor = character.textColor;
+  const characterName = getFullName(character);
 
   return (
     <Styled.DialogPost onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -66,20 +64,24 @@ export function DialogPost({
         dangerouslySetInnerHTML={{ __html: formatPostContent(content) }}
         color={textColor}
       />
-      {moves && moves.map((move) => <DialogMove key={move.id} character={character} move={move} />)}
+      {moves &&
+        moves.map((move) => (
+          <DialogMove key={move.id} character={character} characters={characters} move={move} />
+        ))}
     </Styled.DialogPost>
   );
 }
 
 type DialogMoveProps = {
   character: Character;
+  characters: Record<string, Character>;
   move: Move;
 };
 
-function DialogMove({ character, move }: DialogMoveProps) {
+function DialogMove({ character, characters, move }: DialogMoveProps) {
   return (
     <Styled.DialogMove>
-      <MoveOutcome move={move} character={character} />
+      <MoveOutcome move={move} character={character} characters={characters} />
     </Styled.DialogMove>
   );
 }
