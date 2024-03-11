@@ -38,8 +38,7 @@ app.listen(port, () => {
 
   const scenarioContainer = new ScenarioContainer(
     prisma,
-    mockDiscordWebhookClient,
-    // process.env.DISCORD_ENABLED ? discordWebhookClient : mockDiscordWebhookClient,
+    process.env.DISCORD_ENABLED === 'true' ? discordWebhookClient : mockDiscordWebhookClient,
   );
   const userContainer = new UserContainer(prisma, authService);
 

@@ -33,9 +33,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
     path: '/api/socket',
     addTrailingSlash: false,
     cors: {
-      origin: '*',
-      methods: ['GET', 'POST'],
+      origin: `http://${process.env.NEXT_PUBLIC_BFF_PREFIX_HOSTNAME}`,
+      methods: ['GET', 'POST', 'OPTIONS'],
     },
+    transports: ['polling'],
   });
 
   io.on('connection', (socket) => {
