@@ -12,6 +12,7 @@ import * as Styled from './styled';
 
 type ProdiguerDesoinsOutcomeProps = MoveOutcomeProps & {
   selfHealing: boolean;
+  isTargetPlayer: boolean;
 };
 
 export function ProdiguerDesSoinsOutcome(props: MoveOutcomeProps) {
@@ -66,7 +67,7 @@ export function ProdiguerDesSoinsOutcome(props: MoveOutcomeProps) {
           <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
         ))}
       </Styled.MoveResult>
-      <Outcome {...props} selfHealing={selfHealing} />
+      <Outcome {...props} selfHealing={selfHealing} isTargetPlayer={meta.targetId > 0} />
     </Styled.MoveOutcome>
   );
 }
@@ -89,17 +90,26 @@ const Outcome = (props: ProdiguerDesoinsOutcomeProps) => {
   }
 };
 
-function Success({ character, selfHealing, move }: ProdiguerDesoinsOutcomeProps) {
+function Success({ character, selfHealing, move, isTargetPlayer }: ProdiguerDesoinsOutcomeProps) {
   const t = useTranslations('moves');
   const healingWording = selfHealing ? t(`${move.moveId}.name-self`) : t(`${move.moveId}.name`);
+
+  const healthGain = isTargetPlayer ? (
+    <>
+      {' '}
+      (<Keyword stat="health">+2</Keyword> {t('stats.health')})
+    </>
+  ) : (
+    ''
+  );
 
   return (
     <p>
       {t('outcomes.demonstrating')} {t(`skills.${move.skill.name}.partitif`)}
       {move.skill.name.toLowerCase()},{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.achieves')} {healingWording.toLocaleLowerCase()} (
-      <Keyword stat="health">+2</Keyword> {t('stats.health')}).
+      {t('outcomes.achieves')} {healingWording.toLocaleLowerCase()}
+      {healthGain}.
     </p>
   );
 }

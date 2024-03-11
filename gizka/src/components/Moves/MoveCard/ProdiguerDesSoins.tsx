@@ -32,7 +32,7 @@ export function ProdiguerDesSoins({
 
     onPick({
       id,
-      meta: { targetId, attribute, danger, isValid: Boolean(danger && targetId) },
+      meta: { targetId, attribute, danger, isValid: Boolean(danger && targetId !== null) },
     });
 
     return () => {
@@ -87,7 +87,7 @@ export function ProdiguerDesSoins({
             </li>
           ))}
           <li>
-            <Styled.ClickToRoll onClick={() => setTargetId(0)} isSelected={targetId === 0}>
+            <Styled.ClickToRoll onClick={() => setTargetId(0)} isSelected={targetId === -1}>
               {t(`${id}.prompts.target.someone-else`)}
             </Styled.ClickToRoll>
           </li>
