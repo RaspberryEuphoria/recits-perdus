@@ -56,7 +56,7 @@ export function Moves({ onMovePicked, onBurnCheck, character, characters }: Move
       >
         <Prompt stat="momentum">
           <MomentumIcon />
-          <label htmlFor="burn">Brûler de l&apos;ferveur ?</label>{' '}
+          <label htmlFor="burn">Brûler de la ferveur ?</label>{' '}
           <Checkbox id="burn" onChange={handleBurnCheck} />
         </Prompt>
         <Styled.Paragraph>

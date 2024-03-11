@@ -36,7 +36,7 @@
       "action": "Comment agissez-vous ?",
       "heal": "Qui voulez-vous soigner ?",
       "danger": "Qu'êtes vous prêt à perdre ?",
-      "burn": "Brûler de l'ferveur ?"
+      "burn": "Brûler de la ferveur ?"
     },
     "stats": {
       "health": "santé"
