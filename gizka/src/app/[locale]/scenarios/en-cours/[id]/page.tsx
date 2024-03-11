@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Metadata } from 'next';
 import Head from 'next/head';
 import { getTranslations } from 'next-intl/server';
@@ -13,6 +15,24 @@ export const metadata: Metadata = {
   description:
     'Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars',
 };
+
+export async function generateMetadata({
+  params: { id },
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const [scenarioId] = id.split('-');
+  const scenario = await httpBffClient.get<Scenario>(`/scenario/${scenarioId}`);
+
+  if (isHttpError(scenario)) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return {
+    title: `${scenario.title} - Les Récits Perdus`,
+    description: `${generateIntroduction(scenario, false)}`,
+  };
+}
 
 export default async function EnCoursWithId({ params: { id } }: { params: { id: string } }) {
   const t = await getTranslations('scenarios');

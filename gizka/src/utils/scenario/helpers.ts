@@ -2,9 +2,9 @@ import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
 import { MoveResult, Moves, Post, Scenario, Skill } from '@/utils/types/scenario';
 
-export function generateIntroduction(scenario: Scenario) {
+export function generateIntroduction(scenario: Scenario, withColor = true) {
   const tokens = ['{{characters}}'];
-  const replacements = [getCharactersList({ characters: scenario.characters, withColor: true })];
+  const replacements = [getCharactersList({ characters: scenario.characters, withColor })];
 
   return tokens.reduce(
     (acc, token, index) => acc.replace(token, replacements[index]),
@@ -110,7 +110,7 @@ export function movesNames(moveId: string) {
 /** We're gonna need i18n and soon... */
 export function statEnToFr(stat: string) {
   const stats: Record<string, string> = {
-    momentum: 'élan',
+    momentum: 'ferveur',
     health: 'santé',
     spirit: 'esprit',
     supplies: 'provisions',
@@ -123,7 +123,7 @@ export function statEnToFr(stat: string) {
 
 export function statFrToEn(stat: string) {
   const stats: Record<string, string> = {
-    élan: 'momentum',
+    ferveur: 'momentum',
     santé: 'health',
     esprit: 'spirit',
     provisions: 'supplies',

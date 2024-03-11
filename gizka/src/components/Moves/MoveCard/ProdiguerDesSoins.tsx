@@ -104,7 +104,7 @@ export function ProdiguerDesSoins({
               isSelected={danger === Stat.MOMENTUM}
               variant="danger"
             >
-              -1 élan <MomentumIcon />
+              -1 ferveur <MomentumIcon />
             </Styled.ClickToRoll>
           </li>
           <li>

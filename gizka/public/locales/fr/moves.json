@@ -22,7 +22,7 @@
       },
       "results": {
         "strong-hit": "En cas de <important>succès total</important>, vos soint sont utiles. Donnez ou récupérez <health>+2</health> santé.",
-        "weak-hit": "En cas de <important>succès partiel</important>, vous réussissez, comme précédemment, mais vous devez subir <supplies>-1</supplies> provisions ou <momentum>-1</momentum> élan.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous réussissez, comme précédemment, mais vous devez subir <supplies>-1</supplies> provisions ou <momentum>-1</momentum> ferveur.",
         "miss": "En cas d’<important>échec</important>, votre aide est inefficace. Vous devez en <move>Payer le Prix</move>."
       },
       "outcomes": {
@@ -36,7 +36,7 @@
       "action": "Comment agissez-vous ?",
       "heal": "Qui voulez-vous soigner ?",
       "danger": "Qu'êtes vous prêt à perdre ?",
-      "burn": "Brûler de l'élan ?"
+      "burn": "Brûler de l'ferveur ?"
     },
     "stats": {
       "health": "santé"

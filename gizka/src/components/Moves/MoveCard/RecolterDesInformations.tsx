@@ -36,12 +36,12 @@ export function RecolterDesInformations({ id, onPick, onClose, children }: MoveC
         <p>
           En cas de <strong>succès total</strong>, vous découvrez quelque chose d&apos;utile et de
           précis. Le chemin que vous devez suivre ou votre prochaine action vous apparaissent
-          clairement. Recevez <Keyword stat="momentum">+2</Keyword> élan.
+          clairement. Recevez <Keyword stat="momentum">+2</Keyword> ferveur.
         </p>
         <p>
           En cas de <strong>succès partiel</strong>, l&apos;information obtenue complique votre
           mission ou introduit un nouveau danger. Recevez <Keyword stat="momentum">+1</Keyword>{' '}
-          élan.
+          ferveur.
         </p>
         <p>
           En cas d&apos;<strong>échec</strong>, votre investigation révèle une terrible menace ou

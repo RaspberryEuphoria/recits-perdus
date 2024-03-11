@@ -102,6 +102,7 @@ export function DialogTextarea({
 
     socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
       path: '/api/socket',
+      transports: ['polling'],
     });
   };
 
@@ -139,13 +140,13 @@ export function DialogTextarea({
         </Styled.Counter>
 
         <Styled.Help>
-          2. <em>(Optionnel)</em> Choisissez une Tactique afin de progresser dans le scénario.
+          2. <em>(Optionnel)</em> Choisissez une action afin de progresser dans le scénario.
         </Styled.Help>
 
         {moves}
 
         <Styled.Help>
-          {currentMove ? 4 : 3}. Envoyez votre message et résolvez votre Tactique éventuelle. Que la
+          {currentMove ? 4 : 3}. Envoyez votre message et résolvez votre action éventuelle. Que la
           Force vous !
         </Styled.Help>
 

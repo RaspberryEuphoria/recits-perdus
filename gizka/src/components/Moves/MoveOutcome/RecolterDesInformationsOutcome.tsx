@@ -67,7 +67,7 @@ function Success({ character }: MoveOutcomeProps) {
       Après une investigation à la hauteur des plus grands détectives,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
       révèle de nouvelles informations qui seront d&apos;une grande aide pour la mission (
-      <Keyword stat="momentum">+2</Keyword> élan).
+      <Keyword stat="momentum">+2</Keyword> ferveur).
     </p>
   );
 }
@@ -77,7 +77,7 @@ function Mixed({ character }: MoveOutcomeProps) {
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
       obtient des informations fiables, mais qui compliquent ou mettent en danger la mission (
-      <Keyword stat={'momentum'}>+1</Keyword> élan).
+      <Keyword stat={'momentum'}>+1</Keyword> ferveur).
     </p>
   );
 }

@@ -74,7 +74,7 @@ function ScoreToOutcome({ character, score }: { character: Character; score: num
   if (score >= 51 && score <= 59) {
     return (
       <>
-        Le danger désavantage <CharacterName /> (<Keyword stat="momentum">-1</Keyword> élan).
+        Le danger désavantage <CharacterName /> (<Keyword stat="momentum">-1</Keyword> ferveur).
       </>
     );
   }

@@ -66,7 +66,7 @@ function Success({ character, move }: MoveOutcomeProps) {
       Faisant preuve {skillWordings[move.skill.name].partitif}
       {move.skill.name.toLowerCase()} à toute épreuve,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      prend le contrôle de la situation (<Keyword stat="momentum">+1</Keyword> élan).
+      prend le contrôle de la situation (<Keyword stat="momentum">+1</Keyword> ferveur).
     </p>
   );
 }

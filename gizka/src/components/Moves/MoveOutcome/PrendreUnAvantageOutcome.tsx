@@ -68,7 +68,7 @@ function Success({ character, move }: MoveOutcomeProps) {
       {move.skill.name.toLowerCase()}{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
       prend un avantage décisif, susceptible de renverser la situation en sa faveur (
-      <Keyword stat="momentum">+2</Keyword> élan).
+      <Keyword stat="momentum">+2</Keyword> ferveur).
     </p>
   );
 }
@@ -79,7 +79,7 @@ function Mixed({ character, move }: MoveOutcomeProps) {
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
       et {skillWordings[move.skill.name].possessif}
       {move.skill.name.toLowerCase()} prennent un léger avantage sur la situation (
-      <Keyword stat={'momentum'}>+1</Keyword> élan).
+      <Keyword stat={'momentum'}>+1</Keyword> ferveur).
     </p>
   );
 }

@@ -80,6 +80,7 @@ export function EnCoursWithIdPage({
 
     socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
       path: '/api/socket',
+      transports: ['polling'],
     });
 
     socket.on('receive-new-move', async () => {

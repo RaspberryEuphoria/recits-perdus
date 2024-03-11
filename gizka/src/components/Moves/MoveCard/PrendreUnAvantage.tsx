@@ -41,11 +41,11 @@ export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardPro
 
         <p>
           En cas de <strong>succès total</strong>, vous obtenez un avantage. Recevez{' '}
-          <Keyword stat="momentum">+2</Keyword> élan.
+          <Keyword stat="momentum">+2</Keyword> ferveur.
         </p>
         <p>
           En cas de <strong>succès partiel</strong>, votre avantage est de courte durée. Recevez{' '}
-          <Keyword stat="momentum">+1</Keyword> élan.
+          <Keyword stat="momentum">+1</Keyword> ferveur.
         </p>
         <p>
           En cas d&apos;<strong>échec</strong>, votre tentative échoue ou vos suppositions vous

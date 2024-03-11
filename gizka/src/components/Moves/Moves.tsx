@@ -56,12 +56,12 @@ export function Moves({ onMovePicked, onBurnCheck, character, characters }: Move
       >
         <Prompt stat="momentum">
           <MomentumIcon />
-          <label htmlFor="burn">Brûler de l&apos;élan ?</label>{' '}
+          <label htmlFor="burn">Brûler de l&apos;ferveur ?</label>{' '}
           <Checkbox id="burn" onChange={handleBurnCheck} />
         </Prompt>
         <Styled.Paragraph>
-          Si vous avez assez d&apos;élan, il sera automatiquement consommé pour annuler un échec si
-          c&apos;est possible. En cas de succès, vous conservez votre élan.
+          Si vous avez assez d&apos;ferveur, il sera automatiquement consommé pour annuler un échec
+          si c&apos;est possible. En cas de succès, vous conservez votre ferveur.
         </Styled.Paragraph>
       </MoveCard>
     );

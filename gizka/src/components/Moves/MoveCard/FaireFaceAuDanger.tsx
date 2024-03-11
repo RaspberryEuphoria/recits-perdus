@@ -43,7 +43,7 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
 
         <p>
           En cas de <strong>succès total</strong>, vous réussissez. Recevez{' '}
-          <Keyword stat="momentum">+1</Keyword> élan.
+          <Keyword stat="momentum">+1</Keyword> ferveur.
         </p>
         <p>
           En cas de <strong>succès partiel</strong>, vous réussissez, mais avec une complication.{' '}
@@ -116,7 +116,7 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
               isSelected={danger === Stat.MOMENTUM}
               variant="danger"
             >
-              -1 élan <MomentumIcon />
+              -1 ferveur <MomentumIcon />
             </Styled.ClickToRoll>
           </li>
           <li>
