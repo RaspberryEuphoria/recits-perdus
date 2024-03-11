@@ -1,12 +1,14 @@
 const DEFAULT_MOMENTUM = 2;
-export const MAX_MOMENTUM = 10;
-export const MIN_MOMENTUM = -6;
+const MAX_MOMENTUM = 10;
+const MIN_MOMENTUM = -6;
 
-export const MAX_HEALTH = 10;
-export const MIN_HEALTH = 0;
+const DEFAULT_HEALTH = 5;
+const MAX_HEALTH = 5;
+const MIN_HEALTH = 0;
 
-export const MAX_SPIRIT = 10;
-export const MIN_SPIRIT = 0;
+const DEFAULT_SPIRIT = 5;
+const MAX_SPIRIT = 5;
+const MIN_SPIRIT = 0;
 
 export const STATS_LIMITS = {
   supplies: {
@@ -21,9 +23,11 @@ export const STATS_LIMITS = {
   health: {
     min: MIN_HEALTH,
     max: MAX_HEALTH,
+    default: DEFAULT_HEALTH,
   },
   spirit: {
     min: MIN_SPIRIT,
     max: MAX_SPIRIT,
+    default: DEFAULT_SPIRIT,
   },
 };

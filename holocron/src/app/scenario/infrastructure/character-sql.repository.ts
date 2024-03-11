@@ -1,7 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
-import { MAX_MOMENTUM, MIN_MOMENTUM, STATS_LIMITS } from '../../../rules';
+import { STATS_LIMITS } from '../../../rules';
 import { CreateCharacterDTO } from '../domain/character/entities/character';
+
+export enum CharacterStat {
+  MOMENTUM = 'momentum',
+  HEALTH = 'health',
+  SPIRIT = 'spirit',
+}
 
 export class CharacterRepository {
   private db: PrismaClient;
@@ -28,113 +34,63 @@ export class CharacterRepository {
     });
   }
 
-  async addHealth(characterId: number, scenarioId: number, health: number) {
-    return this.changeHealth(characterId, scenarioId, health);
+  async addHealth(characterId: number, scenarioId: number, value: number) {
+    return this.addStat(characterId, scenarioId, CharacterStat.HEALTH, value);
   }
 
-  async removeHealth(characterId: number, scenarioId: number, health: number) {
-    return this.changeHealth(characterId, scenarioId, -health);
+  async removeHealth(characterId: number, scenarioId: number, value: number) {
+    return this.removeStat(characterId, scenarioId, CharacterStat.HEALTH, value);
   }
 
-  private async changeHealth(characterId: number, scenarioId: number, health: number) {
-    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
-      where: {
-        characterId,
-        scenarioId,
-      },
-    });
-
-    if (!characterOnScenario) {
-      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
-    }
-
-    if (characterOnScenario.health === 0) {
-      console.log(`Character ${characterId} already has 0 health`);
-      return characterOnScenario;
-    }
-
-    return this.db.charactersOnScenarios.update({
-      where: { id: characterOnScenario.id },
-      data: {
-        health: {
-          increment: health,
-        },
-      },
-    });
+  async addMomentum(characterId: number, scenarioId: number, value: number) {
+    return this.addStat(characterId, scenarioId, CharacterStat.MOMENTUM, value);
   }
 
-  async addSpirit(characterId: number, scenarioId: number, spirit: number) {
-    return this.changeSpirit(characterId, scenarioId, spirit);
-  }
-
-  async removeSpirit(characterId: number, scenarioId: number, spirit: number) {
-    return this.changeSpirit(characterId, scenarioId, -spirit);
-  }
-
-  private async changeSpirit(characterId: number, scenarioId: number, spirit: number) {
-    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
-      where: {
-        characterId,
-        scenarioId,
-      },
-    });
-
-    if (!characterOnScenario) {
-      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
-    }
-
-    if (characterOnScenario.spirit === 0) {
-      console.log(`Character ${characterId} already has 0 spirit`);
-      return characterOnScenario;
-    }
-
-    return this.db.charactersOnScenarios.update({
-      where: { id: characterOnScenario.id },
-      data: {
-        spirit: {
-          increment: spirit,
-        },
-      },
-    });
-  }
-
-  async addMomentum(characterId: number, scenarioId: number, momentum: number) {
-    return this.changeMomentum(characterId, scenarioId, momentum);
-  }
-
-  async removeMomentum(characterId: number, scenarioId: number, momentum: number) {
-    return this.changeMomentum(characterId, scenarioId, -momentum);
-  }
-
-  private async changeMomentum(characterId: number, scenarioId: number, momentum: number) {
-    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
-      where: {
-        characterId,
-        scenarioId,
-      },
-    });
-
-    if (!characterOnScenario) {
-      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
-    }
-
-    let newMomentum = characterOnScenario.momentum + momentum;
-
-    if (newMomentum > MAX_MOMENTUM) {
-      newMomentum = MAX_MOMENTUM;
-    } else if (newMomentum < MIN_MOMENTUM) {
-      newMomentum = MIN_MOMENTUM;
-    }
-
-    return this.db.charactersOnScenarios.update({
-      where: { id: characterOnScenario.id },
-      data: {
-        momentum: newMomentum,
-      },
-    });
+  async removeMomentum(characterId: number, scenarioId: number, value: number) {
+    return this.removeStat(characterId, scenarioId, CharacterStat.MOMENTUM, value);
   }
 
   async resetMomentum(characterId: number, scenarioId: number) {
+    return this.changeStat(
+      characterId,
+      scenarioId,
+      CharacterStat.MOMENTUM,
+      STATS_LIMITS.momentum.default,
+    );
+  }
+
+  async addSpirit(characterId: number, scenarioId: number, value: number) {
+    return this.addStat(characterId, scenarioId, CharacterStat.SPIRIT, value);
+  }
+
+  async removeSpirit(characterId: number, scenarioId: number, value: number) {
+    return this.removeStat(characterId, scenarioId, CharacterStat.SPIRIT, value);
+  }
+
+  private async addStat(
+    characterId: number,
+    scenarioId: number,
+    stat: CharacterStat,
+    value: number,
+  ) {
+    return this.changeStat(characterId, scenarioId, stat, value);
+  }
+
+  private async removeStat(
+    characterId: number,
+    scenarioId: number,
+    stat: CharacterStat,
+    value: number,
+  ) {
+    return this.changeStat(characterId, scenarioId, stat, -value);
+  }
+
+  private async changeStat(
+    characterId: number,
+    scenarioId: number,
+    stat: CharacterStat,
+    value: number,
+  ) {
     const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
       where: {
         characterId,
@@ -145,11 +101,41 @@ export class CharacterRepository {
     if (!characterOnScenario) {
       throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
     }
+
+    const updatedValue = computeUpdatedValue({
+      currentValue: characterOnScenario[stat],
+      addedValue: value,
+      min: STATS_LIMITS[stat].min,
+      max: STATS_LIMITS[stat].max,
+    });
+
     return this.db.charactersOnScenarios.update({
       where: { id: characterOnScenario.id },
       data: {
-        momentum: STATS_LIMITS.momentum.default,
+        [stat]: updatedValue,
       },
     });
   }
+}
+
+function computeUpdatedValue({
+  currentValue,
+  addedValue,
+  min,
+  max,
+}: {
+  currentValue: number;
+  addedValue: number;
+  min: number;
+  max: number;
+}) {
+  const updatedValue = currentValue + addedValue;
+
+  if (updatedValue < min) {
+    return min;
+  } else if (updatedValue > max) {
+    return max;
+  }
+
+  return updatedValue;
 }
