@@ -19,11 +19,21 @@ export const Nav = styled.nav`
 `;
 
 export const Bradcrumb = styled.div`
+  align-items: center;
+  display: flex;
   margin: var(--space-1);
 `;
 
 export const BradcrumbSeparator = styled.span`
   color: var(--light);
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transform: rotate(-90deg);
+  }
 `;
 
 export const Tabs = styled.div`

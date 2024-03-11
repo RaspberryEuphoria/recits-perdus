@@ -7,14 +7,13 @@ import * as Styled from './styled';
 export function NavBar({
   links,
 }: {
-  links: Array<{ label: string; href: string; description: string }>;
+  links: Array<{ label: string; href: string; description: string; isDisabled: boolean }>;
 }) {
   return (
     <Styled.NavBar>
       {links.map((link) => (
-        <Styled.Link key={link.label}>
+        <Styled.Link key={link.label} isDisabled={link.isDisabled}>
           <Link href={link.href}>{link.label}</Link>
-          <Styled.Description>{link.description}</Styled.Description>
         </Styled.Link>
       ))}
     </Styled.NavBar>

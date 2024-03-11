@@ -19,26 +19,35 @@ export default function Home() {
       href: '/create',
       description:
         'Le guide du jeu vous apprendra à contribuer aux scénarios et à forger votre propre récit dans la galaxie.',
+      isDisabled: true,
     },
     {
       label: 'Créer un scénario',
       href: '/create',
       description:
         'Planifiez les missions les plus périlleuses, les aventures les plus palpitantes et les batailles les plus épiques.',
+      isDisabled: true,
     },
     {
       label: 'Rejoindre un scénario',
       href: '/join',
       description:
         'Trouvez de nouveaux compagnons et prenez part à de grandes histoires partout dans la galaxie.',
+      isDisabled: true,
     },
     {
       label: 'Scénarios en cours',
       href: '/scenarios/en-cours',
       description: 'Retrouvez tous les récits en cours.',
+      isDisabled: false,
     },
     // ajouter "scénarios terminés"
-    { label: 'Discord', href: '/current', description: 'Rejoignez le Discord Les Récits Perdus.' },
+    {
+      label: 'Discord',
+      href: 'https://discord.gg/TmpaGgfB',
+      description: 'Rejoignez le Discord Les Récits Perdus.',
+      isDisabled: false,
+    },
   ];
 
   return (

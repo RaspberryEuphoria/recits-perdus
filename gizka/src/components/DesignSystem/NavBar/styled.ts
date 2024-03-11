@@ -10,36 +10,20 @@ export const NavBar = styled.nav`
   justify-content: center;
 `;
 
-export const Description = styled.p`
-  position: absolute;
-  top: 50%;
-  right: 5rem;
-  max-width: 25rem;
-  padding: 0 1.5rem;
-  border-right: 2px solid var(--flashy);
-  text-transform: none;
-  transform: translateY(-50%);
-  text-align: right;
-  font-size: 1.2rem;
-`;
-
-export const Link = styled.div`
+export const Link = styled.div<{ isDisabled: boolean }>`
   position: relative;
   gap: 2rem;
   text-transform: uppercase;
   font-size: 1.5rem;
 
+  ${({ isDisabled }) => isDisabled && `display: none;`}
+
   a {
-    position: relative;
     color: var(--light);
     text-decoration: none;
   }
 
   &:hover {
-    & ${Description} {
-      display: inline-block;
-    }
-
     a {
       color: var(--flashy);
 
@@ -68,15 +52,5 @@ export const Link = styled.div`
         transform: translateY(-50%);
       }
     }
-  }
-
-  &:first-of-type {
-    & ${Description} {
-      /* display: inline-block; */
-    }
-  }
-
-  & ${Description} {
-    display: none;
   }
 `;

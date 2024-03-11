@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import BackgroundStarmapImage from '@/public/images/background_starmap.png';
+import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import LogoImage from '@/public/images/logo.png';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 
@@ -37,7 +38,15 @@ export function Layout(props: LayoutProps) {
   return (
     <>
       <header className={styles.header}>
-        <Image src={LogoImage.src} alt="Les Récits Perdus" width={354} height={118} quality={100} />
+        <Link href={'/'}>
+          <Image
+            src={LogoImage.src}
+            alt="Les Récits Perdus"
+            width={354}
+            height={118}
+            quality={100}
+          />
+        </Link>
         {currentUser && (
           <span onClick={logout}>
             Bienvenue, <strong>{currentUser.name}</strong>
@@ -90,10 +99,14 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
           <Styled.Bradcrumb>
             {props.breadcrumb.map((item, index) => {
               return props.breadcrumb && index < props.breadcrumb.length - 1 ? (
-                <Link href={item.href} key={item.label}>
-                  {item.label}
-                  <Styled.BradcrumbSeparator> 🢒 </Styled.BradcrumbSeparator>
-                </Link>
+                <>
+                  <Link href={item.href} key={item.label}>
+                    {item.label}
+                  </Link>
+                  <Styled.BradcrumbSeparator>
+                    <DownArrowIcon />
+                  </Styled.BradcrumbSeparator>
+                </>
               ) : (
                 item.label
               );

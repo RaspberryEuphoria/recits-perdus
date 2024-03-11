@@ -10,12 +10,6 @@ import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Scenario } from '@/utils/types/scenario';
 
-export const metadata: Metadata = {
-  title: 'Scénarios en cours - Les Récits Perdus',
-  description:
-    'Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars',
-};
-
 export async function generateMetadata({
   params: { id },
 }: {

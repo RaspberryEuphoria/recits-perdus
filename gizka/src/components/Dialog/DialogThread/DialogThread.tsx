@@ -27,8 +27,8 @@ export function DialogThread({
   const threadRef = useRef<HTMLDivElement>(null);
 
   const placeholder = isItMyTurn
-    ? "🖮 C'est à vous de jouer"
-    : `🖮 C'est au tour de ${nextPoster.firstName} ${nextPoster.lastName}`;
+    ? "C'est à vous de jouer"
+    : `C'est au tour de ${nextPoster.firstName} ${nextPoster.lastName}`;
 
   const scrollToBottom = () => {
     if (threadRef.current) threadRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
