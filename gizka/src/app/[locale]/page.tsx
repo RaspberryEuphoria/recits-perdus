@@ -47,6 +47,7 @@ export default function Home() {
       href: 'https://discord.gg/TmpaGgfB',
       description: 'Rejoignez le Discord Les Récits Perdus.',
       isDisabled: false,
+      isBlank: true,
     },
   ];
 

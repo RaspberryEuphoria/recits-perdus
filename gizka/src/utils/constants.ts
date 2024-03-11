@@ -10,6 +10,8 @@ export enum TextColor {
   Green = '#5cb959',
   Grey = '#7fafc8',
   Purple = '#8c3cdb',
+
+  Default = '#11b6f7',
 }
 
 export enum Media {

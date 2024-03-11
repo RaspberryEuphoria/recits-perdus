@@ -22,6 +22,16 @@ function userRoutes(userContainer: UserContainer) {
       next(error);
     }
   });
+
+  router.get('/:id/characters', async (_req, _res, next) => {
+    try {
+      const characters = await userContainer.getCharacters(parseInt(_req.params.id));
+      _res.json(characters);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   return router;
 }
 

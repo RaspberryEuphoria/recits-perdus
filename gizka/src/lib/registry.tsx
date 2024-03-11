@@ -1,8 +1,19 @@
 'use client';
 
+import isPropValid from '@emotion/is-prop-valid';
 import { useServerInsertedHTML } from 'next/navigation';
 import React, { useState } from 'react';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+
+/** @see https://styled-components.com/docs/faqs#what-do-i-need-to-do-to-migrate-to-v6 */
+function shouldForwardProp(propName: string, target: unknown) {
+  if (typeof target === 'string') {
+    // For HTML elements, forward the prop if it is a valid HTML attribute
+    return isPropValid(propName);
+  }
+  // For other elements, forward all props
+  return true;
+}
 
 function StyledComponentsRegistry({ children }: { children: React.ReactNode }) {
   // Only create stylesheet once with lazy initial state
@@ -18,7 +29,12 @@ function StyledComponentsRegistry({ children }: { children: React.ReactNode }) {
   if (typeof window !== 'undefined') return <>{children}</>;
 
   return (
-    <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>{children}</StyleSheetManager>
+    <StyleSheetManager
+      shouldForwardProp={shouldForwardProp}
+      sheet={styledComponentsStyleSheet.instance}
+    >
+      {children}
+    </StyleSheetManager>
   );
 }
 export function StyleProvider(props: React.PropsWithChildren) {

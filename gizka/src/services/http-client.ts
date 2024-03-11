@@ -9,6 +9,7 @@ class HttpClient {
 
   public async request<T>(url: string, options: RequestInit): Promise<T | HttpError> {
     try {
+      console.log(`${this.baseUrl}${url}`);
       const res = await fetch(`${this.baseUrl}${url}`, {
         ...options,
         cache: 'no-store',
@@ -17,7 +18,7 @@ class HttpClient {
       return data;
     } catch (err: any) {
       return {
-        status: err.status,
+        status: err.status || 500,
         message: err.message,
       };
     }

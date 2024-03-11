@@ -2,6 +2,8 @@ import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
 import { MoveResult, Moves, Post, Scenario, Skill } from '@/utils/types/scenario';
 
+import { TextColor } from '../constants';
+
 export function generateIntroduction(scenario: Scenario, withColor = true) {
   const tokens = ['{{characters}}'];
   const replacements = [getCharactersList({ characters: scenario.characters, withColor })];
@@ -45,7 +47,7 @@ export function getCurrentTurnNumber(postsLength: number, charactersLength: numb
   return Math.floor(postsLength / charactersLength) + 1;
 }
 
-export function convertHexadecimalColorToHsl(color: string, opacity = 1) {
+export function convertHexadecimalColorToHsl(color: string = TextColor.Default, opacity = 1) {
   const hex = color.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);

@@ -10,14 +10,18 @@ import { Character } from '@/utils/types/character';
 
 import * as Styled from './styled';
 import { CharacterSheet } from '@/components/CharacterSheet';
+import { TextColor } from '@/utils/constants';
 
 type CharacterListProps = {
   characters: Character[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  asPreview: boolean;
 };
 
-export function CharacterList({ characters, children }: CharacterListProps) {
+export function CharacterList({ characters, children, asPreview = false }: CharacterListProps) {
   const [character, setCharacter] = useState<Character | null>();
+
+  console.log(characters);
 
   const selectCharacter = (character: Character) => {
     setCharacter(character);
@@ -28,7 +32,13 @@ export function CharacterList({ characters, children }: CharacterListProps) {
   };
 
   if (character) {
-    return <CharacterSheet character={character} handleBackClick={closeCharacterSheet} />;
+    return (
+      <CharacterSheet
+        character={character}
+        asPreview={asPreview}
+        handleBackClick={closeCharacterSheet}
+      />
+    );
   }
 
   return (
@@ -38,7 +48,7 @@ export function CharacterList({ characters, children }: CharacterListProps) {
           <Styled.CharacterPreview key={character.id}>
             <Styled.CharacterAvatar
               colorAtLightOpacity={convertHexadecimalColorToHsl(character.textColor, 0.2)}
-              color={character.textColor}
+              color={character.textColor || TextColor.Default}
               onClick={() => selectCharacter(character)}
             >
               <Image
@@ -50,23 +60,25 @@ export function CharacterList({ characters, children }: CharacterListProps) {
               />
               <Styled.CharacterName>{character.firstName}</Styled.CharacterName>
             </Styled.CharacterAvatar>
-            <Styled.Stats color={character.textColor}>
-              <Styled.Stat color="var(--health)">
-                <HealthIcon />
-                <strong>{character.health}</strong>
-                Santé
-              </Styled.Stat>
-              <Styled.Stat color="var(--spirit)">
-                <SpiritIcon />
-                <strong>{character.spirit}</strong>
-                Esprit
-              </Styled.Stat>
-              <Styled.Stat color="var(--momentum)">
-                <MomentumIcon />
-                <strong>{character.momentum}</strong>
-                Ferveur
-              </Styled.Stat>
-            </Styled.Stats>
+            {!asPreview && (
+              <Styled.Stats color={character.textColor}>
+                <Styled.Stat color="var(--health)">
+                  <HealthIcon />
+                  <strong>{character.health}</strong>
+                  Santé
+                </Styled.Stat>
+                <Styled.Stat color="var(--spirit)">
+                  <SpiritIcon />
+                  <strong>{character.spirit}</strong>
+                  Esprit
+                </Styled.Stat>
+                <Styled.Stat color="var(--momentum)">
+                  <MomentumIcon />
+                  <strong>{character.momentum}</strong>
+                  Ferveur
+                </Styled.Stat>
+              </Styled.Stats>
+            )}
           </Styled.CharacterPreview>
         ))}
       </Styled.CharacterList>

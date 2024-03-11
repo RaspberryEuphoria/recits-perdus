@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 
+import { CharacterList } from '@/components/CharacterList';
 import { Button } from '@/components/DesignSystem/Button';
 import { LoginForm } from '@/components/LoginForm';
 import { RegisterForm } from '@/components/RegisterForm';
+import { useCharactersByUser } from '@/hooks/useCharacters';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { User } from '@/utils/types/user';
@@ -15,6 +17,7 @@ export function HomePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [activeForm, setActiveForm] = useState<'login' | 'register'>('login');
   const [currentUser, setLocalStorage] = useLocalStorage<User>('currentUser');
+  const { characters } = useCharactersByUser(currentUser?.id);
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,7 +69,12 @@ export function HomePage() {
   if (!hasLoaded) return null;
 
   if (currentUser) {
-    return <Styled.Home>Vous êtes connecté</Styled.Home>;
+    console.log(characters);
+    return (
+      <Styled.Home>
+        {characters && <CharacterList characters={characters} asPreview={true} />}
+      </Styled.Home>
+    );
   }
 
   return (
