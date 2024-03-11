@@ -57,7 +57,7 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
             <Keyword stat="momentum">
               <MomentumIcon />
               <span>
-                <strong>{character.momentum}</strong> Élan
+                <strong>{character.momentum}</strong> Ferveur
               </span>
             </Keyword>
           </Styled.Stats>

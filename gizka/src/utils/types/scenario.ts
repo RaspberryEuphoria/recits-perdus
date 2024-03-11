@@ -87,7 +87,7 @@ export enum Skill {
 }
 
 export enum Stat {
-  MOMENTUM = 'Élan',
+  MOMENTUM = 'Ferveur',
   HEALTH = 'Santé',
   SPIRIT = 'Esprit',
   SUPPLIES = 'Provisions',

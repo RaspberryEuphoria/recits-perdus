@@ -64,7 +64,7 @@ export function CharacterList({ characters, children }: CharacterListProps) {
               <Styled.Stat color="var(--momentum)">
                 <MomentumIcon />
                 <strong>{character.momentum}</strong>
-                Élan
+                Ferveur
               </Styled.Stat>
             </Styled.Stats>
           </Styled.CharacterPreview>
