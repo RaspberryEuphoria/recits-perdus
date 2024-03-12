@@ -7,4 +7,6 @@ export enum TextColor {
   Green = '#5cb959',
   Grey = '#5f8ca3',
   Purple = '#8c3cdb',
+
+  Default = '#11b6f7',
 }

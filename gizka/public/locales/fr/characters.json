@@ -6,6 +6,17 @@
       "breadcrumb": {
         "home": "Accueil",
         "characters": "Mes personnages"
+      },
+      "sections": {
+        "in-progress": {
+          "title": "Scénarios en cours"
+        },
+        "reserve": {
+          "title": "Réserve"
+        },
+        "create": {
+          "title": "Créer un nouveau personnage"
+        }
       }
     }
   }

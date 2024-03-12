@@ -29,26 +29,28 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
         <Styled.Character>
           <CharacterAvatar character={character} />
 
-          <Styled.Stats>
-            <Keyword stat="health">
-              <HealthIcon />
-              <span>
-                <strong>{character.health}/5</strong> Santé
-              </span>
-            </Keyword>
-            <Keyword stat="spirit">
-              <SpiritIcon />
-              <span>
-                <strong>{character.spirit}/5</strong> Esprit
-              </span>
-            </Keyword>
-            <Keyword stat="momentum">
-              <MomentumIcon />
-              <span>
-                <strong>{character.momentum}</strong> Ferveur
-              </span>
-            </Keyword>
-          </Styled.Stats>
+          {character.health != null && (
+            <Styled.Stats>
+              <Keyword stat="health">
+                <HealthIcon />
+                <span>
+                  <strong>{character.health}/5</strong> Santé
+                </span>
+              </Keyword>
+              <Keyword stat="spirit">
+                <SpiritIcon />
+                <span>
+                  <strong>{character.spirit}/5</strong> Esprit
+                </span>
+              </Keyword>
+              <Keyword stat="momentum">
+                <MomentumIcon />
+                <span>
+                  <strong>{character.momentum}</strong> Ferveur
+                </span>
+              </Keyword>
+            </Styled.Stats>
+          )}
         </Styled.Character>
 
         <Styled.CharacterData color={character.textColor}>

@@ -204,19 +204,6 @@ table {
   justify-content: flex-end;
 }
 
-.scroll-hidden {
-  overflow-y: hidden;
-}
-
-.scroll-y {
-  overflow-y: scroll;
-}
-
-.scroller {
-  scrollbar-color: var(--primary-alt) var(--primary);
-  scrollbar-width: thin;
-}
-
 /* Custom css */
 body,
 html,
@@ -236,4 +223,9 @@ body {
   font-family: 'Oxanium';
 
   background: 'blue';
+}
+
+a {
+  color: var(--flashy-alt);
+  text-decoration: underline;
 }

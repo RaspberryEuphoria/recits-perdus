@@ -11,11 +11,6 @@ export const Nav = styled.nav`
   top: 0;
   left: 0;
   position: sticky;
-
-  a {
-    color: var(--flashy-alt);
-    text-decoration: none;
-  }
 `;
 
 export const Bradcrumb = styled.div`

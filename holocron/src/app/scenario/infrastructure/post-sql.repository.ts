@@ -23,12 +23,23 @@ export class PostRepository {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { dices, ...post } = postDto;
 
-    return this.db.post.create({
+    const newPost = await this.db.post.create({
       data: post,
       include: {
         character: true,
       },
     });
+
+    await this.db.scenario.update({
+      where: {
+        id: postDto.scenarioId,
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    });
+
+    return newPost;
   }
 
   async getById(id: number): Promise<PostWithCharacterSkills | null> {

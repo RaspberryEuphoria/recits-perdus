@@ -12,11 +12,8 @@ export const GameSection = styled.div`
   flex-direction: column;
   font-family: 'Roboto';
   gap: var(--space-1);
-  height: 100vw;
   overflow: auto;
-  padding: var(--space-2);
-  scrollbar-color: var(--flashy-05) var(--primary);
-  scrollbar-width: thin;
+  padding: var(--space-1);
 `;
 
 export const Help = styled.div`

@@ -5,9 +5,12 @@ export const BackButton = styled.div`
   color: var(--flashy);
   cursor: pointer;
   display: flex;
+  position: relative;
 
   svg {
     height: 25px;
+    position: absolute;
+    left: -25px;
     transform: rotate(90deg);
     width: 25px;
   }
@@ -17,7 +20,6 @@ export const CharacterSheet = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-1);
   width: 100%;
 `;
 
@@ -30,25 +32,6 @@ export const Character = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-`;
-
-export const CharacterAvatar = styled.div<{ color: string; colorAtLightOpacity: string }>`
-  align-self: flex-start;
-  background: url('/images/dialog_background.png'),
-    ${({ colorAtLightOpacity }) => colorAtLightOpacity};
-  background-size: auto, auto;
-  border: 1px solid ${({ color }) => color};
-  border-right: 0;
-  box-shadow: 0px 0px 10px 0px ${({ colorAtLightOpacity }) => colorAtLightOpacity},
-    inset 0px 0px 10px 0px ${({ colorAtLightOpacity }) => colorAtLightOpacity};
-  transition: transform 0.2s ease-in-out;
-
-  img {
-    display: block;
-    border-radius: 2px 2px 0 0;
-    max-width: 100%;
-    height: auto;
-  }
 `;
 
 export const CharacterData = styled.div<{ color: string }>`

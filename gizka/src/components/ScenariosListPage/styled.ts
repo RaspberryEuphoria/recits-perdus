@@ -73,8 +73,6 @@ export const CharactersCount = styled.span`
 `;
 
 export const Filters = styled.div`
-  padding: var(--space-1);
-
   h1 {
     font-size: 1.5rem;
     margin-bottom: var(--space-1);

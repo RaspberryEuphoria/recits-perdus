@@ -4,7 +4,7 @@ import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
 
 export function useCharactersByUser(userId?: number) {
-  const [characters, setCharacters] = useState<Character[]>();
+  const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 

@@ -5,13 +5,10 @@ import { Media } from '@/utils/constants';
 export const CharacterAvatar = styled.div<{ color: string; colorAtLightOpacity: string }>`
   display: flex;
   flex-direction: column;
-  /* width: 204px; // 200 + border */
-  width: 100%;
   background: url('/images/dialog_background.png'),
     ${({ colorAtLightOpacity }) => colorAtLightOpacity};
   background-size: auto, auto;
-  border: 2px solid ${({ color }) => color};
-  border-radius: 2px;
+  border: 1px solid ${({ color }) => color};
   box-shadow: 0px 0px 10px 0px ${({ colorAtLightOpacity }) => colorAtLightOpacity},
     inset 0px 0px 10px 0px ${({ colorAtLightOpacity }) => colorAtLightOpacity};
   transition: transform 0.2s ease-in-out;
@@ -24,7 +21,6 @@ export const CharacterAvatar = styled.div<{ color: string; colorAtLightOpacity: 
 
   img {
     display: block;
-    border-radius: 2px 2px 0 0;
     max-width: 100%;
     height: auto;
   }

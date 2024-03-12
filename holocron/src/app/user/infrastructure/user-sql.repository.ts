@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
+import { TextColor } from '../../../constants';
 import { AuthService } from '../../../services/AuthService';
 import { CreateUserDto, User } from '../domain/user/entities/user';
 
@@ -12,7 +13,18 @@ type FullCharacter = Prisma.CharacterGetPayload<{
     story: true;
     birthdate: true;
     avatar: true;
-    scenario: true;
+    scenario: {
+      include: {
+        scenario: {
+          select: {
+            id: true;
+            safeTitle: true;
+            title: true;
+            status: true;
+          };
+        };
+      };
+    };
     skills: {
       include: {
         skill: true;
@@ -59,7 +71,19 @@ export class UserRepository {
         scenario: {
           take: 1,
           orderBy: {
-            id: 'desc',
+            scenario: {
+              updatedAt: 'desc',
+            },
+          },
+          include: {
+            scenario: {
+              select: {
+                id: true,
+                safeTitle: true,
+                title: true,
+                status: true,
+              },
+            },
           },
         },
         skills: {
@@ -75,6 +99,8 @@ export class UserRepository {
 }
 
 function mapCharacters(character: FullCharacter) {
+  const [scenario] = character.scenario;
+
   return {
     ...character,
     skills: character.skills
@@ -83,9 +109,10 @@ function mapCharacters(character: FullCharacter) {
           name: characterSkill.skill.name,
         }))
       : [],
-    textColor: character.scenario[0].textColor,
-    health: character.scenario[0].health,
-    spirit: character.scenario[0].spirit,
-    momentum: character.scenario[0].momentum,
+    textColor: scenario?.textColor || TextColor.Default,
+    health: scenario?.health || null,
+    spirit: scenario?.spirit || null,
+    momentum: scenario?.momentum || null,
+    characterScenario: scenario,
   };
 }

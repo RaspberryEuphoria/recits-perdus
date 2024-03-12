@@ -54,12 +54,12 @@ async function main() {
     usersToCreate.map(async (user, index) => {
       // swapi API starts at index 1
       const apiIndex = index + index + 1;
-      const resOne = await fetch(`https://swapi.dev/api/people/${apiIndex}`);
-      const randomCharacterOne = (await resOne.json()) as SwApiCharacter;
-      const resTwo = await fetch(`https://swapi.dev/api/people/${apiIndex + 1}`);
-      const randomCharacterTwo = (await resTwo.json()) as SwApiCharacter;
+      // const resOne = await fetch(`https://swapi.dev/api/people/${apiIndex}`);
+      // const randomCharacterOne = (await resOne.json()) as SwApiCharacter;
+      // const resTwo = await fetch(`https://swapi.dev/api/people/${apiIndex + 1}`);
+      // const randomCharacterTwo = (await resTwo.json()) as SwApiCharacter;
 
-      const characters = [randomCharacterOne.name, randomCharacterTwo.name].map((name) => {
+      const characters = [`${user.name}_one`, `${user.name}_two`].map((name) => {
         const characterSkills = skills.map((skill, i) => ({
           skillId: i + 1,
           level: rand(1, 5),

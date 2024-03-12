@@ -1,4 +1,4 @@
-import { Skill } from './scenario';
+import { Scenario, Skill } from './scenario';
 
 export type Character = {
   id: number;
@@ -10,6 +10,18 @@ export type Character = {
   textColor: string;
   avatar: string;
   skills: CharacterSkill[];
+  health: number;
+  spirit: number;
+  momentum: number;
+  characterScenario?: CharacterScenario;
+};
+
+export type CharacterInActiveScenario = Character & {
+  characterScenario: CharacterScenario;
+};
+
+export type CharacterScenario = {
+  scenario: Scenario;
   health: number;
   spirit: number;
   momentum: number;

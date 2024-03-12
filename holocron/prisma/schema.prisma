@@ -13,6 +13,10 @@ model User {
   name       String      @db.VarChar(255)
   password   String
   characters Character[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  lastActivityAt DateTime @default(now())
 }
 
 model Character {
@@ -58,6 +62,9 @@ model Scenario {
   supplies     Int                     @default(5)
   characters   CharactersOnScenarios[]
   posts        Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CharactersOnScenarios {
@@ -82,6 +89,9 @@ model Post {
   moves        MovesOnPosts[]
   character    Character      @relation(fields: [characterId], references: [id])
   scenario     Scenario       @relation(fields: [scenarioId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model MovesOnPosts {

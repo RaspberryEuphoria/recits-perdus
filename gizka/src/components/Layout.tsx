@@ -72,11 +72,7 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
     (!props.breadcrumb && !props.tabs) ||
     (props?.breadcrumb?.length === 0 && props?.tabs?.length === 0)
   ) {
-    return (
-      <section className={[styles.mainSection, styles.scroller].join(' ')}>
-        {props.children}
-      </section>
-    );
+    return <section className={[styles.mainSection].join(' ')}>{props.children}</section>;
   }
 
   const handleTabClick = (tabId: T) => {
@@ -127,12 +123,13 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
   );
 }
 
-export function LayoutAsideSection(props: LayoutProps) {
+export function LayoutAsideSection(props: LayoutProps & { stickyFooter?: React.ReactNode }) {
   return (
-    <>
-      <aside className={[styles.asideSection, styles.overflowY, styles.scroller].join(' ')}>
-        {props.children}
-      </aside>
-    </>
+    <aside className={[styles.asideSection].join(' ')}>
+      <section className={[styles.contentContainer, styles.overflowY, styles.scroller].join(' ')}>
+        <section className={styles.content}>{props.children}</section>
+      </section>
+      {props.stickyFooter}
+    </aside>
   );
 }

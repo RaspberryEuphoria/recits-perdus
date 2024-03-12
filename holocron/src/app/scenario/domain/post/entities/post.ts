@@ -9,6 +9,8 @@ type Post = {
   turn: number;
 
   dices?: Array<Dice>;
+  createdAt: Date;
+  updatedAt: Date;
   // skill?: Skill;
 };
 

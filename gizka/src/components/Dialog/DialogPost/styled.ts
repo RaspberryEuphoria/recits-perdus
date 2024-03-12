@@ -15,6 +15,10 @@ export const DialogPost = styled.div`
     margin-top: 0;
     text-align: center;
   }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 export const DialogInfos = styled.div`

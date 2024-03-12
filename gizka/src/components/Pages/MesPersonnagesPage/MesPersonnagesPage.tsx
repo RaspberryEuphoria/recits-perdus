@@ -3,10 +3,10 @@
 import { useTranslations } from 'next-intl';
 import { useContext } from 'react';
 
-import { CharacterList } from '@/components/CharacterList';
 import { Text } from '@/components/DesignSystem/Text';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { LoginOrRegister } from '@/components/LoginOrRegister';
+import { UserCharacterList } from '@/components/UserCharacterList';
 import { UserContext } from '@/contexts/user';
 import { useCharactersByUser } from '@/hooks/useCharacters';
 
@@ -33,10 +33,6 @@ export function MesPersonnagesPage() {
     );
   }
 
-  if (!characters) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <>
       <LayoutMainSection
@@ -45,9 +41,13 @@ export function MesPersonnagesPage() {
           { label: 'Mes personnages', href: '#' },
         ]}
       >
-        <CharacterList characters={characters} />
+        <UserCharacterList characters={characters} />
       </LayoutMainSection>
-      <LayoutAsideSection>Xoxo</LayoutAsideSection>
+      <LayoutAsideSection>
+        <Text as="h1">
+          {t('my-characters.sections.create.title')} (<em>en construction</em>)
+        </Text>
+      </LayoutAsideSection>
     </>
   );
 }

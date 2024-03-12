@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 import { CharacterList } from '@/components/CharacterList';
@@ -11,11 +11,14 @@ import { DialogThread } from '@/components/Dialog/DialogThread';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { Moves } from '@/components/Moves';
 import { ScenarioResources } from '@/components/ScenarioResources';
+import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { Character } from '@/utils/types/character';
 import { Post, Scenario } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
+
+import * as Styled from './styled';
 
 type EnCoursWithIdPageProps = {
   id: string;
@@ -51,8 +54,8 @@ export function EnCoursWithIdPage({
   supplies: initalSupplies,
 }: EnCoursWithIdPageProps) {
   const t = useTranslations('scenarios');
+  const threadRef = useRef<HTMLDivElement>(null);
   const [currentUser] = useLocalStorage<User>('currentUser');
-
   const [openTabId, setOpenTabId] = useState<Tab>(Tab.Status);
   const [characters, setCharacters] = useState<Record<string, Character>>(initalCharacters);
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
@@ -73,6 +76,14 @@ export function EnCoursWithIdPage({
   const handleTextareaSubmit = () => {
     setContent('');
     setOpenTabId(Tab.Status);
+  };
+
+  const placeholder = isItMyTurn
+    ? "C'est à vous de jouer"
+    : `C'est au tour de ${nextPoster.firstName} ${nextPoster.lastName}`;
+
+  const scrollToBottom = () => {
+    if (threadRef.current) threadRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
   };
 
   const socketInitializer = async () => {
@@ -164,14 +175,23 @@ export function EnCoursWithIdPage({
           />
         )}
       </LayoutMainSection>
-      <LayoutAsideSection>
+      <LayoutAsideSection
+        stickyFooter={
+          <Styled.Footer>
+            <Styled.SmallTextarea onClick={handleOpenTextarea} isDisabled={!isItMyTurn}>
+              {placeholder}
+            </Styled.SmallTextarea>
+            <Styled.ArrowButton onClick={scrollToBottom}>
+              <DownArrowIcon />
+            </Styled.ArrowButton>
+          </Styled.Footer>
+        }
+      >
         <DialogThread
           characters={characters}
           dialogs={dialogs}
           introductionText={introduction}
-          nextPoster={nextPoster}
-          isItMyTurn={isItMyTurn}
-          openTextarea={handleOpenTextarea}
+          ref={threadRef}
         />
       </LayoutAsideSection>
     </>
