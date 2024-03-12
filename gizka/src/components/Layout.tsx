@@ -11,6 +11,7 @@ import LogoImage from '@/public/images/logo.png';
 
 import styles from './Layout.module.css';
 import * as Styled from './Layout/styled';
+
 type LayoutProps = {
   children: React.ReactNode;
   footer?: string[];
@@ -85,7 +86,7 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
   };
 
   return (
-    <section className={[styles.mainSection, styles.overflowY, styles.scroller].join(' ')}>
+    <section className={[styles.mainSection].join(' ')}>
       <Styled.Nav>
         {props.breadcrumb && props.breadcrumb.length > 0 && (
           <Styled.Bradcrumb>
@@ -112,13 +113,16 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
                 isDisabled={tab.isDisabled}
                 onClick={() => !tab.isDisabled && handleTabClick(tab.id)}
               >
-                {tab.label}
+                <Styled.TabLabel>{tab.label}</Styled.TabLabel>
+                <Styled.TabHiddenLabel>{tab.label}</Styled.TabHiddenLabel>
               </Styled.Tab>
             ))}
           </Styled.Tabs>
         )}
       </Styled.Nav>
-      {props.children}
+      <section className={[styles.contentContainer, styles.overflowY, styles.scroller].join(' ')}>
+        <section className={styles.content}>{props.children}</section>
+      </section>
     </section>
   );
 }

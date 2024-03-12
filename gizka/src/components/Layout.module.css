@@ -99,6 +99,19 @@
   overflow-x: hidden;
 }
 
+.contentContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--space-1);
+}
+
 .asideSection {
   position: relative;
   width: 40%;

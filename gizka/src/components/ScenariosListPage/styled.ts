@@ -7,7 +7,6 @@ export const ScenariosList = styled.section`
   flex-wrap: wrap;
   flex-direction: row;
   gap: 1rem;
-  padding: 2.5rem;
 `;
 
 export const Scenario = styled(Link)<{ background: string }>`
