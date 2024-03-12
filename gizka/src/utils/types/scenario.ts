@@ -20,7 +20,7 @@ export type Post = {
   turn: number;
 };
 
-export type Scenario = {
+type Scenario = {
   id: number;
   title: string;
   safeTitle: string;
