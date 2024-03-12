@@ -2,15 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { Fragment } from 'react';
 
+import { UserContext, UserProvider } from '@/contexts/user';
 import BackgroundStarmapImage from '@/public/images/background_starmap.png';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import LogoImage from '@/public/images/logo.png';
-import { useLocalStorage } from '@/utils/hooks/localStorage';
 
 import styles from './Layout.module.css';
 import * as Styled from './Layout/styled';
-
 type LayoutProps = {
   children: React.ReactNode;
   footer?: string[];
@@ -22,21 +22,9 @@ type MainLayoutProps<T> = LayoutProps & {
   onTabChange?: (tab: T) => void;
 };
 
-type User = {
-  name: string;
-  email: string;
-};
-
 export function Layout(props: LayoutProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentUser, _, clearValue] = useLocalStorage<User>('currentUser');
-
-  const logout = () => {
-    clearValue();
-  };
-
   return (
-    <>
+    <UserProvider>
       <header className={styles.header}>
         <Link href={'/'}>
           <Image
@@ -47,11 +35,15 @@ export function Layout(props: LayoutProps) {
             quality={100}
           />
         </Link>
-        {currentUser && (
-          <span onClick={logout}>
-            Bienvenue, <strong>{currentUser.name}</strong>
-          </span>
-        )}
+        <UserContext.Consumer>
+          {({ currentUser, logout }) =>
+            currentUser && (
+              <span onClick={logout}>
+                Bienvenue, <strong>{currentUser.name}</strong>
+              </span>
+            )
+          }
+        </UserContext.Consumer>
       </header>
       <main
         className={[
@@ -70,7 +62,7 @@ export function Layout(props: LayoutProps) {
           <p dangerouslySetInnerHTML={{ __html: child }} key={child} />
         ))}
       </footer>
-    </>
+    </UserProvider>
   );
 }
 
@@ -99,14 +91,12 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
           <Styled.Bradcrumb>
             {props.breadcrumb.map((item, index) => {
               return props.breadcrumb && index < props.breadcrumb.length - 1 ? (
-                <>
-                  <Link href={item.href} key={item.label}>
-                    {item.label}
-                  </Link>
+                <Fragment key={item.label}>
+                  <Link href={item.href}>{item.label}</Link>
                   <Styled.BradcrumbSeparator>
                     <DownArrowIcon />
                   </Styled.BradcrumbSeparator>
-                </>
+                </Fragment>
               ) : (
                 item.label
               );

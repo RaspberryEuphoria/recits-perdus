@@ -1,0 +1,12 @@
+{
+  "characters": {
+    "my-characters": {
+      "title": "Mes personnages - Les Récits Perdus",
+      "description": "Bloblo",
+      "breadcrumb": {
+        "home": "Accueil",
+        "characters": "Mes personnages"
+      }
+    }
+  }
+}

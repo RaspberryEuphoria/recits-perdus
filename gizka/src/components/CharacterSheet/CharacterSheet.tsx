@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import { CharacterAvatar } from '@/components/CharacterAvatar';
 import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Text } from '@/components/DesignSystem/Text';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
@@ -13,11 +12,10 @@ import * as Styled from './styled';
 
 type CharacterSheetProps = {
   character: Character;
-  asPreview: boolean;
   handleBackClick: () => void;
 };
 
-export function CharacterSheet({ character, asPreview, handleBackClick }: CharacterSheetProps) {
+export function CharacterSheet({ character, handleBackClick }: CharacterSheetProps) {
   const colorAtLightOpacity = convertHexadecimalColorToHsl(character.textColor, 0.2);
 
   return (
@@ -29,18 +27,7 @@ export function CharacterSheet({ character, asPreview, handleBackClick }: Charac
       </Styled.Row>
       <Styled.Row>
         <Styled.Character>
-          <Styled.CharacterAvatar
-            colorAtLightOpacity={colorAtLightOpacity}
-            color={character.textColor}
-          >
-            <Image
-              src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`}
-              alt="[Avatar manquant]"
-              width={200}
-              height={230}
-              quality={100}
-            />
-          </Styled.CharacterAvatar>
+          <CharacterAvatar character={character} />
 
           <Styled.Stats>
             <Keyword stat="health">
@@ -64,50 +51,43 @@ export function CharacterSheet({ character, asPreview, handleBackClick }: Charac
           </Styled.Stats>
         </Styled.Character>
 
-        {!asPreview && (
-          <Styled.CharacterData color={character.textColor}>
-            <Styled.CharacterName color={character.textColor}>
-              {character.firstName} {character.lastName}
-            </Styled.CharacterName>
-            <Styled.Title color={character.textColor}>Attributs</Styled.Title>
+        <Styled.CharacterData color={character.textColor}>
+          <Styled.CharacterName color={character.textColor}>
+            {character.firstName} {character.lastName}
+          </Styled.CharacterName>
+          <Styled.Title color={character.textColor}>Attributs</Styled.Title>
 
-            <Styled.Skills>
-              {character.skills.map((skill) => (
-                <Styled.Skill key={skill.id} color={colorAtLightOpacity}>
-                  <strong>
-                    {skill.name} (+{skill.level})
-                  </strong>
-                  <p>{skill.skill.description}</p>
-                </Styled.Skill>
-              ))}
-            </Styled.Skills>
-          </Styled.CharacterData>
-        )}
+          <Styled.Skills>
+            {character.skills.map((skill) => (
+              <Styled.Skill key={skill.id} color={colorAtLightOpacity}>
+                <strong>
+                  {skill.name} (+{skill.level})
+                </strong>
+                <p>{skill.skill.description}</p>
+              </Styled.Skill>
+            ))}
+          </Styled.Skills>
+        </Styled.CharacterData>
       </Styled.Row>
 
-      {!asPreview && (
-        <>
-          {character.story && (
-            <Styled.Row>
-              <Styled.Block color={character.textColor}>
-                <Styled.Title color={character.textColor}>Histoire</Styled.Title>
-                <Text size="md">{character.story}</Text>
-              </Styled.Block>
-            </Styled.Row>
-          )}
-          <Styled.Row>
-            <Styled.Block color={character.textColor}>
-              <Styled.Title color={character.textColor}>Scénarios</Styled.Title> <em>(à venir)</em>
-            </Styled.Block>
-          </Styled.Row>
-          <Styled.Row>
-            <Styled.Block color={character.textColor}>
-              <Styled.Title color={character.textColor}>Statistiques</Styled.Title>{' '}
-              <em>(à venir)</em>
-            </Styled.Block>
-          </Styled.Row>
-        </>
+      {character.story && (
+        <Styled.Row>
+          <Styled.Block color={character.textColor}>
+            <Styled.Title color={character.textColor}>Histoire</Styled.Title>
+            <Text size="md">{character.story}</Text>
+          </Styled.Block>
+        </Styled.Row>
       )}
+      <Styled.Row>
+        <Styled.Block color={character.textColor}>
+          <Styled.Title color={character.textColor}>Scénarios</Styled.Title> <em>(à venir)</em>
+        </Styled.Block>
+      </Styled.Row>
+      <Styled.Row>
+        <Styled.Block color={character.textColor}>
+          <Styled.Title color={character.textColor}>Statistiques</Styled.Title> <em>(à venir)</em>
+        </Styled.Block>
+      </Styled.Row>
     </Styled.CharacterSheet>
   );
 }

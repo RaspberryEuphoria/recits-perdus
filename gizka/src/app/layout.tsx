@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 import { Layout } from '@/components/Layout';
-import { StyleProvider } from '@/lib/registry';
+import { StyleProvider } from '@/contexts/style';
 import AppleTouchIcon from '@/public/images/favicon/apple-touch-icon.png';
 import Favicon16x16 from '@/public/images/favicon/favicon-16x16.png';
 import Favicon32x32 from '@/public/images/favicon/favicon-32x32.png';

@@ -10,7 +10,6 @@ export function NavBar({
   links: Array<{
     label: string;
     href: string;
-    description: string;
     isDisabled: boolean;
     isBlank?: boolean;
   }>;

@@ -9,7 +9,6 @@ class HttpClient {
 
   public async request<T>(url: string, options: RequestInit): Promise<T | HttpError> {
     try {
-      console.log(`${this.baseUrl}${url}`);
       const res = await fetch(`${this.baseUrl}${url}`, {
         ...options,
         cache: 'no-store',

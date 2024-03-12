@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { Button } from '@/components/DesignSystem/Button';
 
 import * as Styled from './styled';
@@ -14,14 +16,14 @@ export function Form({
   return (
     <Styled.Form onSubmit={onSubmit}>
       {inputs.map((input) => (
-        <>
+        <Fragment key={input.label}>
           <Styled.FormRow key={`${input.label}`}>
             <Styled.Label htmlFor={input.name}>{input.label}</Styled.Label>
           </Styled.FormRow>
           <Styled.FormRow key={`${input.name}`}>
             <Styled.Input name={input.name} id={input.name} type={input.type} />
           </Styled.FormRow>
-        </>
+        </Fragment>
       ))}
       <Styled.FormRow marginY={1.5}>
         <Button width="100%">{submitButtonLabel}</Button>

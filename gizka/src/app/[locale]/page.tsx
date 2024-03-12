@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 import { NavBar } from '@/components/DesignSystem/NavBar';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
-import { HomePage } from '@/components/Pages/HomePage';
+import { LoginOrRegister } from '@/components/LoginOrRegister';
 
 export const metadata: Metadata = {
   title: 'Star Wars - Les Récits Perdus',
@@ -12,52 +12,53 @@ export const metadata: Metadata = {
     'Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars',
 };
 
-export default function Home() {
-  const links = [
-    {
-      label: 'Apprendre à jouer',
-      href: '/create',
-      description:
-        'Le guide du jeu vous apprendra à contribuer aux scénarios et à forger votre propre récit dans la galaxie.',
-      isDisabled: true,
-    },
-    {
-      label: 'Créer un scénario',
-      href: '/create',
-      description:
-        'Planifiez les missions les plus périlleuses, les aventures les plus palpitantes et les batailles les plus épiques.',
-      isDisabled: true,
-    },
-    {
-      label: 'Rejoindre un scénario',
-      href: '/join',
-      description:
-        'Trouvez de nouveaux compagnons et prenez part à de grandes histoires partout dans la galaxie.',
-      isDisabled: true,
-    },
-    {
-      label: 'Scénarios en cours',
-      href: '/scenarios/en-cours',
-      description: 'Retrouvez tous les récits en cours.',
-      isDisabled: false,
-    },
-    // ajouter "scénarios terminés"
-    {
-      label: 'Discord',
-      href: 'https://discord.gg/TmpaGgfB',
-      description: 'Rejoignez le Discord Les Récits Perdus.',
-      isDisabled: false,
-      isBlank: true,
-    },
-  ];
+const links = [
+  {
+    label: 'Apprendre à jouer',
+    href: '/create',
+    isDisabled: true,
+  },
+  {
+    label: 'Créer un scénario',
+    href: '/create',
+    isDisabled: true,
+  },
+  {
+    label: 'Rejoindre un scénario',
+    href: '/join',
+    isDisabled: true,
+  },
+  {
+    label: 'Mes personnages',
+    href: '/mes-personnages',
+    isDisabled: false,
+  },
+  {
+    label: 'Scénarios en cours',
+    href: '/scenarios/en-cours',
+    isDisabled: false,
+  },
+  {
+    label: 'Scénarios finis',
+    href: '/scenarios/finis',
+    isDisabled: true,
+  },
+  {
+    label: 'Discord',
+    href: 'https://discord.gg/TmpaGgfB',
+    isDisabled: false,
+    isBlank: true,
+  },
+];
 
+export default function Home() {
   return (
     <>
       <LayoutMainSection>
         <NavBar links={links} />
       </LayoutMainSection>
       <LayoutAsideSection>
-        <HomePage />
+        <LoginOrRegister />
       </LayoutAsideSection>
     </>
   );

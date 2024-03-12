@@ -1,22 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { CharacterList } from '@/components/CharacterList';
 import { Button } from '@/components/DesignSystem/Button';
 import { LoginForm } from '@/components/LoginForm';
 import { RegisterForm } from '@/components/RegisterForm';
+import { UserContext } from '@/contexts/user';
 import { useCharactersByUser } from '@/hooks/useCharacters';
 import { httpBffClient, isHttpError } from '@/services/http-client';
-import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { User } from '@/utils/types/user';
 
 import * as Styled from './styled';
 
-export function HomePage() {
+export function LoginOrRegister() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [activeForm, setActiveForm] = useState<'login' | 'register'>('login');
-  const [currentUser, setLocalStorage] = useLocalStorage<User>('currentUser');
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const { characters } = useCharactersByUser(currentUser?.id);
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,11 +28,11 @@ export function HomePage() {
     if (email && password) {
       const currentUser = await httpBffClient.post<User>('/user/login', { email, password });
 
-      if (!isHttpError(currentUser)) {
-        setLocalStorage(currentUser);
-      } else {
-        // @todo show error message
+      if (isHttpError(currentUser)) {
         alert('Identifiants incorrects');
+        // @todo show error message
+      } else {
+        setCurrentUser && setCurrentUser(currentUser);
       }
     }
   };
@@ -51,8 +51,11 @@ export function HomePage() {
         password,
       });
 
-      if (!isHttpError(currentUser)) {
-        setLocalStorage(currentUser);
+      if (isHttpError(currentUser)) {
+        alert('Une erreur est survenue');
+        // @todo show error message
+      } else {
+        setCurrentUser && setCurrentUser(currentUser);
       }
     }
   };
@@ -69,12 +72,7 @@ export function HomePage() {
   if (!hasLoaded) return null;
 
   if (currentUser) {
-    console.log(characters);
-    return (
-      <Styled.Home>
-        {characters && <CharacterList characters={characters} asPreview={true} />}
-      </Styled.Home>
-    );
+    return <Styled.Home>{characters && <CharacterList characters={characters} />}</Styled.Home>;
   }
 
   return (

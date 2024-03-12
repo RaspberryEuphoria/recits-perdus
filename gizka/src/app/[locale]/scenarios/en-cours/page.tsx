@@ -27,9 +27,5 @@ async function getData(): Promise<Scenario[]> {
 export default async function EnCours() {
   const scenarios = await getData();
 
-  return (
-    <>
-      <EnCoursPage scenarios={scenarios} />
-    </>
-  );
+  return <EnCoursPage scenarios={scenarios} />;
 }
