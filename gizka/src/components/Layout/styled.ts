@@ -1,16 +1,6 @@
 import styled from 'styled-components';
 
-export const Main = styled.main`
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: var(--primary);
-  display: flex;
-  height: 100%;
-  justify-content: flex-end;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  position: relative;
-`;
+import { Media } from '@/utils/constants';
 
 export const Header = styled.header`
   display: flex;
@@ -84,22 +74,6 @@ export const AsideSection = styled.aside`
   width: 40%;
 `;
 
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
-  scrollbar-color: var(--flashy-05) var(--primary);
-  scrollbar-width: thin;
-`;
-
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: var(--space-1);
-`;
-
 export const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
@@ -111,24 +85,6 @@ export const Nav = styled.nav`
   top: 0;
   left: 0;
   position: sticky;
-`;
-
-export const Bradcrumb = styled.div`
-  align-items: center;
-  display: flex;
-  margin: var(--space-1);
-`;
-
-export const BradcrumbSeparator = styled.span`
-  color: var(--light);
-  width: 20px;
-  height: 20px;
-
-  svg {
-    width: 20px;
-    height: 20px;
-    transform: rotate(-90deg);
-  }
 `;
 
 export const Tabs = styled.div`
@@ -182,6 +138,89 @@ export const Tab = styled.button<{ isOpen: boolean; isDisabled: boolean }>`
     `}
 `;
 
+export const Main = styled.main`
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: var(--primary);
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+
+  @media (max-width: ${Media.md}) {
+    overflow: initial;
+    flex-direction: column;
+    height: auto;
+
+    ${Nav} {
+      position: initial;
+      flex-direction: column;
+    }
+
+    ${Tabs} {
+      margin: var(--space-1);
+    }
+
+    ${Tab} {
+      font-size: 1rem;
+    }
+
+    ${MainSection},${AsideSection} {
+      flex: 1;
+      margin: 0;
+      max-width: 100%;
+      min-width: 100%;
+      width: 100%;
+      overflow: initial;
+      height: auto;
+      border: none;
+    }
+
+    ${AsideSection} {
+      border-top: 1px solid var(--flashy);
+
+      footer {
+        position: initial;
+      }
+    }
+  }
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-color: var(--flashy-05) var(--primary);
+  scrollbar-width: thin;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-1);
+`;
+
+export const Bradcrumb = styled.div`
+  align-items: center;
+  display: flex;
+  margin: var(--space-1);
+`;
+
+export const BradcrumbSeparator = styled.span`
+  color: var(--light);
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    transform: rotate(-90deg);
+  }
+`;
 export const TabLabel = styled.span`
   position: absolute;
   left: 50%;
