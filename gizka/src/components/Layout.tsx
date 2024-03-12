@@ -9,7 +9,6 @@ import BackgroundStarmapImage from '@/public/images/background_starmap.png';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import LogoImage from '@/public/images/logo.png';
 
-import styles from './Layout.module.css';
 import * as Styled from './Layout/styled';
 
 type LayoutProps = {
@@ -26,7 +25,7 @@ type MainLayoutProps<T> = LayoutProps & {
 export function Layout(props: LayoutProps) {
   return (
     <UserProvider>
-      <header className={styles.header}>
+      <Styled.Header>
         <Link href={'/'}>
           <Image
             src={LogoImage.src}
@@ -45,24 +44,15 @@ export function Layout(props: LayoutProps) {
             )
           }
         </UserContext.Consumer>
-      </header>
-      <main
-        className={[
-          styles.main,
-          styles.flex,
-          styles.justifyEnd,
-          styles.fullH,
-          styles.scrollHidden,
-        ].join(' ')}
-        style={{ backgroundImage: `url(${BackgroundStarmapImage.src})` }}
-      >
+      </Styled.Header>
+      <Styled.Main style={{ backgroundImage: `url(${BackgroundStarmapImage.src})` }}>
         {props.children}
-      </main>
-      <footer className={styles.footer}>
+      </Styled.Main>
+      <Styled.Footer>
         {props.footer?.map((child) => (
           <p dangerouslySetInnerHTML={{ __html: child }} key={child} />
         ))}
-      </footer>
+      </Styled.Footer>
     </UserProvider>
   );
 }
@@ -72,7 +62,7 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
     (!props.breadcrumb && !props.tabs) ||
     (props?.breadcrumb?.length === 0 && props?.tabs?.length === 0)
   ) {
-    return <section className={[styles.mainSection].join(' ')}>{props.children}</section>;
+    return <Styled.MainSection>{props.children}</Styled.MainSection>;
   }
 
   const handleTabClick = (tabId: T) => {
@@ -82,7 +72,7 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
   };
 
   return (
-    <section className={[styles.mainSection].join(' ')}>
+    <Styled.MainSection>
       <Styled.Nav>
         {props.breadcrumb && props.breadcrumb.length > 0 && (
           <Styled.Bradcrumb>
@@ -116,20 +106,20 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
           </Styled.Tabs>
         )}
       </Styled.Nav>
-      <section className={[styles.contentContainer, styles.overflowY, styles.scroller].join(' ')}>
-        <section className={styles.content}>{props.children}</section>
-      </section>
-    </section>
+      <Styled.ContentWrapper>
+        <Styled.Content>{props.children}</Styled.Content>
+      </Styled.ContentWrapper>
+    </Styled.MainSection>
   );
 }
 
 export function LayoutAsideSection(props: LayoutProps & { stickyFooter?: React.ReactNode }) {
   return (
-    <aside className={[styles.asideSection].join(' ')}>
-      <section className={[styles.contentContainer, styles.overflowY, styles.scroller].join(' ')}>
-        <section className={styles.content}>{props.children}</section>
-      </section>
+    <Styled.AsideSection>
+      <Styled.ContentWrapper>
+        <Styled.Content>{props.children}</Styled.Content>
+      </Styled.ContentWrapper>
       {props.stickyFooter}
-    </aside>
+    </Styled.AsideSection>
   );
 }

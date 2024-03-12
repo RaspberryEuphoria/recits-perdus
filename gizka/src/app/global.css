@@ -187,23 +187,6 @@ table {
   border-spacing: 0;
 }
 
-/* Helpers */
-.full-y {
-  height: 100%;
-}
-
-.flex {
-  display: flex;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-end {
-  justify-content: flex-end;
-}
-
 /* Custom css */
 body,
 html,

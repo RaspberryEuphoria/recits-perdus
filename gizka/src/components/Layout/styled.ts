@@ -1,5 +1,105 @@
 import styled from 'styled-components';
 
+export const Main = styled.main`
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: var(--primary);
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+`;
+
+export const Header = styled.header`
+  display: flex;
+  min-height: 7.5rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--flashy);
+  position: relative;
+  background: var(--primary);
+  padding: 0 var(--space-1);
+
+  strong {
+    color: var(--flashy-alt);
+  }
+
+  &::after {
+    background: var(--flashy);
+    bottom: 8px;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+`;
+
+export const Footer = styled.footer`
+  align-items: center;
+  background: var(--primary);
+  border-top: 1px solid var(--flashy);
+  display: flex;
+  font-size: 0.7rem;
+  justify-content: space-between;
+  min-height: 4rem;
+  padding-top: 8px; /* to compensate for the border */
+  padding: 0 var(--space-1);
+  position: relative;
+
+  &::after {
+    background: var(--flashy);
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 8px;
+    width: 100%;
+  }
+`;
+
+export const MainSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 55%;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
+
+export const AsideSection = styled.aside`
+  background: url('../../public/images/dialog_background.png'), var(--dark-08);
+  border-left: 1px solid var(--flashy);
+  border-right: 1px solid var(--flashy);
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 40%;
+  margin-right: 5%;
+  min-width: 40%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  width: 40%;
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-color: var(--flashy-05) var(--primary);
+  scrollbar-width: thin;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-1);
+`;
+
 export const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
