@@ -42,6 +42,11 @@ type CreatePostDto = {
   dices?: Array<Dice>;
 };
 
+type UpdatePostDto = {
+  id: number;
+  content: string;
+};
+
 export enum Moves {
   FAIRE_FACE_AU_DANGER = 'FAIRE_FACE_AU_DANGER',
   PRENDRE_UN_AVANTAGE = 'PRENDRE_UN_AVANTAGE',
@@ -76,4 +81,4 @@ enum MoveResult {
   FAILURE = 'FAILURE',
 }
 
-export { CreatePostDto, Dice, Move, MoveMeta, MoveResult, Post, Stat };
+export { CreatePostDto, Dice, Move, MoveMeta, MoveResult, Post, Stat, UpdatePostDto };

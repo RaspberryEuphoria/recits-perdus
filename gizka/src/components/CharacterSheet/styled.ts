@@ -11,8 +11,6 @@ export const BackButton = styled.div`
 
   svg {
     height: 25px;
-    position: absolute;
-    left: -25px;
     transform: rotate(90deg);
     width: 25px;
   }
@@ -32,11 +30,6 @@ export const CharacterSheet = styled.div`
       cursor: default;
     }
   }
-`;
-
-export const Row = styled.div`
-  display: flex;
-  justify-content: end;
 `;
 
 export const Character = styled.div`

@@ -62,8 +62,10 @@ export function EnCoursWithIdPage({
   const [supplies, setSupplies] = useState<number>(initalSupplies);
   const [dialogs, setDialogs] = useState<Post[]>(initialDialogs);
   const [content, setContent] = useState<string>('');
+  const [postId, setPostId] = useState<number | null>(null);
 
   const isItMyTurn = currentUser ? currentUser.id === nextPoster.userId : false;
+  const isEditAllowed = openTabId === Tab.Status;
 
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
@@ -73,8 +75,15 @@ export function EnCoursWithIdPage({
     if (isItMyTurn) setOpenTabId(Tab.Posting);
   };
 
+  const handlePostEdit = ({ id, content }: { id: number; content: string }) => {
+    setPostId(id);
+    setContent(content);
+    setOpenTabId(Tab.Posting);
+  };
+
   const handleTextareaSubmit = () => {
     setContent('');
+    setPostId(null);
     setOpenTabId(Tab.Status);
   };
 
@@ -108,12 +117,34 @@ export function EnCoursWithIdPage({
     });
 
     socket.on('receive-new-dialog', async (newDialog) => {
+      const [scenarioId] = id.split('-');
+      if (scenarioId != newDialog.scenarioId) return;
+
       setDialogs((dialogs) => [...dialogs, newDialog]);
 
       if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
       if (newDialog.move) socket.emit('post-new-move');
 
       socket.off('receive-new-dialog');
+    });
+
+    socket.on('receive-edited-dialog', async (updatedDialog) => {
+      const [scenarioId] = id.split('-');
+      if (scenarioId != updatedDialog.scenarioId) return;
+
+      setDialogs((dialogs) => {
+        const index = dialogs.findIndex((dialog) => dialog.id === updatedDialog.id);
+        if (index === -1) return dialogs;
+
+        const newDialogs = [...dialogs];
+        newDialogs[index] = updatedDialog;
+
+        return newDialogs;
+      });
+
+      if (updatedDialog.nextPoster) setNextPoster(updatedDialog.nextPoster);
+
+      socket.off('receive-edited-dialog');
     });
   };
 
@@ -161,6 +192,7 @@ export function EnCoursWithIdPage({
             content={content}
             onContentChange={handleContentChange}
             onTextareaSubmit={handleTextareaSubmit}
+            postId={postId}
             renderMoves={(
               onMovePicked: (move: Move | null) => void,
               onBurnCheck: (hasMomentumBurn: boolean) => void,
@@ -188,9 +220,12 @@ export function EnCoursWithIdPage({
         }
       >
         <DialogThread
+          currentUserId={currentUser?.id || null}
           characters={characters}
           dialogs={dialogs}
           introductionText={introduction}
+          handlePostEdit={handlePostEdit}
+          isEditAllowed={isEditAllowed}
           ref={threadRef}
         />
       </LayoutAsideSection>

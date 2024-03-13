@@ -1,6 +1,12 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-import { CreatePostDto, Dice, MoveMeta, MoveResult } from '../domain/post/entities/post';
+import {
+  CreatePostDto,
+  Dice,
+  MoveMeta,
+  MoveResult,
+  UpdatePostDto,
+} from '../domain/post/entities/post';
 
 export type PostWithCharacterSkills = Prisma.PostGetPayload<{
   include: {
@@ -40,6 +46,32 @@ export class PostRepository {
     });
 
     return newPost;
+  }
+
+  async update(id: number, content: string) {
+    console.log('update post');
+    console.log({ id, content });
+
+    const updatedPost = await this.db.post.update({
+      where: {
+        id,
+      },
+      data: { content },
+      include: {
+        character: true,
+      },
+    });
+
+    await this.db.scenario.update({
+      where: {
+        id: updatedPost.scenarioId,
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    });
+
+    return updatedPost;
   }
 
   async getById(id: number): Promise<PostWithCharacterSkills | null> {

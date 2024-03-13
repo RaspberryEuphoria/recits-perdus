@@ -4,6 +4,20 @@ type CounterProps = {
   isOverLimit: boolean;
 };
 
+export const BackButton = styled.div`
+  align-items: center;
+  color: var(--flashy);
+  cursor: pointer;
+  display: flex;
+  position: relative;
+
+  svg {
+    height: 25px;
+    transform: rotate(90deg);
+    width: 25px;
+  }
+`;
+
 export const GameSection = styled.div`
   align-items: flex-start;
   border-top: 0;

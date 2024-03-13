@@ -27,6 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   if (req.method === 'POST') {
+    console.log('I TRY TO POST');
+
     const { characterId, content, action } = body;
     const dialog = await httpClient.post<Post>(`/scenario/${scenarioId}/post`, {
       content,

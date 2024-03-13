@@ -1,10 +1,13 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
 import { Button } from '@/components/DesignSystem/Button';
+import { Row } from '@/components/DesignSystem/Row';
 import { MovesProps } from '@/components/Moves/Moves';
+import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
 import { Moves as MoveId, Post, Skill, Stat } from '@/utils/types/scenario';
@@ -15,6 +18,7 @@ type DialogTextareaProps = {
   scenarioId: string;
   nextPoster: Character;
   content: string;
+  postId: number | null;
   onContentChange: (content: string) => void;
   onTextareaSubmit: () => void;
   renderMoves: (
@@ -28,6 +32,11 @@ export type Move = {
   meta?: Record<string, string | number | boolean | Skill | Stat | undefined>;
 };
 
+enum Mode {
+  NEW = 'new',
+  EDIT = 'edit',
+}
+
 const MAX_LENGTH = 1000;
 
 let socket: Socket;
@@ -36,20 +45,32 @@ export function DialogTextarea({
   scenarioId,
   nextPoster: initialNextPoster,
   content: initialContent,
+  postId,
   onContentChange,
   onTextareaSubmit,
   renderMoves,
 }: DialogTextareaProps) {
+  const t = useTranslations('scenarios');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [content, setContent] = useState<string>(initialContent);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
   const [hasMomentumBurn, sethasMomentumBurn] = useState<boolean>(false);
 
+  const mode = postId ? Mode.EDIT : Mode.NEW;
   const currentLength = content?.length || 0;
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value.substring(0, MAX_LENGTH));
+  };
+
+  const submit = () => {
+    if (mode === Mode.NEW) {
+      addPost();
+    } else {
+      editPost();
+    }
   };
 
   const addPost = async () => {
@@ -81,6 +102,27 @@ export function DialogTextarea({
 
     if (dialog.action.move) socket.emit('post-new-move');
     if (newDialog.nextPoster) setNextPoster(newDialog.nextPoster);
+
+    onTextareaSubmit();
+  };
+
+  const editPost = async () => {
+    if (!content || !postId) return;
+
+    const dialog = {
+      content: content,
+    };
+
+    const id = (scenarioId as string).split('-')[0];
+    const updatedDialog = await httpBffClient.put<Post>(`/scenario/${id}/post/${postId}`, dialog);
+
+    if (isHttpError(updatedDialog)) {
+      throw new Error(
+        `There was an error while updating the dialog ${postId}: ${updatedDialog.message}`,
+      );
+    }
+
+    socket.emit('edit-dialog', updatedDialog);
 
     onTextareaSubmit();
   };
@@ -122,13 +164,18 @@ export function DialogTextarea({
 
   return (
     <>
+      {mode === Mode.EDIT && (
+        <Row>
+          <Styled.BackButton onClick={onTextareaSubmit}>
+            <DownArrowIcon /> {t(`en-cours.textarea.edit.cancel-button.label`)}
+          </Styled.BackButton>
+        </Row>
+      )}
+
       <Styled.GameSection>
         <Styled.Help>
-          1. Décrivez votre réaction aux derniers évènements, puis votre prochaine action.
-          <p>
-            Utilisez des &quot;guillemets&quot; pour vos dialogues, et des *astérisques* pour les
-            PNJs.
-          </p>
+          {t(`en-cours.textarea.${mode}.help.what-to-do.title`)}
+          <p>{t(`en-cours.textarea.${mode}.help.what-to-do.subtitle`)}</p>
         </Styled.Help>
 
         <Styled.Textarea
@@ -142,20 +189,18 @@ export function DialogTextarea({
           {currentLength}/{MAX_LENGTH}
         </Styled.Counter>
 
-        <Styled.Help>
-          2. <em>(Optionnel)</em> Choisissez une action afin de progresser dans le scénario.
-        </Styled.Help>
+        {mode === Mode.NEW && (
+          <>
+            <Styled.Help>{t(`en-cours.textarea.${mode}.help.moves.title`)}</Styled.Help>
+            {moves}
+          </>
+        )}
 
-        {moves}
-
-        <Styled.Help>
-          {currentMove ? 4 : 3}. Envoyez votre message et résolvez votre action éventuelle. Que la
-          Force vous !
-        </Styled.Help>
+        <Styled.Help>{currentMove ? 4 : 3}. Que la Force vous !</Styled.Help>
 
         <Styled.TextareaBar>
-          <Button onClick={addPost} disabled={isFormDisabled}>
-            C&apos;est parti !
+          <Button onClick={submit} disabled={isFormDisabled}>
+            {t(`en-cours.textarea.${mode}.submit-button.label`)}
           </Button>
         </Styled.TextareaBar>
       </Styled.GameSection>

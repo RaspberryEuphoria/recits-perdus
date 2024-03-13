@@ -7,28 +7,52 @@ import { DialogPost } from '../DialogPost';
 import * as Styled from './styled';
 
 type DialogThreadProps = {
-  dialogs: Post[];
-  introductionText: string;
   characters: Record<string, Character>;
+  currentUserId: number | null;
+  dialogs: Post[];
+  handlePostEdit: (post: { id: number; content: string }) => void;
+  introductionText: string;
+  isEditAllowed: boolean;
 };
 
 const DialogThread = forwardRef(
   (
-    { introductionText, characters, dialogs }: DialogThreadProps,
+    {
+      characters,
+      currentUserId,
+      dialogs,
+      handlePostEdit,
+      introductionText,
+      isEditAllowed,
+    }: DialogThreadProps,
     ref: ForwardedRef<HTMLDivElement>,
-  ) => (
-    <Styled.DialogThread ref={ref}>
-      <DialogPost content={introductionText} characters={characters} />
-      {dialogs.map((dialog) => (
+  ) => {
+    const lastPostId = dialogs.at(-1)?.id;
+
+    return (
+      <Styled.DialogThread ref={ref}>
         <DialogPost
-          key={dialog.id}
-          {...dialog}
-          character={characters[dialog.characterId]}
+          id={0}
+          content={introductionText}
           characters={characters}
+          isEditable={false}
+          handlePostEdit={handlePostEdit}
         />
-      ))}
-    </Styled.DialogThread>
-  ),
+        {dialogs.map((dialog) => (
+          <DialogPost
+            key={dialog.id}
+            {...dialog}
+            isEditable={
+              isEditAllowed && dialog.id === lastPostId && currentUserId === dialog.character.userId
+            }
+            character={characters[dialog.characterId]}
+            characters={characters}
+            handlePostEdit={handlePostEdit}
+          />
+        ))}
+      </Styled.DialogThread>
+    );
+  },
 );
 DialogThread.displayName = 'DialogThread';
 

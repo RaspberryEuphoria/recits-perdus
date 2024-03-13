@@ -9,6 +9,36 @@
       "tabs": {
         "status": "Statut",
         "play": "Jouer"
+      },
+      "textarea": {
+        "edit": {
+          "help": {
+            "what-to-do": {
+              "title": "1. Modifiez ou corrigez votre message, mais gardez le même contexte général.",
+              "subtitle": "Toute action déjà effectuée et les dés qui y sont associés seront conservés."
+            }
+          },
+          "cancel-button": {
+            "label": "Annuler"
+          },
+          "submit-button": {
+            "label": "Modifier"
+          }
+        },
+        "new": {
+          "help": {
+            "what-to-do": {
+              "title": "1. Décrivez votre réaction aux derniers évènements, puis votre prochaine action.",
+              "subtitle": "Utilisez des \"guillemets\" pour vos dialogues, et des *astérisques* pour les PNJs."
+            },
+            "moves": {
+              "title": "2. Si la situation est appropriée, choisissez une action afin de progresser dans le scénario."
+            }
+          },
+          "submit-button": {
+            "label": "Envoyer"
+          }
+        }
       }
     }
   }

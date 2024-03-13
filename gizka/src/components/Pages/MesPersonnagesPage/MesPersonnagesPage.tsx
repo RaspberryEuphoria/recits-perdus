@@ -24,7 +24,7 @@ export function MesPersonnagesPage() {
             { label: t('my-characters.breadcrumb.characters'), href: '#' },
           ]}
         >
-          <Text>bobo</Text>
+          {''}
         </LayoutMainSection>
         <LayoutAsideSection>
           <LoginOrRegister />

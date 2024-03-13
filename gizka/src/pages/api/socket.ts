@@ -53,6 +53,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
       socket.broadcast.emit('receive-new-dialog', newDialog);
     });
 
+    socket.on('edit-dialog', (updatedDialog) => {
+      logger.info('emit receive-edited-dialog');
+      socket.broadcast.emit('receive-edited-dialog', updatedDialog);
+    });
+
     socket.on('post-new-move', () => {
       logger.info('emit receive-new-move');
       socket.broadcast.emit('receive-new-move');

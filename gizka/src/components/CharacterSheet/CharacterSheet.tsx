@@ -1,5 +1,6 @@
 import { CharacterAvatar } from '@/components/CharacterAvatar';
 import { Keyword } from '@/components/DesignSystem/Keyword';
+import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import HealthIcon from '@/public/images/icons/health.svg';
@@ -20,12 +21,12 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
 
   return (
     <Styled.CharacterSheet>
-      <Styled.Row>
+      <Row>
         <Styled.BackButton onClick={handleBackClick}>
           <DownArrowIcon /> Retour
         </Styled.BackButton>
-      </Styled.Row>
-      <Styled.Row>
+      </Row>
+      <Row>
         <Styled.Character>
           <CharacterAvatar character={character} />
 
@@ -70,26 +71,26 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
             ))}
           </Styled.Skills>
         </Styled.CharacterData>
-      </Styled.Row>
+      </Row>
 
       {character.story && (
-        <Styled.Row>
+        <Row>
           <Styled.Block color={character.textColor}>
             <Styled.Title color={character.textColor}>Histoire</Styled.Title>
             <Text size="md">{character.story}</Text>
           </Styled.Block>
-        </Styled.Row>
+        </Row>
       )}
-      <Styled.Row>
+      <Row>
         <Styled.Block color={character.textColor}>
           <Styled.Title color={character.textColor}>Scénarios</Styled.Title> <em>(à venir)</em>
         </Styled.Block>
-      </Styled.Row>
-      <Styled.Row>
+      </Row>
+      <Row>
         <Styled.Block color={character.textColor}>
           <Styled.Title color={character.textColor}>Statistiques</Styled.Title> <em>(à venir)</em>
         </Styled.Block>
-      </Styled.Row>
+      </Row>
     </Styled.CharacterSheet>
   );
 }

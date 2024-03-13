@@ -1,4 +1,5 @@
 import { MoveOutcome } from '@/components/Moves/MoveOutcome';
+import PencilIcon from '@/public/images/icons/pencil.svg';
 import { getFullName } from '@/utils/character/helpers';
 import { formatPostContent } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
@@ -7,37 +8,27 @@ import { Move } from '@/utils/types/scenario';
 import * as Styled from './styled';
 
 type DialogPostProps = {
+  id: number;
   character?: Character;
   characters: Record<string, Character>;
   content: string;
   moves?: Array<Move>;
-  onMouseEnter?: (character: Character) => void;
-  onMouseLeave?: (character: Character) => void;
+  isEditable: boolean;
+  handlePostEdit: (post: { id: number; content: string }) => void;
 };
 
 export function DialogPost({
+  id,
   character,
   characters,
   content,
   moves,
-  onMouseEnter,
-  onMouseLeave,
+  isEditable,
+  handlePostEdit,
 }: DialogPostProps) {
-  const handleMouseEnter = () => {
-    if (onMouseEnter && character) {
-      onMouseEnter(character);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (onMouseLeave && character) {
-      onMouseLeave(character);
-    }
-  };
-
   if (!character) {
     return (
-      <Styled.DialogPost>
+      <Styled.DialogPost id={`message-${id}`}>
         <span dangerouslySetInnerHTML={{ __html: content }} />
       </Styled.DialogPost>
     );
@@ -47,7 +38,7 @@ export function DialogPost({
   const characterName = getFullName(character);
 
   return (
-    <Styled.DialogPost onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <Styled.DialogPost id={`message-${id}`}>
       <Styled.DialogInfos>
         <Styled.DialogAvatar
           src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`}
@@ -57,7 +48,10 @@ export function DialogPost({
           color={textColor}
         />
         <Styled.CharacterName color={character.textColor}>
-          <Styled.DialogPostAuthor>{characterName}</Styled.DialogPostAuthor>
+          <Styled.DialogPostAuthor>
+            {characterName}{' '}
+            {isEditable && <PencilIcon onClick={() => handlePostEdit({ id, content })} />}
+          </Styled.DialogPostAuthor>
         </Styled.CharacterName>
       </Styled.DialogInfos>
       <Styled.DialogPostContent

@@ -29,8 +29,15 @@ export const DialogInfos = styled.div`
 `;
 
 export const DialogPostAuthor = styled.span`
-  display: block;
+  align-items: center;
+  display: flex;
   font-style: italic;
+  gap: var(--space-05);
+
+  & svg {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 export const DialogAvatar = styled(Image)<{ color: string }>`

@@ -3,8 +3,9 @@ import { WebhookClient } from 'discord.js';
 import { Router } from 'express';
 
 import { scenarioRoutes } from './api/scenario.api';
-import { CreatePostDto } from './domain/post/entities/post';
+import { CreatePostDto, UpdatePostDto } from './domain/post/entities/post';
 import { createPostUsecase } from './domain/post/usecases/createPost.usecase';
+import { updatePostUsecase } from './domain/post/usecases/updatePost.usecase';
 import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/scenario';
 import { createScenarioUsecase } from './domain/scenario/usecases/createScenario.usecase';
 import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usecase';
@@ -57,5 +58,9 @@ export class ScenarioContainer {
       this.characterRepository,
       this.discordWebhookClient,
     )(post);
+  }
+
+  updatePost(post: UpdatePostDto) {
+    return updatePostUsecase(this.postRepository)(post);
   }
 }
