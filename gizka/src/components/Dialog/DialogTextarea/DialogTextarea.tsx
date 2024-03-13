@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
 import { Button } from '@/components/DesignSystem/Button';
@@ -40,6 +40,7 @@ export function DialogTextarea({
   onTextareaSubmit,
   renderMoves,
 }: DialogTextareaProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [content, setContent] = useState<string>(initialContent);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
@@ -108,6 +109,7 @@ export function DialogTextarea({
 
   useEffect(() => {
     socketInitializer();
+    textareaRef.current?.focus();
 
     return () => {
       if (socket) socket.disconnect();
@@ -130,6 +132,7 @@ export function DialogTextarea({
         </Styled.Help>
 
         <Styled.Textarea
+          ref={textareaRef}
           placeholder=""
           onChange={handleTextareaChange}
           value={content}
