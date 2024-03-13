@@ -56,8 +56,8 @@ export function convertHexadecimalColorToHsl(color: string, opacity = 1) {
 
 export function formatPostContent(content: string) {
   return content
-    .replace(/["«]([^"]+)["»]/g, `“<strong>$1</strong>”`)
-    .replace(/[*]([^"]+)[*]/g, `“<bold>$1</bold>”`);
+    .replace(/["«](.+)["»]/g, `“<strong>$1</strong>”`)
+    .replace(/\*(.+)\*/g, `“<bold>$1</bold>”`);
 }
 
 export const skillWordings = {
