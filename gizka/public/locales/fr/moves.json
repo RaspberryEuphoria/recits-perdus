@@ -14,15 +14,15 @@
       "name-self": "Se Soigner",
       "action": "essaie de",
       "to": "à",
-      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous tentez de soigner vos propres blessures, faites un jet +astuce ou +temerite, en utilisant la caractéristique la plus faible.",
+      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous traitez vos propres blessures, faites un jet +astuce ou +tenacite, en utilisant l'attribut le plus faible.",
       "prompts": {
         "target": {
           "someone-else": "Une personne hors du groupe"
         }
       },
       "results": {
-        "strong-hit": "En cas de <important>succès total</important>, vos soint sont utiles. Donnez ou récupérez <health>+2</health> santé.",
-        "weak-hit": "En cas de <important>succès partiel</important>, vous réussissez, comme précédemment, mais vous devez subir <supplies>-1</supplies> provisions ou <momentum>-1</momentum> ferveur.",
+        "strong-hit": "En cas de <important>succès total</important>, vos soins sont utiles. Donnez ou récupérez <health>+2</health> santé.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous réussissez, comme précédemment, mais vous perdez <supplies>-1</supplies> provisions ou <momentum>-1</momentum> ferveur.",
         "miss": "En cas d’<important>échec</important>, votre aide est inefficace. Vous devez en <move>Payer le Prix</move>."
       },
       "outcomes": {
@@ -39,7 +39,7 @@
       },
       "results": {
         "strong-hit": "En cas de <important>succès total</important>, vous récupérez des ressources. Gagnez <supplies>+2</supplies> provisions.",
-        "weak-hit": "En cas de <important>succès partiel</important>, vous gaggnez jusqu'à <supplies>+2</supplies> provisions mais vous subissez <momentum>-1</momentum> ferveur pour chaque point gagné.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous gagnez jusqu'à <supplies>+2</supplies> provisions mais vous subissez <momentum>-1</momentum> ferveur pour chaque point gagné.",
         "miss": "En cas d’<important>échec</important>, vous ne trouvez rien d’utile. Vous devez en <move>Payer le Prix</move>."
       },
       "outcomes": {
