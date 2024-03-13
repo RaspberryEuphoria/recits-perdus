@@ -18,13 +18,16 @@ export async function generateMetadata({
   const [scenarioId] = id.split('-');
   const scenario = await httpBffClient.get<Scenario>(`/scenario/${scenarioId}`);
 
-  if (isHttpError(scenario)) {
+  if (isHttpError(scenario) || !scenario) {
     throw new Error('Failed to fetch data');
   }
 
+  const intro = generateIntroduction(scenario, false);
+  const lastPost = scenario.posts.at(-1)?.content || 'intro';
+
   return {
     title: `${scenario.title} - Les Récits Perdus`,
-    description: `${generateIntroduction(scenario, false)}`,
+    description: lastPost || intro,
   };
 }
 
