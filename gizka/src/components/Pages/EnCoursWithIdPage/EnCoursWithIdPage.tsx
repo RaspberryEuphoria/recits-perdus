@@ -185,7 +185,7 @@ export function EnCoursWithIdPage({
             <ScenarioResources supplies={supplies} />
           </CharacterList>
         )}
-        {currentUser && openTabId === Tab.Posting && isItMyTurn && (
+        {currentUser && openTabId === Tab.Posting && (isItMyTurn || postId) && (
           <DialogTextarea
             scenarioId={id}
             nextPoster={nextPoster}
