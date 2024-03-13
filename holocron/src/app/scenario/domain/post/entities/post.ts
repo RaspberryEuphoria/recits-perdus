@@ -47,6 +47,7 @@ export enum Moves {
   PRENDRE_UN_AVANTAGE = 'PRENDRE_UN_AVANTAGE',
   RECOLTER_DES_INFORMATIONS = 'RECOLTER_DES_INFORMATIONS',
   PRODIGUER_DES_SOINS = 'PRODIGUER_DES_SOINS',
+  RAVITAILLER = 'RAVITAILLER',
   PAYER_LE_PRIX = 'PAYER_LE_PRIX',
 }
 
@@ -56,7 +57,7 @@ type Move = {
 };
 
 type MoveMeta = {
-  danger?: Stat;
+  danger?: Stat | number;
   attribute: string;
   hasMomentumBurn: boolean;
   targetId?: number;

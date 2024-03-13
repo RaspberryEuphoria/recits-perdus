@@ -5,6 +5,7 @@ import { FaireFaceAuDangerOutcome } from './FaireFaceAuDangerOutcome';
 import { PayerLePrixOutcome } from './PayerLePrixOutcome';
 import { PrendreUnAvantageOutcome } from './PrendreUnAvantageOutcome';
 import { ProdiguerDesSoinsOutcome } from './ProdiguerDesSoinsOutcome';
+import { RavitaillerOutcome } from './RavitaillerOutcome';
 import { RecolterDesInformationsOutcome } from './RecolterDesInformationsOutcome';
 
 export type MoveOutcomeProps = {
@@ -23,6 +24,8 @@ export function MoveOutcome(props: MoveOutcomeProps) {
       return <RecolterDesInformationsOutcome {...props} />;
     case Moves.PAYER_LE_PRIX:
       return <PayerLePrixOutcome {...props} />;
+    case Moves.RAVITAILLER:
+      return <RavitaillerOutcome {...props} />;
     case Moves.PRODIGUER_DES_SOINS:
       return <ProdiguerDesSoinsOutcome {...props} />;
     default:

@@ -5,6 +5,7 @@ import { Moves } from '@/utils/types/scenario';
 import { FaireFaceAuDanger } from './FaireFaceAuDanger';
 import { PrendreUnAvantage } from './PrendreUnAvantage';
 import { ProdiguerDesSoins } from './ProdiguerDesSoins';
+import { Ravitailler } from './Ravitailler';
 import { RecolterDesInformations } from './RecolterDesInformations';
 
 export type MoveCardProps = {
@@ -33,6 +34,8 @@ const GetComponent = (id: Moves) => {
       return RecolterDesInformations;
     case Moves.PRODIGUER_DES_SOINS:
       return ProdiguerDesSoins;
+    case Moves.RAVITAILLER:
+      return Ravitailler;
     default:
       return null;
   }

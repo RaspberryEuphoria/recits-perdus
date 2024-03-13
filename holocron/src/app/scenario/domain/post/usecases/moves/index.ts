@@ -12,6 +12,7 @@ import { faireFaceAuDanger } from './faireFaceAuDanger';
 import { payerLePrix } from './payerLePrix';
 import { prendreUnAvantage } from './prendreUnAvantage';
 import { prodiguerDesSoins } from './prodiguerDesSoins';
+import { ravitailler } from './ravitailler';
 import { recolterDesInformations } from './recolterDesInformations';
 
 type MoveFunction = (
@@ -56,6 +57,8 @@ function getMoveById(id: Moves): MoveFunction {
       return payerLePrix;
     case Moves.PRODIGUER_DES_SOINS:
       return prodiguerDesSoins;
+    case Moves.RAVITAILLER:
+      return ravitailler;
     default:
       throw new Error(`Move ${id} not implemented`);
   }

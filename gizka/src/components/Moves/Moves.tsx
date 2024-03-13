@@ -22,7 +22,7 @@ const moves = [
   { id: MoveId.PRENDRE_UN_AVANTAGE, name: 'Prendre Un Avantage', isDisabled: false },
   { id: MoveId.RECOLTER_DES_INFORMATIONS, name: 'Récolter des Informations', isDisabled: false },
   { id: MoveId.PRODIGUER_DES_SOINS, name: 'Prodiguer des Soins', isDisabled: false },
-  { id: MoveId.RAVITAILLER, name: 'Ravitailler', isDisabled: true },
+  { id: MoveId.RAVITAILLER, name: 'Ravitailler', isDisabled: false },
   { id: MoveId.MONTER_LE_CAMP, name: 'Monter le Camp', isDisabled: true },
   { id: MoveId.VOYAGER, name: 'Voyager', isDisabled: true },
   { id: MoveId.ATTEINDRE_SA_DESTINATION, name: 'Atteindre sa Destination', isDisabled: true },
@@ -60,8 +60,8 @@ export function Moves({ onMovePicked, onBurnCheck, character, characters }: Move
           <Checkbox id="burn" onChange={handleBurnCheck} />
         </Prompt>
         <Styled.Paragraph>
-          Si vous avez assez d&apos;ferveur, il sera automatiquement consommé pour annuler un échec
-          si c&apos;est possible. En cas de succès, vous conservez votre ferveur.
+          Si vous avez assez de ferveur, elle sera automatiquement consommée pour annuler un échec
+          lorsque c&apos;est possible. En cas de succès, vous conservez votre ferveur.
         </Styled.Paragraph>
       </MoveCard>
     );

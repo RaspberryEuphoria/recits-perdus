@@ -12,10 +12,10 @@ export const ChallengeDie = styled.div`
   color: var(--dark);
   display: flex;
   font-family: 'Oxanium';
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: bold;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 15px;
   position: relative;
   height: 88px;
   width: 83px;

@@ -5,14 +5,13 @@ import {
 } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { isStat } from '../../../../scenario.utils';
 import { Move, MoveResult, Moves, Post, Stat } from '../../entities/post';
 import { useMove } from '.';
 import { ActionMoveProps, prepareActionMove } from './prepareActionMove';
 
-const moveId = Moves.FAIRE_FACE_AU_DANGER;
+const moveId = Moves.RAVITAILLER;
 
-export function faireFaceAuDanger(
+export function ravitailler(
   scenarioRepository: ScenarioRepository,
   postRepository: PostRepository,
   characterRepository: CharacterRepository,
@@ -28,7 +27,11 @@ export function faireFaceAuDanger(
     }
 
     if (moveResult === MoveResult.MIXED) {
-      if (!isStat(meta.danger)) {
+      if (!meta.danger) {
+        throw new Error(`Move ${move.id} requires a danger!`);
+      }
+
+      if (typeof meta.danger !== 'number') {
         throw new Error(`Move ${move.id} requires a number value as a danger!`);
       }
 
@@ -43,7 +46,7 @@ export function faireFaceAuDanger(
   };
 
   async function onSuccess(move: ActionMoveProps) {
-    await characterRepository.addMomentum(move.characterId, move.scenarioId, 1);
+    await scenarioRepository.addSupplies(move.scenarioId, 2);
 
     return postRepository.addMove({
       ...move,
@@ -52,23 +55,11 @@ export function faireFaceAuDanger(
     });
   }
 
-  async function onMixed(move: ActionMoveProps, danger: Stat) {
+  async function onMixed(move: ActionMoveProps, danger: number) {
     const { characterId, scenarioId } = move;
 
-    switch (danger) {
-      case Stat.MOMENTUM:
-        await characterRepository.removeMomentum(characterId, scenarioId, 1);
-        break;
-      case Stat.HEALTH:
-        await characterRepository.removeHealth(characterId, scenarioId, 1);
-        break;
-      case Stat.SPIRIT:
-        await characterRepository.removeSpirit(characterId, scenarioId, 1);
-        break;
-      case Stat.SUPPLIES:
-        await scenarioRepository.removeSupplies(scenarioId, 1);
-        break;
-    }
+    await scenarioRepository.addSupplies(scenarioId, danger);
+    await characterRepository.removeMomentum(characterId, scenarioId, danger);
 
     return postRepository.addMove({
       ...move,

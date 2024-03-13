@@ -134,7 +134,7 @@ function Failure({ character, move }: ProdiguerDesoinsOutcomeProps) {
     <p>
       {t(`outcomes.regardless-of`)},{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.fails')} {t(`${move.moveId}.name`).toLocaleLowerCase()}.
+      {t('outcomes.fails-to')} {t(`${move.moveId}.name`).toLocaleLowerCase()}.
     </p>
   );
 }

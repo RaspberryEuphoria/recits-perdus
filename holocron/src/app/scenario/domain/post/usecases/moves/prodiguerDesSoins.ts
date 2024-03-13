@@ -5,6 +5,7 @@ import {
 } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
+import { isStat } from '../../../../scenario.utils';
 import { Move, MoveResult, Moves, Post, Stat } from '../../entities/post';
 import { useMove } from '.';
 import { ActionMoveProps, prepareActionMove } from './prepareActionMove';
@@ -27,8 +28,8 @@ export function prodiguerDesSoins(
     }
 
     if (moveResult === MoveResult.MIXED) {
-      if (!meta.danger) {
-        throw new Error(`Move ${move.id} requires a danger!`);
+      if (!isStat(meta.danger)) {
+        throw new Error(`Move ${move.id} requires a number value as a danger!`);
       }
 
       return onMixed(actionMove, meta.danger);

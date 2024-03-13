@@ -29,6 +29,25 @@
         "complications": "De légères complications lui prennent plus de temps que prévu"
       }
     },
+    "RAVITAILLER": {
+      "name": "Ravitailler",
+      "action": "tâche de se",
+      "summary": "Lorsque <important>vous cherchez des provisions à ramasser ou dénicher</important>, faites un jet +intuition. Si vous essayez d'acquérir des biens auprès d'un vendeur, préférez plutôt <move>Marchander</move>.",
+      "prompts": {
+        "minimal-loss": "Vous dénichez des provisions mais perdez un peu de temps :",
+        "maximal-loss": "Vous dénichez plus de provisions, mais perdez encore plus de temps :"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous récupérez des ressources. Gagnez <supplies>+2</supplies> provisions.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous gaggnez jusqu'à <supplies>+2</supplies> provisions mais vous subissez <momentum>-1</momentum> ferveur pour chaque point gagné.",
+        "miss": "En cas d’<important>échec</important>, vous ne trouvez rien d’utile. Vous devez en <move>Payer le Prix</move>."
+      },
+      "outcomes": {
+        "harvest": "récolte des provisions",
+        "time-loss": "mais y perd un peu de temps",
+        "no-time-loss": "sans perdre de temps"
+      }
+    },
     "PAYER_LE_PRIX": {
       "name": "Payer le Prix"
     },
@@ -39,7 +58,9 @@
       "burn": "Brûler de la ferveur ?"
     },
     "stats": {
-      "health": "santé"
+      "health": "santé",
+      "momentum": "ferveur",
+      "supplies": "provisions"
     },
     "buttons": {
       "cancel": "Annuler"
@@ -48,14 +69,21 @@
       "thanks-to": "Grâce à",
       "with": "Avec",
       "demonstrating": "Faisant preuve",
+      "no-lack-of": "ne manque pas",
       "despite": "Malgré",
       "even-though": "Même si",
       "regardless-of": "En dépit de ses efforts",
+      "sadly": "Malheureusement",
       "achieves": "parvient à",
       "manages": "réussit à",
+      "is-able": "est capable",
+      "is-unable": "est incapable",
+      "fails": "échoue",
       "is-able-to": "est capable de",
-      "fails": "échoue à",
-      "is-unable-to": "est incapable de"
+      "is-unable-to": "est incapable de",
+      "fails-to": "échoue à",
+      "and-waste-time": "et perd du temps",
+      "and": "et"
     },
     "skills": {
       "Intuition": {
