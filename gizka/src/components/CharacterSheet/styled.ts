@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { CharacterAvatar } from '@/components/CharacterAvatar/styled';
+
 export const BackButton = styled.div`
   align-items: center;
   color: var(--flashy);
@@ -21,6 +23,15 @@ export const CharacterSheet = styled.div`
   flex-direction: column;
   gap: var(--space-1);
   width: 100%;
+
+  ${CharacterAvatar} {
+    border-right: 0;
+
+    &:hover {
+      box-shadow: none;
+      cursor: default;
+    }
+  }
 `;
 
 export const Row = styled.div`
