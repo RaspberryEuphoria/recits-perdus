@@ -104,6 +104,9 @@ export class ScenarioRepository {
           },
         },
         characters: {
+          orderBy: {
+            id: 'asc',
+          },
           include: {
             character: {
               select: {
