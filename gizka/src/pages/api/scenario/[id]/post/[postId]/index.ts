@@ -19,8 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   if (req.method === 'PUT') {
     const { content } = body;
 
-    console.log({ scenarioId, postId });
-
     const dialog = await httpClient.put<Post>(`/scenario/${scenarioId}/post/${postId}`, {
       content,
     });

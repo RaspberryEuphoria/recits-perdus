@@ -19,26 +19,6 @@ export function getNextPoster(characters: Character[], lastPoster: Character) {
   return characters[lastPosterIndex + 1] || characters[0];
 }
 
-export function checkIfGameMaster(posts: Post[], charactersCount: number) {
-  return false; // This feature is currently disabled
-  if (!posts.length) return false; // The GM never posts on the first turn
-
-  const currentTurnPosts = getCurrentTurnPosts(posts);
-  return checkIfNewTurn(currentTurnPosts, charactersCount); // The GM posts on the first post of a new turn
-}
-
-function getCurrentTurnPosts(posts: Post[]) {
-  const [lastPost] = posts.slice(-1);
-  const currentTurnPosts = posts.filter((post) => post.turn === lastPost.turn);
-  return currentTurnPosts;
-}
-
-function checkIfNewTurn(currentTurnPosts: Post[], charactersCount: number) {
-  const currentTurn = currentTurnPosts[0].turn;
-  if (currentTurn === 1) return currentTurnPosts.length === charactersCount;
-  return currentTurnPosts.length === charactersCount; // +1 to account for the GM
-}
-
 export function getCurrentTurnNumber(postsLength: number, charactersLength: number) {
   // the current turn number is the number of posts divided by the number of characters
   // plus one because the first turn is the introduction

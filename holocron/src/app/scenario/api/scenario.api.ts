@@ -77,8 +77,6 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
   // Edit a post in scenario
   router.put(`/:id/post/:postId`, async (_req, _res, next) => {
     try {
-      console.log('xoxox', _req.params.postId);
-
       const scenario = await scenarioContainer.updatePost({
         ..._req.body,
         id: parseInt(_req.params.postId),
