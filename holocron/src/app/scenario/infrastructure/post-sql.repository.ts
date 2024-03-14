@@ -49,15 +49,18 @@ export class PostRepository {
   }
 
   async update(id: number, content: string) {
-    console.log('update post');
-    console.log({ id, content });
-
     const updatedPost = await this.db.post.update({
       where: {
         id,
       },
       data: { content },
       include: {
+        moves: {
+          include: {
+            dices: true,
+            skill: true,
+          },
+        },
         character: true,
       },
     });
@@ -125,6 +128,7 @@ export class PostRepository {
             skill: true,
           },
         },
+        character: true,
       },
       data: {
         moves: {
