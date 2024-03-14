@@ -29,7 +29,7 @@ export function createPostUsecase(
     }
 
     const turn = getTurnForNewPost(scenario.posts, scenario.characters.length);
-    const isGameMaster = checkIfGameMaster(scenario.posts, scenario.characters.length);
+    const isGameMaster = false;
 
     const { action, ...post } = postDto;
     const hasMove = action && action.move;
@@ -43,7 +43,7 @@ export function createPostUsecase(
           nextPoster.lastName
         }** a joué son tour dans "*${hyperlink(
           scenario.title,
-          `http://recits-perdus.fr/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}`,
+          `http://recits-perdus.fr/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}#message-${newPost.id}`,
         )}*" !`,
       });
 
@@ -65,7 +65,7 @@ export function createPostUsecase(
         action.move.id,
       )} dans "*${hyperlink(
         scenario.title,
-        `http://recits-perdus.fr/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}`,
+        `http://recits-perdus.fr/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}#message-${newPost.id}`,
       )}*" !`,
     });
 
@@ -96,15 +96,6 @@ export function getTurnForNewPost(posts: Post[], charactersCount: number) {
   const isNewTurn = checkIfNewTurn(currentTurnPosts, charactersCount);
   if (isNewTurn) return currentTurnPosts[0].turn + 1;
   return currentTurnPosts[0].turn;
-}
-
-export function checkIfGameMaster(posts: Post[], charactersCount: number) {
-  return false; // This feature is currently disabled
-
-  if (!posts.length) return false; // The GM never posts on the first turn
-
-  const currentTurnPosts = getCurrentTurnPosts(posts);
-  return checkIfNewTurn(currentTurnPosts, charactersCount); // The GM posts on the first post of a new turn
 }
 
 function checkIfNewTurn(currentTurnPosts: Post[], charactersCount: number) {
