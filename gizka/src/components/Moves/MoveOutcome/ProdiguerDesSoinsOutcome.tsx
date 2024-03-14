@@ -54,7 +54,8 @@ export function ProdiguerDesSoinsOutcome(props: MoveOutcomeProps) {
             {t(`${move.moveId}.to`)}{' '}
             <Styled.CharacterName color={target.textColor}>{target.firstName}</Styled.CharacterName>
           </>
-        )}
+        )}{' '}
+        !
       </p>
       <Styled.MoveResult>
         <Styled.MoveScore

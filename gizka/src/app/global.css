@@ -56,6 +56,10 @@
   --media-lg: 1280px;
   --media-xl: 1920px;
 
+  --success: var(--flashy);
+  --mixed: #7a6585;
+  --failure: #af3d4c;
+
   --shadow: 2px 2px 2px var(--dark);
 }
 

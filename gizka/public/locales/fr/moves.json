@@ -14,7 +14,7 @@
       "name-self": "Se Soigner",
       "action": "essaie de",
       "to": "à",
-      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous traitez vos propres blessures, faites un jet +astuce ou +tenacite, en utilisant l'attribut le plus faible.",
+      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous traitez vos propres blessures, faites un jet +intuition ou +tenacite, en utilisant l'attribut le plus faible.",
       "prompts": {
         "target": {
           "someone-else": "Une personne hors du groupe"
@@ -48,11 +48,31 @@
         "no-time-loss": "sans perdre de temps"
       }
     },
+    "MARCHANDER": {
+      "name": "Marchander",
+      "action": "entreprend de",
+      "summary": "Lorsque <important>achetez ou échangez des provisions</important>, faites un jet. Si vous fouillez les environs à la recherche de ressources, préférez plutôt <move>Ravitailler</move>.",
+      "prompts": {
+        "minimal-loss": "Vous achetez des provisions",
+        "maximal-loss": "Vous dénichez plus de provisions, mais perdez encore plus de temps :"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous négociez un arrangement exceptionnel. Gagnez <supplies>+2</supplies> provisions et <momentum>+1</momentum> ferveur.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous obtenez un arrangement satisfaisant. Gagnez <supplies>+1</supplies> provisions.",
+        "miss": "En cas d’<important>échec</important>, vous perdez du temps en vaines négociations. Gagnez <supplies>+1</supplies> provisions et perdez <momentum>-1</momentum> ferveur."
+      },
+      "outcomes": {
+        "negociate-strong": "parvient à négocier un accord exceptionnel",
+        "negociate-weak": "négocie avec succès",
+        "negociate-miss": "échoue à négocier, mais récupère tout de même des ressources"
+      }
+    },
     "PAYER_LE_PRIX": {
       "name": "Payer le Prix"
     },
     "prompts": {
       "action": "Comment agissez-vous ?",
+      "negociate": "Comment négociez-vous ?",
       "heal": "Qui voulez-vous soigner ?",
       "danger": "Qu'êtes vous prêt à perdre ?",
       "burn": "Brûler de la ferveur ?"
@@ -74,6 +94,7 @@
       "even-though": "Même si",
       "regardless-of": "En dépit de ses efforts",
       "sadly": "Malheureusement",
+      "with-great-success": "avec beaucoup de succès",
       "achieves": "parvient à",
       "manages": "réussit à",
       "is-able": "est capable",
@@ -90,31 +111,56 @@
         "defini": "l’",
         "indefini": "une ",
         "partitif": "d’",
-        "possessif": "son "
+        "possessif": "son ",
+        "adjectives": {
+          "all": "Avec expertise, perspicacité ou perception",
+          "one": "Avec expertise"
+        },
+        "skill-check": "intuition"
       },
-      "Astuce": {
-        "defini": "la ",
-        "indefini": "une ",
+      "Subterfuge": {
+        "defini": "le ",
+        "indefini": "un ",
         "partitif": "de ",
-        "possessif": "sa "
+        "possessif": "son ",
+        "adjectives": {
+          "all": "Avec tromperie, furtivité ou ruse",
+          "one": "Avec tromperie"
+        },
+        "skill-check": "subterfuge"
       },
       "Ténacité": {
         "defini": "la ",
         "indefini": "une ",
         "partitif": "de ",
-        "possessif": "sa "
+        "possessif": "sa ",
+        "adjectives": {
+          "all": "Avec aggressivité, force ou endurance",
+          "one": "Avec aggressivité"
+        },
+        "skill-check": "ténacité"
       },
       "Finesse": {
         "defini": "la ",
         "indefini": "une ",
         "partitif": "de ",
-        "possessif": "sa "
+        "possessif": "sa ",
+        "adjectives": {
+          "all": "Avec rapidité, agilité ou précision",
+          "one": "Avec rapidité"
+        },
+        "skill-check": "finesse"
       },
-      "Determination": {
+      "Détermination": {
         "defini": "la ",
         "indefini": "une ",
         "partitif": "de ",
-        "possessif": "sa "
+        "possessif": "sa ",
+        "adjectives": {
+          "all": "Avec charme, loyauté ou courage",
+          "one": "Avec charme"
+        },
+        "skill-check": "détermination"
       }
     }
   }

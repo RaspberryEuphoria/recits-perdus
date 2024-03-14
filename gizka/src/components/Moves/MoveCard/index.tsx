@@ -3,6 +3,7 @@ import { Character } from '@/utils/types/character';
 import { Moves } from '@/utils/types/scenario';
 
 import { FaireFaceAuDanger } from './FaireFaceAuDanger';
+import { Marchander } from './Marchander';
 import { PrendreUnAvantage } from './PrendreUnAvantage';
 import { ProdiguerDesSoins } from './ProdiguerDesSoins';
 import { Ravitailler } from './Ravitailler';
@@ -36,6 +37,8 @@ const GetComponent = (id: Moves) => {
       return ProdiguerDesSoins;
     case Moves.RAVITAILLER:
       return Ravitailler;
+    case Moves.MARCHANDER:
+      return Marchander;
     default:
       return null;
   }

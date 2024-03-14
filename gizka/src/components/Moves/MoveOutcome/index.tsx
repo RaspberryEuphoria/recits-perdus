@@ -2,6 +2,7 @@ import { Character } from '@/utils/types/character';
 import { Move, Moves } from '@/utils/types/scenario';
 
 import { FaireFaceAuDangerOutcome } from './FaireFaceAuDangerOutcome';
+import { MarchanderOutcome } from './MarchanderOutcome';
 import { PayerLePrixOutcome } from './PayerLePrixOutcome';
 import { PrendreUnAvantageOutcome } from './PrendreUnAvantageOutcome';
 import { ProdiguerDesSoinsOutcome } from './ProdiguerDesSoinsOutcome';
@@ -26,6 +27,8 @@ export function MoveOutcome(props: MoveOutcomeProps) {
       return <PayerLePrixOutcome {...props} />;
     case Moves.RAVITAILLER:
       return <RavitaillerOutcome {...props} />;
+    case Moves.MARCHANDER:
+      return <MarchanderOutcome {...props} />;
     case Moves.PRODIGUER_DES_SOINS:
       return <ProdiguerDesSoinsOutcome {...props} />;
     default:

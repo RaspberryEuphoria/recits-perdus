@@ -6,12 +6,11 @@ import {
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
 import { Move, MoveResult, Moves, Post } from '../../entities/post';
-import { useMove } from '.';
 import { ActionMoveProps, prepareActionMove } from './prepareActionMove';
 
-const moveId = Moves.RAVITAILLER;
+const moveId = Moves.MARCHANDER;
 
-export function ravitailler(
+export function marchander(
   scenarioRepository: ScenarioRepository,
   postRepository: PostRepository,
   characterRepository: CharacterRepository,
@@ -20,22 +19,14 @@ export function ravitailler(
   return async (move: Move, post: PostWithCharacterSkills): Promise<Post> => {
     const actionMove = await prepareActionMove(characterRepository, skillRepository)(move, post);
 
-    const { moveResult, meta } = actionMove;
+    const { moveResult } = actionMove;
 
     if (moveResult === MoveResult.SUCCESS) {
       return onSuccess(actionMove);
     }
 
     if (moveResult === MoveResult.MIXED) {
-      if (!meta.danger) {
-        throw new Error(`Move ${move.id} requires a danger!`);
-      }
-
-      if (typeof meta.danger !== 'number') {
-        throw new Error(`Move ${move.id} requires a number value as a danger!`);
-      }
-
-      return onMixed(actionMove, meta.danger);
+      return onMixed(actionMove);
     }
 
     if (moveResult === MoveResult.FAILURE) {
@@ -46,7 +37,10 @@ export function ravitailler(
   };
 
   async function onSuccess(move: ActionMoveProps) {
+    const { characterId, scenarioId } = move;
+
     await scenarioRepository.addSupplies(move.scenarioId, 2);
+    await characterRepository.addMomentum(characterId, scenarioId, 1);
 
     return postRepository.addMove({
       ...move,
@@ -55,11 +49,9 @@ export function ravitailler(
     });
   }
 
-  async function onMixed(move: ActionMoveProps, danger: number) {
-    const { characterId, scenarioId } = move;
-
-    await scenarioRepository.addSupplies(scenarioId, danger);
-    await characterRepository.removeMomentum(characterId, scenarioId, danger);
+  async function onMixed(move: ActionMoveProps) {
+    const { scenarioId } = move;
+    await scenarioRepository.addSupplies(scenarioId, 1);
 
     return postRepository.addMove({
       ...move,
@@ -69,22 +61,15 @@ export function ravitailler(
   }
 
   async function onFailure(move: ActionMoveProps) {
-    await postRepository.addMove({
+    const { characterId, scenarioId } = move;
+
+    await scenarioRepository.addSupplies(scenarioId, 1);
+    await characterRepository.removeMomentum(characterId, scenarioId, 1);
+
+    return postRepository.addMove({
       ...move,
       moveId,
       isResolved: true,
     });
-
-    const payThePriceMove = {
-      id: Moves.PAYER_LE_PRIX,
-      meta: { attribute: '', origin: 'previous_move', hasMomentumBurn: false },
-    };
-
-    return useMove(
-      scenarioRepository,
-      postRepository,
-      characterRepository,
-      skillRepository,
-    )(payThePriceMove, move.postId);
   }
 }

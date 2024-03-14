@@ -23,10 +23,11 @@ const moves = [
   { id: MoveId.RECOLTER_DES_INFORMATIONS, name: 'Récolter des Informations', isDisabled: false },
   { id: MoveId.PRODIGUER_DES_SOINS, name: 'Prodiguer des Soins', isDisabled: false },
   { id: MoveId.RAVITAILLER, name: 'Ravitailler', isDisabled: false },
+  { id: MoveId.MARCHANDER, name: 'Marchander', isDisabled: false },
   { id: MoveId.MONTER_LE_CAMP, name: 'Monter le Camp', isDisabled: true },
   { id: MoveId.VOYAGER, name: 'Voyager', isDisabled: true },
   { id: MoveId.ATTEINDRE_SA_DESTINATION, name: 'Atteindre sa Destination', isDisabled: true },
-  { id: MoveId.PERSUADER, name: 'Persuader', isDisabled: true },
+  { id: MoveId.CONTRAINDRE, name: 'Contraindre', isDisabled: true },
 ];
 
 export function Moves({ onMovePicked, onBurnCheck, character, characters }: MovesProps) {
