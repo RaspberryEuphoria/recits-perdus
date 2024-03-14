@@ -1,6 +1,6 @@
 import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { MoveResult, Moves, Post, Scenario, Skill } from '@/utils/types/scenario';
+import { MoveResult, Moves, Scenario, Skill } from '@/utils/types/scenario';
 
 export function generateIntroduction(scenario: Scenario, withColor = true) {
   const tokens = ['{{characters}}'];
@@ -36,8 +36,8 @@ export function convertHexadecimalColorToHsl(color: string, opacity = 1) {
 
 export function formatPostContent(content: string) {
   return content
-    .replace(/["«](.+)["»]/g, `“<strong>$1</strong>”`)
-    .replace(/\*(.+)\*/g, `“<bold>$1</bold>”`);
+    .replace(/["«](.+?)["»]/g, `“<strong>$1</strong>”`)
+    .replace(/\*(.+?)\*/g, `“<bold>$1</bold>”`);
 }
 
 export const skillWordings = {
