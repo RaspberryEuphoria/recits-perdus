@@ -49,10 +49,10 @@ export function prepareActionMove(
     const skillValue = characterSkill?.level || 0;
 
     const rollD6 = createRoll(6);
-    const rollD10 = createRoll(10);
+    const rollD8 = createRoll(8);
 
     const actionRoll = rollD6();
-    const challengeRolls = [rollD10(), rollD10()];
+    const challengeRolls = [rollD8(), rollD8()];
     const score = actionRoll + skillValue;
 
     const challengeDices = resolveChallengeDices(
