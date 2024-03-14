@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 
+import { MoveResult } from '@/utils/types/scenario';
+
 export const DialogPost = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,11 +65,33 @@ export const CharacterName = styled.span<{ color: string }>`
   font-weight: bold;
 `;
 
-export const DialogMove = styled.div`
+export const DialogMove = styled.div<{ result: MoveResult }>`
   background: var(--secondary);
   border-radius: var(--rounded);
   display: flex;
   flex-direction: column;
   gap: var(--space-05);
   padding: var(--space-05) var(--space-1);
+
+  ${({ result }) => {
+    switch (result) {
+      case MoveResult.SUCCESS:
+        return `
+          box-shadow: 0 0 10px var(--success), inset 0 0 10px var(--success);
+          border: 1px solid var(--success);
+        `;
+      case MoveResult.MIXED:
+        return `
+          box-shadow: 0 0 10px var(--mixed), inset 0 0 10px var(--mixed);
+          border: 1px solid var(--mixed);
+        `;
+      case MoveResult.FAILURE:
+        return `
+          box-shadow: 0 0 10px var(--failure), inset 0 0 10px var(--failure);
+          border: 1px solid var(--failure);
+        `;
+      default:
+        return '';
+    }
+  }}
 `;
