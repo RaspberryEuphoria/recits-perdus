@@ -93,6 +93,9 @@ export class ScenarioRepository {
       },
       include: {
         posts: {
+          orderBy: {
+            id: 'asc',
+          },
           include: {
             character: true,
             moves: {
