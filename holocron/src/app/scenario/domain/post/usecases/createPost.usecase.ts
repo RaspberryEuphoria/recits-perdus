@@ -1,11 +1,11 @@
 import { Character, Post } from '@prisma/client';
-import { hyperlink, WebhookClient } from 'discord.js';
 
+import { DiscordService } from '../../../../../services/DiscordService';
 import { CharacterRepository } from '../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../infrastructure/skill-sql.repository';
-import { CreatePostDto, Moves } from '../entities/post';
+import { CreatePostDto } from '../entities/post';
 import { useMove } from './moves';
 
 export function createPostUsecase(
@@ -13,7 +13,7 @@ export function createPostUsecase(
   scenarioRepository: ScenarioRepository,
   skillRepository: SkillRepository,
   characterRepository: CharacterRepository,
-  discordWebhookClient: WebhookClient,
+  discord: DiscordService,
 ) {
   return async (postDto: CreatePostDto) => {
     const scenario = await scenarioRepository.getById(postDto.scenarioId);
@@ -38,14 +38,7 @@ export function createPostUsecase(
     const nextPosterAfterNewPost = getNextPoster(scenario.characters, [...scenario.posts, newPost]);
 
     if (!hasMove) {
-      discordWebhookClient.send({
-        content: `**${nextPoster.firstName} ${
-          nextPoster.lastName
-        }** a joué son tour dans "*${hyperlink(
-          scenario.title,
-          `http://recits-perdus.fr/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}#message-${newPost.id}`,
-        )}*" !`,
-      });
+      discord.send({ character: nextPoster, scenario, postId: newPost.id });
 
       return {
         ...newPost,
@@ -60,14 +53,7 @@ export function createPostUsecase(
       skillRepository,
     )(action.move, newPost.id);
 
-    discordWebhookClient.send({
-      content: `**${nextPoster.firstName} ${nextPoster.lastName}** ${moveIdToString(
-        action.move.id,
-      )} dans "*${hyperlink(
-        scenario.title,
-        `http://recits-perdus.fr/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}#message-${newPost.id}`,
-      )}*" !`,
-    });
+    discord.send({ character: nextPoster, scenario, postId: newPost.id, moveId: action.move.id });
 
     return {
       ...newPostWithMove,
@@ -108,21 +94,4 @@ function getCurrentTurnPosts(posts: Post[]) {
   const [lastPost] = posts.slice(-1);
   const currentTurnPosts = posts.filter((post) => post.turn === lastPost.turn);
   return currentTurnPosts;
-}
-
-function moveIdToString(moveId: Moves) {
-  switch (moveId) {
-    case Moves.FAIRE_FACE_AU_DANGER:
-      return 'fait face au danger';
-    case Moves.PRENDRE_UN_AVANTAGE:
-      return "essaie de prendre l'avantage";
-    case Moves.RECOLTER_DES_INFORMATIONS:
-      return 'récolte des informations';
-    case Moves.PRODIGUER_DES_SOINS:
-      return 'prodigue des soins';
-    case Moves.PAYER_LE_PRIX:
-      return 'paie le prix';
-    default:
-      return 'a joué son tour';
-  }
 }
