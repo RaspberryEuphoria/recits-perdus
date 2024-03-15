@@ -38,6 +38,11 @@
           "submit-button": {
             "label": "Envoyer"
           }
+        },
+        "errors": {
+          "empty": "Le champ de texte est vide.",
+          "too-long": "Votre réponse est trop longue.",
+          "invalid-move": "Vous n'avez pas sélectionné d'options pour votre action."
         }
       }
     }

@@ -95,3 +95,21 @@ export const Counter = styled.div<CounterProps>`
   align-self: end;
   color: ${(props) => (props.isOverLimit ? 'var(--error)' : 'currentColor')};
 `;
+
+export const Errors = styled.ul`
+  background: var(--dark-05);
+  border-radius: var(--rounded);
+  border: 1px solid var(--error);
+  color: var(--error);
+  font-weight: bold;
+  padding: var(--space-1);
+  width: 100%;
+`;
+
+export const Error = styled.li`
+  margin-bottom: var(--space-05);
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+`;
