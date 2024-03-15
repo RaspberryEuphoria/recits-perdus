@@ -1,5 +1,10 @@
 {
   "moves": {
+    "categories": {
+      "adventure": "Aventure",
+      "combat": "Combat",
+      "social": "Social"
+    },
     "FAIRE_FACE_AU_DANGER": {
       "name": "Faire Face au Danger"
     },
@@ -89,6 +94,15 @@
         "negociate-miss": "échoue dans sa tentative, provoquant la colère ou perdant la confiance de ses interlocuteurs.",
         "if-next-ally-plays": "à <move>Récolter des Informations</move> si l'allié qui suit directement profite de cette information"
       }
+    },
+    "MONTER_LE_CAMP": {
+      "name": "Monter le Camp"
+    },
+    "VOYAGER": {
+      "name": "Voyager"
+    },
+    "ATTEINDRE_SA_DESTINATION": {
+      "name": "Atteindre sa Destination"
     },
     "PAYER_LE_PRIX": {
       "name": "Payer le Prix"
