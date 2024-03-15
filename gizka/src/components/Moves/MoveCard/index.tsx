@@ -2,6 +2,7 @@ import { Move } from '@/components/Dialog/DialogTextarea/DialogTextarea';
 import { Character } from '@/utils/types/character';
 import { Moves } from '@/utils/types/scenario';
 
+import { Contraindre } from './Contraindre';
 import { FaireFaceAuDanger } from './FaireFaceAuDanger';
 import { Marchander } from './Marchander';
 import { PrendreUnAvantage } from './PrendreUnAvantage';
@@ -39,6 +40,8 @@ const GetComponent = (id: Moves) => {
       return Ravitailler;
     case Moves.MARCHANDER:
       return Marchander;
+    case Moves.CONTRAINDRE:
+      return Contraindre;
     default:
       return null;
   }

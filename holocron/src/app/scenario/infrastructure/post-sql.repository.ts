@@ -1,18 +1,23 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-import {
-  CreatePostDto,
-  Dice,
-  MoveMeta,
-  MoveResult,
-  UpdatePostDto,
-} from '../domain/post/entities/post';
+import { CreatePostDto, Dice, MoveMeta, MoveResult } from '../domain/post/entities/post';
 
 export type PostWithCharacterSkills = Prisma.PostGetPayload<{
   include: {
     character: {
       include: {
         skills: true;
+      };
+    };
+  };
+}>;
+
+export type PostWithMoves = Prisma.PostGetPayload<{
+  include: {
+    moves: {
+      include: {
+        dices: true;
+        skill: true;
       };
     };
   };
@@ -96,6 +101,37 @@ export class PostRepository {
     }
 
     return post;
+  }
+
+  async getPreviousPostInScenario(
+    scenarioId: number,
+    postId: number,
+  ): Promise<PostWithMoves | null> {
+    const previousPost = await this.db.post.findFirst({
+      where: {
+        scenarioId,
+        id: {
+          lt: postId,
+        },
+      },
+      orderBy: {
+        id: 'desc',
+      },
+      include: {
+        moves: {
+          include: {
+            dices: true,
+            skill: true,
+          },
+        },
+      },
+    });
+
+    if (!previousPost) {
+      return null;
+    }
+
+    return previousPost;
   }
 
   async addMove({

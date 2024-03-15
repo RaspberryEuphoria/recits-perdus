@@ -54,6 +54,7 @@ export enum Moves {
   PRODIGUER_DES_SOINS = 'PRODIGUER_DES_SOINS',
   RAVITAILLER = 'RAVITAILLER',
   MARCHANDER = 'MARCHANDER',
+  CONTRAINDRE = 'CONTRAINDRE',
   PAYER_LE_PRIX = 'PAYER_LE_PRIX',
 }
 
@@ -67,6 +68,12 @@ type MoveMeta = {
   attribute: string;
   hasMomentumBurn: boolean;
   targetId?: number;
+  actionBonus?: MoveBonus[];
+};
+
+type MoveBonus = {
+  label: string;
+  value: number;
 };
 
 enum Stat {
@@ -82,4 +89,4 @@ enum MoveResult {
   FAILURE = 'FAILURE',
 }
 
-export { CreatePostDto, Dice, Move, MoveMeta, MoveResult, Post, Stat, UpdatePostDto };
+export { CreatePostDto, Dice, Move, MoveBonus, MoveMeta, MoveResult, Post, Stat, UpdatePostDto };

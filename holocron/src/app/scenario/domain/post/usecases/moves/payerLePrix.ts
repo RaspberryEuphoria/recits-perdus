@@ -38,7 +38,7 @@ export function payerLePrix(
       isResolved: true,
       meta: move.meta,
       moveId,
-      moveResult: MoveResult.SUCCESS,
+      moveResult: MoveResult.FAILURE,
       postId: post.id,
       scenarioId: post.scenarioId,
     };

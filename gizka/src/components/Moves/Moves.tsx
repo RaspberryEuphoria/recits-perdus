@@ -27,7 +27,7 @@ const moves = [
   { id: MoveId.MONTER_LE_CAMP, name: 'Monter le Camp', isDisabled: true },
   { id: MoveId.VOYAGER, name: 'Voyager', isDisabled: true },
   { id: MoveId.ATTEINDRE_SA_DESTINATION, name: 'Atteindre sa Destination', isDisabled: true },
-  { id: MoveId.CONTRAINDRE, name: 'Contraindre', isDisabled: true },
+  { id: MoveId.CONTRAINDRE, name: 'Contraindre', isDisabled: false },
 ];
 
 export function Moves({ onMovePicked, onBurnCheck, character, characters }: MovesProps) {

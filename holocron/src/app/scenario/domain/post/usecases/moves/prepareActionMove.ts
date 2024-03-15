@@ -1,7 +1,12 @@
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import { PostWithCharacterSkills } from '../../../../infrastructure/post-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { createRoll, getDicesResult, resolveChallengeDices } from '../../../../scenario.utils';
+import {
+  computeBonus,
+  createRoll,
+  getDicesResult,
+  resolveChallengeDices,
+} from '../../../../scenario.utils';
 import { Dice, DiceType, Move, MoveMeta, MoveResult } from '../../entities/post';
 
 export type ActionMoveProps = {
@@ -24,7 +29,7 @@ export function prepareActionMove(
       throw new Error(`Move ${move.id} meta not found`);
     }
 
-    const { attribute, hasMomentumBurn } = move.meta;
+    const { attribute, hasMomentumBurn, actionBonus } = move.meta;
 
     const characterOnScenario = await characterRepository.getOnScenario(
       post.characterId,
@@ -51,7 +56,7 @@ export function prepareActionMove(
     const rollD6 = createRoll(6);
     const rollD8 = createRoll(8);
 
-    const actionRoll = rollD6();
+    const actionRoll = rollD6() + computeBonus(actionBonus);
     const challengeRolls = [rollD8(), rollD8()];
     const score = actionRoll + skillValue;
 

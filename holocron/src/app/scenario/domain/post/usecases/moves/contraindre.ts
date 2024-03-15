@@ -9,43 +9,25 @@ import { Move, MoveResult, Moves, Post } from '../../entities/post';
 import { useMove } from '.';
 import { ActionMoveProps, prepareActionMove } from './prepareActionMove';
 
-const moveId = Moves.RECOLTER_DES_INFORMATIONS;
-const contraindreBonus = 2;
+const moveId = Moves.CONTRAINDRE;
 
-export function recolterDesInformations(
+export function contraindre(
   scenarioRepository: ScenarioRepository,
   postRepository: PostRepository,
   characterRepository: CharacterRepository,
   skillRepository: SkillRepository,
 ) {
   return async (move: Move, post: PostWithCharacterSkills): Promise<Post> => {
-    const previousPostInScenario = await postRepository.getPreviousPostInScenario(
-      post.scenarioId,
-      post.id,
-    );
-
-    const hasContraindreBonus = previousPostInScenario?.moves.some(
-      (move) => move.moveId === Moves.CONTRAINDRE && move.moveResult === MoveResult.SUCCESS,
-    );
-
-    const actionMove = await prepareActionMove(characterRepository, skillRepository)(
-      {
-        ...move,
-        meta: {
-          ...move.meta,
-          actionBonus: hasContraindreBonus
-            ? [{ label: Moves.CONTRAINDRE, value: contraindreBonus }]
-            : [],
-        },
-      },
-      post,
-    );
+    const actionMove = await prepareActionMove(characterRepository, skillRepository)(move, post);
 
     const { moveResult } = actionMove;
 
-    if ([MoveResult.SUCCESS, MoveResult.MIXED].includes(moveResult)) {
-      const momentumGain = moveResult === MoveResult.SUCCESS ? 2 : 1;
-      return onSuccessOrMixed(actionMove, momentumGain);
+    if (moveResult === MoveResult.SUCCESS) {
+      return onSuccess(actionMove);
+    }
+
+    if (moveResult === MoveResult.MIXED) {
+      return onMixed(actionMove);
     }
 
     if (moveResult === MoveResult.FAILURE) {
@@ -55,13 +37,23 @@ export function recolterDesInformations(
     throw new Error(`Invalid move result: ${moveResult}`);
   };
 
-  async function onSuccessOrMixed(move: ActionMoveProps, momentum: number) {
-    await characterRepository.addMomentum(move.characterId, move.scenarioId, momentum);
+  async function onSuccess(move: ActionMoveProps) {
+    const { characterId, scenarioId } = move;
+
+    await characterRepository.addMomentum(characterId, scenarioId, 1);
 
     return postRepository.addMove({
       ...move,
       moveId,
       isResolved: true,
+    });
+  }
+
+  async function onMixed(move: ActionMoveProps) {
+    return postRepository.addMove({
+      ...move,
+      moveId,
+      isResolved: false,
     });
   }
 

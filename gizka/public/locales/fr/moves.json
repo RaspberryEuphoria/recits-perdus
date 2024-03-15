@@ -14,7 +14,7 @@
       "name-self": "Se Soigner",
       "action": "essaie de",
       "to": "à",
-      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, faites un jet +intuition. Si vous traitez vos propres blessures, faites un jet +intuition ou +tenacite, en utilisant l'attribut le plus faible.",
+      "summary": "Lorsque vous tentez de traiter une blessure ou une maladie, décrivez votre action et faites un jet +intuition. Si vous traitez vos propres blessures, faites un jet +intuition ou +tenacite, en utilisant l'attribut le plus faible.",
       "prompts": {
         "target": {
           "someone-else": "Une personne hors du groupe"
@@ -32,7 +32,7 @@
     "RAVITAILLER": {
       "name": "Ravitailler",
       "action": "tâche de se",
-      "summary": "Lorsque <important>vous cherchez des provisions à ramasser ou dénicher</important>, faites un jet +intuition. Si vous essayez d'acquérir des biens auprès d'un vendeur, préférez plutôt <move>Marchander</move>.",
+      "summary": "Lorsque <important>vous cherchez des provisions à ramasser ou dénicher</important>, décrivez votre action et faites un jet +intuition. Si vous essayez d'acquérir des biens auprès d'un vendeur, préférez plutôt <move>Marchander</move>.",
       "prompts": {
         "minimal-loss": "Vous dénichez des provisions mais perdez un peu de temps :",
         "maximal-loss": "Vous dénichez plus de provisions, mais perdez encore plus de temps :"
@@ -51,10 +51,11 @@
     "MARCHANDER": {
       "name": "Marchander",
       "action": "entreprend de",
-      "summary": "Lorsque <important>achetez ou échangez des provisions</important>, faites un jet. Si vous fouillez les environs à la recherche de ressources, préférez plutôt <move>Ravitailler</move>.",
+      "summary": "Lorsque <important>achetez ou échangez des provisions</important>, décrivez votre action et faites un jet. Si vous fouillez les environs à la recherche de ressources, préférez plutôt <move>Ravitailler</move>.",
       "prompts": {
-        "minimal-loss": "Vous achetez des provisions",
-        "maximal-loss": "Vous dénichez plus de provisions, mais perdez encore plus de temps :"
+        "charm": "Le charme",
+        "threat": "L'agressivité",
+        "lie": "La tromperie"
       },
       "results": {
         "strong-hit": "En cas de <important>succès total</important>, vous négociez un arrangement exceptionnel. Gagnez <supplies>+2</supplies> provisions et <momentum>+1</momentum> ferveur.",
@@ -67,6 +68,28 @@
         "negociate-miss": "échoue à négocier, mais récupère tout de même des ressources"
       }
     },
+    "CONTRAINDRE": {
+      "name": "Contraindre",
+      "action": "tente de",
+      "target": "son auditoire",
+      "summary": "Lorsque <important>vous tentez de persuader quelqu’un de faire quelque chose</important>, décrivez votre action et faites un jet.",
+      "prompts": {
+        "charm": "Le charme ou l'apaisement",
+        "threat": "La menace ou la provocation",
+        "lie": "Le mensonge ou l'arnaque"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, cette personne fera ce que vous souhaitez ou révélera ce qu'elle sait. Si l'allié qui suit directement profite de cette information et joue l'action <move>Récolter des Informations</move>, son jet bénéficiera d'un bonus de <important>+2</important>. Gagnez <momentum>+1</momentum> ferveur.",
+        "weak-hit": "En cas de <important>succès partiel</important>, la personne fera ce que vous souhaitez ou révélera ce qu'elle sait, mais exigera quelque chose de vous en retour.",
+        "miss": "En cas d’<important>échec</important>, la personne refuse ou vous fait une demande qui sera très coûteuse. Vous devez en <move>Payer le Prix</move>."
+      },
+      "outcomes": {
+        "negociate-strong": "a des arguments très convaincants, si bien que ses interlocuteurs accèdent à ses demandes sans contrepartie",
+        "negociate-weak": "parvient à obtenir satisfaction mais ses interlocuteurs exigent quelque chose en retour",
+        "negociate-miss": "échoue dans sa tentative, provoquant la colère ou perdant la confiance de ses interlocuteurs.",
+        "if-next-ally-plays": "à <move>Récolter des Informations</move> si l'allié qui suit directement profite de cette information"
+      }
+    },
     "PAYER_LE_PRIX": {
       "name": "Payer le Prix"
     },
@@ -75,6 +98,7 @@
       "negociate": "Comment négociez-vous ?",
       "heal": "Qui voulez-vous soigner ?",
       "danger": "Qu'êtes vous prêt à perdre ?",
+      "approach": "Quelle est votre approche ?",
       "burn": "Brûler de la ferveur ?"
     },
     "stats": {
@@ -112,10 +136,6 @@
         "indefini": "une ",
         "partitif": "d’",
         "possessif": "son ",
-        "adjectives": {
-          "all": "Avec expertise, perspicacité ou perception",
-          "one": "Avec expertise"
-        },
         "skill-check": "intuition"
       },
       "Subterfuge": {
@@ -123,10 +143,6 @@
         "indefini": "un ",
         "partitif": "de ",
         "possessif": "son ",
-        "adjectives": {
-          "all": "Avec tromperie, furtivité ou ruse",
-          "one": "Avec tromperie"
-        },
         "skill-check": "subterfuge"
       },
       "Ténacité": {
@@ -134,10 +150,6 @@
         "indefini": "une ",
         "partitif": "de ",
         "possessif": "sa ",
-        "adjectives": {
-          "all": "Avec aggressivité, force ou endurance",
-          "one": "Avec aggressivité"
-        },
         "skill-check": "ténacité"
       },
       "Finesse": {
@@ -145,10 +157,6 @@
         "indefini": "une ",
         "partitif": "de ",
         "possessif": "sa ",
-        "adjectives": {
-          "all": "Avec rapidité, agilité ou précision",
-          "one": "Avec rapidité"
-        },
         "skill-check": "finesse"
       },
       "Détermination": {
@@ -156,10 +164,6 @@
         "indefini": "une ",
         "partitif": "de ",
         "possessif": "sa ",
-        "adjectives": {
-          "all": "Avec charme, loyauté ou courage",
-          "one": "Avec charme"
-        },
         "skill-check": "détermination"
       }
     }

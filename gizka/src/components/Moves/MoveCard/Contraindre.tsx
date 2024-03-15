@@ -10,7 +10,7 @@ import { Skill } from '@/utils/types/scenario';
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
 
-export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
+export function Contraindre({ id, onPick, onClose, children }: MoveCardProps) {
   const t = useTranslations('moves');
   const [attribute, setAttribute] = useState<Skill | undefined>();
 
@@ -40,23 +40,20 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
 
         <p>
           {t.rich(`${id}.results.strong-hit`, {
+            move: (chunks) => <Keyword stat="move">{chunks}</Keyword>,
             important: (chunks) => <strong>{chunks}</strong>,
-            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
             momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
           })}
         </p>
         <p>
           {t.rich(`${id}.results.weak-hit`, {
             important: (chunks) => <strong>{chunks}</strong>,
-            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
-            momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
           })}
         </p>
         <p>
           {t.rich(`${id}.results.miss`, {
             important: (chunks) => <strong>{chunks}</strong>,
-            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
-            momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
+            move: (chunks) => <Keyword stat="move">{chunks}</Keyword>,
           })}
         </p>
 

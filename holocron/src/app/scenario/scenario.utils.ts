@@ -1,4 +1,4 @@
-import { Dice, DiceType, MoveResult, Stat } from './domain/post/entities/post';
+import { Dice, DiceType, MoveBonus, MoveResult, Stat } from './domain/post/entities/post';
 
 function getRandom(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -6,6 +6,14 @@ function getRandom(min: number, max: number) {
 
 export function createRoll(max: number) {
   return () => getRandom(1, max);
+}
+
+export function computeBonus(bonus?: MoveBonus[]) {
+  if (!bonus || bonus.length === 0) return 0;
+
+  return bonus.reduce((acc, { value }) => {
+    return acc + value;
+  }, 0);
 }
 
 export function resolveChallengeDices(

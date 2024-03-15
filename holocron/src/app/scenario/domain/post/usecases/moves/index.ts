@@ -8,6 +8,7 @@ import {
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
 import { Move, Moves } from '../../entities/post';
+import { contraindre } from './contraindre';
 import { faireFaceAuDanger } from './faireFaceAuDanger';
 import { marchander } from './marchander';
 import { payerLePrix } from './payerLePrix';
@@ -62,6 +63,8 @@ function getMoveById(id: Moves): MoveFunction {
       return ravitailler;
     case Moves.MARCHANDER:
       return marchander;
+    case Moves.CONTRAINDRE:
+      return contraindre;
     default:
       throw new Error(`Move ${id} not implemented`);
   }
