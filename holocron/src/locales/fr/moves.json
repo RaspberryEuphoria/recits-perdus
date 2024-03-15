@@ -1,9 +1,10 @@
 {
-  "FAIRE_FACE_AU_DANGER": "Faire face au danger",
-  "PRENDRE_UN_AVANTAGE": "Prendre un avantage",
-  "RECOLTER_DES_INFORMATIONS": "Récolter des informations",
-  "PRODIGUER_DES_SOINS": "Prodiguer des soins",
-  "RAVITAILLER": "Ravitailler",
-  "MARCHANDER": "Marchander",
-  "PAYER_LE_PRIX": "Payer le prix"
+  "FAIRE_FACE_AU_DANGER": "fait face au danger",
+  "PRENDRE_UN_AVANTAGE": "prend un avantage",
+  "RECOLTER_DES_INFORMATIONS": "récolte des informations",
+  "PRODIGUER_DES_SOINS": "prodigue des soins",
+  "RAVITAILLER": "cherche à se ravitailler",
+  "MARCHANDER": "tente de marchander",
+  "PAYER_LE_PRIX": "doit payer le prix",
+  "CONTRAINDRE": "tente de contraindre"
 }
