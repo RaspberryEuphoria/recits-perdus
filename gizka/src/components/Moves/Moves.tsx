@@ -81,22 +81,26 @@ export function Moves({ onMovePicked, onBurnCheck, character, characters }: Move
     );
   }
 
-  return categories.map((category) => (
-    <Fragment key={category.key}>
-      <Styled.Category forwardedAs="h2" size="md">
-        {t(`categories.${category.key}`)}
-      </Styled.Category>
-      <Styled.MovesList>
-        {category.moves.map((move) => (
-          <Styled.MoveItem
-            key={move.id}
-            onClick={() => !move.isDisabled && openMoveCard(move.id)}
-            isDisabled={move.isDisabled}
-          >
-            {t(`${move.id}.name`)} {move.isDisabled && '(WiP)'}
-          </Styled.MoveItem>
-        ))}
-      </Styled.MovesList>
+  return (
+    <Fragment>
+      {categories.map((category) => (
+        <Fragment key={category.key}>
+          <Styled.Category forwardedAs="h2" size="md">
+            {t(`categories.${category.key}`)}
+          </Styled.Category>
+          <Styled.MovesList>
+            {category.moves.map((move) => (
+              <Styled.MoveItem
+                key={move.id}
+                onClick={() => !move.isDisabled && openMoveCard(move.id)}
+                isDisabled={move.isDisabled}
+              >
+                {t(`${move.id}.name`)} {move.isDisabled && '(WiP)'}
+              </Styled.MoveItem>
+            ))}
+          </Styled.MovesList>
+        </Fragment>
+      ))}
     </Fragment>
-  ));
+  );
 }
