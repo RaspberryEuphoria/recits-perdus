@@ -28,13 +28,10 @@ export function createPostUsecase(
       );
     }
 
-    const turn = getTurnForNewPost(scenario.posts, scenario.characters.length);
-    const isGameMaster = false;
-
     const { action, ...post } = postDto;
     const hasMove = action && action.move;
 
-    const newPost = await postRepository.create({ ...post, turn, isGameMaster });
+    const newPost = await postRepository.create(post);
     const nextPosterAfterNewPost = getNextPoster(scenario.characters, [...scenario.posts, newPost]);
 
     if (!hasMove) {

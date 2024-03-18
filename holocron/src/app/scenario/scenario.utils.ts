@@ -1,4 +1,7 @@
-import { Dice, DiceType, MoveBonus, MoveResult, Stat } from './domain/post/entities/post';
+import { DiceType, MoveResult } from '@prisma/client';
+
+import { DangerOnStat, MoveBonus } from './domain/post/entities/move';
+import { Dice } from './domain/post/entities/post';
 
 function getRandom(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -20,7 +23,7 @@ export function resolveChallengeDices(
   score: number,
   challengeRolls: number[],
   momentum: number,
-  hasMomentumBurn: boolean,
+  hasMomentumBurn = false,
 ) {
   const dices = challengeRolls.map((dice) => ({
     type: DiceType.CHALLENGE,
@@ -68,13 +71,13 @@ export function getDicesResult({
   throw new Error(`Invalid dices result! ${JSON.stringify({ score, challengeDices }, null, 4)}`);
 }
 
-export function isStat(value: any): value is Stat {
+export function isStat(value: unknown): value is DangerOnStat {
   if (value === null || value === undefined) return false;
 
   return (
-    value === Stat.HEALTH ||
-    value === Stat.MOMENTUM ||
-    value === Stat.SPIRIT ||
-    value === Stat.SUPPLIES
+    value === DangerOnStat.HEALTH ||
+    value === DangerOnStat.MOMENTUM ||
+    value === DangerOnStat.SPIRIT ||
+    value === DangerOnStat.SUPPLIES
   );
 }

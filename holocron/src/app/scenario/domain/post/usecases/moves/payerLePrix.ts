@@ -1,19 +1,19 @@
-import { Post } from '@prisma/client';
+import { DiceType, MoveResult, Post } from '@prisma/client';
 
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { createRoll } from '../../../../scenario.utils';
-import { DiceType, Move, MoveResult, Moves } from '../../entities/post';
+import { MoveId, MoveIntent } from '../../entities/move';
 
-const moveId = Moves.PAYER_LE_PRIX;
+const moveId = MoveId.PAYER_LE_PRIX;
 
 export function payerLePrix(
   scenarioRepository: ScenarioRepository,
   postRepository: PostRepository,
   characterRepository: CharacterRepository,
 ) {
-  return async (move: Move, post: Post) => {
+  return async (moveIntent: MoveIntent, post: Post) => {
     const value = createRoll(100)();
 
     const priceDie = {
@@ -36,7 +36,7 @@ export function payerLePrix(
       characterId: post.characterId,
       dices: [priceDie],
       isResolved: true,
-      meta: move.meta,
+      meta: moveIntent.meta,
       moveId,
       moveResult: MoveResult.FAILURE,
       postId: post.id,

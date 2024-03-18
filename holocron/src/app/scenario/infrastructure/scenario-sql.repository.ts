@@ -162,7 +162,7 @@ export class ScenarioRepository {
     return this.changeSupplies(id, -supplies);
   }
 
-  private async changeSupplies(id: number, supplies: number) {
+  async changeSupplies(id: number, supplies: number) {
     return this.db.scenario.update({
       where: {
         id,
