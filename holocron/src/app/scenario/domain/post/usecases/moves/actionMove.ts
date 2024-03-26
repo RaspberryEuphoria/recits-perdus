@@ -186,6 +186,8 @@ export abstract class ActionMove {
     }
 
     if (this.mustPayThePrice) {
+      await this.postRepository.addMove(this.move);
+
       const payThePriceMove = {
         id: MoveId.PAYER_LE_PRIX,
         meta: { origin: 'previous_move', hasMomentumBurn: false },
