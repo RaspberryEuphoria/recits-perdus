@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import DialogBackground from '@/public/images/dialog_background.png';
 import { Media } from '@/utils/constants';
 
 export const Header = styled.header`
@@ -60,7 +61,7 @@ export const MainSection = styled.section`
 `;
 
 export const AsideSection = styled.aside`
-  background: url('../../public/images/dialog_background.png'), var(--dark-08);
+  background: url('${DialogBackground.src}'), var(--dark-08);
   border-left: 1px solid var(--flashy);
   border-right: 1px solid var(--flashy);
   display: flex;
