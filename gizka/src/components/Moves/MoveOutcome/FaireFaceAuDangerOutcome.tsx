@@ -1,6 +1,8 @@
+import { useTranslations } from 'next-intl';
+
 import { Keyword } from '@/components/DesignSystem/Keyword';
 import { ChallengeDie } from '@/components/Moves/ChallengeDie';
-import { movesNames, skillWordings, statFrToEn } from '@/utils/scenario/helpers';
+import { movesNames } from '@/utils/scenario/helpers';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
 import { MoveOutcomeProps } from '.';
@@ -60,13 +62,14 @@ const Outcome = (props: MoveOutcomeProps) => {
   }
 };
 
-function Success({ character, move }: MoveOutcomeProps) {
+function Success({ character }: MoveOutcomeProps) {
+  const t = useTranslations('moves');
+
   return (
     <p>
-      Faisant preuve {skillWordings[move.skill.name].partitif}
-      {move.skill.name.toLowerCase()} à toute épreuve,{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      prend le contrôle de la situation (<Keyword stat="momentum">+1</Keyword> ferveur).
+      {t('outcomes.success-aftermath')} (<Keyword stat="momentum">+1</Keyword> {t('stats.momentum')}
+      )
     </p>
   );
 }
@@ -74,24 +77,23 @@ function Success({ character, move }: MoveOutcomeProps) {
 function Mixed({ character, move }: MoveOutcomeProps) {
   const meta = JSON.parse(move.meta);
   const stat = meta.danger.toLowerCase();
+  const t = useTranslations('moves');
 
   return (
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      ne manque pas de {move.skill.name.toLowerCase()} mais n&apos;a pas le contrôle de la situation
-      et fait face à des complications (<Keyword stat={statFrToEn(stat)}>-1</Keyword> {stat}
-      ).
+      {t('outcomes.mixed-aftermath')} (<Keyword stat="momentum">-1</Keyword> {t(`stats.${stat}`)})
     </p>
   );
 }
 
-function Failure({ character, move }: MoveOutcomeProps) {
+function Failure({ character }: MoveOutcomeProps) {
+  const t = useTranslations('moves');
+
   return (
     <p>
-      Malgré {skillWordings[move.skill.name].possessif}
-      {move.skill.name.toLowerCase()},{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      se retrouve dans une situation particulièrement périlleuse !
+      {t('outcomes.failure-aftermath')}
     </p>
   );
 }

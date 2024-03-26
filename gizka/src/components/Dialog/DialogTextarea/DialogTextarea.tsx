@@ -10,7 +10,7 @@ import { MovesProps } from '@/components/Moves/Moves';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
-import { Moves as MoveId, Post, Skill, Stat } from '@/utils/types/scenario';
+import { Moves as MoveId, Post, SkillId, Stat } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
 
@@ -29,7 +29,7 @@ type DialogTextareaProps = {
 
 export type Move = {
   id: MoveId;
-  meta?: Record<string, string | number | boolean | Skill | Stat | undefined>;
+  meta?: Record<string, string | number | boolean | SkillId | Stat | undefined>;
 };
 
 enum Mode {

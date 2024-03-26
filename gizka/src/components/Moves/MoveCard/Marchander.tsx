@@ -5,14 +5,14 @@ import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Prompt } from '@/components/DesignSystem/Prompt';
 import D6Icon from '@/public/images/icons/d6.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
-import { Skill } from '@/utils/types/scenario';
+import { SkillId } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
 
 export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
   const t = useTranslations('moves');
-  const [attribute, setAttribute] = useState<Skill | undefined>();
+  const [attribute, setAttribute] = useState<SkillId | undefined>();
 
   useEffect(() => {
     onPick({ id, meta: { attribute, isValid: Boolean(attribute) } });
@@ -68,8 +68,8 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
           <li>
             {t(`${id}.prompts.charm`)} :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.DETERMINATION)}
-              isSelected={attribute === Skill.DETERMINATION}
+              onClick={() => setAttribute(SkillId.DETERMINATION)}
+              isSelected={attribute === SkillId.DETERMINATION}
             >
               +{t('skills.Détermination.skill-check')} <D6Icon />
             </Styled.ClickToRoll>
@@ -77,8 +77,8 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
           <li>
             {t(`${id}.prompts.threat`)} :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.TENACITE)}
-              isSelected={attribute === Skill.TENACITE}
+              onClick={() => setAttribute(SkillId.TENACITE)}
+              isSelected={attribute === SkillId.TENACITE}
             >
               +{t('skills.Ténacité.skill-check')} <D6Icon />
             </Styled.ClickToRoll>
@@ -86,8 +86,8 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
           <li>
             {t(`${id}.prompts.lie`)} :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.SUBTERFUGE)}
-              isSelected={attribute === Skill.SUBTERFUGE}
+              onClick={() => setAttribute(SkillId.SUBTERFUGE)}
+              isSelected={attribute === SkillId.SUBTERFUGE}
             >
               +{t('skills.Subterfuge.skill-check')} <D6Icon />
             </Styled.ClickToRoll>

@@ -9,7 +9,7 @@ import SuppliesIcon from '@/public/images/icons/supplies.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
 import { getFullName } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { Skill, Stat } from '@/utils/types/scenario';
+import { SkillId, Stat } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
@@ -28,11 +28,11 @@ export function ProdiguerDesSoins({
   const injuredCharacters = characters.sort((a, b) => a.health - b.health);
 
   useEffect(() => {
-    const attribute = targetId ? getAttribute(character, targetId) : Skill.INTUITION;
+    const skillId = targetId ? getSkillId(character, targetId) : SkillId.INTUITION;
 
     onPick({
       id,
-      meta: { targetId, attribute, danger, isValid: Boolean(danger && targetId !== null) },
+      meta: { targetId, skillId, danger, isValid: Boolean(danger && targetId !== null) },
     });
 
     return () => {
@@ -124,19 +124,19 @@ export function ProdiguerDesSoins({
   );
 }
 
-function getAttribute(character: Character, targetId: number) {
-  if (targetId !== character.id) return Skill.INTUITION;
+function getSkillId(character: Character, targetId: number) {
+  if (targetId !== character.id) return SkillId.INTUITION;
 
-  const intuition = character.skills.find((skill) => skill.name === Skill.INTUITION);
-  const tenacite = character.skills.find((skill) => skill.name === Skill.TENACITE);
+  const intuition = character.skills.find((skill) => skill.skillId === SkillId.INTUITION);
+  const tenacite = character.skills.find((skill) => skill.skillId === SkillId.TENACITE);
 
   if (!intuition || !tenacite) {
     throw new Error(`Character ${character.id} does not have the required skills`);
   }
 
   if (intuition.level > tenacite.level) {
-    return Skill.INTUITION;
+    return SkillId.INTUITION;
   }
 
-  return Skill.TENACITE;
+  return SkillId.TENACITE;
 }

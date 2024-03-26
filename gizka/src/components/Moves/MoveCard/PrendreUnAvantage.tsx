@@ -4,7 +4,7 @@ import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Prompt } from '@/components/DesignSystem/Prompt';
 import D6Icon from '@/public/images/icons/d6.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
-import { Skill } from '@/utils/types/scenario';
+import { SkillId } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
@@ -12,16 +12,16 @@ import * as Styled from './styled';
 const title = 'Prendre un Avantage';
 
 export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardProps) {
-  const [attribute, setAttribute] = useState<Skill | undefined>();
+  const [skillId, setSkillId] = useState<SkillId | undefined>();
 
   useEffect(() => {
-    onPick({ id, meta: { attribute, isValid: Boolean(attribute) } });
+    onPick({ id, meta: { skillId, isValid: Boolean(skillId) } });
 
     return () => {
       onPick(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attribute, id]);
+  }, [skillId, id]);
 
   return (
     <Styled.MoveCard>
@@ -60,8 +60,8 @@ export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec rapidité, agilité ou précision :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.FINESSE)}
-              isSelected={attribute === Skill.FINESSE}
+              onClick={() => setSkillId(SkillId.FINESSE)}
+              isSelected={skillId === SkillId.FINESSE}
             >
               +finesse <D6Icon />
             </Styled.ClickToRoll>
@@ -69,8 +69,8 @@ export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec charme, loyauté ou courage :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.DETERMINATION)}
-              isSelected={attribute === Skill.DETERMINATION}
+              onClick={() => setSkillId(SkillId.DETERMINATION)}
+              isSelected={skillId === SkillId.DETERMINATION}
             >
               +determination <D6Icon />
             </Styled.ClickToRoll>
@@ -78,8 +78,8 @@ export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec aggressivité, force ou endurance :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.TENACITE)}
-              isSelected={attribute === Skill.TENACITE}
+              onClick={() => setSkillId(SkillId.TENACITE)}
+              isSelected={skillId === SkillId.TENACITE}
             >
               +tenacite <D6Icon />
             </Styled.ClickToRoll>
@@ -87,8 +87,8 @@ export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec tromperie, furtivité ou ruse :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.SUBTERFUGE)}
-              isSelected={attribute === Skill.SUBTERFUGE}
+              onClick={() => setSkillId(SkillId.SUBTERFUGE)}
+              isSelected={skillId === SkillId.SUBTERFUGE}
             >
               +subterfuge <D6Icon />
             </Styled.ClickToRoll>
@@ -96,8 +96,8 @@ export function PrendreUnAvantage({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec expertise, perspicacité ou perception :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.INTUITION)}
-              isSelected={attribute === Skill.INTUITION}
+              onClick={() => setSkillId(SkillId.INTUITION)}
+              isSelected={skillId === SkillId.INTUITION}
             >
               +intuition <D6Icon />
             </Styled.ClickToRoll>

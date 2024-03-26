@@ -1,6 +1,6 @@
 import { getCharactersList } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { MoveResult, Moves, Scenario, Skill } from '@/utils/types/scenario';
+import { MoveResult, Moves, Scenario } from '@/utils/types/scenario';
 
 export function generateIntroduction(scenario: Scenario, withColor = true) {
   const tokens = ['{{characters}}'];
@@ -41,31 +41,31 @@ export function formatPostContent(content: string) {
 }
 
 export const skillWordings = {
-  [Skill.FINESSE]: {
+  finesse: {
     defini: 'la ',
     indefini: 'une ',
     partitif: 'de ',
     possessif: 'sa ',
   },
-  [Skill.DETERMINATION]: {
+  determination: {
     defini: 'la ',
     indefini: 'une ',
     partitif: 'de ',
     possessif: 'sa ',
   },
-  [Skill.TENACITE]: {
+  tenacite: {
     defini: 'la ',
     indefini: 'une ',
     partitif: 'de ',
     possessif: 'sa ',
   },
-  [Skill.SUBTERFUGE]: {
+  subterfuge: {
     defini: 'le ',
     indefini: 'un ',
     partitif: 'de ',
     possessif: 'son ',
   },
-  [Skill.INTUITION]: {
+  intuition: {
     defini: 'l’',
     indefini: 'une ',
     partitif: 'd’',
@@ -96,7 +96,7 @@ export function statEnToFr(stat: string) {
     supplies: 'provisions',
   };
 
-  if (!stats[stat]) throw new Error(`Stat ${stat} not found`);
+  if (!stats[stat]) return stat;
 
   return stats[stat];
 }
@@ -109,7 +109,7 @@ export function statFrToEn(stat: string) {
     provisions: 'supplies',
   };
 
-  if (!stats[stat]) throw new Error(`Stat ${stat} not found`);
+  if (!stats[stat]) return stat;
 
   return stats[stat];
 }
