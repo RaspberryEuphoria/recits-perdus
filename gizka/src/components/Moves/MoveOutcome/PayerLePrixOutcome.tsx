@@ -74,31 +74,28 @@ function ScoreToOutcome({ character, score }: { character: Character; score: num
   if (score >= 51 && score <= 59) {
     return (
       <>
-        Le danger désavantage <CharacterName /> (<Keyword stat="momentum">-1</Keyword> ferveur).
+        <CharacterName /> se retrouve en danger ! (<Keyword stat="momentum">-1</Keyword> ferveur)
       </>
     );
   }
   if (score >= 60 && score <= 68) {
     return (
       <>
-        Le danger inflige une blessure à <CharacterName /> (<Keyword stat="health">-1</Keyword>{' '}
-        santé).
+        <CharacterName /> se retrouve en danger ! (<Keyword stat="health">-1</Keyword> santé)
       </>
     );
   }
   if (score >= 69 && score <= 77) {
     return (
       <>
-        Le danger inflige du stress à <CharacterName /> (<Keyword stat="spirit">-1</Keyword>{' '}
-        esprit).
+        <CharacterName /> se retrouve en danger ! (<Keyword stat="spirit">-1</Keyword> esprit)
       </>
     );
   }
   if (score >= 78 && score <= 86) {
     return (
       <>
-        Le danger a des effets sur les ressources du groupe (<Keyword stat="supplies">-1</Keyword>{' '}
-        provisions).
+        Les ressources du groupe sont diminuées. (<Keyword stat="supplies">-1</Keyword> provisions)
       </>
     );
   }

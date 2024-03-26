@@ -9,7 +9,11 @@
       "name": "Faire Face au Danger"
     },
     "PRENDRE_UN_AVANTAGE": {
-      "name": "Prendre un Avantage"
+      "name": "Prendre un Avantage",
+      "outcomes": {
+        "success": "prends un avantage décisif !",
+        "mixed": "prends un avantage de courte durée."
+      }
     },
     "RECOLTER_DES_INFORMATIONS": {
       "name": "Récolter des Informations"
@@ -31,7 +35,9 @@
         "miss": "En cas d’<important>échec</important>, votre aide est inefficace. Vous devez en <move>Payer le Prix</move>."
       },
       "outcomes": {
-        "complications": "De légères complications lui prennent plus de temps que prévu"
+        "success": "Les soins sont rapides et efficaces.",
+        "mixed": "Les soins sont efficaces mais de légères complications prennent plus de temps que prévu.",
+        "failure": "Les soins sont inefficaces ou interrompus par une menace extérieure."
       }
     },
     "RAVITAILLER": {
@@ -117,8 +123,13 @@
     },
     "stats": {
       "health": "santé",
+      "santé": "santé",
       "momentum": "ferveur",
-      "supplies": "provisions"
+      "ferveur": "ferveur",
+      "provisions": "provisions",
+      "supplies": "provisions",
+      "spirit": "esprit",
+      "esprit": "esprit"
     },
     "buttons": {
       "cancel": "Annuler"
@@ -142,7 +153,10 @@
       "is-unable-to": "est incapable de",
       "fails-to": "échoue à",
       "and-waste-time": "et perd du temps",
-      "and": "et"
+      "and": "et",
+      "success-aftermath": "maîtrise complètement la situation.",
+      "mixed-aftermath": "atteint son objectif mais fait face à des complications.",
+      "failure-aftermath": "échoue et perd le contrôle de la situation."
     },
     "skills": {
       "Intuition": {

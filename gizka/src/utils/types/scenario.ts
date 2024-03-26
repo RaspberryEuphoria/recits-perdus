@@ -79,19 +79,25 @@ export enum MoveResult {
   FAILURE = 'FAILURE',
 }
 
-export enum Skill {
-  FINESSE = 'Finesse',
-  DETERMINATION = 'Détermination',
-  TENACITE = 'Ténacité',
-  SUBTERFUGE = 'Subterfuge',
-  INTUITION = 'Intuition',
+/**
+ * These are the id corresponding to the skills in db.
+ * They're not supposed to ever change (unless we overaul
+ * the whole skill system),
+ * but maybe we could pull these from the db directly?
+ */
+export enum SkillId {
+  FINESSE = 1,
+  DETERMINATION = 2,
+  INTUITION = 3,
+  SUBTERFUGE = 4,
+  TENACITE = 5,
 }
 
 export enum Stat {
-  MOMENTUM = 'Ferveur',
-  HEALTH = 'Santé',
-  SPIRIT = 'Esprit',
-  SUPPLIES = 'Provisions',
+  MOMENTUM = 'MOMENTUM',
+  HEALTH = 'HEALTH',
+  SPIRIT = 'SPIRIT',
+  SUPPLIES = 'SUPPLIES',
 }
 
 export { type Scenario, ScenarioStatus };

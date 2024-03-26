@@ -1,4 +1,4 @@
-import { Post } from '@prisma/client';
+import { CharactersOnScenarios } from '@prisma/client';
 
 import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
 import {
@@ -7,22 +7,16 @@ import {
 } from '../../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { Move, Moves } from '../../entities/post';
-import { contraindre } from './contraindre';
-import { faireFaceAuDanger } from './faireFaceAuDanger';
-import { marchander } from './marchander';
+import { MoveId, MoveIntent } from '../../entities/move';
+import { ActionMove } from './actionMove';
+import { ContraindreMove } from './contraindre';
+import { FaireFaceAuDangerMove } from './faireFaceAuDanger';
+import { MarchanderMove } from './marchander';
 import { payerLePrix } from './payerLePrix';
-import { prendreUnAvantage } from './prendreUnAvantage';
-import { prodiguerDesSoins } from './prodiguerDesSoins';
-import { ravitailler } from './ravitailler';
-import { recolterDesInformations } from './recolterDesInformations';
-
-type MoveFunction = (
-  scenarioRepository: ScenarioRepository,
-  postRepository: PostRepository,
-  characterRepository: CharacterRepository,
-  skillRepository: SkillRepository,
-) => (move: Move, post: PostWithCharacterSkills) => Promise<Post>;
+import { PrendreUnAvantageMove } from './prendreUnAvantage';
+import { ProdiguerDesSoinsMove } from './prodiguerDesSoins';
+import { RavitaillerMove } from './ravitailler';
+import { RecolterDesInformationsMove } from './recolterDesInformations';
 
 export function useMove(
   scenarioRepository: ScenarioRepository,
@@ -30,42 +24,75 @@ export function useMove(
   characterRepository: CharacterRepository,
   skillRepository: SkillRepository,
 ) {
-  return async (move: Move, postId: number) => {
+  return async (moveIntent: MoveIntent, postId: number) => {
     const post = await postRepository.getById(postId);
     if (!post) {
-      throw new Error(`Post ${postId} not found while attempting to use move ${move.id}`);
+      throw new Error(`Post ${postId} not found while attempting to use move ${moveIntent.id}`);
     }
 
-    const moveFunction = getMoveById(move.id);
+    const characterOnScenario = await characterRepository.getOnScenario(
+      post.characterId,
+      post.scenarioId,
+    );
+    if (!characterOnScenario) {
+      throw new Error(
+        `Character ${post.characterId} not found on scenario ${post.scenarioId} while attempting to use move ${moveIntent.id}`,
+      );
+    }
 
-    return moveFunction(
+    /**
+     * PayerLePrix is the only "non-action" move.
+     * As such, it doesn't need to be handled by the ActionMove class.
+     */
+    if (moveIntent.id === MoveId.PAYER_LE_PRIX) {
+      return payerLePrix(scenarioRepository, postRepository, characterRepository)(moveIntent, post);
+    }
+
+    const moveHandler = getMoveHandler(
+      moveIntent.id,
       scenarioRepository,
       postRepository,
       characterRepository,
       skillRepository,
-    )(move, post);
+      characterOnScenario,
+      moveIntent,
+      post,
+    );
+
+    await moveHandler.roll();
+
+    return await moveHandler.commit();
   };
 }
 
-function getMoveById(id: Moves): MoveFunction {
-  switch (id) {
-    case Moves.FAIRE_FACE_AU_DANGER:
-      return faireFaceAuDanger;
-    case Moves.PRENDRE_UN_AVANTAGE:
-      return prendreUnAvantage;
-    case Moves.RECOLTER_DES_INFORMATIONS:
-      return recolterDesInformations;
-    case Moves.PAYER_LE_PRIX:
-      return payerLePrix;
-    case Moves.PRODIGUER_DES_SOINS:
-      return prodiguerDesSoins;
-    case Moves.RAVITAILLER:
-      return ravitailler;
-    case Moves.MARCHANDER:
-      return marchander;
-    case Moves.CONTRAINDRE:
-      return contraindre;
+function getMoveHandler(
+  moveId: MoveId,
+  ...args: [
+    ScenarioRepository,
+    PostRepository,
+    CharacterRepository,
+    SkillRepository,
+    CharactersOnScenarios,
+    MoveIntent,
+    PostWithCharacterSkills,
+  ]
+): ActionMove {
+  switch (moveId) {
+    case MoveId.FAIRE_FACE_AU_DANGER:
+      return new FaireFaceAuDangerMove(...args);
+    case MoveId.CONTRAINDRE:
+      return new ContraindreMove(...args);
+    case MoveId.PRENDRE_UN_AVANTAGE:
+      return new PrendreUnAvantageMove(...args);
+    case MoveId.MARCHANDER:
+      return new MarchanderMove(...args);
+    case MoveId.PRODIGUER_DES_SOINS:
+      return new ProdiguerDesSoinsMove(...args);
+    case MoveId.RAVITAILLER:
+      return new RavitaillerMove(...args);
+    case MoveId.RECOLTER_DES_INFORMATIONS:
+      return new RecolterDesInformationsMove(...args);
     default:
-      throw new Error(`Move ${id} not implemented`);
+      throw new Error(`Move ${moveId} not implemented`);
   }
 }

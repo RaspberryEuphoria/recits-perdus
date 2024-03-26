@@ -1,7 +1,7 @@
 import { Character, Scenario } from '@prisma/client';
 import { hyperlink, WebhookClient } from 'discord.js';
 
-import { Moves } from '../app/scenario/domain/post/entities/post';
+import { MoveId } from '../app/scenario/domain/post/entities/move';
 import { t } from '../locales/translate';
 
 const discordWebhookClient = new WebhookClient({
@@ -29,7 +29,7 @@ export class DiscordService {
     character: Character;
     scenario: Scenario;
     postId: number;
-    moveId?: Moves;
+    moveId?: MoveId;
   }) {
     const playedWording = moveId ? t(`moves:${moveId}`) : t('scenarios:played');
 

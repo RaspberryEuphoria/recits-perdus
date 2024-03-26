@@ -1,3 +1,6 @@
+import { Dice } from './dice';
+import { MoveIntent } from './move';
+
 type Post = {
   id: number;
   content: string;
@@ -14,32 +17,18 @@ type Post = {
   // skill?: Skill;
 };
 
-type Dice = {
-  id?: number;
-  value: number;
-  type: DiceType;
-  isBurned: boolean;
-};
-
-export enum DiceType {
-  CHALLENGE = 'CHALLENGE',
-  ACTION = 'ACTION',
-  PRICE = 'PRICE',
+interface Asset {
+  afterResolveChallengeDices: (dices: Dice[]) => Dice[];
+  afterActionMove: () => void;
 }
 
 type CreatePostDto = {
   content: string;
   scenarioId: number;
   characterId: number;
-  isGameMaster: boolean;
-  turn: number;
-  skillValue?: number;
-  skillId?: number;
-  moveId?: Moves;
   action?: {
-    move: Move;
+    move: MoveIntent;
   };
-  dices?: Array<Dice>;
 };
 
 type UpdatePostDto = {
@@ -47,46 +36,4 @@ type UpdatePostDto = {
   content: string;
 };
 
-export enum Moves {
-  FAIRE_FACE_AU_DANGER = 'FAIRE_FACE_AU_DANGER',
-  PRENDRE_UN_AVANTAGE = 'PRENDRE_UN_AVANTAGE',
-  RECOLTER_DES_INFORMATIONS = 'RECOLTER_DES_INFORMATIONS',
-  PRODIGUER_DES_SOINS = 'PRODIGUER_DES_SOINS',
-  RAVITAILLER = 'RAVITAILLER',
-  MARCHANDER = 'MARCHANDER',
-  CONTRAINDRE = 'CONTRAINDRE',
-  PAYER_LE_PRIX = 'PAYER_LE_PRIX',
-}
-
-type Move = {
-  id: Moves;
-  meta: MoveMeta;
-};
-
-type MoveMeta = {
-  danger?: Stat | number;
-  attribute: string;
-  hasMomentumBurn: boolean;
-  targetId?: number;
-  actionBonus?: MoveBonus[];
-};
-
-type MoveBonus = {
-  label: string;
-  value: number;
-};
-
-enum Stat {
-  MOMENTUM = 'Ferveur',
-  HEALTH = 'Santé',
-  SPIRIT = 'Esprit',
-  SUPPLIES = 'Provisions',
-}
-
-enum MoveResult {
-  SUCCESS = 'SUCCESS',
-  MIXED = 'MIXED',
-  FAILURE = 'FAILURE',
-}
-
-export { CreatePostDto, Dice, Move, MoveBonus, MoveMeta, MoveResult, Post, Stat, UpdatePostDto };
+export { Asset, CreatePostDto, Dice, Post, UpdatePostDto };

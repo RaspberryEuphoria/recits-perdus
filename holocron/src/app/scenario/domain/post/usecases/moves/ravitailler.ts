@@ -1,90 +1,43 @@
-import { CharacterRepository } from '../../../../infrastructure/character-sql.repository';
-import {
-  PostRepository,
-  PostWithCharacterSkills,
-} from '../../../../infrastructure/post-sql.repository';
-import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
-import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
-import { Move, MoveResult, Moves, Post } from '../../entities/post';
-import { useMove } from '.';
-import { ActionMoveProps, prepareActionMove } from './prepareActionMove';
+import { MoveResult } from '@prisma/client';
 
-const moveId = Moves.RAVITAILLER;
+import { MoveId } from '../../entities/move';
+import { ActionMove } from './actionMove';
 
-export function ravitailler(
-  scenarioRepository: ScenarioRepository,
-  postRepository: PostRepository,
-  characterRepository: CharacterRepository,
-  skillRepository: SkillRepository,
-) {
-  return async (move: Move, post: PostWithCharacterSkills): Promise<Post> => {
-    const actionMove = await prepareActionMove(characterRepository, skillRepository)(move, post);
+export class RavitaillerMove extends ActionMove {
+  moveId = MoveId.RAVITAILLER;
 
-    const { moveResult, meta } = actionMove;
+  async roll() {
+    const roll = await super.roll();
 
-    if (moveResult === MoveResult.SUCCESS) {
-      return onSuccess(actionMove);
+    switch (roll.moveResult) {
+      case MoveResult.SUCCESS:
+        this.onSuccess();
+        break;
+      case MoveResult.MIXED:
+        if (typeof roll.meta.danger !== 'number') {
+          throw new Error(`Move ${this.moveId} requires a number value as a danger!`);
+        }
+
+        this.onMixed(roll.meta.danger);
+        break;
+      case MoveResult.FAILURE:
+        this.onFailure();
+        break;
     }
 
-    if (moveResult === MoveResult.MIXED) {
-      if (!meta.danger) {
-        throw new Error(`Move ${move.id} requires a danger!`);
-      }
-
-      if (typeof meta.danger !== 'number') {
-        throw new Error(`Move ${move.id} requires a number value as a danger!`);
-      }
-
-      return onMixed(actionMove, meta.danger);
-    }
-
-    if (moveResult === MoveResult.FAILURE) {
-      return onFailure(actionMove);
-    }
-
-    throw new Error(`Invalid move result: ${moveResult}`);
-  };
-
-  async function onSuccess(move: ActionMoveProps) {
-    await scenarioRepository.addSupplies(move.scenarioId, 2);
-
-    return postRepository.addMove({
-      ...move,
-      moveId,
-      isResolved: true,
-    });
+    return roll;
   }
 
-  async function onMixed(move: ActionMoveProps, danger: number) {
-    const { characterId, scenarioId } = move;
-
-    await scenarioRepository.addSupplies(scenarioId, danger);
-    await characterRepository.removeMomentum(characterId, scenarioId, danger);
-
-    return postRepository.addMove({
-      ...move,
-      moveId,
-      isResolved: false,
-    });
+  private onSuccess() {
+    this.groupStatsChange.supplies += 2;
   }
 
-  async function onFailure(move: ActionMoveProps) {
-    await postRepository.addMove({
-      ...move,
-      moveId,
-      isResolved: true,
-    });
+  private onMixed(danger: number) {
+    this.groupStatsChange.supplies += danger;
+    this.selfStatsChange.momentum -= danger;
+  }
 
-    const payThePriceMove = {
-      id: Moves.PAYER_LE_PRIX,
-      meta: { attribute: '', origin: 'previous_move', hasMomentumBurn: false },
-    };
-
-    return useMove(
-      scenarioRepository,
-      postRepository,
-      characterRepository,
-      skillRepository,
-    )(payThePriceMove, move.postId);
+  private onFailure() {
+    this.mustPayThePrice = true;
   }
 }

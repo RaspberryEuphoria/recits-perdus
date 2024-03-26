@@ -1,6 +1,7 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { MoveResult, Prisma, PrismaClient } from '@prisma/client';
 
-import { CreatePostDto, Dice, MoveMeta, MoveResult } from '../domain/post/entities/post';
+import { MoveMeta } from '../domain/post/entities/move';
+import { CreatePostDto, Dice } from '../domain/post/entities/post';
 
 export type PostWithCharacterSkills = Prisma.PostGetPayload<{
   include: {
@@ -23,6 +24,17 @@ export type PostWithMoves = Prisma.PostGetPayload<{
   };
 }>;
 
+export type CreateMoveDto = {
+  postId: number;
+  skillId?: number;
+  skillValue?: number;
+  moveId: string;
+  moveResult: MoveResult;
+  isResolved: boolean;
+  dices: Dice[];
+  meta: MoveMeta;
+};
+
 export class PostRepository {
   private db: PrismaClient;
 
@@ -32,10 +44,10 @@ export class PostRepository {
 
   async create(postDto: CreatePostDto) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { dices, ...post } = postDto;
+    const { ...post } = postDto;
 
     const newPost = await this.db.post.create({
-      data: post,
+      data: { ...post, turn: 0, isGameMaster: false },
       include: {
         character: true,
       },
@@ -143,17 +155,8 @@ export class PostRepository {
     skillValue,
     dices,
     meta,
-  }: {
-    postId: number;
-    skillId?: number;
-    skillValue?: number;
-    moveId: string;
-    moveResult: MoveResult;
-    isResolved: boolean;
-    dices: Dice[];
-    meta: MoveMeta;
-  }) {
-    return this.db.post.update({
+  }: CreateMoveDto): Promise<PostWithCharacterSkills> {
+    return await this.db.post.update({
       where: {
         id: postId,
       },
@@ -164,7 +167,11 @@ export class PostRepository {
             skill: true,
           },
         },
-        character: true,
+        character: {
+          include: {
+            skills: true,
+          },
+        },
       },
       data: {
         moves: {

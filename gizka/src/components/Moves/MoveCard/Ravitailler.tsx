@@ -5,6 +5,7 @@ import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Prompt } from '@/components/DesignSystem/Prompt';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
+import { SkillId } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
@@ -14,7 +15,7 @@ export function Ravitailler({ id, onPick, onClose, children }: MoveCardProps) {
   const [danger, setDanger] = useState(0);
 
   useEffect(() => {
-    onPick({ id, meta: { attribute: 'Intuition', danger, isValid: danger > 0 } });
+    onPick({ id, meta: { skillId: SkillId.INTUITION, danger, isValid: danger > 0 } });
 
     return () => {
       onPick(null);

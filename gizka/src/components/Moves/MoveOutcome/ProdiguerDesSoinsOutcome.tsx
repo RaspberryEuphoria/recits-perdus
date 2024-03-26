@@ -78,12 +78,7 @@ const Outcome = (props: ProdiguerDesoinsOutcomeProps) => {
     case MoveResult.SUCCESS:
       return <Success {...props} />;
     case MoveResult.MIXED:
-      return (
-        <>
-          <Success {...props} />
-          <Mixed {...props} />
-        </>
-      );
+      return <Mixed {...props} />;
     case MoveResult.FAILURE:
       return <Failure {...props} />;
     default:
@@ -91,53 +86,44 @@ const Outcome = (props: ProdiguerDesoinsOutcomeProps) => {
   }
 };
 
-function Success({ character, selfHealing, move, isTargetPlayer }: ProdiguerDesoinsOutcomeProps) {
+function Success({ move, isTargetPlayer }: ProdiguerDesoinsOutcomeProps) {
   const t = useTranslations('moves');
-  const healingWording = selfHealing ? t(`${move.moveId}.name-self`) : t(`${move.moveId}.name`);
-
-  const healthGain = isTargetPlayer ? (
-    <>
-      {' '}
-      (<Keyword stat="health">+2</Keyword> {t('stats.health')})
-    </>
-  ) : (
-    ''
-  );
 
   return (
     <p>
-      {t('outcomes.demonstrating')} {t(`skills.${move.skill.name}.partitif`)}
-      {move.skill.name.toLowerCase()},{' '}
-      <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.achieves')} {healingWording.toLocaleLowerCase()}
-      {healthGain}.
+      {t(`${move.moveId}.outcomes.success`)}{' '}
+      {isTargetPlayer && (
+        <>
+          (<Keyword stat="health">+2</Keyword> {t('stats.health')})
+        </>
+      )}
     </p>
   );
 }
 
-function Mixed({ move }: ProdiguerDesoinsOutcomeProps) {
+function Mixed({ move, isTargetPlayer }: ProdiguerDesoinsOutcomeProps) {
   const meta = JSON.parse(move.meta);
   const stat = meta.danger.toLowerCase();
   const t = useTranslations('moves');
 
   return (
     <p>
-      {t(`${move.moveId}.outcomes.complications`)} (<Keyword stat={statFrToEn(stat)}>-1</Keyword>{' '}
-      {stat}).
+      {t(`${move.moveId}.outcomes.mixed`)} (<Keyword stat={statFrToEn(stat)}>-1</Keyword> {stat}
+      {isTargetPlayer && (
+        <>
+          {' '}
+          , <Keyword stat="health">+2</Keyword> {t('stats.health')}
+        </>
+      )}
+      )
     </p>
   );
 }
 
-function Failure({ character, move }: ProdiguerDesoinsOutcomeProps) {
+function Failure({ move }: MoveOutcomeProps) {
   const t = useTranslations('moves');
 
-  return (
-    <p>
-      {t(`outcomes.regardless-of`)},{' '}
-      <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.fails-to')} {t(`${move.moveId}.name`).toLocaleLowerCase()}.
-    </p>
-  );
+  return <p>{t(`${move.moveId}.outcomes.failure`)} </p>;
 }
 
 function getTarget(targetId: number, characterId: number, characters: Record<string, Character>) {

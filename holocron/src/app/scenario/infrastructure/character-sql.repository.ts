@@ -85,12 +85,7 @@ export class CharacterRepository {
     return this.changeStat(characterId, scenarioId, stat, -value);
   }
 
-  private async changeStat(
-    characterId: number,
-    scenarioId: number,
-    stat: CharacterStat,
-    value: number,
-  ) {
+  async changeStat(characterId: number, scenarioId: number, stat: CharacterStat, value: number) {
     const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
       where: {
         characterId,

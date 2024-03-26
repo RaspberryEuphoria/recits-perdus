@@ -1,6 +1,8 @@
+import { useTranslations } from 'next-intl';
+
 import { Keyword } from '@/components/DesignSystem/Keyword';
 import { ChallengeDie } from '@/components/Moves/ChallengeDie';
-import { movesNames, skillWordings } from '@/utils/scenario/helpers';
+import { movesNames } from '@/utils/scenario/helpers';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
 import { MoveOutcomeProps } from '.';
@@ -61,36 +63,37 @@ export function PrendreUnAvantageOutcome(props: MoveOutcomeProps) {
   );
 }
 
-function Success({ character, move }: MoveOutcomeProps) {
+function Success({ move, character }: MoveOutcomeProps) {
+  const t = useTranslations('moves');
+
   return (
     <p>
-      Par la force de {skillWordings[move.skill.name].possessif}
-      {move.skill.name.toLowerCase()}{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      prend un avantage décisif, susceptible de renverser la situation en sa faveur (
-      <Keyword stat="momentum">+2</Keyword> ferveur).
+      {t(`${move.moveId}.outcomes.success`)} (<Keyword stat="momentum">+2</Keyword>{' '}
+      {t('stats.momentum')})
     </p>
   );
 }
 
-function Mixed({ character, move }: MoveOutcomeProps) {
+function Mixed({ move, character }: MoveOutcomeProps) {
+  const t = useTranslations('moves');
+
   return (
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      et {skillWordings[move.skill.name].possessif}
-      {move.skill.name.toLowerCase()} prennent un léger avantage sur la situation (
-      <Keyword stat={'momentum'}>+1</Keyword> ferveur).
+      {t(`${move.moveId}.outcomes.mixed`)} (<Keyword stat="momentum">+1</Keyword>{' '}
+      {t('stats.momentum')})
     </p>
   );
 }
 
-function Failure({ character, move }: MoveOutcomeProps) {
+function Failure({ character }: MoveOutcomeProps) {
+  const t = useTranslations('moves');
+
   return (
     <p>
-      <span style={{ textTransform: 'capitalize' }}>{skillWordings[move.skill.name].defini}</span>
-      {move.skill.name.toLowerCase()} de{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      ne suffit pas à prendre l&apos;ascendant, et la situation dégénère !
+      {t('outcomes.failure-aftermath')}
     </p>
   );
 }

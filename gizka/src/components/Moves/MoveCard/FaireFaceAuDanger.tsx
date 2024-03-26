@@ -8,7 +8,7 @@ import MomentumIcon from '@/public/images/icons/momentum.svg';
 import SpiritIcon from '@/public/images/icons/spirit.svg';
 import SuppliesIcon from '@/public/images/icons/supplies.svg';
 import UnkownDieIcon from '@/public/images/icons/unkown_die.svg';
-import { Skill, Stat } from '@/utils/types/scenario';
+import { SkillId, Stat } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
@@ -16,17 +16,17 @@ import * as Styled from './styled';
 const title = 'Faire Face au Danger';
 
 export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardProps) {
-  const [attribute, setAttribute] = useState<Skill | undefined>();
+  const [skillId, setSkillId] = useState<SkillId | undefined>();
   const [danger, setDanger] = useState<Stat | undefined>();
 
   useEffect(() => {
-    onPick({ id, meta: { attribute, danger, isValid: Boolean(danger && attribute) } });
+    onPick({ id, meta: { skillId, danger, isValid: Boolean(danger && skillId) } });
 
     return () => {
       onPick(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attribute, danger, id]);
+  }, [skillId, danger, id]);
 
   return (
     <Styled.MoveCard>
@@ -61,8 +61,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec rapidité, agilité ou précision :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.FINESSE)}
-              isSelected={attribute === Skill.FINESSE}
+              onClick={() => setSkillId(SkillId.FINESSE)}
+              isSelected={skillId === SkillId.FINESSE}
             >
               +finesse <D6Icon />
             </Styled.ClickToRoll>
@@ -70,8 +70,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec charme, loyauté ou courage :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.DETERMINATION)}
-              isSelected={attribute === Skill.DETERMINATION}
+              onClick={() => setSkillId(SkillId.DETERMINATION)}
+              isSelected={skillId === SkillId.DETERMINATION}
             >
               +determination <D6Icon />
             </Styled.ClickToRoll>
@@ -79,8 +79,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec aggressivité, force ou endurance :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.TENACITE)}
-              isSelected={attribute === Skill.TENACITE}
+              onClick={() => setSkillId(SkillId.TENACITE)}
+              isSelected={skillId === SkillId.TENACITE}
             >
               +tenacite <D6Icon />
             </Styled.ClickToRoll>
@@ -88,8 +88,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec tromperie, furtivité ou ruse :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.SUBTERFUGE)}
-              isSelected={attribute === Skill.SUBTERFUGE}
+              onClick={() => setSkillId(SkillId.SUBTERFUGE)}
+              isSelected={skillId === SkillId.SUBTERFUGE}
             >
               +subterfuge <D6Icon />
             </Styled.ClickToRoll>
@@ -97,8 +97,8 @@ export function FaireFaceAuDanger({ id, onPick, onClose, children }: MoveCardPro
           <li>
             Avec expertise, perspicacité ou perception :{' '}
             <Styled.ClickToRoll
-              onClick={() => setAttribute(Skill.INTUITION)}
-              isSelected={attribute === Skill.INTUITION}
+              onClick={() => setSkillId(SkillId.INTUITION)}
+              isSelected={skillId === SkillId.INTUITION}
             >
               +intuition <D6Icon />
             </Styled.ClickToRoll>
