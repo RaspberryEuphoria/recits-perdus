@@ -175,7 +175,9 @@ export abstract class ActionMove {
     await this.updateCharacterStat(this.characterOnScenario.characterId, this.selfStatsChange);
 
     if (this.targetStatsChange.id) {
-      await this.updateCharacterStat(this.targetStatsChange.id, this.targetStatsChange);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id: _, ...stats } = this.targetStatsChange;
+      await this.updateCharacterStat(this.targetStatsChange.id, stats);
     }
 
     if (this.groupStatsChange.supplies != 0) {
