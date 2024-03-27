@@ -9,7 +9,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
+        protocol: process.env.NEXT_PUBLIC_PROTOCOL,
         hostname: '**',
       },
     ],

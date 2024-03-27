@@ -45,7 +45,7 @@ const links = [
   },
   {
     label: 'Discord',
-    href: 'https://discord.gg/TmpaGgfB',
+    href: 'https://discord.gg/c8gymWbtQY',
     isDisabled: false,
     isBlank: true,
   },

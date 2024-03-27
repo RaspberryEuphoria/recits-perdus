@@ -33,7 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
     path: '/api/socket',
     addTrailingSlash: false,
     cors: {
-      origin: `http://${process.env.NEXT_PUBLIC_BFF_PREFIX_HOSTNAME}`,
+      origin: `${process.env.NEXT_PUBLIC_PROTOCOL}://${process.env.NEXT_PUBLIC_BFF_PREFIX_HOSTNAME}`,
       methods: ['GET', 'POST', 'OPTIONS'],
       credentials: true,
     },
