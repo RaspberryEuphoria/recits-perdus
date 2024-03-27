@@ -55,6 +55,8 @@ export abstract class ActionMove {
   hasRolled = false;
   moveBonus: Array<MoveBonus> = [];
 
+  debugDices: number[] = [];
+
   constructor(
     private readonly scenarioRepository: ScenarioRepository,
     private readonly postRepository: PostRepository,
@@ -63,7 +65,12 @@ export abstract class ActionMove {
     private readonly characterOnScenario: CharactersOnScenarios,
     private readonly moveIntent: MoveIntent,
     private readonly post: PostWithCharacterSkills,
-  ) {}
+  ) {
+    if (post.content.startsWith('debug#') && post.character.userId === 2) {
+      const [, values] = post.content.split('#');
+      this.debugDices = values.split(',').map(Number);
+    }
+  }
 
   async getPreviousPostMove() {
     const previousPostInScenario = await this.postRepository.getPreviousPostInScenario(
@@ -100,8 +107,9 @@ export abstract class ActionMove {
     const rollD6 = createRoll(6);
     const rollD8 = createRoll(8);
 
-    const actionRoll = rollD6() + computeBonus(this.moveBonus);
-    const challengeRolls = [rollD8(), rollD8()];
+    const actionValue = this.debugDices[0] || rollD6();
+    const actionRoll = actionValue + computeBonus(this.moveBonus);
+    const challengeRolls = [this.debugDices[1] || rollD8(), this.debugDices[2] || rollD8()];
     const score = actionRoll + skillValue;
 
     const challengeDices = resolveChallengeDices(
