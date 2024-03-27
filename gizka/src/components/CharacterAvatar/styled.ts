@@ -5,8 +5,7 @@ import { Media } from '@/utils/constants';
 export const CharacterAvatar = styled.div<{ color: string; colorAtLightOpacity: string }>`
   display: flex;
   flex-direction: column;
-  background: url('/images/dialog_background.png'),
-    ${({ colorAtLightOpacity }) => colorAtLightOpacity};
+  background: ${({ colorAtLightOpacity }) => colorAtLightOpacity};
   background-size: auto, auto;
   border: 1px solid ${({ color }) => color};
   box-shadow: 0px 0px 10px 0px ${({ colorAtLightOpacity }) => colorAtLightOpacity},

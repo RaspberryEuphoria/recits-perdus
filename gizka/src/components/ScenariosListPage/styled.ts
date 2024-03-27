@@ -18,7 +18,6 @@ export const Scenario = styled(Link)<{ background: string }>`
   flex: 0 0 30%;
   padding: 1rem;
   background-image: url('/images/scenarios/thumbnails/${(props) => props.background}.png'),
-    url('/images/dialog_background.png'),
     linear-gradient(43deg, var(--flashy-02) 0%, var(--flashy-08) 46%, var(--flashy-05) 100%);
   background-size: cover, auto, auto, auto;
   box-shadow: 0px 0px 10px 0px var(--flashy-05), inset 0px 0px 10px 0px var(--flashy-05);
