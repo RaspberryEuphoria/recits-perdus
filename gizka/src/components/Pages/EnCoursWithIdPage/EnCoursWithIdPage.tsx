@@ -96,11 +96,12 @@ export function EnCoursWithIdPage({
   };
 
   const socketInitializer = async () => {
-    await httpBffClient.get('/socket');
+    await httpBffClient.get('/socket?EIO=4&transport=polling');
 
     socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
       path: '/api/socket',
       transports: ['polling'],
+      withCredentials: true,
     });
 
     socket.on('receive-new-move', async () => {

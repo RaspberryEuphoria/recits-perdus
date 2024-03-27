@@ -35,6 +35,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
     cors: {
       origin: `http://${process.env.NEXT_PUBLIC_BFF_PREFIX_HOSTNAME}`,
       methods: ['GET', 'POST', 'OPTIONS'],
+      credentials: true,
     },
     transports: ['polling'],
   });
