@@ -26,7 +26,13 @@ function StyledComponentsRegistry({ children }: { children: React.ReactNode }) {
     return <>{styles}</>;
   });
 
-  if (typeof window !== 'undefined') return <>{children}</>;
+  if (typeof window !== 'undefined') {
+    return (
+      <StyleSheetManager enableVendorPrefixes shouldForwardProp={shouldForwardProp}>
+        {children}
+      </StyleSheetManager>
+    );
+  }
 
   return (
     <StyleSheetManager
