@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { Keyword } from '@/components/DesignSystem/Keyword';
+import { SkillId } from '@/utils/types/scenario';
 
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
@@ -9,7 +10,7 @@ const title = 'Récolter Des Informations';
 
 export function RecolterDesInformations({ id, onPick, onClose, children }: MoveCardProps) {
   useEffect(() => {
-    onPick({ id, meta: { attribute: 'Intuition', isValid: true } });
+    onPick({ id, meta: { skillId: SkillId.INTUITION, isValid: true } });
 
     return () => {
       onPick(null);
