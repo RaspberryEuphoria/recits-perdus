@@ -13,7 +13,7 @@ import * as Styled from './styled';
 
 type CharacterSheetProps = {
   character: Character;
-  handleBackClick: () => void;
+  handleBackClick?: () => void;
 };
 
 export function CharacterSheet({ character, handleBackClick }: CharacterSheetProps) {
@@ -21,11 +21,13 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
 
   return (
     <Styled.CharacterSheet>
-      <Row>
-        <Styled.BackButton onClick={handleBackClick}>
-          <DownArrowIcon /> Retour
-        </Styled.BackButton>
-      </Row>
+      {handleBackClick && (
+        <Row>
+          <Styled.BackButton onClick={handleBackClick}>
+            <DownArrowIcon /> Retour
+          </Styled.BackButton>
+        </Row>
+      )}
       <Row>
         <Styled.Character>
           <CharacterAvatar character={character} />

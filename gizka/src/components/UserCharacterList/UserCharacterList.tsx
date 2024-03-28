@@ -1,9 +1,10 @@
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { CharacterAvatar } from '@/components/CharacterAvatar';
-import { CharacterSheet } from '@/components/CharacterSheet';
 import { Text } from '@/components/DesignSystem/Text';
+import { getSafeName } from '@/utils/character/helpers';
 import { Character, CharacterInActiveScenario } from '@/utils/types/character';
 import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
 
@@ -22,7 +23,7 @@ function hasActiveScenario(character: Character): character is CharacterInActive
 
 export function UserCharacterList({ characters }: UserCharacterListProps) {
   const t = useTranslations('characters');
-  const [character, setCharacter] = useState<Character | null>();
+  const router = useRouter();
   const charactersInActiveScenario = useMemo(
     () => characters.filter(hasActiveScenario),
     [characters],
@@ -33,40 +34,32 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
   );
 
   const selectCharacter = (character: Character) => {
-    setCharacter(character);
+    router.push(`/mes-personnages/${character.id}-${getSafeName(character)}`);
   };
-
-  const closeCharacterSheet = () => {
-    setCharacter(null);
-  };
-
-  if (character) {
-    return <CharacterSheet character={character} handleBackClick={closeCharacterSheet} />;
-  }
 
   return (
-    <>
-      <Styled.UserCharacterList>
-        {charactersInActiveScenario.length > 0 && (
-          <section>
-            <Text as="h1">{t('my-characters.sections.in-progress.title')}</Text>
-            <Styled.Row>
-              {charactersInActiveScenario.map((character) => (
-                <Styled.CharacterPreview key={character.id}>
-                  <CharacterAvatar
-                    character={character}
-                    handleClick={() => selectCharacter(character)}
-                  />
-                  <CharacterScenario scenario={character.characterScenario.scenario} />
-                </Styled.CharacterPreview>
-              ))}
-            </Styled.Row>
-          </section>
-        )}
+    <Styled.UserCharacterList>
+      {charactersInActiveScenario.length > 0 && (
+        <section>
+          <Text as="h1">{t('my-characters.sections.in-progress.title')}</Text>
+          <Styled.Row>
+            {charactersInActiveScenario.map((character) => (
+              <Styled.CharacterPreview key={character.id}>
+                <CharacterAvatar
+                  character={character}
+                  handleClick={() => selectCharacter(character)}
+                />
+                <CharacterScenario scenario={character.characterScenario.scenario} />
+              </Styled.CharacterPreview>
+            ))}
+          </Styled.Row>
+        </section>
+      )}
 
-        {charactersNotInActiveScenario.length > 0 && (
-          <section>
-            <Text as="h1">{t('my-characters.sections.reserve.title')}</Text>
+      {charactersNotInActiveScenario.length > 0 && (
+        <section>
+          <Text as="h1">{t('my-characters.sections.reserve.title')}</Text>
+          <Styled.Row>
             {charactersNotInActiveScenario.map((character) => (
               <Styled.CharacterPreview key={character.id}>
                 <CharacterAvatar
@@ -75,10 +68,10 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
                 />
               </Styled.CharacterPreview>
             ))}
-          </section>
-        )}
-      </Styled.UserCharacterList>
-    </>
+          </Styled.Row>
+        </section>
+      )}
+    </Styled.UserCharacterList>
   );
 }
 

@@ -24,7 +24,7 @@ export function CharacterAvatar({
     >
       <Image
         src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${avatar}`}
-        alt="[Avatar manquant]"
+        alt="Avatar"
         width={200}
         height={230}
         quality={100}
