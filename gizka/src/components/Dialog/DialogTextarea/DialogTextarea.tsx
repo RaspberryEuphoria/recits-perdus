@@ -158,7 +158,7 @@ export function DialogTextarea({
   const moves = renderMoves(onMovePicked, onBurnCheck);
 
   const socketInitializer = async () => {
-    await httpBffClient.get('/socket?EIO=4&transport=polling');
+    await httpBffClient.get('/init-socket');
 
     socket = io(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}`, {
       path: '/api/socket',

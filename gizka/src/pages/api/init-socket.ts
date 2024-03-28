@@ -26,8 +26,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponseServerI
     return res.status(200).json({});
   }
 
-  logger.info('Initializing socket');
-
   const httpServer: HttpServer = res.socket.server as unknown as HttpServer;
   const io = new ServerIO(httpServer, {
     path: '/api/socket',
