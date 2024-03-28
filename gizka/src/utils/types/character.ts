@@ -4,7 +4,7 @@ export type Character = {
   id: number;
   firstName: string;
   lastName: string;
-  birthdate: Date;
+  age: number;
   story: string;
   userId: number;
   textColor: string;

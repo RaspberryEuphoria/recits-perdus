@@ -69,7 +69,7 @@ async function main() {
         return {
           firstName,
           lastName: lastName.join(' '),
-          birthdate: 0,
+          age: 0,
           story: '',
           avatar: `avatar-${firstName}.jpg`,
           skills: {
