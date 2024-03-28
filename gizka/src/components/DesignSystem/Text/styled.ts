@@ -5,6 +5,8 @@ import { TextSize } from './Text';
 export const Text = styled.p<{ size: TextSize }>`
   font-size: ${({ size }) => {
     switch (size) {
+      case 'xs':
+        return '0.8rem';
       case 'sm':
         return '1rem';
       case 'md':
@@ -18,6 +20,8 @@ export const Text = styled.p<{ size: TextSize }>`
 
   line-height: ${({ size }) => {
     switch (size) {
+      case 'xs':
+        return '1.2rem';
       case 'sm':
         return '1.5rem';
       case 'md':

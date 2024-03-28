@@ -25,3 +25,10 @@ export function getFullName(character: Character, withColor?: boolean) {
     ? `<strong style="color: ${character.textColor}">${character.firstName} ${character.lastName}</strong>`
     : `${character.firstName} ${character.lastName}`;
 }
+
+export function getSafeName(character: Character) {
+  return `${character.firstName}-${character.lastName}`
+    .toLowerCase()
+    .replace(/\s/g, '-')
+    .replace(/[^-a-zA-Z0-9]/g, '');
+}

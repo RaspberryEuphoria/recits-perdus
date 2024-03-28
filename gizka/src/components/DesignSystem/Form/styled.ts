@@ -18,6 +18,7 @@ export const FormRow = styled.div<{ marginY?: number }>`
 `;
 
 export const Label = styled.label`
+  color: var(--flashy-alt);
   display: block;
   width: 100%;
   font-weight: bold;
@@ -26,11 +27,18 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  background: var(--dark);
+  border: 1px solid var(--light);
+  border-radius: var(--rounded);
+  color: var(--light);
   display: block;
   width: 100%;
   height: 2.8rem;
   padding: 0.5rem;
-  border-radius: 0;
-  border: none;
   font-size: 1.4rem;
+
+  &:focus {
+    outline: none;
+    border-color: var(--flashy);
+  }
 `;

@@ -1,9 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useContext } from 'react';
 
-import { Text } from '@/components/DesignSystem/Text';
+import { CharacterEditor } from '@/components/CharacterEditor';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { LoginOrRegister } from '@/components/LoginOrRegister';
 import { UserCharacterList } from '@/components/UserCharacterList';
@@ -12,8 +13,13 @@ import { useCharactersByUser } from '@/hooks/useCharacters';
 
 export function MesPersonnagesPage() {
   const t = useTranslations('characters');
+  const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const { characters } = useCharactersByUser(currentUser?.id);
+
+  const onCharacterSaved = (characterId: number, safeName: string) => {
+    router.push(`/mes-personnages/${characterId}-${safeName}`);
+  };
 
   if (!currentUser) {
     return (
@@ -44,9 +50,7 @@ export function MesPersonnagesPage() {
         <UserCharacterList characters={characters} />
       </LayoutMainSection>
       <LayoutAsideSection>
-        <Text as="h1">
-          {t('my-characters.sections.create.title')} (<em>en construction</em>)
-        </Text>
+        <CharacterEditor onCharacterSaved={onCharacterSaved} />
       </LayoutAsideSection>
     </>
   );

@@ -5,6 +5,7 @@ export const Button = styled.button<{ width?: string; outline?: boolean }>`
   padding: var(--space-05) var(--space-2);
   background: var(--flashy);
   border: 2px solid;
+  border-radius: var(--rounded);
   border-color: transparent;
   outline: none;
   text-transform: uppercase;

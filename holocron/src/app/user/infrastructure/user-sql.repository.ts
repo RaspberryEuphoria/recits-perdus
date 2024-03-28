@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 import { TextColor } from '../../../constants';
 import { AuthService } from '../../../services/AuthService';
+import { CreateCharacterDTO } from '../../scenario/domain/character/entities/character';
 import { CreateUserDto, User } from '../domain/user/entities/user';
 
 type FullCharacter = Prisma.CharacterGetPayload<{
@@ -11,7 +12,7 @@ type FullCharacter = Prisma.CharacterGetPayload<{
     firstName: true;
     lastName: true;
     story: true;
-    birthdate: true;
+    age: true;
     avatar: true;
     scenario: {
       include: {
@@ -95,6 +96,60 @@ export class UserRepository {
     });
 
     return characters.map(mapCharacters);
+  }
+
+  async getCharacter(characterId: number) {
+    const character = await this.db.character.findUnique({
+      where: { id: characterId },
+      include: {
+        scenario: {
+          include: {
+            scenario: {
+              select: {
+                id: true,
+                safeTitle: true,
+                title: true,
+                status: true,
+              },
+            },
+          },
+        },
+        skills: {
+          include: {
+            skill: true,
+          },
+        },
+      },
+    });
+
+    if (!character) {
+      throw new Error(`Character ${characterId} not found`);
+    }
+
+    return mapCharacters(character);
+  }
+
+  async createCharacter(createCharacterDto: CreateCharacterDTO) {
+    const { skills, ...characterDto } = createCharacterDto;
+
+    const skillsDto = skills.map((skillId, index) => {
+      if (index === 0) return { skillId, level: 3 };
+      if (index < 3) return { skillId, level: 2 };
+      return { skillId, level: 1 };
+    });
+
+    const character = await this.db.character.create({
+      data: {
+        ...characterDto,
+        skills: {
+          createMany: {
+            data: skillsDto,
+          },
+        },
+      },
+    });
+
+    return character;
   }
 }
 

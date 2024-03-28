@@ -1,6 +1,6 @@
 import * as Styled from './styled';
 
-export type TextSize = 'sm' | 'md' | 'lg' | 'xl';
+export type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type TextProps = {
   size?: TextSize;

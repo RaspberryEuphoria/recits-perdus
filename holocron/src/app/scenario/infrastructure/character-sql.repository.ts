@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
 import { STATS_LIMITS } from '../../../rules';
-import { CreateCharacterDTO } from '../domain/character/entities/character';
+import { UpdateCharacterDto } from '../domain/character/entities/character';
 
 export enum CharacterStat {
   MOMENTUM = 'momentum',
@@ -25,7 +25,7 @@ export class CharacterRepository {
     });
   }
 
-  async update(id: number, character: Partial<CreateCharacterDTO>) {
+  async update(id: number, character: Partial<UpdateCharacterDto>) {
     return this.db.character.update({
       where: {
         id,

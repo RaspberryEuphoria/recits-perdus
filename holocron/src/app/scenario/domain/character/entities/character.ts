@@ -1,10 +1,13 @@
 type CreateCharacterDTO = {
   story: string;
   userId: number;
-  birthdate: number;
+  age: number;
   avatar: string;
   firstName: string;
   lastName: string;
+  skills: number[];
 };
 
-export { CreateCharacterDTO };
+type UpdateCharacterDto = Omit<CreateCharacterDTO, 'skills'>;
+
+export { CreateCharacterDTO, UpdateCharacterDto };
