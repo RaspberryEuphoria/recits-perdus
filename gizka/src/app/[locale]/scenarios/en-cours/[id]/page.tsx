@@ -1,8 +1,6 @@
 export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
-import Head from 'next/head';
-import { getTranslations } from 'next-intl/server';
 
 import { EnCoursWithIdPage } from '@/components/Pages/EnCoursWithIdPage';
 import { httpBffClient, isHttpError } from '@/services/http-client';
@@ -32,8 +30,6 @@ export async function generateMetadata({
 }
 
 export default async function EnCoursWithId({ params: { id } }: { params: { id: string } }) {
-  const t = await getTranslations('scenarios');
-
   if (!id) {
     throw new Error('No id provided');
   }
@@ -54,29 +50,15 @@ export default async function EnCoursWithId({ params: { id } }: { params: { id: 
   const characters = mapScenarioCharacters(scenario.characters);
 
   return (
-    <>
-      <Head>
-        <title>
-          {title} - {t('title')}
-        </title>
-        <meta
-          name="description"
-          content={`
-          Star Wars - ${t('title')} : ${title}.
-          ${introduction}
-        `}
-        />
-      </Head>
-      <EnCoursWithIdPage
-        id={id}
-        introduction={introduction}
-        title={title}
-        posts={posts}
-        nextPoster={nextPoster}
-        characters={characters}
-        supplies={supplies}
-      />
-    </>
+    <EnCoursWithIdPage
+      id={id}
+      introduction={introduction}
+      title={title}
+      posts={posts}
+      nextPoster={nextPoster}
+      characters={characters}
+      supplies={supplies}
+    />
   );
 }
 
