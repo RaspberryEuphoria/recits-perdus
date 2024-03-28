@@ -8,19 +8,36 @@ class HttpClient {
   constructor(private baseUrl: string) {}
 
   public async request<T>(url: string, options: RequestInit): Promise<T | HttpError> {
+    let res;
+
     try {
-      const res = await fetch(`${this.baseUrl}${url}`, {
+      res = await fetch(`${this.baseUrl}${url}`, {
         ...options,
         cache: 'no-store',
       });
-      const data = await res.json();
-      return data;
     } catch (err: any) {
       return {
         status: err.status || 500,
         message: err.message,
       };
     }
+
+    if (res.status === 404) {
+      return {
+        status: res.status,
+        message: `Page not found (${this.baseUrl}${url})`,
+      };
+    }
+
+    if (isHttpError(res)) {
+      return {
+        status: res.status,
+        message: `Internal server error: ${res.status}, ${res.message}`,
+      };
+    }
+
+    const data = await res.json();
+    return data;
   }
 
   public async get<T>(url: string): Promise<T | HttpError> {
