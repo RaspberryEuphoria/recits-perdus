@@ -1,5 +1,6 @@
 {
   "characters": {
+    "title": "Les Récits Perdus",
     "my-characters": {
       "title": "Mes personnages - Les Récits Perdus",
       "description": "Bloblo",
@@ -18,6 +19,30 @@
           "title": "Créer un nouveau personnage"
         }
       }
+    },
+    "character-sheet": {
+      "title": "Fiche de personnage"
+    },
+    "forms": {
+      "labels": {
+        "firstname": "Prénom",
+        "lastname": "Nom",
+        "age": "Âge",
+        "skills": "Attributs",
+        "select-skill": "Sélectionner"
+      }
+    },
+    "skills": {
+      "edge": "Finesse",
+      "heart": "Détermination",
+      "iron": "Témérité",
+      "shadow": "Subterfuge",
+      "wits": "Intuition",
+      "edge-description": "Rapidité, agilité, et capacité en combat à distance",
+      "heart-description": "Courage, volonté, empathie, sociabilité et loyauté",
+      "iron-description": "Force physique, endurance, agressivité, et capacité en combat au corps à corps",
+      "shadow-description": "Sournoiserie, tromperie et ruse",
+      "wits-description": "Expertise, connaissances, et perception"
     }
   }
 }
