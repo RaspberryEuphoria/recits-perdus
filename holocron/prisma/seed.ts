@@ -71,6 +71,8 @@ async function main() {
           lastName: lastName.join(' '),
           age: 0,
           story: '',
+          origin: '',
+          title: '',
           avatar: `avatar-${firstName}.jpg`,
           skills: {
             create: characterSkills,
