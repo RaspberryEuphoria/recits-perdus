@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
@@ -23,7 +23,6 @@ function hasActiveScenario(character: Character): character is CharacterInActive
 
 export function UserCharacterList({ characters }: UserCharacterListProps) {
   const t = useTranslations('characters');
-  const router = useRouter();
   const charactersInActiveScenario = useMemo(
     () => characters.filter(hasActiveScenario),
     [characters],
@@ -33,10 +32,6 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
     [characters],
   );
 
-  const selectCharacter = (character: Character) => {
-    router.push(`/mes-personnages/${character.id}-${getSafeName(character)}`);
-  };
-
   return (
     <Styled.UserCharacterList>
       {charactersInActiveScenario.length > 0 && (
@@ -45,10 +40,9 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
           <Styled.Row>
             {charactersInActiveScenario.map((character) => (
               <Styled.CharacterPreview key={character.id}>
-                <CharacterAvatar
-                  character={character}
-                  handleClick={() => selectCharacter(character)}
-                />
+                <Link href={`/mes-personnages/${character.id}-${getSafeName(character)}`}>
+                  <CharacterAvatar character={character} />
+                </Link>
                 <CharacterScenario scenario={character.characterScenario.scenario} />
               </Styled.CharacterPreview>
             ))}
@@ -62,10 +56,9 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
           <Styled.Row>
             {charactersNotInActiveScenario.map((character) => (
               <Styled.CharacterPreview key={character.id}>
-                <CharacterAvatar
-                  character={character}
-                  handleClick={() => selectCharacter(character)}
-                />
+                <Link href={`/mes-personnages/${character.id}-${getSafeName(character)}`}>
+                  <CharacterAvatar character={character} />
+                </Link>
               </Styled.CharacterPreview>
             ))}
           </Styled.Row>
