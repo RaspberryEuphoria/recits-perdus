@@ -49,7 +49,7 @@ export function CharacterEditor({
   const inputs = useMemo(
     () => [
       {
-        name: 'firstname',
+        name: 'firstName',
         type: 'text' as const,
         label: t('forms.labels.firstname'),
       },
