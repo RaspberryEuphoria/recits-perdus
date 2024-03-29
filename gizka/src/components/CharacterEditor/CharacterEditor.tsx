@@ -51,16 +51,16 @@ export function CharacterEditor({
       {
         name: 'firstName',
         type: 'text' as const,
-        label: t('forms.labels.firstname'),
+        label: t('character-editor.form.labels.firstname'),
       },
       {
         name: 'lastName',
-        label: t('forms.labels.lastname'),
+        label: t('character-editor.form.labels.lastname'),
         type: 'text' as const,
       },
       {
         name: 'age',
-        label: t('forms.labels.age'),
+        label: t('character-editor.form.labels.age'),
         type: 'text' as const,
         onInput(event: React.FormEvent<HTMLInputElement>) {
           const target = event.target as HTMLInputElement;
@@ -147,19 +147,18 @@ export function CharacterEditor({
   );
 
   if (isLoading) {
-    return <Text>Création en cours...</Text>;
+    return <Text>{t('character-editor.form.loading')}</Text>;
   }
 
   return (
     <Styled.FormWrapper>
-      {}
       <Form onSubmit={createNewCharacter} inputs={inputs} submitButtonLabel="Nouveau personnage">
-        <Text as="h2">{t('forms.labels.skills')}</Text>
+        <Text as="h2">{t('character-editor.form.labels.skills')}</Text>
         <Styled.SkillsTable ref={skillsTableRef}>
           <Styled.Column>
-            <Styled.Cell>Exceptionnel (+3)</Styled.Cell>
-            <Styled.Cell>Avancé (+2)</Styled.Cell>
-            <Styled.Cell>Compétent (+1)</Styled.Cell>
+            <Styled.Cell>{t('character-editor.form.labels.superb')} (+3)</Styled.Cell>
+            <Styled.Cell>{t('character-editor.form.labels.great')} (+2)</Styled.Cell>
+            <Styled.Cell>{t('character-editor.form.labels.good')} (+1)</Styled.Cell>
           </Styled.Column>
           <Styled.Column>
             {[0, 1, 2].map((index) => (
@@ -174,7 +173,7 @@ export function CharacterEditor({
             ))}
           </Styled.Column>
           <Styled.Column>
-            <Styled.Cell isHidden>row 1</Styled.Cell>
+            <Styled.Cell isHidden>...</Styled.Cell>
             {[3, 4].map((index) => (
               <SkillCell
                 key={index}
@@ -188,8 +187,7 @@ export function CharacterEditor({
           </Styled.Column>
         </Styled.SkillsTable>
         <Styled.SkillHelp size="sm">
-          Les attributs sont utilisés lorsque votre personnage entreprend une action pénible,
-          dangereuse ou périlleuse.
+          {t('character-editor.form.labels.skills-help')}
         </Styled.SkillHelp>
       </Form>
     </Styled.FormWrapper>
@@ -221,7 +219,7 @@ function SkillCell({
         isFilled={Boolean(skill)}
         hasShowPickerOpen={showSkillPicker}
       >
-        {skill?.key ? t(`skills.${skill.key}`) : t('forms.labels.select-skill')}
+        {skill?.key ? t(`skills.${skill.key}`) : t('character-editor.form.labels.select-skill')}
       </Styled.Cell>
       {showSkillPicker && (
         <Styled.SkillPicker>
@@ -235,7 +233,9 @@ function SkillCell({
           ))}
           {skill !== null && (
             <Styled.SkillOption onClick={(e) => onSkillSelected(e, null)}>
-              <Styled.SkillLabel size="xs">Réinitialiser</Styled.SkillLabel>
+              <Styled.SkillLabel size="xs">
+                {t('character-editor.form.labels.reset')}
+              </Styled.SkillLabel>
             </Styled.SkillOption>
           )}
         </Styled.SkillPicker>

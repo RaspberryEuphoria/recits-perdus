@@ -23,13 +23,21 @@
     "character-sheet": {
       "title": "Fiche de personnage"
     },
-    "forms": {
-      "labels": {
-        "firstname": "Prénom",
-        "lastname": "Nom",
-        "age": "Âge",
-        "skills": "Attributs",
-        "select-skill": "Sélectionner"
+    "character-editor": {
+      "form": {
+        "loading": "Création en cours...",
+        "labels": {
+          "firstname": "Prénom",
+          "lastname": "Nom",
+          "age": "Âge",
+          "skills": "Attributs",
+          "select-skill": "Sélectionner",
+          "skills-help": "Les attributs sont utilisés lorsque votre personnage entreprend une action pénible, dangereuse ou périlleuse.",
+          "superb": "Exceptionnel",
+          "great": "Avancé",
+          "good": "Compétent",
+          "reset": "Réinitialiser"
+        }
       }
     },
     "skills": {
