@@ -2,7 +2,10 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 import { TextColor } from '../../../constants';
 import { AuthService } from '../../../services/AuthService';
-import { CreateCharacterDTO } from '../../scenario/domain/character/entities/character';
+import {
+  CreateCharacterDTO,
+  UpdateCharacterDto,
+} from '../../scenario/domain/character/entities/character';
 import { CreateUserDto, User } from '../domain/user/entities/user';
 
 type FullCharacter = Prisma.CharacterGetPayload<{
@@ -14,6 +17,9 @@ type FullCharacter = Prisma.CharacterGetPayload<{
     story: true;
     age: true;
     avatar: true;
+    title: true;
+    isTitleSuffix: true;
+    origin: true;
     scenario: {
       include: {
         scenario: {
@@ -150,6 +156,37 @@ export class UserRepository {
     });
 
     return character;
+  }
+
+  async updateCharacter(updateCharacterDto: UpdateCharacterDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { userId: _, ...characterDto } = updateCharacterDto;
+
+    const character = await this.db.character.update({
+      where: { id: updateCharacterDto.id },
+      data: characterDto,
+      include: {
+        scenario: {
+          include: {
+            scenario: {
+              select: {
+                id: true,
+                safeTitle: true,
+                title: true,
+                status: true,
+              },
+            },
+          },
+        },
+        skills: {
+          include: {
+            skill: true,
+          },
+        },
+      },
+    });
+
+    return mapCharacters(character);
   }
 }
 

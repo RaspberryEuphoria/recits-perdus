@@ -28,6 +28,7 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
           </Styled.BackButton>
         </Row>
       )}
+
       <Row>
         <Styled.Character>
           <CharacterAvatar character={character} />
@@ -60,29 +61,44 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
           <Styled.CharacterName color={character.textColor}>
             {character.firstName} {character.lastName}
           </Styled.CharacterName>
-          <Styled.Title color={character.textColor}>Attributs</Styled.Title>
 
-          <Styled.Skills>
+          <Styled.Title color={character.textColor}>Attributs</Styled.Title>
+          <Styled.List>
             {character.skills.map((skill) => (
-              <Styled.Skill key={skill.id} color={colorAtLightOpacity}>
+              <Styled.Item key={skill.id} color={colorAtLightOpacity}>
                 <strong>
                   {skill.name} (+{skill.level})
                 </strong>
                 <p>{skill.skill.description}</p>
-              </Styled.Skill>
+              </Styled.Item>
             ))}
-          </Styled.Skills>
+          </Styled.List>
+
+          <Styled.Title color={character.textColor}>Identité</Styled.Title>
+          <Styled.List>
+            <Styled.Item color={colorAtLightOpacity}>
+              <strong>Prénom : {character.firstName} </strong>
+            </Styled.Item>
+            <Styled.Item color={colorAtLightOpacity}>
+              <strong>Nom : {character.lastName} </strong>
+            </Styled.Item>
+            <Styled.Item color={colorAtLightOpacity}>
+              <strong>Âge : {character.age} ans</strong>
+            </Styled.Item>
+            <Styled.Item color={colorAtLightOpacity}>
+              <strong>Planète d&apos;origine : {character.age}</strong>
+            </Styled.Item>
+          </Styled.List>
         </Styled.CharacterData>
       </Row>
 
-      {character.story && (
-        <Row>
-          <Styled.Block color={character.textColor}>
-            <Styled.Title color={character.textColor}>Histoire</Styled.Title>
-            <Text size="md">{character.story}</Text>
-          </Styled.Block>
-        </Row>
-      )}
+      <Row>
+        <Styled.Block color={character.textColor}>
+          <Styled.Title color={character.textColor}>Histoire</Styled.Title>
+          {character.story ? <Text size="md">{character.story}</Text> : <em>(à rédiger)</em>}
+        </Styled.Block>
+      </Row>
+
       <Row>
         <Styled.Block color={character.textColor}>
           <Styled.Title color={character.textColor}>Scénarios</Styled.Title> <em>(à venir)</em>

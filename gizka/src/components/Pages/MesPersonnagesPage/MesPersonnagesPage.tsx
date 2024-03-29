@@ -10,6 +10,8 @@ import { LoginOrRegister } from '@/components/LoginOrRegister';
 import { UserCharacterList } from '@/components/UserCharacterList';
 import { UserContext } from '@/contexts/user';
 import { useCharactersByUser } from '@/hooks/useCharacters';
+import { getSafeName } from '@/utils/character/helpers';
+import { Character } from '@/utils/types/character';
 
 export function MesPersonnagesPage() {
   const t = useTranslations('characters');
@@ -17,7 +19,9 @@ export function MesPersonnagesPage() {
   const { currentUser } = useContext(UserContext);
   const { characters } = useCharactersByUser(currentUser?.id);
 
-  const onCharacterSaved = (characterId: number, safeName: string) => {
+  const onCharacterSaved = (character: Character) => {
+    const characterId = character.id;
+    const safeName = getSafeName(character);
     router.push(`/mes-personnages/${characterId}-${safeName}`);
   };
 

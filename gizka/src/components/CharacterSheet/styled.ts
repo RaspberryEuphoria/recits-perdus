@@ -46,13 +46,28 @@ export const CharacterData = styled.div<{ color: string }>`
 `;
 
 export const CharacterName = styled.h1<{ color: string }>`
-  width: 100%;
   color: ${({ color }) => color};
-  text-align: right;
-  font-weight: 900;
   font-family: 'Exo 2';
   font-size: 2rem;
+  font-weight: 900;
+  justify-content: flex-end;
+  text-align: right;
   text-transform: uppercase;
+  width: 100%;
+`;
+
+export const EditButton = styled.div`
+  align-items: center;
+  color: var(--flashy-alt);
+  cursor: pointer;
+  display: flex;
+  font-family: 'Oxanium';
+  font-size: 1rem;
+
+  svg {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 export const Title = styled.h1<{ color: string }>`
@@ -68,9 +83,9 @@ export const Stats = styled.div`
   padding: var(--space-05);
 `;
 
-export const Skills = styled.ul``;
+export const List = styled.ul``;
 
-export const Skill = styled.li<{ color: string }>`
+export const Item = styled.li<{ color: string }>`
   border-bottom: 1px solid ${({ color }) => color};
   gap: var(--space-05);
   padding: var(--space-05) 0;
@@ -84,11 +99,28 @@ export const Skill = styled.li<{ color: string }>`
   }
 `;
 
+export const Label = styled.label`
+  display: inline-block;
+  margin-right: var(--space-1);
+  width: 150px;
+`;
+
+export const Input = styled.input`
+  background: var(--dark);
+  border-radius: var(--rounded);
+  border: 1px solid var(--flashy-alt);
+  color: var(--light);
+  height: 1.5rem;
+  outline: none;
+  padding: 0 var(--space-05);
+`;
+
 export const Block = styled.div<{ color: string }>`
   background: var(--dark-08);
   border: 1px solid ${({ color }) => color};
   padding: var(--space-1);
   position: relative;
+  white-space: pre-line;
 
   &::before {
     background: ${({ color }) => color};

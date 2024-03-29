@@ -5,6 +5,7 @@ export type Character = {
   firstName: string;
   lastName: string;
   age: number;
+  origin: string;
   story: string;
   userId: number;
   textColor: string;

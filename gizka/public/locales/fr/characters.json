@@ -25,11 +25,19 @@
     },
     "character-editor": {
       "form": {
-        "loading": "Création en cours...",
+        "loading": "Connexion à Holonet en cours...",
+        "submit": {
+          "edit": "Enregistrer les modifications",
+          "new": "Créer un personnage"
+        },
         "labels": {
           "firstname": "Prénom",
           "lastname": "Nom",
           "age": "Âge",
+          "origin": "Planète d'origine",
+          "story": "Histoire",
+          "title": "Titre",
+          "title-suffix-or-prefix": "Préfixe ou suffixe",
           "skills": "Attributs",
           "select-skill": "Sélectionner",
           "skills-help": "Les attributs sont utilisés lorsque votre personnage entreprend une action pénible, dangereuse ou périlleuse.",

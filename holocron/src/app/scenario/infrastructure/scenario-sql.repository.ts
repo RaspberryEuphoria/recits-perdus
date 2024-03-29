@@ -24,6 +24,9 @@ type FullScenario = Prisma.ScenarioGetPayload<{
             firstName: true;
             lastName: true;
             story: true;
+            title: true;
+            isTitleSuffix: true;
+            origin: true;
             age: true;
             avatar: true;
             health: true;
@@ -74,6 +77,9 @@ export class ScenarioRepository {
                 firstName: true,
                 lastName: true,
                 story: true,
+                title: true,
+                isTitleSuffix: true,
+                origin: true,
                 age: true,
                 avatar: true,
               },
@@ -118,6 +124,9 @@ export class ScenarioRepository {
                 firstName: true,
                 lastName: true,
                 story: true,
+                title: true,
+                isTitleSuffix: true,
+                origin: true,
                 age: true,
                 avatar: true,
                 skills: {

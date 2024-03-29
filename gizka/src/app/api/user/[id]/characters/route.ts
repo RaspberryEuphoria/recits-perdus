@@ -15,6 +15,8 @@ export async function POST(request: Request, { params: { id } }: { params: { id:
   const characterBody = {
     ...body,
     story: '',
+    origin: '',
+    title: '',
     skills: characterSkills.map((skill: CharacterSkill) => skill.id),
   };
 

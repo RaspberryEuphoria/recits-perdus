@@ -2,7 +2,10 @@ import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
 
 import { AuthService } from '../../services/AuthService';
-import { CreateCharacterDTO } from '../scenario/domain/character/entities/character';
+import {
+  CreateCharacterDTO,
+  UpdateCharacterDto,
+} from '../scenario/domain/character/entities/character';
 import { userRoutes } from './api/user.api';
 import { CreateUserDto, User } from './domain/user/entities/user';
 import { createCharacterUsecase } from './domain/user/usecases/createCharacter.usecase';
@@ -10,6 +13,7 @@ import { getCharacterUsecase } from './domain/user/usecases/getCharacter.usecase
 import { getCharactersUsecase } from './domain/user/usecases/getCharacters.usecase';
 import { loginUserUsecase } from './domain/user/usecases/loginUser.usecase';
 import { registerUserUsecase } from './domain/user/usecases/registerUser.usecase';
+import { updateCharacterUsecase } from './domain/user/usecases/updateCharacter.usecase';
 import { UserRepository } from './infrastructure/user-sql.repository';
 
 export class UserContainer {
@@ -47,5 +51,9 @@ export class UserContainer {
 
   createCharacter(createCharacterDto: CreateCharacterDTO) {
     return createCharacterUsecase(this.userRepository)(createCharacterDto);
+  }
+
+  updateCharacter(updateCharacterDto: UpdateCharacterDto) {
+    return updateCharacterUsecase(this.userRepository)(updateCharacterDto);
   }
 }
