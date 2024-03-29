@@ -86,7 +86,7 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
               <strong>Âge : {character.age} ans</strong>
             </Styled.Item>
             <Styled.Item color={colorAtLightOpacity}>
-              <strong>Planète d&apos;origine : {character.age}</strong>
+              <strong>Planète d&apos;origine : {character.origin}</strong>
             </Styled.Item>
           </Styled.List>
         </Styled.CharacterData>
