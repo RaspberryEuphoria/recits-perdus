@@ -74,30 +74,16 @@ export abstract class ActionMove {
     }
   }
 
-  async getCurrentProgress() {
-    const previousMoves = await this.getCharacterPreviousPostsMovesSinceOwnMove(
-      MoveId.ENGAGER_LE_COMBAT,
+  async getCurrentFightProgress() {
+    return await this.scenarioRepository.getCurrentFightProgress(
+      this.post.scenarioId,
+      this.post.id,
+      this.characterOnScenario.characterId,
     );
-
-    if (!previousMoves || previousMoves.length === 0) {
-      return 0;
-    }
-
-    const progressMoves = previousMoves.filter((move) => {
-      if (!move.meta) return false;
-      return JSON.parse(move.meta as string).progress;
-    });
-
-    const lastMove = progressMoves.at(-1);
-    if (!lastMove) {
-      return 0;
-    }
-
-    return JSON.parse(lastMove.meta as string).progress;
   }
 
   async updateProgress(progress: number) {
-    const currentProgress = await this.getCurrentProgress();
+    const currentProgress = await this.getCurrentFightProgress();
     this.progress = currentProgress + progress;
   }
 
@@ -108,22 +94,6 @@ export abstract class ActionMove {
     );
 
     return previousPostInScenario?.moves;
-  }
-
-  async getCharacterPreviousPostsMovesSinceOwnMove(moveId: MoveId) {
-    const previousPostInScenario =
-      await this.postRepository.getCharacterPreviousPostsInScenarioSincePostWithMove(
-        this.post.scenarioId,
-        this.post.id,
-        moveId,
-        this.post.characterId,
-      );
-
-    if (!previousPostInScenario || !previousPostInScenario.length) {
-      return [];
-    }
-
-    return previousPostInScenario.map((post) => post.moves).flat();
   }
 
   async getSkillValue(skillId?: number) {

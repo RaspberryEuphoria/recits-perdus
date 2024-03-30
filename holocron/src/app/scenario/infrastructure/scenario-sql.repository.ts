@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
+import { MoveId } from '../domain/post/entities/move';
 import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/scenario';
 
 type FullScenario = Prisma.ScenarioGetPayload<{
@@ -182,6 +183,93 @@ export class ScenarioRepository {
         },
       },
     });
+  }
+
+  async getCurrentFightProgress(scenarioId: number, postId: number, characterId: number) {
+    // 1 engage
+    // 2 engage
+    // 1 attk
+    // 2 attk
+    // 1 end
+    // 2 end
+
+    // ...
+
+    // 1 engage
+    // 2 engage
+    // 1 attk
+    // 2 attk
+    // 1 end
+    // 2 end
+
+    const endingLastFightPost = await this.db.post.findFirst({
+      where: {
+        scenarioId,
+        characterId,
+        id: {
+          lt: postId,
+        },
+        moves: {
+          some: {
+            moveId: MoveId.METTRE_FIN_AU_COMBAT,
+          },
+        },
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    });
+
+    const startingCurrentFightPost = await this.db.post.findFirst({
+      where: {
+        scenarioId,
+        id: {
+          gt: endingLastFightPost?.id,
+        },
+        moves: {
+          some: { moveId: MoveId.ENGAGER_LE_COMBAT },
+        },
+      },
+      orderBy: {
+        id: 'asc',
+      },
+    });
+
+    if (!startingCurrentFightPost) {
+      throw new Error(`Post ${postId} is not part of a fight!`);
+    }
+
+    const currentFightPosts = await this.db.post.findMany({
+      where: {
+        scenarioId,
+        id: {
+          lt: postId,
+          gte: startingCurrentFightPost.id,
+        },
+      },
+      include: {
+        moves: {
+          include: {
+            dices: true,
+            skill: true,
+          },
+        },
+      },
+    });
+
+    const previousMoves = currentFightPosts.flatMap((post) => post.moves);
+
+    const progressMoves = previousMoves.filter((move) => {
+      if (!move.meta) return false;
+      return JSON.parse(move.meta as string).progress;
+    });
+
+    const lastMove = progressMoves.at(-1);
+    if (!lastMove) {
+      return 0;
+    }
+
+    return JSON.parse(lastMove.meta as string).progress;
   }
 }
 

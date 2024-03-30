@@ -8,7 +8,7 @@ export class MettreFinAuCombatMove extends ActionMove {
   moveId = MoveId.METTRE_FIN_AU_COMBAT;
 
   async roll() {
-    const currentProgress = await this.getCurrentProgress();
+    const currentProgress = await this.getCurrentFightProgress();
     const roll = await super.roll({ overridedScore: currentProgress, maxDifficulty: 4 }); // @todo define max difficulty from the client
 
     switch (roll.moveResult) {

@@ -43,19 +43,28 @@ export function createPostUsecase(
       };
     }
 
-    const newPostWithMove = await useMove(
-      scenarioRepository,
-      postRepository,
-      characterRepository,
-      skillRepository,
-    )(action.move, newPost.id);
+    try {
+      const newPostWithMove = await useMove(
+        scenarioRepository,
+        postRepository,
+        characterRepository,
+        skillRepository,
+      )(action.move, newPost.id);
 
-    discord.send({ character: nextPoster, scenario, postId: newPost.id, moveId: action.move.id });
+      discord.send({ character: nextPoster, scenario, postId: newPost.id, moveId: action.move.id });
 
-    return {
-      ...newPostWithMove,
-      nextPoster: nextPosterAfterNewPost,
-    };
+      return {
+        ...newPostWithMove,
+        nextPoster: nextPosterAfterNewPost,
+      };
+    } catch (err: any) {
+      console.error(`Unable to add move ${action.move.id} to post ${newPost.id}: "${err.message}"`);
+
+      return {
+        ...newPost,
+        nextPoster: nextPosterAfterNewPost,
+      };
+    }
   };
 }
 

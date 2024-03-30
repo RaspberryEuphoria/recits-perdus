@@ -146,64 +146,6 @@ export class PostRepository {
     return previousPost;
   }
 
-  async getCharacterPreviousPostsInScenarioSincePostWithMove(
-    scenarioId: number,
-    postId: number,
-    moveId: MoveId,
-    characterId: number,
-  ) {
-    const lastPostWithMove = await this.db.post.findFirst({
-      where: {
-        scenarioId,
-        characterId,
-        id: {
-          lt: postId,
-        },
-        moves: {
-          some: {
-            moveId,
-          },
-        },
-      },
-      include: {
-        moves: {
-          include: {
-            dices: true,
-            skill: true,
-          },
-        },
-      },
-      orderBy: {
-        id: 'desc',
-      },
-    });
-
-    if (!lastPostWithMove) {
-      return [];
-    }
-
-    const posts = await this.db.post.findMany({
-      where: {
-        scenarioId,
-        characterId,
-        id: {
-          gt: lastPostWithMove?.id,
-          lt: postId,
-        },
-      },
-      include: {
-        moves: {
-          include: {
-            dices: true,
-            skill: true,
-          },
-        },
-      },
-    });
-
-    return [lastPostWithMove, ...posts];
-  }
-
   async addMove({
     postId,
     skillId,
