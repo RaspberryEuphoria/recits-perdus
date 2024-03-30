@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
 import { Button } from '@/components/DesignSystem/Button';
@@ -67,7 +67,7 @@ export function DialogTextarea({
     setContent(e.target.value.substring(0, MAX_LENGTH));
   };
 
-  const getFormErrors = useCallback(() => {
+  const computeFormErrors = useCallback(() => {
     const isMoveValid = currentMove ? currentMove?.meta?.isValid : true;
     const errors = [];
 
@@ -75,16 +75,13 @@ export function DialogTextarea({
     if (currentLength > MAX_LENGTH) errors.push('too-long');
     if (!currentLength) errors.push('empty');
 
-    return errors;
+    setFormErrors(errors);
   }, [currentLength, currentMove]);
 
   const submit = () => {
-    const errors = getFormErrors();
-
     setHasSubmitted(true);
-    setFormErrors(errors);
 
-    if (errors.length) return;
+    if (formErrors.length) return;
 
     if (mode === Mode.NEW) {
       addPost();
@@ -176,14 +173,14 @@ export function DialogTextarea({
     };
   }, []);
 
-  useEffect(() => {
+  const handleTextareaBlur = () => {
     onContentChange(content);
-    setFormErrors(getFormErrors());
-  }, [content, getFormErrors, onContentChange]);
+    computeFormErrors();
+  };
 
   useEffect(() => {
-    setFormErrors(getFormErrors());
-  }, [currentMove, getFormErrors]);
+    computeFormErrors();
+  }, [currentMove, computeFormErrors]);
 
   return (
     <>
@@ -206,6 +203,7 @@ export function DialogTextarea({
           placeholder=""
           onChange={handleTextareaChange}
           value={content}
+          onBlur={handleTextareaBlur}
         ></Styled.Textarea>
 
         <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
