@@ -20,6 +20,10 @@ export const CharacterPreview = styled.div`
   flex-grow: 1 0 21%;
   align-items: center;
   gap: var(--space-1);
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export const Scenario = styled(Link)``;
