@@ -79,9 +79,9 @@ export function DialogTextarea({
   }, [currentLength, currentMove]);
 
   const submit = () => {
-    setHasSubmitted(true);
-
     if (formErrors.length) return;
+
+    setHasSubmitted(true);
 
     if (mode === Mode.NEW) {
       addPost();
@@ -112,7 +112,8 @@ export function DialogTextarea({
     const newDialog = await httpBffClient.post<Post>(`/scenario/${id}/post`, dialog);
 
     if (isHttpError(newDialog)) {
-      throw new Error(`There was an error while adding a new dialog: ${newDialog.message}`);
+      console.error(`There was an error while adding a new dialog: ${newDialog.message}`);
+      return;
     }
 
     socket.emit('post-new-dialog', newDialog);
@@ -228,7 +229,7 @@ export function DialogTextarea({
         <Styled.Help>{currentMove ? 4 : 3}. Que la Force vous !</Styled.Help>
 
         <Styled.TextareaBar>
-          <Button onClick={submit} disabled={Boolean(hasSubmitted && formErrors.length > 0)}>
+          <Button onClick={submit} disabled={Boolean(hasSubmitted || formErrors.length > 0)}>
             {t(`en-cours.textarea.${mode}.submit-button.label`)}
           </Button>
         </Styled.TextareaBar>
