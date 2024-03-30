@@ -40,6 +40,15 @@ const categories = [
       { id: MoveId.CONTRAINDRE, isDisabled: false },
     ],
   },
+  {
+    key: 'fight',
+    moves: [
+      { id: MoveId.ENGAGER_LE_COMBAT, isDisabled: false },
+      { id: MoveId.ATTAQUER, isDisabled: false },
+      { id: MoveId.RIPOSTER, isDisabled: false },
+      { id: MoveId.METTRE_FIN_AU_COMBAT, isDisabled: false },
+    ],
+  },
 ];
 
 export function Moves({ onMovePicked, onBurnCheck, character, characters }: MovesProps) {

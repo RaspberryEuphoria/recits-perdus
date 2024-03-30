@@ -1,5 +1,6 @@
 import { CharactersOnScenarios, DiceType } from '@prisma/client';
 
+import { MAX_ACTION_VALUE, MAX_CHALLENGE_VALUE } from '../../../../../../rules';
 import {
   CharacterRepository,
   CharacterStat,
@@ -51,6 +52,7 @@ export abstract class ActionMove {
 
   move?: CreateMoveDto;
   moveId?: MoveId;
+  progress: number | null = null;
 
   hasRolled = false;
   moveBonus: Array<MoveBonus> = [];
@@ -72,6 +74,33 @@ export abstract class ActionMove {
     }
   }
 
+  async getCurrentProgress() {
+    const previousMoves = await this.getCharacterPreviousPostsMovesSinceOwnMove(
+      MoveId.ENGAGER_LE_COMBAT,
+    );
+
+    if (!previousMoves || previousMoves.length === 0) {
+      return 0;
+    }
+
+    const progressMoves = previousMoves.filter((move) => {
+      if (!move.meta) return false;
+      return JSON.parse(move.meta as string).progress;
+    });
+
+    const lastMove = progressMoves.at(-1);
+    if (!lastMove) {
+      return 0;
+    }
+
+    return JSON.parse(lastMove.meta as string).progress;
+  }
+
+  async updateProgress(progress: number) {
+    const currentProgress = await this.getCurrentProgress();
+    this.progress = currentProgress + progress;
+  }
+
   async getPreviousPostMove() {
     const previousPostInScenario = await this.postRepository.getPreviousPostInScenario(
       this.post.scenarioId,
@@ -81,7 +110,43 @@ export abstract class ActionMove {
     return previousPostInScenario?.moves;
   }
 
-  async roll() {
+  async getCharacterPreviousPostsMovesSinceOwnMove(moveId: MoveId) {
+    const previousPostInScenario =
+      await this.postRepository.getCharacterPreviousPostsInScenarioSincePostWithMove(
+        this.post.scenarioId,
+        this.post.id,
+        moveId,
+        this.post.characterId,
+      );
+
+    if (!previousPostInScenario || !previousPostInScenario.length) {
+      return [];
+    }
+
+    return previousPostInScenario.map((post) => post.moves).flat();
+  }
+
+  async getSkillValue(skillId?: number) {
+    if (!skillId) {
+      throw new Error(
+        `Skill id not provided while attempting to use move ${this.moveId} on post ${this.post.id}`,
+      );
+    }
+
+    const characterSkill = this.post.character.skills.find(
+      (characterSkill) => characterSkill.skillId === skillId,
+    );
+
+    return characterSkill?.level || 0;
+  }
+
+  async roll({
+    overridedScore = null,
+    maxDifficulty = MAX_CHALLENGE_VALUE,
+  }: {
+    overridedScore?: number | null;
+    maxDifficulty?: number;
+  } = {}) {
     if (!this.moveIntent.meta) {
       throw new Error(`Move ${this.moveIntent.id} meta not found`);
     }
@@ -93,22 +158,13 @@ export abstract class ActionMove {
     const { meta } = this.moveIntent;
     const { skillId, hasMomentumBurn } = meta;
 
-    if (!skillId) {
-      throw new Error(
-        `Skill id not provided while attempting to use move ${this.moveId} on post ${this.post.id}`,
-      );
-    }
+    const skillValue = overridedScore !== null ? 0 : await this.getSkillValue(skillId);
 
-    const characterSkill = this.post.character.skills.find(
-      (characterSkill) => characterSkill.skillId === skillId,
-    );
-    const skillValue = characterSkill?.level || 0;
-
-    const rollD6 = createRoll(6);
-    const rollD8 = createRoll(8);
+    const rollD6 = createRoll(MAX_ACTION_VALUE);
+    const rollD8 = createRoll(maxDifficulty);
 
     const actionValue = this.debugDices[0] || rollD6();
-    const actionRoll = actionValue + computeBonus(this.moveBonus);
+    const actionRoll = overridedScore || actionValue + computeBonus(this.moveBonus);
     const challengeRolls = [this.debugDices[1] || rollD8(), this.debugDices[2] || rollD8()];
     const score = actionRoll + skillValue;
 
@@ -193,6 +249,13 @@ export abstract class ActionMove {
         this.characterOnScenario.scenarioId,
         this.groupStatsChange.supplies,
       );
+    }
+
+    if (this.progress !== null) {
+      this.move.meta = {
+        ...this.move.meta,
+        progress: this.progress,
+      };
     }
 
     if (this.mustPayThePrice) {

@@ -32,7 +32,7 @@ async function main() {
     },
     {
       name: 'Intuition',
-      description: 'Expertise, connaissances, et perception',
+      description: 'Expertise, connaissances, perception, et capacité en combat avec la Force',
     },
   ];
 

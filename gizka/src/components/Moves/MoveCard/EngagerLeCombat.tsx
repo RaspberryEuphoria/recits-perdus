@@ -10,7 +10,7 @@ import { SkillId } from '@/utils/types/scenario';
 import { MoveCardProps } from '.';
 import * as Styled from './styled';
 
-export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
+export function EngagerLeCombat({ id, onPick, onClose, children }: MoveCardProps) {
   const t = useTranslations('moves');
   const [skillId, setSkillId] = useState<SkillId | undefined>();
 
@@ -30,6 +30,7 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
           <Keyword stat="move">{t(`${id}.name`)}</Keyword>
           <Styled.CloseButton onClick={onClose}>{t('buttons.cancel')} &#8617;</Styled.CloseButton>
         </h1>
+
         <Styled.Summary>
           {t.rich(`${id}.summary`, {
             important: (chunks) => <strong>{chunks}</strong>,
@@ -40,32 +41,36 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
         <p>
           {t.rich(`${id}.results.strong-hit`, {
             important: (chunks) => <strong>{chunks}</strong>,
-            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
             momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
           })}
         </p>
         <p>
           {t.rich(`${id}.results.weak-hit`, {
             important: (chunks) => <strong>{chunks}</strong>,
-            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
             momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
           })}
         </p>
         <p>
           {t.rich(`${id}.results.miss`, {
             important: (chunks) => <strong>{chunks}</strong>,
-            supplies: (chunks) => <Keyword stat="supplies">{chunks}</Keyword>,
-            momentum: (chunks) => <Keyword stat="momentum">{chunks}</Keyword>,
+            move: (chunks) => <Keyword stat="move">{chunks}</Keyword>,
           })}
         </p>
 
+        <Styled.Summary>
+          {t.rich(`${id}.help`, {
+            important: (chunks) => <strong>{chunks}</strong>,
+            move: (chunks) => <Keyword stat="move">{chunks}</Keyword>,
+          })}
+        </Styled.Summary>
+
         <Prompt>
           <UnkownDieIcon />
-          {t('prompts.approach')}
+          {t(`${id}.approach`)}
         </Prompt>
         <ul>
           <li>
-            {t(`${id}.prompts.charm`)} :{' '}
+            {t(`${id}.prompts.face`)} :{' '}
             <Styled.ClickToRoll
               onClick={() => setSkillId(SkillId.DETERMINATION)}
               isSelected={skillId === SkillId.DETERMINATION}
@@ -74,21 +79,21 @@ export function Marchander({ id, onPick, onClose, children }: MoveCardProps) {
             </Styled.ClickToRoll>
           </li>
           <li>
-            {t(`${id}.prompts.threat`)} :{' '}
-            <Styled.ClickToRoll
-              onClick={() => setSkillId(SkillId.TENACITE)}
-              isSelected={skillId === SkillId.TENACITE}
-            >
-              +{t('skills.Ténacité.skill-check')} <D6Icon />
-            </Styled.ClickToRoll>
-          </li>
-          <li>
-            {t(`${id}.prompts.lie`)} :{' '}
+            {t(`${id}.prompts.backstab`)} :{' '}
             <Styled.ClickToRoll
               onClick={() => setSkillId(SkillId.SUBTERFUGE)}
               isSelected={skillId === SkillId.SUBTERFUGE}
             >
               +{t('skills.Subterfuge.skill-check')} <D6Icon />
+            </Styled.ClickToRoll>
+          </li>
+          <li>
+            {t(`${id}.prompts.embushed`)} :{' '}
+            <Styled.ClickToRoll
+              onClick={() => setSkillId(SkillId.INTUITION)}
+              isSelected={skillId === SkillId.INTUITION}
+            >
+              +{t('skills.Intuition.skill-check')} <D6Icon />
             </Styled.ClickToRoll>
           </li>
         </ul>

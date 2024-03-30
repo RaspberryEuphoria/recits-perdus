@@ -2,7 +2,7 @@
   "moves": {
     "categories": {
       "adventure": "Aventure",
-      "combat": "Combat",
+      "fight": "Combat",
       "social": "Social"
     },
     "FAIRE_FACE_AU_DANGER": {
@@ -62,7 +62,7 @@
     "MARCHANDER": {
       "name": "Marchander",
       "action": "entreprend de",
-      "summary": "Lorsque <important>achetez ou échangez des provisions</important>, décrivez votre action et faites un jet. Si vous fouillez les environs à la recherche de ressources, préférez plutôt <move>Ravitailler</move>.",
+      "summary": "Lorsque <important>vous achetez ou échangez des provisions</important>, décrivez votre action et faites un jet. Si vous fouillez les environs à la recherche de ressources, préférez plutôt <move>Ravitailler</move>.",
       "prompts": {
         "charm": "Le charme",
         "threat": "L'agressivité",
@@ -110,6 +110,112 @@
     "ATTEINDRE_SA_DESTINATION": {
       "name": "Atteindre sa Destination"
     },
+    "ENGAGER_LE_COMBAT": {
+      "name": "Engager le Combat",
+      "action": "décide d'",
+      "summary": "Lorsque <important>vous engagez le combat</important>, décrivez votre action et faites un jet.",
+      "help": "Une fois le combat engagé, vous devez monter votre <important>Score de Progrès</important> en réalisant les actions <move>Attaquer</move> ou <move>Riposter</move>. Ce score servira à déterminer l'issue du combat lorsque vous serez prêt à <move>Mettre Fin au Combat</move>.",
+      "approach": "Si vous êtes...",
+      "prompts": {
+        "face": "Face à votre ennemi",
+        "backstab": "En train de vous glisser dans le dos d'un ennemi ou que vous frappez sans prévenir",
+        "embushed": "Pris en embuscade"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous prenez un avantage considérable et vous avez l'initiative. Gagnez <momentum>+2</momentum> ferveur.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous prenez l'initiative. Gagnez <momentum>+1</momentum> ferveur.",
+        "miss": "En cas d’<important>échec</important>, le combat s'engage alors que vous êtes désavantagé, et l'ennemi a l'initiative. Vous devez en <move>Payer le Prix</move>."
+      },
+      "outcomes": {
+        "strong-2": "fait vaillament face à l'ennemi, prenant un avantage considérable et l'initiative sur ses adversaires.",
+        "strong-3": "réagit d'instinct à l'embuscade ennemie et retourne l'attaque surprise contre ses adversaires.",
+        "strong-4": "attaque sournoisement l'ennemi dans le dos, prenant un avantage considérable et l'initiative sur ses adversaires.",
+        "weak-2": "fait face à l'ennemi, prenant l'initiative sur ses adversaires.",
+        "weak-3": "réagit à l'embuscade ennemie, prenant l'initiative sur ses adversaires.",
+        "weak-4": "attaque sournoisement l'ennemi dans le dos, prenant l'initiative sur ses adversaires.",
+        "miss-2": "fait face à l'ennemi, mais perd l'initiative.",
+        "miss-3": "ne réagit pas à temps à l'embuscade ennemie et perd l'initiative.",
+        "miss-4": "attaque sournoisement l'ennemi dans le dos, mais perd l'initiative."
+      }
+    },
+    "ATTAQUER": {
+      "name": "Attaquer",
+      "action": "tente d'",
+      "summary": "Lorsque <important>combattez alors que vous avez l'initiative</important> décrivez votre action et faites un jet. Si votre ennemi a l'initiative, choisissez plutôt <move>Riposter</move>.",
+      "prompts": {
+        "melee": "Au corps à corps",
+        "distance": "À distance",
+        "force": "Avec la Force"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous infligez des dégâts à vos adversaires. Vous conservez l'initiative et gagnez <progress>+2</progress> au Score de Progrès.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous infligez des dégâts, mais vous perdez l'initiative et gagnez <progress>+1</progress> au Score de Progrès.",
+        "miss": "En cas d’<important>échec</important>, votre attaque échoue et vous devez en <move>Payer le Prix</move>. L'ennemi a l'initiative."
+      },
+      "outcomes": {
+        "strong-5": "inflige une violente attaque au corps à corps, blessant l'ennemi et conservant l'initiative !",
+        "strong-3": "invoque le pouvoir de la Force, blessant l'ennemi et conservant l'initiative !",
+        "strong-1": "attaque à distance avec une précision redoutable, blessant l'ennemi et conservant l'initiative !",
+        "weak-5": "inflige une blessure au corps à corps à l'ennemi, mais celui-ci parvient à riposter et reprendre l'initiative !",
+        "weak-3": "invoque le pouvoir de la Force et blesse l'ennemi, mais celui-ci parvient à riposter et reprendre l'initiative !",
+        "weak-1": "attaque à distance et blesse l'ennemi, mais celui-ci parvient à riposter et reprendre l'initiative !",
+        "miss-5": "échoue son attaque en mêlée, et subit une violente riposte de l'ennemi, qui prend l'initiative !",
+        "miss-3": "invoque le pouvoir de la Force, mais l'ennemi parvient à se protéger avant de riposter avec violence et prendre l'initiative !",
+        "miss-1": "ne parvient pas à toucher sa cible, qui riposte violemment et prend l'initiative !"
+      }
+    },
+    "RIPOSTER": {
+      "name": "Riposter",
+      "action": "tente de ",
+      "summary": "Lorsque <important>combattez alors que l'ennemi a l'initiative</important>, décrivez votre action et faites un jet. Si vous avez l'initiative, choisissez plutôt <move>Attaquer</move>.",
+      "prompts": {
+        "melee": "Au corps à corps",
+        "distance": "À distance",
+        "force": "Avec la Force"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous infligez des dégâts à vos adversaires et vous reprenez l'initiative. Gagnez <momentum>+1</momentum> ferveur et <progress>+1</progress> au Score de Progrès.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous infligez des dégâts, mais vous devez ensuite en <move>Payer le Prix</move>. L'ennemi conserve l'initiative. Gagnez <progress>+1</progress> au Score de Progrès.",
+        "miss": "En cas d’<important>échec</important>, votre êtes dépassé et vous devez en <move>Payer le Prix</move>. L'ennemi conserve l'initiative."
+      },
+      "outcomes": {
+        "strong-5": "riposte avec une violente attaque au corps à corps, blessant l'ennemi et reprenant l'initiative !",
+        "strong-3": "riposte avec le pouvoir de la Force, blessant l'ennemi et reprenant l'initiative !",
+        "strong-1": "riposte avec une attaque à distance d'une précision redoutable, blessant l'ennemi et reprenant l'initiative !",
+        "weak-5": "riposte et blesse l'ennemi avec une attaque au corps à corps, mais ne parvient pas à récupérer l'initiative !",
+        "weak-3": "riposte et blesse l'ennemi avec le pouvoir de la Force, mais ne parvient pas à récupérer l'initiative !",
+        "weak-1": "riposte et blesse l'ennemi avec une attaque à distance, mais ne parvient pas à récupérer l'initiative !",
+        "miss": "échoue à riposter et ne parvient pas à récupérer l'initiative !"
+      }
+    },
+    "METTRE_FIN_AU_COMBAT": {
+      "name": "Mettre Fin au Combat",
+      "action": "tente de ",
+      "summary": "Lorsque <important>déclenchez une action décisive</important> et que vous obtenez un <important>succès total</important>, vous pouvez mettre fin au combat. Utilisez votre Score de Progrès comme valeur à opposer aux dés de défi.",
+      "prompts": {
+        "health": "Vous vous en sortez avec une nouvelle blessure :",
+        "spirit": " Vous êtes dépassé :",
+        "new-danger": "Un nouveau danger ou un nouvel ennemi apparaît, ou un danger existant empire :",
+        "damage": "Un objet de valeur est perdu ou brisé, ou quelqu’un d’important doit en payer le prix :",
+        "goal-is-lost": "L’un de vos objectifs est désormais hors d’atteinte :",
+        "vendetta": "Un proche de votre ennemi jure vengeance contre vous :"
+      },
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous remportez le combat. L'ennemi est tué, hors d'état de nuire, s'enfuit ou se rend, selon la situation et vos intentions.",
+        "weak-hit": "En cas de <important>succès partiel</important>, comme ci-dessous, mais vous subissez des conséquences inattendues.",
+        "miss": "En cas d’<important>échec</important>, vous perdez le combat. Vous devez en <move>Payer le Prix</move> et subir les conséquences de votre défaite."
+      },
+      "outcomes": {
+        "strong": "assène un coup final, et remporte une victoire absolue. L'ennemi est vaincu !",
+        "weak-health": "remporte le combat, mais pas sans que son adversaire ne lui inflige une dernière blessure !",
+        "weak-spirit": "remporte le combat, mais pas sans un stress mental important !",
+        "weak-new-danger": "remporte le combat, mais un nouveau danger ou un nouvel ennemi apparaît, ou bien un danger existant empire !",
+        "weak-damage": "remporte le combat, mais objet de valeur est perdu ou brisé, ou quelqu'un d'important souffre des conséquences inattendues !",
+        "weak-goal-lost": "remporte le combat, mais un des objectifs de la mission est compromis !",
+        "weak-vendetta": "remporte le combat, mais un proche de son ennemi jure vengeance !",
+        "miss": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu !"
+      }
+    },
     "PAYER_LE_PRIX": {
       "name": "Payer le Prix"
     },
@@ -119,6 +225,7 @@
       "heal": "Qui voulez-vous soigner ?",
       "danger": "Qu'êtes vous prêt à perdre ?",
       "approach": "Quelle est votre approche ?",
+      "fight": "Comment vous battez-vous ?",
       "burn": "Brûler de la ferveur ?"
     },
     "stats": {
@@ -130,6 +237,12 @@
       "supplies": "provisions",
       "spirit": "esprit",
       "esprit": "esprit"
+    },
+    "dangers": {
+      "danger": "danger",
+      "damage": "dommage collatéral",
+      "goal-is-lost": "objectif perdu",
+      "vendetta": "vendetta"
     },
     "buttons": {
       "cancel": "Annuler"
@@ -159,6 +272,11 @@
       "failure-aftermath": "échoue et perd le contrôle de la situation."
     },
     "skills": {
+      "1": "Finesse",
+      "2": "Détermination",
+      "3": "Intuition",
+      "4": "Subterfuge",
+      "5": "Ténacité",
       "Intuition": {
         "defini": "l’",
         "indefini": "une ",
@@ -194,6 +312,7 @@
         "possessif": "sa ",
         "skill-check": "détermination"
       }
-    }
+    },
+    "progress-score": "Score de Progrès"
   }
 }

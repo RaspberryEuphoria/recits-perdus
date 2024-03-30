@@ -1,6 +1,6 @@
 import { DiceType, MoveResult } from '@prisma/client';
 
-import { DangerOnStat, MoveBonus } from './domain/post/entities/move';
+import { DangerOnStat, DangerOnStory, MoveBonus } from './domain/post/entities/move';
 import { Dice } from './domain/post/entities/post';
 
 function getRandom(min: number, max: number) {
@@ -79,5 +79,16 @@ export function isStat(value: unknown): value is DangerOnStat {
     value === DangerOnStat.MOMENTUM ||
     value === DangerOnStat.SPIRIT ||
     value === DangerOnStat.SUPPLIES
+  );
+}
+
+export function isStory(value: unknown): value is DangerOnStory {
+  if (value === null || value === undefined) return false;
+
+  return (
+    value === DangerOnStory.DAMAGE ||
+    value === DangerOnStory.GOAL_IS_LOST ||
+    value === DangerOnStory.NEW_DANGER ||
+    value === DangerOnStory.VENDETTA
   );
 }

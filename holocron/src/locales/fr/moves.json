@@ -6,5 +6,10 @@
   "RAVITAILLER": "cherche à se ravitailler",
   "MARCHANDER": "tente de marchander",
   "PAYER_LE_PRIX": "doit payer le prix",
-  "CONTRAINDRE": "tente de contraindre"
+  "CONTRAINDRE": "tente de contraindre",
+  "ENGAGER_LE_COMBAT": "engage un combat",
+  "ATTAQUER": "tente une attaque",
+  "RIPOSTE": "riposte face à son ennemi",
+  "RENVERSER_LA_SITUATION": "tente de renverser la situation",
+  "METTRE_FIN_AU_COMBAT": "met fin à son combat"
 }

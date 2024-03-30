@@ -9,14 +9,18 @@ import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repo
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
 import { MoveId, MoveIntent } from '../../entities/move';
 import { ActionMove } from './actionMove';
+import { AttaquerMove } from './attaquer';
 import { ContraindreMove } from './contraindre';
+import { EngagerLeCombatMove } from './engagerLeCombat';
 import { FaireFaceAuDangerMove } from './faireFaceAuDanger';
 import { MarchanderMove } from './marchander';
+import { MettreFinAuCombatMove } from './mettreFinAuCombat';
 import { payerLePrix } from './payerLePrix';
 import { PrendreUnAvantageMove } from './prendreUnAvantage';
 import { ProdiguerDesSoinsMove } from './prodiguerDesSoins';
 import { RavitaillerMove } from './ravitailler';
 import { RecolterDesInformationsMove } from './recolterDesInformations';
+import { RiposterMove } from './riposter';
 
 export function useMove(
   scenarioRepository: ScenarioRepository,
@@ -92,6 +96,14 @@ function getMoveHandler(
       return new RavitaillerMove(...args);
     case MoveId.RECOLTER_DES_INFORMATIONS:
       return new RecolterDesInformationsMove(...args);
+    case MoveId.ENGAGER_LE_COMBAT:
+      return new EngagerLeCombatMove(...args);
+    case MoveId.ATTAQUER:
+      return new AttaquerMove(...args);
+    case MoveId.RIPOSTER:
+      return new RiposterMove(...args);
+    case MoveId.METTRE_FIN_AU_COMBAT:
+      return new MettreFinAuCombatMove(...args);
     default:
       throw new Error(`Move ${moveId} not implemented`);
   }

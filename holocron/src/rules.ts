@@ -10,6 +10,9 @@ const DEFAULT_SPIRIT = 5;
 const MAX_SPIRIT = 5;
 const MIN_SPIRIT = 0;
 
+export const MAX_ACTION_VALUE = 6;
+export const MAX_CHALLENGE_VALUE = 8;
+
 export const STATS_LIMITS = {
   supplies: {
     min: 0,

@@ -1,14 +1,18 @@
 import { Character } from '@/utils/types/character';
 import { Move, Moves } from '@/utils/types/scenario';
 
+import { AttaquerOutcome } from './AttaquerOutcome';
 import { ContraindreOutcome } from './ContraindreOutcome';
+import { EngagerLeCombatOutcome } from './EngagerLeCombatOutcome';
 import { FaireFaceAuDangerOutcome } from './FaireFaceAuDangerOutcome';
 import { MarchanderOutcome } from './MarchanderOutcome';
+import { MettreFinAuCombatOutcome } from './MettreFinAuCombatOutcome';
 import { PayerLePrixOutcome } from './PayerLePrixOutcome';
 import { PrendreUnAvantageOutcome } from './PrendreUnAvantageOutcome';
 import { ProdiguerDesSoinsOutcome } from './ProdiguerDesSoinsOutcome';
 import { RavitaillerOutcome } from './RavitaillerOutcome';
 import { RecolterDesInformationsOutcome } from './RecolterDesInformationsOutcome';
+import { RiposterOutcome } from './RiposterOutcome';
 
 export type MoveOutcomeProps = {
   move: Move;
@@ -34,6 +38,14 @@ export function MoveOutcome(props: MoveOutcomeProps) {
       return <ContraindreOutcome {...props} />;
     case Moves.PRODIGUER_DES_SOINS:
       return <ProdiguerDesSoinsOutcome {...props} />;
+    case Moves.ENGAGER_LE_COMBAT:
+      return <EngagerLeCombatOutcome {...props} />;
+    case Moves.ATTAQUER:
+      return <AttaquerOutcome {...props} />;
+    case Moves.RIPOSTER:
+      return <RiposterOutcome {...props} />;
+    case Moves.METTRE_FIN_AU_COMBAT:
+      return <MettreFinAuCombatOutcome {...props} />;
     default:
       return null;
   }

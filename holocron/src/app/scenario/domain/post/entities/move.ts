@@ -6,6 +6,10 @@ export enum MoveId {
   RAVITAILLER = 'RAVITAILLER',
   MARCHANDER = 'MARCHANDER',
   CONTRAINDRE = 'CONTRAINDRE',
+  ENGAGER_LE_COMBAT = 'ENGAGER_LE_COMBAT',
+  ATTAQUER = 'ATTAQUER',
+  RIPOSTER = 'RIPOSTER',
+  METTRE_FIN_AU_COMBAT = 'METTRE_FIN_AU_COMBAT',
   PAYER_LE_PRIX = 'PAYER_LE_PRIX',
 }
 
@@ -21,6 +25,13 @@ export enum DangerOnStat {
   SUPPLIES = 'SUPPLIES',
 }
 
+export enum DangerOnStory {
+  NEW_DANGER = 'NEW_DANGER',
+  DAMAGE = 'DAMAGE',
+  GOAL_IS_LOST = 'GOAL_IS_LOST',
+  VENDETTA = 'VENDETTA',
+}
+
 export type Danger = DangerOnStat;
 
 export type MoveMeta = {
@@ -28,6 +39,7 @@ export type MoveMeta = {
   skillId?: number;
   hasMomentumBurn?: boolean;
   targetId?: number;
+  progress?: number;
   actionBonus?: MoveBonus[];
 };
 
