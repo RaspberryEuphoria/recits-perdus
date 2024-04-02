@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import bodyParser from 'body-parser';
 import express from 'express';
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
 
 import { ScenarioContainer } from './app/scenario/scenario.container';
 import { UserContainer } from './app/user/user.container';
@@ -14,16 +16,22 @@ const prisma = new PrismaClient();
 const authService = new AuthService();
 const discordService = new DiscordService();
 
-app.use(bodyParser.json());
-app.use(express.static('public'));
+function getCredentials() {
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/recits-perdus.fr/privkey.pem', 'utf8');
+  const certificate = fs.readFileSync(
+    '/etc/letsencrypt/live/recits-perdus.fr/fullchain.pem',
+    'utf8',
+  );
 
-app.get('/', (_req, _res) => {
-  _res.json({
-    message: 'TypeScript With Express',
-  });
-});
+  return { key: privateKey, cert: certificate };
+}
 
-app.listen(port, () => {
+const server =
+  process.env.PROTOCOL === 'https'
+    ? https.createServer(getCredentials(), app)
+    : http.createServer(app);
+
+server.listen(port, () => {
   console.log(`TypeScript with Express http://localhost:${port}/`);
 
   const scenarioContainer = new ScenarioContainer(prisma, discordService);
@@ -31,6 +39,15 @@ app.listen(port, () => {
 
   app.use('/scenario', scenarioContainer.routes);
   app.use('/user', userContainer.routes);
+});
+
+app.use(express.json({ limit: '5mb' }));
+app.use(express.static('public'));
+
+app.get('/', (_req, _res) => {
+  _res.json({
+    message: 'TypeScript With Express',
+  });
 });
 
 // handle app errors
