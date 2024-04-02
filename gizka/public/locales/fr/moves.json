@@ -128,7 +128,7 @@
       },
       "outcomes": {
         "strong-2": "fait vaillament face à l'ennemi, prenant un avantage considérable et l'initiative sur ses adversaires.",
-        "strong-3": "réagit d'instinct à l'embuscade ennemie et retourne l'attaque surprise contre ses adversaires.",
+        "strong-3": "réagit d'instinct à l'embuscade ennemie et retourne l'attaque surprise contre ses adversaires, prenant l'initiative sur eux.",
         "strong-4": "attaque sournoisement l'ennemi dans le dos, prenant un avantage considérable et l'initiative sur ses adversaires.",
         "weak-2": "fait face à l'ennemi, prenant l'initiative sur ses adversaires.",
         "weak-3": "réagit à l'embuscade ennemie, prenant l'initiative sur ses adversaires.",
@@ -190,7 +190,7 @@
     },
     "METTRE_FIN_AU_COMBAT": {
       "name": "Mettre Fin au Combat",
-      "action": "tente de ",
+      "action": "décide qu'il est temps de ",
       "summary": "Lorsque <important>déclenchez une action décisive</important> et que vous obtenez un <important>succès total</important>, vous pouvez mettre fin au combat. Utilisez votre Score de Progrès comme valeur à opposer aux dés de défi.",
       "prompts": {
         "health": "Vous vous en sortez avec une nouvelle blessure :",
@@ -206,7 +206,7 @@
         "miss": "En cas d’<important>échec</important>, vous perdez le combat. Vous devez en <move>Payer le Prix</move> et subir les conséquences de votre défaite."
       },
       "outcomes": {
-        "strong": "assène un coup final, et remporte une victoire absolue. L'ennemi est vaincu !",
+        "strong": "assène un coup décisif, et remporte une victoire absolue. L'ennemi est vaincu !",
         "weak-health": "remporte le combat, mais pas sans que son adversaire ne lui inflige une dernière blessure !",
         "weak-spirit": "remporte le combat, mais pas sans un stress mental important !",
         "weak-new-danger": "remporte le combat, mais un nouveau danger ou un nouvel ennemi apparaît, ou bien un danger existant empire !",
