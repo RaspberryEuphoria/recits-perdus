@@ -3,9 +3,13 @@
 import { useTranslations } from 'next-intl';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
+import { AvatarModal } from '@/components/AvatarModal';
+import { Button } from '@/components/DesignSystem/Button';
 import { Form } from '@/components/DesignSystem/Form';
+import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
 import { UserContext } from '@/contexts/user';
+import ThumbnailIcon from '@/public/images/icons/thumbnail.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
 import { SkillId } from '@/utils/types/scenario';
@@ -35,6 +39,7 @@ export function CharacterEditor({
   const t = useTranslations('characters');
   const { currentUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const skillsTableRef = useRef<HTMLDivElement>(null);
   const isEditMode = useMemo(() => Boolean(character), [character]);
 
@@ -116,6 +121,28 @@ export function CharacterEditor({
 
   const openSkillPicker = (index: number) => {
     setCurrentSkillCell(index);
+  };
+
+  const saveAvatar = async (
+    crop: { x: number; y: number; width: number; height: number },
+    base64Image: string,
+  ) => {
+    if (!currentUser || !character) return;
+
+    const updatedCharacter = await httpBffClient.put<{ avatar: string }>(
+      `/user/${currentUser.id}/characters/${character.id}/avatar`,
+      {
+        crop,
+        base64Image,
+      },
+    );
+
+    if (isHttpError(updatedCharacter)) {
+      console.error(`There was an error saving the character avatar: ${updatedCharacter.message}`);
+      return;
+    }
+
+    onCharacterSaved({ ...character, avatar: updatedCharacter.avatar });
   };
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -210,12 +237,33 @@ export function CharacterEditor({
     [characterSkills],
   );
 
+  const openAvatarModal = () => {
+    setIsAvatarModalOpen(true);
+  };
+
+  const closeAvatarModal = () => {
+    setIsAvatarModalOpen(false);
+  };
+
   if (isLoading) {
     return <Text>{t('character-editor.form.loading')}</Text>;
   }
 
   return (
     <Styled.FormWrapper>
+      <AvatarModal
+        isOpen={isAvatarModalOpen}
+        closeAvatarModal={closeAvatarModal}
+        onAvatarSave={saveAvatar}
+      />
+      {isEditMode && (
+        <Row>
+          <Button variant="small" onClick={openAvatarModal}>
+            <ThumbnailIcon />
+            {t('character-editor.form.labels.avatar')}
+          </Button>
+        </Row>
+      )}
       <Form
         onSubmit={submitForm}
         inputs={inputs}

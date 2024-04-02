@@ -188,6 +188,13 @@ export class UserRepository {
 
     return mapCharacters(character);
   }
+
+  async updateCharacterAvatar({ characterId, avatar }: { characterId: number; avatar: string }) {
+    await this.db.character.update({
+      where: { id: characterId },
+      data: { avatar },
+    });
+  }
 }
 
 function mapCharacters(character: FullCharacter) {

@@ -59,6 +59,20 @@ function userRoutes(userContainer: UserContainer) {
     }
   });
 
+  router.put('/:userId/characters/:characterId/avatar', async (req, res, next) => {
+    try {
+      const newAvatar = await userContainer.updateCharacterAvatar({
+        ...req.body,
+        userId: parseInt(req.params.userId),
+        id: parseInt(req.params.characterId),
+      });
+
+      res.json({ avatar: newAvatar });
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.post('/:id/characters', async (req, res, next) => {
     try {
       const character = await userContainer.createCharacter({

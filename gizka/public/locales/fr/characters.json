@@ -44,7 +44,20 @@
           "superb": "Exceptionnel",
           "great": "Avancé",
           "good": "Compétent",
+          "avatar": "Changer d'avatar",
           "reset": "Réinitialiser"
+        }
+      },
+      "avatar-modal": {
+        "step-1": {
+          "title": "Sélectionner une image",
+          "upload": "Uploader une image"
+        },
+        "step-2": {
+          "title": "Modifier l'avatar",
+          "help": "Taille minimale recommandée : 200 (largeur) x 230 (hauteur)",
+          "cancel": "Annuler",
+          "save": "Enregistrer"
         }
       }
     },
@@ -58,7 +71,7 @@
       "heart-description": "Courage, volonté, empathie, sociabilité et loyauté",
       "iron-description": "Force physique, endurance, agressivité, et capacité en combat au corps à corps",
       "shadow-description": "Sournoiserie, tromperie et ruse",
-      "wits-description": "Expertise, connaissances, et perception"
+      "wits-description": "Expertise, connaissances, perception, et capacité en combat avec la Force"
     }
   }
 }

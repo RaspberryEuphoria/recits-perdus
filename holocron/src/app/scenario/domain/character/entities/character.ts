@@ -13,4 +13,12 @@ type CreateCharacterDTO = {
 
 type UpdateCharacterDto = Omit<CreateCharacterDTO, 'skills'> & { id: number; userId: number };
 
-export { CreateCharacterDTO, UpdateCharacterDto };
+type Crop = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+type UpdateCharacterAvatarDto = { id: number; userId: number; base64Avatar: string; crop: Crop };
+
+export { CreateCharacterDTO, UpdateCharacterAvatarDto, UpdateCharacterDto };

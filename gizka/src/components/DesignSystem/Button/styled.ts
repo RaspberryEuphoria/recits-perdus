@@ -1,16 +1,18 @@
 import styled, { css } from 'styled-components';
 
-export const Button = styled.button<{ width?: string; outline?: boolean }>`
-  width: ${(props) => (props.width ? props.width : 'auto')};
-  padding: var(--space-05) var(--space-2);
+export const Button = styled.button<{ width?: string; outline?: boolean; variant?: 'small' }>`
   background: var(--flashy);
   border: 2px solid;
-  border-radius: var(--rounded);
   border-color: transparent;
-  outline: none;
-  text-transform: uppercase;
+  border-radius: var(--rounded);
+  color: var(--dark);
   font-family: 'Oxanium';
   font-size: 1.4rem;
+  outline: none;
+  padding: var(--space-05) var(--space-2);
+  text-transform: uppercase;
+  width: ${(props) => (props.width ? props.width : 'auto')};
+  transition: background 0.3s ease-in;
 
   ${(props) =>
     props.outline &&
@@ -20,7 +22,24 @@ export const Button = styled.button<{ width?: string; outline?: boolean }>`
       color: var(--flashy);
     `}
 
+  ${(props) =>
+    props.variant === 'small' &&
+    css`
+      align-items: center;
+      display: flex;
+      font-size: 1.2rem;
+      gap: var(--space-05);
+      padding: var(--space-05) var(--space-1);
+      text-transform: none;
+
+      svg {
+        width: 25px;
+        height: 25px;
+      }
+    `}
+
   &:hover&:not(:disabled) {
+    background: var(--flashy-08);
     cursor: pointer;
     animation: pulse 1s;
     box-shadow: 0 0 0 0.5em transparent;
