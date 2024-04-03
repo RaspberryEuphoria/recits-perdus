@@ -2,7 +2,7 @@
 import 'react-image-crop/dist/ReactCrop.css';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactCrop, { type PixelCrop } from 'react-image-crop';
 
 import { Button } from '@/components/DesignSystem/Button';
@@ -49,7 +49,12 @@ export function AvatarModal({
   const [crop, setCrop] = useState<PixelCrop>(cropOptions);
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
-  const maxImageSize = getMaxSize(imageSize);
+  const [maxAllowedSize, setMaxAllowedSize] = useState({
+    width: MAX_AVATAR_WIDTH,
+    height: MAX_AVATAR_HEIGHT,
+  });
+
+  const maxImageSize = getMaxSize(imageSize, maxAllowedSize);
 
   const clearAvatar = () => {
     setBase64Image(null);
@@ -98,6 +103,19 @@ export function AvatarModal({
 
     reader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    const windowWidth = window.innerWidth * 0.75;
+    const windowHeight = window.innerHeight * 0.75;
+
+    if (windowWidth < maxAllowedSize.width && windowHeight > maxAllowedSize.height) {
+      setMaxAllowedSize({ width: windowWidth, height: maxAllowedSize.height });
+    } else if (windowWidth > maxAllowedSize.width && windowHeight < maxAllowedSize.height) {
+      setMaxAllowedSize({ width: maxAllowedSize.width, height: windowHeight });
+    } else if (windowWidth < maxAllowedSize.width && windowHeight < maxAllowedSize.height) {
+      setMaxAllowedSize({ width: windowWidth, height: windowHeight });
+    }
+  }, [maxAllowedSize.height, maxAllowedSize.width]);
 
   if (!isOpen) {
     return null;
@@ -167,10 +185,13 @@ export function AvatarModal({
   );
 }
 
-function getMaxSize(size: { width: number; height: number } | null) {
-  if (!size) return { maxWidth: MAX_AVATAR_WIDTH, maxHeight: MAX_AVATAR_HEIGHT };
+function getMaxSize(
+  size: { width: number; height: number } | null,
+  maxSize: { width: number; height: number },
+) {
+  if (!size) return { maxWidth: maxSize.width, maxHeight: maxSize.height };
 
-  if (size.width < MAX_AVATAR_WIDTH && size.height < MAX_AVATAR_HEIGHT) {
+  if (size.width < maxSize.width && size.height < maxSize.height) {
     return {
       maxWidth: size.width,
       maxHeight: size.height,
@@ -179,13 +200,13 @@ function getMaxSize(size: { width: number; height: number } | null) {
 
   if (size.width > size.height) {
     return {
-      maxWidth: MAX_AVATAR_WIDTH,
-      maxHeight: (MAX_AVATAR_WIDTH * size.height) / size.width,
+      maxWidth: maxSize.width,
+      maxHeight: (maxSize.width * size.height) / size.width,
     };
   }
 
   return {
-    maxWidth: (MAX_AVATAR_HEIGHT * size.width) / size.height,
-    maxHeight: MAX_AVATAR_HEIGHT,
+    maxWidth: (maxSize.height * size.width) / size.height,
+    maxHeight: maxSize.height,
   };
 }
