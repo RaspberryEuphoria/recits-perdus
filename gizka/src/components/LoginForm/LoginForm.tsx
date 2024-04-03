@@ -10,11 +10,13 @@ export function LoginForm({
       name: 'email',
       label: 'Adresse email',
       type: 'email' as const,
+      mandatory: false,
     },
     {
       name: 'password',
       label: 'Mot de passe',
       type: 'password' as const,
+      mandatory: false,
     },
   ];
 
