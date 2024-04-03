@@ -51,6 +51,7 @@ async function cropImage(base64Image: string, crop: UpdateCharacterAvatarDto['cr
       left: Math.floor(x),
       top: Math.floor(y),
     })
+    .resize(200, 230)
     .png()
     .toBuffer();
 }
