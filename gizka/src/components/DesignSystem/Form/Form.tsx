@@ -1,8 +1,9 @@
 import { Fragment } from 'react';
 
 import { ColorPicker } from '@/components/DesignSystem/ColorPicker';
-import type { InputProps, SelectProps } from '@/components/DesignSystem/Input';
+import type { InputProps } from '@/components/DesignSystem/Input';
 import { Input } from '@/components/DesignSystem/Input';
+import type { SelectProps } from '@/components/DesignSystem/Select';
 import { Select } from '@/components/DesignSystem/Select';
 import { Textarea } from '@/components/DesignSystem/Textarea';
 
@@ -12,7 +13,7 @@ type Input = {
   name: string;
   label: string;
   type: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'color-picker';
-  options?: Array<SelectProps['options']>;
+  options?: SelectProps['options'];
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   defaultValue?: string | number;
   help?: string;
@@ -58,7 +59,6 @@ export function Form({
             {input.type === 'select' && (
               <Select
                 name={input.name}
-                id={input.name}
                 type={input.type}
                 options={(input as SelectProps).options}
                 defaultValue={input.defaultValue}
@@ -67,7 +67,6 @@ export function Form({
             {input.type === 'color-picker' && (
               <ColorPicker
                 name={input.name}
-                id={input.name}
                 type={input.type}
                 options={(input as SelectProps).options}
                 defaultValue={input.defaultValue}

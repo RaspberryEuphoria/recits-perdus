@@ -2,25 +2,24 @@ import { TextColor } from '@/utils/constants';
 
 import * as Styled from './styled';
 
-export type SelectOption = {
-  value: TextColor;
+export type ColorOption = {
+  value: string;
   label: string;
   isDisabled?: boolean;
 };
 
-export type SelectProps = {
+export type ColorPickerProps = {
   name: string;
-  id: string;
   defaultValue?: string | number;
-  options: Array<SelectOption>;
+  options: Array<ColorOption>;
   type: 'color-picker';
 };
 
-export function ColorPicker(props: SelectProps) {
+export function ColorPicker(props: ColorPickerProps) {
   return (
     <Styled.ColorPicker {...props}>
       {props.options.map((option) => (
-        <Styled.Option key={option.value} color={option.value}>
+        <Styled.Option key={option.value} color={option.value as TextColor}>
           <input type="radio" id={option.value} name={props.name} value={option.value} hidden />
           <Styled.Color htmlFor={option.value}>{option.label}</Styled.Color>
         </Styled.Option>

@@ -8,7 +8,6 @@ export type SelectOption = {
 
 export type SelectProps = {
   name: string;
-  id: string;
   defaultValue?: string | number;
   options: Array<SelectOption>;
   type: 'select';
