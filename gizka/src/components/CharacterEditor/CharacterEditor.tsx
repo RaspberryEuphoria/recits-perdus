@@ -182,6 +182,7 @@ export function CharacterEditor({
     }
 
     onCharacterSaved(newCharacter);
+    setIsLoading(false);
   };
 
   const editCharacter = async ({ firstName, lastName, age, origin, story }: Partial<Character>) => {
@@ -267,7 +268,9 @@ export function CharacterEditor({
       <Form
         onSubmit={submitForm}
         inputs={inputs}
-        submitButtonLabel={t(`character-editor.form.submit.${isEditMode ? 'edit' : 'new'}`)}
+        submitButton={
+          <Button>{t(`character-editor.form.submit.${isEditMode ? 'edit' : 'new'}`)}</Button>
+        }
       >
         {!isEditMode && (
           <>

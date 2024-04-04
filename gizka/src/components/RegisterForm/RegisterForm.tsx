@@ -1,3 +1,4 @@
+import { Button } from '@/components/DesignSystem/Button';
 import { Form } from '@/components/DesignSystem/Form';
 
 export function RegisterForm({
@@ -26,5 +27,11 @@ export function RegisterForm({
     },
   ];
 
-  return <Form onSubmit={register} inputs={inputs} submitButtonLabel="S'inscrire" />;
+  return (
+    <Form
+      onSubmit={register}
+      inputs={inputs}
+      submitButton={<Button width="100%">S&apos;inscrire</Button>}
+    />
+  );
 }

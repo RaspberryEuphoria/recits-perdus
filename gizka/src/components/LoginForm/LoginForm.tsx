@@ -1,3 +1,4 @@
+import { Button } from '@/components/DesignSystem/Button';
 import { Form } from '@/components/DesignSystem/Form';
 
 export function LoginForm({
@@ -20,5 +21,11 @@ export function LoginForm({
     },
   ];
 
-  return <Form onSubmit={login} inputs={inputs} submitButtonLabel="Se connecter" />;
+  return (
+    <Form
+      onSubmit={login}
+      inputs={inputs}
+      submitButton={<Button width="100%">Se connecter</Button>}
+    />
+  );
 }
