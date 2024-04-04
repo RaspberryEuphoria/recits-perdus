@@ -20,12 +20,16 @@ export class FileRepository {
   }
 
   async removeFile(folder: string, fileName: string) {
-    const path = `${this.publicFolderPath}/${folder}/${fileName}`;
+    try {
+      const path = `${this.publicFolderPath}/${folder}/${fileName}`;
 
-    fs.unlink(path, function (err) {
-      if (err) throw new Error(`There was an error while removing ${fileName}: ${err}`);
+      fs.unlink(path, function (err) {
+        if (err) throw new Error(`There was an error while removing ${fileName}: ${err}`);
 
-      console.log(`File ${fileName} removed successfully!`);
-    });
+        console.log(`File ${fileName} removed successfully!`);
+      });
+    } catch (err) {
+      console.error(`There was an error while removing ${fileName}: ${err}`);
+    }
   }
 }
