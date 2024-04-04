@@ -13,7 +13,6 @@ export const NavBar = styled.nav`
 export const Link = styled.div<{ isDisabled: boolean }>`
   position: relative;
   gap: 2rem;
-  text-transform: uppercase;
   font-size: 1.5rem;
 
   ${({ isDisabled }) => isDisabled && `display: none;`}

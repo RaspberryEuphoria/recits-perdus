@@ -13,7 +13,7 @@ export const Button = styled.button<{
   border-color: transparent;
   color: var(--dark);
   display: flex;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-size: 1.4rem;
   gap: var(--space-1);
   outline: none;

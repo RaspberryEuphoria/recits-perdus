@@ -107,7 +107,7 @@ export const Tab = styled.button<{ isOpen: boolean; isDisabled: boolean }>`
   position: relative;
   font-size: 1.2rem;
   font-weight: bold;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   text-transform: uppercase;
   transform: skew(35deg);
   transition: border 0.2s ease-in, box-shadow 0.2s ease-in;

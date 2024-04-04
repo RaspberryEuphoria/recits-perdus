@@ -39,14 +39,14 @@ export const Scenario = styled(Link)<{ background: string }>`
 `;
 
 export const ScenarioLabel = styled.span`
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-weight: bold;
   text-transform: uppercase;
   font-size: 1.2rem;
 `;
 
 export const ScenarioDescription = styled.span`
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-weight: normal;
   color: var(--flashy-alt);
   font-size: 0.9rem;
@@ -54,7 +54,7 @@ export const ScenarioDescription = styled.span`
 
 export const CharactersList = styled.span`
   margin-top: 1rem;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-weight: normal;
 `;
 

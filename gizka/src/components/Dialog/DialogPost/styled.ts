@@ -10,7 +10,7 @@ export const DialogPost = styled.div`
   margin: 4rem 0;
   line-height: 2rem;
   font-size: 1.4rem;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
 
   // This is the Introduction
   &:first-of-type {

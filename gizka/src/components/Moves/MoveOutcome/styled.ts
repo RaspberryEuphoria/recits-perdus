@@ -20,7 +20,7 @@ export const MoveScore = styled.div<{ color: string }>`
   border-radius: 1rem;
   color: ${(props) => props.color};
   display: flex;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-size: 2rem;
   font-weight: bold;
   height: 65px;
@@ -33,7 +33,7 @@ export const DestinyScore = styled.span`
   top: 0;
   right: 0;
   color: var(--malus);
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-weight: bold;
   height: 65px;
   position: absolute;

@@ -61,7 +61,7 @@ export const EditButton = styled.div`
   color: var(--flashy-alt);
   cursor: pointer;
   display: flex;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-size: 1rem;
 
   svg {

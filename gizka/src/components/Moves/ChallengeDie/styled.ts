@@ -11,7 +11,7 @@ export const ChallengeDie = styled.div`
   background-size: cover;
   color: var(--dark);
   display: flex;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
   font-size: 1.4rem;
   font-weight: bold;
   justify-content: center;

@@ -18,7 +18,7 @@ export const Footer = styled.footer`
 export const SmallTextarea = styled.div<{ isDisabled: boolean }>`
   color: var(--light-08);
   font-size: 1.4rem;
-  font-family: 'Oxanium';
+  font-family: 'Philosopher';
 
   &:hover {
     text-shadow: 0 0 0.5rem var(--flashy);
