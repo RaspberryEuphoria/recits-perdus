@@ -10,6 +10,7 @@ export const Input = styled.input`
   height: 2.8rem;
   padding: 0.5rem;
   font-size: 1.4rem;
+  font-family: 'Roboto';
 
   &:focus {
     outline: none;

@@ -24,7 +24,6 @@ export const GameSection = styled.div`
   border-bottom: 0;
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto';
   gap: var(--space-1);
   overflow: auto;
   padding: var(--space-1);

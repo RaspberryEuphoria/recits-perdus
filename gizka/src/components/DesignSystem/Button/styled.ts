@@ -21,6 +21,7 @@ export const Button = styled.button<{
   text-transform: uppercase;
   transition: background 0.3s ease-in;
   width: ${(props) => (props.width ? props.width : 'auto')};
+  justify-content: center;
 
   svg {
     width: 25px;

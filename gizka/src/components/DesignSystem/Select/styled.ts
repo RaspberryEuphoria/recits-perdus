@@ -10,6 +10,9 @@ export const Select = styled.select`
   height: 2.8rem;
   padding: 0.5rem;
   font-size: 1.4rem;
+  font-family: 'Roboto';
 `;
 
-export const Option = styled.option``;
+export const Option = styled.option`
+  font-family: 'Roboto';
+`;
