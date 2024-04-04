@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
+export const Textarea = styled.textarea`
   background: var(--dark);
-  border: 1px solid var(--light);
   border-radius: var(--rounded);
+  border: 1px solid var(--light);
   color: var(--light);
   display: block;
-  width: 100%;
-  height: 2.8rem;
-  padding: 0.5rem;
+  font-family: 'Roboto';
   font-size: 1.4rem;
+  height: 10rem;
+  padding: 0.5rem;
+  resize: vertical;
+  width: 100%;
 
   &:focus {
     outline: none;

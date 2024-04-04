@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
+export const Select = styled.select`
   background: var(--dark);
   border: 1px solid var(--light);
   border-radius: var(--rounded);
@@ -10,9 +10,6 @@ export const Input = styled.input`
   height: 2.8rem;
   padding: 0.5rem;
   font-size: 1.4rem;
-
-  &:focus {
-    outline: none;
-    border-color: var(--flashy);
-  }
 `;
+
+export const Option = styled.option``;

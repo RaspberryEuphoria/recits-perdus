@@ -1,28 +1,33 @@
 import { Fragment } from 'react';
 
-import { Button } from '@/components/DesignSystem/Button';
+import { ColorPicker } from '@/components/DesignSystem/ColorPicker';
+import type { InputProps, SelectProps } from '@/components/DesignSystem/Input';
 import { Input } from '@/components/DesignSystem/Input';
+import { Select } from '@/components/DesignSystem/Select';
+import { Textarea } from '@/components/DesignSystem/Textarea';
 
 import * as Styled from './styled';
 
 type Input = {
   name: string;
   label: string;
-  type: 'text' | 'textarea' | 'email' | 'password' | 'number';
+  type: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'color-picker';
+  options?: Array<SelectProps['options']>;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   defaultValue?: string | number;
+  help?: string;
   mandatory: boolean;
 };
 
 export function Form({
   onSubmit,
   inputs,
-  submitButtonLabel,
+  submitButton,
   children,
 }: {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   inputs: Array<Input>;
-  submitButtonLabel: string;
+  submitButton: React.ReactNode;
   children?: React.ReactNode;
 }) {
   const onInput = (event: React.FormEvent<HTMLInputElement>, input: Input) => {
@@ -36,24 +41,52 @@ export function Form({
       {inputs.map((input) => (
         <Fragment key={input.label}>
           <Styled.FormRow key={`${input.label}`}>
-            <Styled.Label htmlFor={input.name}>{input.label}</Styled.Label>{' '}
-            {input.mandatory && '(requis)'}
+            <Styled.Label htmlFor={input.name}>
+              {input.label} {input.mandatory && <Styled.Mandatory>(requis)</Styled.Mandatory>}
+            </Styled.Label>
+            {input.help && <Styled.Help dangerouslySetInnerHTML={{ __html: input.help }} />}
           </Styled.FormRow>
           <Styled.FormRow key={`${input.name}`}>
-            <Input
-              name={input.name}
-              id={input.name}
-              type={input.type}
-              onInput={(e) => onInput(e, input)}
-              defaultValue={input.defaultValue}
-            />
+            {input.type === 'textarea' && (
+              <Textarea
+                name={input.name}
+                id={input.name}
+                type={input.type}
+                defaultValue={input.defaultValue}
+              />
+            )}
+            {input.type === 'select' && (
+              <Select
+                name={input.name}
+                id={input.name}
+                type={input.type}
+                options={(input as SelectProps).options}
+                defaultValue={input.defaultValue}
+              />
+            )}
+            {input.type === 'color-picker' && (
+              <ColorPicker
+                name={input.name}
+                id={input.name}
+                type={input.type}
+                options={(input as SelectProps).options}
+                defaultValue={input.defaultValue}
+              />
+            )}
+            {['text', 'number', 'email', 'password'].includes(input.type) && (
+              <Input
+                name={input.name}
+                id={input.name}
+                type={input.type as InputProps['type']}
+                onInput={(e) => onInput(e, input)}
+                defaultValue={input.defaultValue}
+              />
+            )}
           </Styled.FormRow>
         </Fragment>
       ))}
       {children}
-      <Styled.FormRow marginY={1.5}>
-        <Button width="100%">{submitButtonLabel}</Button>
-      </Styled.FormRow>
+      <Styled.FormRow marginY={1.5}>{submitButton}</Styled.FormRow>
     </Styled.Form>
   );
 }
