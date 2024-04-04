@@ -1,3 +1,4 @@
+import { TextColor } from '../../../../../constants';
 import { Post } from '../../post/entities/post';
 
 enum ScenarioStatus {
@@ -20,6 +21,12 @@ type Scenario = {
   introduction: string;
 };
 
-type CreateScenarioDto = Pick<Scenario, 'title' | 'safeTitle' | 'status' | 'introduction'>;
+type CreateScenarioDto = Pick<
+  Scenario,
+  'title' | 'safeTitle' | 'status' | 'introduction' | 'era'
+> & {
+  characterId: number;
+  textColor: TextColor;
+};
 
 export { CreateScenarioDto, Scenario, ScenarioStatus };

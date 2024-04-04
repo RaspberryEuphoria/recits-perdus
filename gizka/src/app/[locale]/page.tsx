@@ -19,11 +19,6 @@ const links = [
     isDisabled: true,
   },
   {
-    label: 'Créer un scénario',
-    href: '/create',
-    isDisabled: true,
-  },
-  {
     label: 'Rejoindre un scénario',
     href: '/join',
     isDisabled: true,
@@ -31,6 +26,11 @@ const links = [
   {
     label: 'Mes personnages',
     href: '/mes-personnages',
+    isDisabled: false,
+  },
+  {
+    label: 'Créer un scénario',
+    href: '/scenarios',
     isDisabled: false,
   },
   {

@@ -8,6 +8,7 @@ function createScenarioUsecase(scenarioRepository: ScenarioRepository) {
       status: ScenarioStatus.INITIATED,
       safeTitle: createSlugFromString(scenario.title),
     });
+
     return newScenario;
   };
 }

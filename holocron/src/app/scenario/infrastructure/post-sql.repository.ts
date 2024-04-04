@@ -1,6 +1,6 @@
 import { MoveResult, Prisma, PrismaClient } from '@prisma/client';
 
-import { MoveId, MoveMeta } from '../domain/post/entities/move';
+import { MoveMeta } from '../domain/post/entities/move';
 import { CreatePostDto, Dice } from '../domain/post/entities/post';
 
 export type PostWithCharacterSkills = Prisma.PostGetPayload<{

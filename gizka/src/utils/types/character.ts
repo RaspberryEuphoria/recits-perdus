@@ -14,6 +14,7 @@ export type Character = {
   health: number;
   spirit: number;
   momentum: number;
+  scenario?: Array<CharacterScenario>;
   characterScenario?: CharacterScenario;
 };
 

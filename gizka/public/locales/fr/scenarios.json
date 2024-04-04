@@ -1,6 +1,34 @@
 {
   "scenarios": {
     "title": "Les Récits Perdus",
+    "creer": {
+      "title": "Créer un scénario - Les Récits Perdus",
+      "description": "Créez un nouveau scénario et embarquer dans une aventure épique !",
+      "must-login": "Vous devez être connecté pour créer un scénario.",
+      "new-character": "Créer un personnage pour ce scénario",
+      "breadcrumb": {
+        "home": "Accueil",
+        "current": "Créer un scénario"
+      },
+      "form": {
+        "labels": {
+          "title": "Titre",
+          "era": "Époque",
+          "location": "Planète",
+          "introduction": "Texte d'introduction",
+          "character": "Personnage",
+          "text-color": "Couleur des dialogues"
+        },
+        "text-color": {
+          "blue": "Bleu"
+        },
+        "help": {
+          "introduction": "Décrivez la situation initiale du scénario, les objectifs à atteindre, et toute information pertinente.<p>Vous pouvez utiliser le jeton {{characters}} pour insérer automatiquement le nom des personnages inscrits au scénario dans le texte, par exemple \"{{characters}} ont été choisis pour cette mission\".</p>"
+        },
+        "character-unavailable": "(en jeu dans \"{title}\")",
+        "submit": "Créer un scenario"
+      }
+    },
     "en-cours": {
       "breadcrumb": {
         "home": "Accueil",

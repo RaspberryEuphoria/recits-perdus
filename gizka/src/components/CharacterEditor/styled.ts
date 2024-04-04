@@ -3,8 +3,7 @@ import styled, { css } from 'styled-components';
 import { Text } from '@/components/DesignSystem/Text';
 
 export const FormWrapper = styled.div`
-  width: 75%;
-  margin: var(--space-2) auto;
+  padding: var(--space-1);
 
   h2 {
     align-self: flex-start;
