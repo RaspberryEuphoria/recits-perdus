@@ -44,14 +44,31 @@ server.listen(port, () => {
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static('public'));
 
-app.get('/', (_req, _res) => {
-  _res.json({
+app.get('/', (_req, res) => {
+  res.json({
     message: 'TypeScript With Express',
   });
 });
 
+// log requests
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((req: express.Request, _res: express.Response, next: express.NextFunction) => {
+  console.log(
+    `${new Date().toLocaleDateString('en-En', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    })} - ${req.method} - ${req.url}`,
+  );
+
+  next();
+});
+
 // handle app errors
 app.use(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: Error, _req: express.Request, _res: express.Response, _next: express.NextFunction) => {
     console.error(err);
     _res.status(500).send('Something broke!');
