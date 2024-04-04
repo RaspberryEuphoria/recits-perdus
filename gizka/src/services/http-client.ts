@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 export type HttpError = {
   status: number;
   message: string;
@@ -40,16 +41,22 @@ class HttpClient {
     return data;
   }
 
-  public async get<T>(url: string): Promise<T | HttpError> {
+  public async get<T>(url: string, headers?: Record<string, string>): Promise<T | HttpError> {
     return this.request<T>(url, {
       method: 'GET',
+      headers,
     });
   }
 
-  public async post<T>(url: string, body: any): Promise<T | HttpError> {
+  public async post<T>(
+    url: string,
+    body: any,
+    headers?: Record<string, string>,
+  ): Promise<T | HttpError> {
     return this.request<T>(url, {
       method: 'POST',
       headers: {
+        ...headers,
         accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -57,29 +64,40 @@ class HttpClient {
     });
   }
 
-  public async put<T>(url: string, body: any): Promise<T | HttpError> {
+  public async put<T>(
+    url: string,
+    body: any,
+    headers?: Record<string, string>,
+  ): Promise<T | HttpError> {
     return this.request<T>(url, {
       method: 'PUT',
       headers: {
         accept: 'application/json',
         'Content-Type': 'application/json',
+        ...headers,
       },
       body: JSON.stringify(body),
     });
   }
 
-  public async delete<T>(url: string): Promise<T | HttpError> {
+  public async delete<T>(url: string, headers?: Record<string, string>): Promise<T | HttpError> {
     return this.request<T>(url, {
       method: 'DELETE',
+      headers,
     });
   }
 
-  public async patch<T>(url: string, body: any): Promise<T | HttpError> {
+  public async patch<T>(
+    url: string,
+    body: any,
+    headers?: Record<string, string>,
+  ): Promise<T | HttpError> {
     return this.request<T>(url, {
       method: 'PATCH',
       headers: {
         accept: 'application/json',
         'Content-Type': 'application/json',
+        ...headers,
       },
       body: JSON.stringify(body),
     });
