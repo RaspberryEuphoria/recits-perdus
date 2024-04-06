@@ -1,12 +1,18 @@
+import { DiscordService } from '../../../../../services/DiscordService';
 import { ScenarioRepository } from '../../../infrastructure/scenario-sql.repository';
 import { CreateScenarioDto, ScenarioStatus } from '../entities/scenario';
 
-function createScenarioUsecase(scenarioRepository: ScenarioRepository) {
+function createScenarioUsecase(scenarioRepository: ScenarioRepository, discord: DiscordService) {
   return async function (scenario: CreateScenarioDto) {
     const newScenario = await scenarioRepository.create({
       ...scenario,
       status: ScenarioStatus.INITIATED,
       safeTitle: createSlugFromString(scenario.title),
+    });
+
+    discord.createScenario({
+      scenario: newScenario,
+      character: newScenario.characters[0].character,
     });
 
     return newScenario;

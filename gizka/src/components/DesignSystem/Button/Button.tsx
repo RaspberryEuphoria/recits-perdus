@@ -15,12 +15,18 @@ type ButtonProps = {
 export function Button({ children, ...props }: ButtonProps) {
   if (props.isLoading) {
     return (
-      <Styled.Button {...props} isLoading>
-        <LoadingIcon />
-        {children}
-      </Styled.Button>
+      <Styled.Border width={props.width}>
+        <Styled.Button {...props} isLoading>
+          <LoadingIcon />
+          {children}
+        </Styled.Button>
+      </Styled.Border>
     );
   }
 
-  return <Styled.Button {...props}>{children}</Styled.Button>;
+  return (
+    <Styled.Border width={props.width} isDisabled={props.disabled}>
+      <Styled.Button {...props}>{children}</Styled.Button>
+    </Styled.Border>
+  );
 }

@@ -10,7 +10,7 @@ type DialogThreadProps = {
   characters: Record<string, Character>;
   currentUserId: number | null;
   dialogs: Post[];
-  handlePostEdit: (post: { id: number; content: string }) => void;
+  handlePostEdit?: (post: { id: number; content: string }) => void;
   introductionText: string;
   isEditAllowed: boolean;
 };

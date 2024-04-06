@@ -1,4 +1,5 @@
 import { Character } from '@/utils/types/character';
+import { ScenarioStatus } from '@/utils/types/scenario';
 
 export function getCharactersList({
   characters,
@@ -31,4 +32,14 @@ export function getSafeName(character: Character) {
     .toLowerCase()
     .replace(/\s/g, '-')
     .replace(/[^-a-zA-Z0-9]/g, '');
+}
+
+export function isCharacterAvailable(character: Character) {
+  return (
+    !character.scenario ||
+    character.scenario.length === 0 ||
+    !character.scenario.find((scenario) =>
+      [ScenarioStatus.INITIATED, ScenarioStatus.IN_PROGRESS].includes(scenario.scenario.status),
+    )
+  );
 }

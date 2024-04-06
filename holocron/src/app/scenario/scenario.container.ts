@@ -7,9 +7,11 @@ import { CreatePostDto, UpdatePostDto } from './domain/post/entities/post';
 import { createPostUsecase } from './domain/post/usecases/createPost.usecase';
 import { updatePostUsecase } from './domain/post/usecases/updatePost.usecase';
 import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/scenario';
+import { addCharacterUsecase } from './domain/scenario/usecases/addCharacter.usecase';
 import { createScenarioUsecase } from './domain/scenario/usecases/createScenario.usecase';
 import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usecase';
 import { getScenarioByIdUsecase } from './domain/scenario/usecases/getScenarioById.usecase';
+import { startScenarioUsecase } from './domain/scenario/usecases/startScenario.usecase';
 import { CharacterRepository } from './infrastructure/character-sql.repository';
 import { PostRepository } from './infrastructure/post-sql.repository';
 import { ScenarioRepository } from './infrastructure/scenario-sql.repository';
@@ -47,7 +49,15 @@ export class ScenarioContainer {
   }
 
   createScenario(scenario: CreateScenarioDto) {
-    return createScenarioUsecase(this.scenarioRepository)(scenario);
+    return createScenarioUsecase(this.scenarioRepository, this.discord)(scenario);
+  }
+
+  startScenario({ scenarioId, userId }: { scenarioId: number; userId: number }) {
+    return startScenarioUsecase(this.scenarioRepository, this.discord)({ scenarioId, userId });
+  }
+
+  addCharacter(scenarioId: number, character: { id: number; textColor: string }) {
+    return addCharacterUsecase(this.scenarioRepository)(scenarioId, character);
   }
 
   createPost(post: CreatePostDto) {

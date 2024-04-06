@@ -1,0 +1,1 @@
+export { EnAttenteWithIdPage } from './EnAttenteWithIdPage';

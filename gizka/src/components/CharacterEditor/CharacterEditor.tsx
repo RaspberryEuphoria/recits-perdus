@@ -258,8 +258,8 @@ export function CharacterEditor({
         onAvatarSave={saveAvatar}
       />
       {isEditMode && (
-        <Row>
-          <Button variant="small" onClick={openAvatarModal}>
+        <Row justify="end">
+          <Button onClick={openAvatarModal} variant="small">
             <ThumbnailIcon />
             {t('character-editor.form.labels.avatar')}
           </Button>

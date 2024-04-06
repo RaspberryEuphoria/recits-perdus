@@ -27,7 +27,7 @@
       "form": {
         "loading": "Connexion à Holonet en cours...",
         "submit": {
-          "edit": "Enregistrer les modifications",
+          "edit": "Enregistrer",
           "new": "Créer un personnage"
         },
         "labels": {

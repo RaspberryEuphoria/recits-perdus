@@ -34,6 +34,11 @@ const links = [
     isDisabled: false,
   },
   {
+    label: 'Rejoindre un scénario',
+    href: '/scenarios/en-attente',
+    isDisabled: false,
+  },
+  {
     label: 'Scénarios en cours',
     href: '/scenarios/en-cours',
     isDisabled: false,
@@ -45,7 +50,7 @@ const links = [
   },
   {
     label: 'Discord',
-    href: 'https://discord.gg/c8gymWbtQY',
+    href: `${process.env.NEXT_PUBLIC_DISCORD_LINK}`,
     isDisabled: false,
     isBlank: true,
   },

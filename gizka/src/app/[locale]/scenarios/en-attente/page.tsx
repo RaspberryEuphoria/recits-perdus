@@ -7,14 +7,14 @@ import { httpClient, isHttpError } from '@/services/http-client';
 import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
 
 export const metadata: Metadata = {
-  title: 'Scénarios en cours - Les Récits Perdus',
+  title: 'Scénarios en attente - Les Récits Perdus',
   description:
     'Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars',
 };
 
 async function getData(): Promise<Scenario[]> {
   const scenarios = await httpClient.get<Scenario[]>(
-    `/scenario?status=${ScenarioStatus.IN_PROGRESS}`,
+    `/scenario?status=${ScenarioStatus.INITIATED}`,
   );
 
   if (isHttpError(scenarios)) {
@@ -27,5 +27,5 @@ async function getData(): Promise<Scenario[]> {
 export default async function EnCours() {
   const scenarios = await getData();
 
-  return <EnCoursPage scenarios={scenarios} parentPage={'en-cours'} />;
+  return <EnCoursPage scenarios={scenarios} parentPage={'en-attente'} />;
 }

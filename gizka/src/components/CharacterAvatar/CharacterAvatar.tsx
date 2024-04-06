@@ -9,6 +9,7 @@ import * as Styled from './styled';
 
 type CharacterAvatarProps = {
   character: Character;
+  withName?: boolean;
   handleClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 

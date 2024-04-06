@@ -24,7 +24,7 @@ export function ScenariosFilters({
   return (
     <Styled.Filters>
       <h1>
-        <strong>{scenariosCount}</strong> scénarios en cours
+        <strong>{scenariosCount}</strong> scénarios
       </h1>
 
       <h2>Filtrer par planète</h2>

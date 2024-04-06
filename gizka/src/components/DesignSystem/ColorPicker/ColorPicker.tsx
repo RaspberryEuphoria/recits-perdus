@@ -4,7 +4,6 @@ import * as Styled from './styled';
 
 export type ColorOption = {
   value: string;
-  label: string;
   isDisabled?: boolean;
 };
 
@@ -21,7 +20,7 @@ export function ColorPicker(props: ColorPickerProps) {
       {props.options.map((option) => (
         <Styled.Option key={option.value} color={option.value as TextColor}>
           <input type="radio" id={option.value} name={props.name} value={option.value} hidden />
-          <Styled.Color htmlFor={option.value}>{option.label}</Styled.Color>
+          <Styled.Color htmlFor={option.value} />
         </Styled.Option>
       ))}
     </Styled.ColorPicker>

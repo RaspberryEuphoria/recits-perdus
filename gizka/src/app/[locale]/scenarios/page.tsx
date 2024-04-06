@@ -7,8 +7,8 @@ import { getTranslations } from 'next-intl/server';
 
 import { CreerUnScenarioPage } from '@/components/Pages/CreerUnScenarioPage';
 import { httpBffClient, isHttpError } from '@/services/http-client';
+import { isCharacterAvailable } from '@/utils/character/helpers';
 import { Character } from '@/utils/types/character';
-import { ScenarioStatus } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,15 +57,5 @@ export default async function CreerUnScenario() {
       availableCharacters={availableCharacters}
       unavailableCharacters={unavailableCharacters}
     />
-  );
-}
-
-function isCharacterAvailable(character: Character) {
-  return (
-    !character.scenario ||
-    character.scenario.length === 0 ||
-    !character.scenario.find((scenario) =>
-      [ScenarioStatus.INITIATED, ScenarioStatus.IN_PROGRESS].includes(scenario.scenario.status),
-    )
   );
 }

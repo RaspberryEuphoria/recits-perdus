@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Button } from '@/components/DesignSystem/Button';
 import { Form } from '@/components/DesignSystem/Form';
 import { httpBffClient, isHttpError } from '@/services/http-client';
-import { TextColor } from '@/utils/constants';
+import { colorOptions } from '@/utils/constants';
 import { Character } from '@/utils/types/character';
 import { Scenario } from '@/utils/types/scenario';
 
@@ -92,26 +92,7 @@ export function ScenarioEditor({
         label: t('creer.form.labels.text-color'),
         type: 'color-picker' as const,
         // defaultValue: scenario?.character,
-        options: [
-          {
-            value: TextColor.Red,
-          },
-          {
-            value: TextColor.Blue,
-          },
-          {
-            value: TextColor.Orange,
-          },
-          {
-            value: TextColor.Green,
-          },
-          {
-            value: TextColor.Grey,
-          },
-          {
-            value: TextColor.Purple,
-          },
-        ],
+        options: colorOptions,
         mandatory: true,
       },
       {

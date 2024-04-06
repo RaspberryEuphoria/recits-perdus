@@ -35,7 +35,7 @@ export function createPostUsecase(
     const nextPosterAfterNewPost = getNextPoster(scenario.characters, [...scenario.posts, newPost]);
 
     if (!hasMove) {
-      discord.send({ character: nextPoster, scenario, postId: newPost.id });
+      discord.postInScenario({ character: nextPoster, scenario, postId: newPost.id });
 
       return {
         ...newPost,
@@ -51,7 +51,12 @@ export function createPostUsecase(
         skillRepository,
       )(action.move, newPost.id);
 
-      discord.send({ character: nextPoster, scenario, postId: newPost.id, moveId: action.move.id });
+      discord.postInScenario({
+        character: nextPoster,
+        scenario,
+        postId: newPost.id,
+        moveId: action.move.id,
+      });
 
       return {
         ...newPostWithMove,

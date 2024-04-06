@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
@@ -7,7 +8,15 @@ import { ScenariosListPage } from '@/components/ScenariosListPage';
 import { ScenariosFilters } from '@/components/ScenariosListPage/ScenariosFilters';
 import { Scenario } from '@/utils/types/scenario';
 
-export function EnCoursPage({ scenarios: initialScenarios }: { scenarios: Scenario[] }) {
+export function EnCoursPage({
+  scenarios: initialScenarios,
+  parentPage,
+}: {
+  scenarios: Scenario[];
+  parentPage: 'en-cours' | 'en-attente';
+}) {
+  const t = useTranslations('scenarios');
+
   const locationsWithoutDuplicates = [...new Set(initialScenarios.map(getLocation))];
   const erasWithoutDuplicates = [...new Set(initialScenarios.map(getEra))];
 
@@ -86,11 +95,11 @@ export function EnCoursPage({ scenarios: initialScenarios }: { scenarios: Scenar
     <>
       <LayoutMainSection
         breadcrumb={[
-          { label: 'Accueil', href: '/' },
-          { label: 'Scénarios en cours', href: '#' },
+          { label: t(`${parentPage}.breadcrumb.home`), href: '/' },
+          { label: t(`${parentPage}.breadcrumb.current`), href: '#' },
         ]}
       >
-        <ScenariosListPage scenarios={scenarios} />
+        <ScenariosListPage scenarios={scenarios} linkPrefix={`scenarios/${parentPage}`} />
       </LayoutMainSection>
       <LayoutAsideSection>
         <ScenariosFilters

@@ -162,6 +162,58 @@ export class ScenarioRepository {
           },
         },
       },
+      include: {
+        characters: {
+          orderBy: {
+            id: 'asc',
+          },
+          include: {
+            character: {
+              select: {
+                userId: true,
+                id: true,
+                firstName: true,
+                lastName: true,
+                story: true,
+                title: true,
+                isTitleSuffix: true,
+                origin: true,
+                age: true,
+                avatar: true,
+                skills: {
+                  include: {
+                    skill: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async addCharacter({
+    id,
+    characterId,
+    textColor,
+  }: {
+    id: number;
+    characterId: number;
+    textColor: string;
+  }) {
+    return this.db.scenario.update({
+      where: {
+        id,
+      },
+      data: {
+        characters: {
+          create: {
+            characterId,
+            textColor,
+          },
+        },
+      },
     });
   }
 

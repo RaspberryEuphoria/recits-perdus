@@ -209,9 +209,9 @@ function mapCharacters(character: FullCharacter) {
         }))
       : [],
     textColor: scenario?.textColor || TextColor.Default,
-    health: scenario?.health || null,
-    spirit: scenario?.spirit || null,
-    momentum: scenario?.momentum || null,
+    health: scenario?.health || 0,
+    spirit: scenario?.spirit || 0,
+    momentum: scenario?.momentum || 0,
     characterScenario: scenario,
   };
 }

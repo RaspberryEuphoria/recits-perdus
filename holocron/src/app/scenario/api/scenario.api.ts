@@ -67,6 +67,40 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
     }
   });
 
+  // Register character in scenario
+  router.post(`/:id/start`, async (req, res, next) => {
+    try {
+      const loggedUser = req.loggedUser;
+      if (!loggedUser) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+      }
+
+      await scenarioContainer.startScenario({
+        scenarioId: parseInt(req.params.id),
+        userId: loggedUser.id,
+      });
+
+      res.json({ message: 'ok' });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Register character in scenario
+  router.post(`/:id/character`, async (req, res, next) => {
+    try {
+      const scenario = await scenarioContainer.addCharacter(parseInt(req.params.id), {
+        id: parseInt(req.body.characterId),
+        textColor: req.body.textColor,
+      });
+
+      res.json(scenario);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   // Post in scenario
   router.post(`/:id/post`, async (_req, _res, next) => {
     try {

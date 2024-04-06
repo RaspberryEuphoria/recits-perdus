@@ -2,20 +2,6 @@ import styled from 'styled-components';
 
 import { CharacterAvatar } from '@/components/CharacterAvatar/styled';
 
-export const BackButton = styled.div`
-  align-items: center;
-  color: var(--flashy);
-  cursor: pointer;
-  display: flex;
-  position: relative;
-
-  svg {
-    height: 25px;
-    transform: rotate(90deg);
-    width: 25px;
-  }
-`;
-
 export const CharacterSheet = styled.div`
   display: flex;
   flex-direction: column;

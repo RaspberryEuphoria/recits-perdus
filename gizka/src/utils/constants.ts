@@ -14,6 +14,27 @@ export enum TextColor {
   Default = '#11b6f7',
 }
 
+export const colorOptions: Array<{ value: TextColor }> = [
+  {
+    value: TextColor.Red,
+  },
+  {
+    value: TextColor.Blue,
+  },
+  {
+    value: TextColor.Orange,
+  },
+  {
+    value: TextColor.Green,
+  },
+  {
+    value: TextColor.Grey,
+  },
+  {
+    value: TextColor.Purple,
+  },
+];
+
 export enum Media {
   sm = '600px',
   md = '960px',

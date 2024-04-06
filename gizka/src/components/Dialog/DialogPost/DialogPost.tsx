@@ -14,7 +14,7 @@ type DialogPostProps = {
   content: string;
   moves?: Array<Move>;
   isEditable: boolean;
-  handlePostEdit: (post: { id: number; content: string }) => void;
+  handlePostEdit?: (post: { id: number; content: string }) => void;
 };
 
 export function DialogPost({
@@ -50,7 +50,9 @@ export function DialogPost({
         <Styled.CharacterName color={character.textColor}>
           <Styled.DialogPostAuthor>
             {characterName}{' '}
-            {isEditable && <PencilIcon onClick={() => handlePostEdit({ id, content })} />}
+            {isEditable && (
+              <PencilIcon onClick={() => handlePostEdit && handlePostEdit({ id, content })} />
+            )}
           </Styled.DialogPostAuthor>
         </Styled.CharacterName>
       </Styled.DialogInfos>

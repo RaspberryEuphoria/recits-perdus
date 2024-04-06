@@ -1,8 +1,8 @@
 import { CharacterAvatar } from '@/components/CharacterAvatar';
+import { Button } from '@/components/DesignSystem/Button';
 import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
-import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import HealthIcon from '@/public/images/icons/health.svg';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
 import SpiritIcon from '@/public/images/icons/spirit.svg';
@@ -18,18 +18,17 @@ type CharacterSheetProps = {
 
 export function CharacterSheet({ character, handleBackClick }: CharacterSheetProps) {
   const colorAtLightOpacity = convertHexadecimalColorToHsl(character.textColor, 0.2);
-
   return (
     <Styled.CharacterSheet>
       {handleBackClick && (
-        <Row>
-          <Styled.BackButton onClick={handleBackClick}>
-            <DownArrowIcon /> Retour
-          </Styled.BackButton>
+        <Row justify="end">
+          <Button onClick={handleBackClick} outline variant="small">
+            Retour
+          </Button>
         </Row>
       )}
 
-      <Row>
+      <Row justify="end">
         <Styled.Character>
           <CharacterAvatar character={character} />
 
@@ -92,19 +91,19 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
         </Styled.CharacterData>
       </Row>
 
-      <Row>
+      <Row justify="end">
         <Styled.Block color={character.textColor}>
           <Styled.Title color={character.textColor}>Histoire</Styled.Title>
           {character.story ? <Text size="md">{character.story}</Text> : <em>(à rédiger)</em>}
         </Styled.Block>
       </Row>
 
-      <Row>
+      <Row justify="end">
         <Styled.Block color={character.textColor}>
           <Styled.Title color={character.textColor}>Scénarios</Styled.Title> <em>(à venir)</em>
         </Styled.Block>
       </Row>
-      <Row>
+      <Row justify="end">
         <Styled.Block color={character.textColor}>
           <Styled.Title color={character.textColor}>Statistiques</Styled.Title> <em>(à venir)</em>
         </Styled.Block>

@@ -5,7 +5,9 @@
       "title": "Créer un scénario - Les Récits Perdus",
       "description": "Créez un nouveau scénario et embarquer dans une aventure épique !",
       "must-login": "Vous devez être connecté pour créer un scénario.",
-      "new-character": "Créer un personnage pour ce scénario",
+      "new-character": "Suivant",
+      "new-character-back": "Retour",
+      "new-character-details": "Vous n'avez pas de personnage disponible pour ce scénario ? Créez en un nouveau, et embarquez à l'aventure !",
       "breadcrumb": {
         "home": "Accueil",
         "current": "Créer un scénario"
@@ -73,6 +75,33 @@
           "invalid-move": "Vous n'avez pas sélectionné d'options pour votre action."
         }
       }
+    },
+    "en-attente": {
+      "breadcrumb": {
+        "home": "Accueil",
+        "current": "Scénarios en attente"
+      },
+      "author": {
+        "title": "Vous êtes l'auteur de ce scénario",
+        "help": "Vous pourrez démarrer dès qu'au moins qu'il y aura au moins deux participants. N'hésitez pas à inviter des membres du <discord>Discord</discord> à vous rejoindre !",
+        "start": "Démarrer"
+      },
+      "registered": {
+        "title": "En attente de l'auteur",
+        "help": "Ce scénario est bientôt prêt à démarrer. Préparez-vous à embarquer pour l'aventure !"
+      },
+      "not-registered": {
+        "title": "En attente de joueurs",
+        "help": "Ce scénario n'a pas encore démarré. Choisissez un personnage pour participer à l'aventure !",
+        "no-characters-available": "Vous n'avez pas de personnage en réserve.",
+        "start": "Inscrire le personnage",
+        "new-character": "Créer un personnage",
+        "new-character-back": "Retour"
+      },
+      "form": {
+        "register": "Inscrire le personnage"
+      },
+      "or": "ou"
     }
   }
 }

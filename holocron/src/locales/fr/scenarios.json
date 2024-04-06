@@ -1,4 +1,9 @@
 {
+  "created": "a créé le scénario",
+  "started": "a démarré le scénario",
   "played": "a joué son tour",
-  "in": "dans"
+  "in": "dans",
+  "good-luck": "Que la Force soit avec",
+  "era": "Époque :",
+  "location": "planète :"
 }
