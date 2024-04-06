@@ -52,7 +52,12 @@ app.get('/', (_req, res) => {
 
 // log requests
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((req: express.Request, _res: express.Response, next: express.NextFunction) => {
+app.use(async (req: express.Request, _res: express.Response, next: express.NextFunction) => {
+  if (req.url.startsWith('/images')) {
+    next();
+    return;
+  }
+
   console.log(
     `${new Date().toLocaleDateString('en-En', {
       year: 'numeric',
@@ -62,6 +67,17 @@ app.use((req: express.Request, _res: express.Response, next: express.NextFunctio
       minute: 'numeric',
     })} - ${req.method} - ${req.url}`,
   );
+
+  const { accesstoken } = req.headers;
+  if (!accesstoken) {
+    next();
+    return;
+  }
+
+  const user = await authService.getUserByAccessToken(accesstoken as string);
+  if (user) {
+    req.loggedUser = user;
+  }
 
   next();
 });

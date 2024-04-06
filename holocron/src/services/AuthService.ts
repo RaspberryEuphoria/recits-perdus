@@ -35,4 +35,18 @@ export class AuthService {
     const { password: _, ...user } = hashedUser;
     return { ...user, accessToken };
   }
+
+  async getUserByAccessToken(accessToken: string): Promise<User> {
+    return new Promise((resolve, reject) => {
+      jwt.verify(accessToken, accessTokenSecret, (err, decoded) => {
+        if (err) {
+          reject(createHttpError.Unauthorized());
+        }
+
+        if (decoded && typeof decoded !== 'string') {
+          resolve(decoded.payload as User);
+        }
+      });
+    });
+  }
 }
