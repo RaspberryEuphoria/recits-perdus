@@ -104,7 +104,7 @@ export const SkillPicker = styled.div`
   position: absolute;
   top: calc(100% + var(--space-05));
   transform: translateX(-50%);
-  width: 200%;
+  width: 100%;
   z-index: 100;
 `;
 

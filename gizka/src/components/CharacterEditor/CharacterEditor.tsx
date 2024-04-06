@@ -114,6 +114,7 @@ export function CharacterEditor({
     event.stopPropagation();
 
     if (currentSkillCellIndex !== null) {
+      console.log({ currentSkillCellIndex, skill });
       setCharacterSkills(characterSkills.with(currentSkillCellIndex, skill));
       setCurrentSkillCell(null);
     }
@@ -282,7 +283,16 @@ export function CharacterEditor({
                 <Styled.Cell>{t('character-editor.form.labels.good')} (+1)</Styled.Cell>
               </Styled.Column>
               <Styled.Column>
-                {[0, 1, 2].map((index) => (
+                {/*
+                 * It's 0,1,3 instead of 0,1,2 because we want the skill with index "2" to be on the first column on the last row,
+                 * and the skill with index "3" to be on the second column but on the second rows.
+                 *
+                 * Basically, the layout presented to the user is this:
+                 * +3 [0, none]
+                 * +2 [1, 2]
+                 * +1 [3, 4]
+                 */}
+                {[0, 1, 3].map((index) => (
                   <SkillCell
                     key={index}
                     onCellClick={() => handleCellClick(index)}
@@ -295,7 +305,7 @@ export function CharacterEditor({
               </Styled.Column>
               <Styled.Column>
                 <Styled.Cell isHidden>...</Styled.Cell>
-                {[3, 4].map((index) => (
+                {[2, 4].map((index) => (
                   <SkillCell
                     key={index}
                     onCellClick={() => handleCellClick(index)}
