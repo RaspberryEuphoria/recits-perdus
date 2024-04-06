@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { CharacterAvatar } from '@/components/CharacterAvatar';
 import { Button } from '@/components/DesignSystem/Button';
 import { Keyword } from '@/components/DesignSystem/Keyword';
@@ -18,6 +20,12 @@ type CharacterSheetProps = {
 
 export function CharacterSheet({ character, handleBackClick }: CharacterSheetProps) {
   const colorAtLightOpacity = convertHexadecimalColorToHsl(character.textColor, 0.2);
+
+  const characterSkills = useMemo(
+    () => character.skills.sort((a, b) => b.level - a.level),
+    [character.skills],
+  );
+
   return (
     <Styled.CharacterSheet>
       {handleBackClick && (
@@ -63,7 +71,7 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
 
           <Styled.Title color={character.textColor}>Attributs</Styled.Title>
           <Styled.List>
-            {character.skills.map((skill) => (
+            {characterSkills.map((skill) => (
               <Styled.Item key={skill.id} color={colorAtLightOpacity}>
                 <strong>
                   {skill.name} (+{skill.level})
