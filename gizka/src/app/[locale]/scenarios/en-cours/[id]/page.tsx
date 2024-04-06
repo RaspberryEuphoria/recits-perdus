@@ -21,7 +21,7 @@ export async function generateMetadata({
   }
 
   const intro = generateIntroduction(scenario, false);
-  const lastPost = scenario.posts.at(-1)?.content || 'intro';
+  const lastPost = scenario.posts.at(-1)?.content || intro;
 
   return {
     title: `${scenario.title} - Les Récits Perdus`,
