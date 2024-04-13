@@ -51,12 +51,23 @@ export class CharacterRepository {
   }
 
   async resetMomentum(characterId: number, scenarioId: number) {
-    return this.changeStat(
-      characterId,
-      scenarioId,
-      CharacterStat.MOMENTUM,
-      STATS_LIMITS.momentum.default,
-    );
+    const characterOnScenario = await this.db.charactersOnScenarios.findFirst({
+      where: {
+        characterId,
+        scenarioId,
+      },
+    });
+
+    if (!characterOnScenario) {
+      throw new Error(`Character ${characterId} not found on scenario ${scenarioId}`);
+    }
+
+    return this.db.charactersOnScenarios.update({
+      where: { id: characterOnScenario.id },
+      data: {
+        momentum: STATS_LIMITS.momentum.default,
+      },
+    });
   }
 
   async addSpirit(characterId: number, scenarioId: number, value: number) {

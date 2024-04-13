@@ -1,6 +1,6 @@
 import { CharactersOnScenarios, DiceType } from '@prisma/client';
 
-import { MAX_ACTION_VALUE, MAX_CHALLENGE_VALUE } from '../../../../../../rules';
+import { MAX_ACTION_VALUE, MAX_CHALLENGE_VALUE, STATS_LIMITS } from '../../../../../../rules';
 import {
   CharacterRepository,
   CharacterStat,
@@ -23,6 +23,7 @@ import { useMove } from '.';
 
 export abstract class ActionMove {
   mustPayThePrice = false;
+  mustBurnMomentum = false;
 
   /**
    * Stats change for the character that uses the move
@@ -145,6 +146,10 @@ export abstract class ActionMove {
       hasMomentumBurn,
     );
 
+    if (challengeDices.some((dice) => dice.isBurned)) {
+      this.mustBurnMomentum = true;
+    }
+
     const moveResult = getDicesResult({
       score,
       challengeDices,
@@ -204,6 +209,13 @@ export abstract class ActionMove {
 
     if (!this.move) {
       throw new Error(`Can't commit move ${this.moveId} because it's empty.`);
+    }
+
+    if (this.mustBurnMomentum) {
+      await this.characterRepository.resetMomentum(
+        this.characterOnScenario.characterId,
+        this.characterOnScenario.scenarioId,
+      );
     }
 
     await this.updateCharacterStat(this.characterOnScenario.characterId, this.selfStatsChange);
