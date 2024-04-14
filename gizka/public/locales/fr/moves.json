@@ -114,12 +114,19 @@
       "name": "Engager le Combat",
       "action": "décide d'",
       "summary": "Lorsque <important>vous engagez le combat</important>, décrivez votre action et faites un jet.",
-      "help": "Une fois le combat engagé, vous devez monter votre <important>Score de Progrès</important> en réalisant les actions <move>Attaquer</move> ou <move>Riposter</move>. Ce score servira à déterminer l'issue du combat lorsque vous serez prêt à <move>Mettre Fin au Combat</move>.",
+      "help": "Une fois le combat engagé, vous devez monter votre <important>Score de Progrès</important> en réalisant les actions <move>Attaquer</move> ou <move>Riposter</move>. Ce score servira à déterminer l'issue du combat lorsque vous serez prêt à <move>Mettre Fin au Combat</move>. La difficulté que vous choisissez lors de l'engagement détermine le dé de défi des ennemis lorsque vous y mettez fin.",
       "approach": "Si vous êtes...",
       "prompts": {
         "face": "Face à votre ennemi",
         "backstab": "En train de vous glisser dans le dos d'un ennemi ou que vous frappez sans prévenir",
         "embushed": "Pris en embuscade"
+      },
+      "difficulty-prompt": "Quelle est la nature du combat ou de l'ennemi ?",
+      "difficulty": {
+        "4": "Un simple accrochage, un combat amical ou un engagement largement à votre avantage",
+        "6": "Une rixe dangereuse ou face à de nombreux ennemis",
+        "8": "Un ennemi redoutable, une situation à votre désavantage, ou contre des ennemis en nombre écrasant",
+        "10": "Un affrontement extrêmement périlleux, une situation désespérée, ou face à une horde qui ne diminue pas"
       },
       "results": {
         "strong-hit": "En cas de <important>succès total</important>, vous prenez un avantage considérable et vous avez l'initiative. Gagnez <momentum>+2</momentum> ferveur.",
@@ -244,10 +251,18 @@
       "goal-is-lost": "objectif perdu",
       "vendetta": "vendetta"
     },
+    "difficulty": {
+      "4": "Pénible",
+      "6": "Dangereux",
+      "8": "Redoutable",
+      "10": "Extrême",
+      "12": "Épique"
+    },
     "buttons": {
       "cancel": "Annuler"
     },
     "outcomes": {
+      "difficulty": "Difficulté :",
       "thanks-to": "Grâce à",
       "with": "Avec",
       "demonstrating": "Faisant preuve",

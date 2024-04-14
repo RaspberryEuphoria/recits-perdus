@@ -248,22 +248,6 @@ export class ScenarioRepository {
   }
 
   async getCurrentFightProgress(scenarioId: number, postId: number, characterId: number) {
-    // 1 engage
-    // 2 engage
-    // 1 attk
-    // 2 attk
-    // 1 end
-    // 2 end
-
-    // ...
-
-    // 1 engage
-    // 2 engage
-    // 1 attk
-    // 2 attk
-    // 1 end
-    // 2 end
-
     const endingLastFightPost = await this.db.post.findFirst({
       where: {
         scenarioId,
@@ -332,6 +316,50 @@ export class ScenarioRepository {
     }
 
     return JSON.parse(lastMove.meta as string).progress;
+  }
+
+  async getCurrentFightDifficulty(scenarioId: number, postId: number, characterId: number) {
+    const endingLastFightPost = await this.db.post.findFirst({
+      where: {
+        scenarioId,
+        characterId,
+        id: {
+          lt: postId,
+        },
+        moves: {
+          some: {
+            moveId: MoveId.METTRE_FIN_AU_COMBAT,
+          },
+        },
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    });
+
+    const startingCurrentFightPost = await this.db.post.findFirst({
+      where: {
+        scenarioId,
+        id: {
+          gt: endingLastFightPost?.id,
+        },
+        moves: {
+          some: { moveId: MoveId.ENGAGER_LE_COMBAT },
+        },
+      },
+      orderBy: {
+        id: 'asc',
+      },
+      include: {
+        moves: true,
+      },
+    });
+
+    if (!startingCurrentFightPost) {
+      throw new Error(`Post ${postId} is not part of a fight!`);
+    }
+
+    return JSON.parse(startingCurrentFightPost.moves[0].meta as string).difficulty;
   }
 }
 

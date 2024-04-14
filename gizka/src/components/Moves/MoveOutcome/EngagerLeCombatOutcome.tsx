@@ -25,6 +25,12 @@ export function EngagerLeCombatOutcome(props: MoveOutcomeProps) {
 
   const score = actionDie.value + skillValue;
 
+  const meta = JSON.parse(move.meta);
+  const difficulty = meta.difficulty;
+  const difficultyText = difficulty
+    ? `(${t('outcomes.difficulty')} ${t(`difficulty.${difficulty}`)})`
+    : '';
+
   return (
     <Styled.MoveOutcome>
       <p>
@@ -32,7 +38,7 @@ export function EngagerLeCombatOutcome(props: MoveOutcomeProps) {
           {character.firstName}
         </Styled.CharacterName>{' '}
         {t(`${move.moveId}.action`)}
-        <Keyword stat="move">{t(`${move.moveId}.name`)}</Keyword> !
+        <Keyword stat="move">{t(`${move.moveId}.name`)}</Keyword> {difficultyText} !
       </p>
       <Styled.MoveResult>
         <Styled.MoveScore

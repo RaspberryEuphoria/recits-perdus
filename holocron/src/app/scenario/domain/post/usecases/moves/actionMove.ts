@@ -83,6 +83,14 @@ export abstract class ActionMove {
     );
   }
 
+  async getCurrentFightDifficulty() {
+    return await this.scenarioRepository.getCurrentFightDifficulty(
+      this.post.scenarioId,
+      this.post.id,
+      this.characterOnScenario.characterId,
+    );
+  }
+
   async updateProgress(progress: number) {
     const currentProgress = await this.getCurrentFightProgress();
     this.progress = currentProgress + progress;

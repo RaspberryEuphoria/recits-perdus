@@ -13,9 +13,10 @@ import * as Styled from './styled';
 export function EngagerLeCombat({ id, onPick, onClose, children }: MoveCardProps) {
   const t = useTranslations('moves');
   const [skillId, setSkillId] = useState<SkillId | undefined>();
+  const [difficulty, setDifficulty] = useState<number>();
 
   useEffect(() => {
-    onPick({ id, meta: { skillId, isValid: Boolean(skillId) } });
+    onPick({ id, meta: { skillId, difficulty, isValid: Boolean(skillId && difficulty) } });
 
     return () => {
       onPick(null);
@@ -63,6 +64,24 @@ export function EngagerLeCombat({ id, onPick, onClose, children }: MoveCardProps
             move: (chunks) => <Keyword stat="move">{chunks}</Keyword>,
           })}
         </Styled.Summary>
+
+        <Prompt>
+          <UnkownDieIcon />
+          {t(`${id}.difficulty-prompt`)}
+        </Prompt>
+        <ul>
+          {[4, 6, 8, 10].map((value) => (
+            <li key={value}>
+              {t(`${id}.difficulty.${value}`)} :{' '}
+              <Styled.ClickToRoll
+                onClick={() => setDifficulty(value)}
+                isSelected={difficulty === value}
+              >
+                {t(`difficulty.${value}`)} (d{value})
+              </Styled.ClickToRoll>
+            </li>
+          ))}
+        </ul>
 
         <Prompt>
           <UnkownDieIcon />
