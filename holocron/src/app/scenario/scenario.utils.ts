@@ -46,29 +46,28 @@ export function getDicesResult({
   score: number;
   challengeDices: Dice[];
 }) {
-  if (challengeDices.every((dice) => dice.value >= score && !dice.isBurned)) {
-    if (challengeDices.every((dice) => dice.isBurned)) {
-      return MoveResult.SUCCESS;
-    }
+  const isInferiorToScore = (dice: Dice) => dice.value < score;
+  const isBurned = (dice: Dice) => dice.isBurned;
 
-    if (challengeDices.some((dice) => dice.isBurned)) {
-      return MoveResult.MIXED;
-    }
-
-    return MoveResult.FAILURE;
+  if (challengeDices.every(isInferiorToScore)) {
+    return MoveResult.SUCCESS;
   }
 
-  if (challengeDices.some((dice) => dice.value >= score)) {
-    if (challengeDices.some((dice) => dice.isBurned)) return MoveResult.SUCCESS;
+  if (challengeDices.some(isInferiorToScore)) {
+    if (challengeDices.some(isBurned)) return MoveResult.SUCCESS;
 
     return MoveResult.MIXED;
   }
 
-  if (challengeDices.every((dice) => dice.value < score)) {
+  if (challengeDices.every(isBurned)) {
     return MoveResult.SUCCESS;
   }
 
-  throw new Error(`Invalid dices result! ${JSON.stringify({ score, challengeDices }, null, 4)}`);
+  if (challengeDices.some(isBurned)) {
+    return MoveResult.MIXED;
+  }
+
+  return MoveResult.FAILURE;
 }
 
 export function isStat(value: unknown): value is DangerOnStat {
