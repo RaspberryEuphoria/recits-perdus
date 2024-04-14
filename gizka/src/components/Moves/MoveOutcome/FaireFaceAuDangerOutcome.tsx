@@ -82,7 +82,7 @@ function Mixed({ character, move }: MoveOutcomeProps) {
   return (
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.mixed-aftermath')} (<Keyword stat="momentum">-1</Keyword> {t(`stats.${stat}`)})
+      {t('outcomes.mixed-aftermath')} (<Keyword stat={stat}>-1</Keyword> {t(`stats.${stat}`)})
     </p>
   );
 }
