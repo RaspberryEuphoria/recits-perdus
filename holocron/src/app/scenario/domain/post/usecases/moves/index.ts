@@ -8,6 +8,7 @@ import {
 import { ScenarioRepository } from '../../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../../infrastructure/skill-sql.repository';
 import { MoveId, MoveIntent } from '../../entities/move';
+import { ActionLibreMove } from './actionLibre';
 import { ActionMove } from './actionMove';
 import { AttaquerMove } from './attaquer';
 import { ContraindreMove } from './contraindre';
@@ -104,6 +105,8 @@ function getMoveHandler(
       return new RiposterMove(...args);
     case MoveId.METTRE_FIN_AU_COMBAT:
       return new MettreFinAuCombatMove(...args);
+    case MoveId.ACTION_LIBRE:
+      return new ActionLibreMove(...args);
     default:
       throw new Error(`Move ${moveId} not implemented`);
   }

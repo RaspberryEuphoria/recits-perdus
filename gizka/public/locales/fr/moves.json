@@ -209,7 +209,7 @@
       },
       "results": {
         "strong-hit": "En cas de <important>succès total</important>, vous remportez le combat. L'ennemi est tué, hors d'état de nuire, s'enfuit ou se rend, selon la situation et vos intentions.",
-        "weak-hit": "En cas de <important>succès partiel</important>, comme ci-dessous, mais vous subissez des conséquences inattendues.",
+        "weak-hit": "En cas de <important>succès partiel</important>, comme ci-dessus, mais vous subissez des conséquences inattendues.",
         "miss": "En cas d’<important>échec</important>, vous perdez le combat. Vous devez en <move>Payer le Prix</move> et subir les conséquences de votre défaite."
       },
       "outcomes": {
@@ -221,6 +221,28 @@
         "weak-goal-lost": "remporte le combat, mais un des objectifs de la mission est compromis !",
         "weak-vendetta": "remporte le combat, mais un proche de son ennemi jure vengeance !",
         "miss": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu !"
+      }
+    },
+    "ACTION_LIBRE": {
+      "name": "Action Libre",
+      "action": "tente une",
+      "summary": "Lorsque <important>vous voulez faire une action sans enjeu important</important> mais que vous voulez ajouter un peu de hasard au résultat, vous pouvez faire une action libre sans conséquence mécanique (ni gain ni perte de statistique). Par exemple : jouer à une machine à sous, flirter dans un bar, cueillir des champignons en forêt... Laissez-libre court à votre imagination, décrivez votre action et faites un jet.",
+      "results": {
+        "strong-hit": "En cas de <important>succès total</important>, vous parvez à faire ce que vous vouliez.",
+        "weak-hit": "En cas de <important>succès partiel</important>, comme ci-dessus, mais vous subissez des conséquences inattendues.",
+        "miss": "En cas d’<important>échec</important>, vous ratez ce que vous vouliez faire."
+      },
+      "prompts": {
+        "finesse": "Avec rapidité, agilité ou précision ",
+        "determination": "Avec charme, loyauté ou courage ",
+        "tenacite": "Avec aggressivité, force ou endurance",
+        "subterfuge": "Avec tromperie, furtivité ou ruse",
+        "intuition": "Avec expertise, perspicacité ou perception"
+      },
+      "outcomes": {
+        "strong": "réussit parfaitement !",
+        "weak": "réussit, mais au prix d'une complication inattendue !",
+        "miss": "échoue !"
       }
     },
     "PAYER_LE_PRIX": {

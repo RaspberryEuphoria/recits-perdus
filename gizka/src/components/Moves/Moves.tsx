@@ -27,9 +27,10 @@ const categories = [
       { id: MoveId.PRENDRE_UN_AVANTAGE, isDisabled: false },
       { id: MoveId.PRODIGUER_DES_SOINS, isDisabled: false },
       { id: MoveId.RAVITAILLER, isDisabled: false },
-      { id: MoveId.MONTER_LE_CAMP, isDisabled: true },
-      { id: MoveId.VOYAGER, isDisabled: true },
-      { id: MoveId.ATTEINDRE_SA_DESTINATION, isDisabled: true },
+      { id: MoveId.ACTION_LIBRE, isDisabled: false },
+      // { id: MoveId.MONTER_LE_CAMP, isDisabled: true },
+      // { id: MoveId.VOYAGER, isDisabled: true },
+      // { id: MoveId.ATTEINDRE_SA_DESTINATION, isDisabled: true },
     ],
   },
   {

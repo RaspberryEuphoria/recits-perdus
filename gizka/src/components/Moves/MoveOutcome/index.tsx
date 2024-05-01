@@ -1,6 +1,7 @@
 import { Character } from '@/utils/types/character';
 import { Move, Moves } from '@/utils/types/scenario';
 
+import { ActionLibreOutcome } from './ActionLibreOutcome';
 import { AttaquerOutcome } from './AttaquerOutcome';
 import { ContraindreOutcome } from './ContraindreOutcome';
 import { EngagerLeCombatOutcome } from './EngagerLeCombatOutcome';
@@ -46,6 +47,8 @@ export function MoveOutcome(props: MoveOutcomeProps) {
       return <RiposterOutcome {...props} />;
     case Moves.METTRE_FIN_AU_COMBAT:
       return <MettreFinAuCombatOutcome {...props} />;
+    case Moves.ACTION_LIBRE:
+      return <ActionLibreOutcome {...props} />;
     default:
       return null;
   }

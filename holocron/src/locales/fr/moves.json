@@ -11,5 +11,6 @@
   "ATTAQUER": "tente une attaque",
   "RIPOSTER": "riposte face à son ennemi",
   "RENVERSER_LA_SITUATION": "tente de renverser la situation",
-  "METTRE_FIN_AU_COMBAT": "met fin à son combat"
+  "METTRE_FIN_AU_COMBAT": "met fin à son combat",
+  "ACTION_LIBRE": "entreprend une action libre"
 }
