@@ -75,7 +75,7 @@ ${(props) =>
       }
     `}
 
-  &:hover&:not(:disabled) {
+  &:hover&:not(:disabled), &:focus&:not(:disabled) {
     background: var(--flashy);
     color: var(--dark);
     cursor: pointer;

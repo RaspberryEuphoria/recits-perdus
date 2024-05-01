@@ -229,7 +229,11 @@ export function DialogTextarea({
         <Styled.Help>{currentMove ? 4 : 3}. Que la Force vous !</Styled.Help>
 
         <Styled.TextareaBar>
-          <Button onClick={submit} disabled={Boolean(hasSubmitted || formErrors.length > 0)}>
+          <Button
+            onClick={submit}
+            disabled={Boolean(hasSubmitted || formErrors.length > 0)}
+            tabIndex={-1}
+          >
             {t(`en-cours.textarea.${mode}.submit-button.label`)}
           </Button>
         </Styled.TextareaBar>
