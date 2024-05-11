@@ -7,6 +7,7 @@ import https from 'https';
 import { ScenarioContainer } from './app/scenario/scenario.container';
 import { UserContainer } from './app/user/user.container';
 import { AuthService } from './services/AuthService';
+import { cropImage } from './services/Cropper';
 import { DiscordService } from './services/DiscordService';
 
 const app: express.Application = express();
@@ -90,3 +91,16 @@ app.use(
     _res.status(500).send('Something broke!');
   },
 );
+
+app.post('/image-crop', async (req, res, next) => {
+  try {
+    const { base64Image, crop, targetWidth, targetHeight } = req.body;
+    const file = base64Image.split(';base64,').pop();
+
+    const croppedImage = await cropImage(file, crop, parseInt(targetWidth), parseInt(targetHeight));
+
+    res.json({ croppedImage: `data:image/png;base64,${croppedImage.toString('base64')}` });
+  } catch (error) {
+    next(error);
+  }
+});

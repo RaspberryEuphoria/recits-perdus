@@ -1,4 +1,7 @@
+import Image from 'next/image';
 import styled from 'styled-components';
+
+import HoloEffect from '@/public/images/holo_effect.png';
 
 type CounterProps = {
   isOverLimit: boolean;
@@ -62,6 +65,24 @@ export const Skill = styled.div`
   background: var(--flashy);
 `;
 
+export const Preview = styled.p<{ color: string }>`
+  background: var(--secondary);
+  border-radius: var(--rounded);
+  font-size: 1.4rem;
+  line-height: 2rem;
+  padding: 1rem;
+  text-shadow: 0 0 3px var(--primary), 1px 1px 3px var(--primary);
+  white-space: pre-line;
+
+  & strong {
+    color: ${({ color }) => color};
+  }
+
+  & bold {
+    font-weight: bold;
+  }
+`;
+
 export const Textarea = styled.textarea`
   background: var(--dark);
   border: 1px solid var(--light);
@@ -72,7 +93,6 @@ export const Textarea = styled.textarea`
   font-family: 'Roboto';
   height: 350px;
   padding: 1rem;
-  min-height: 200px;
   resize: none;
   transition: position ease-in 0.5s;
   width: 100%;
@@ -91,7 +111,11 @@ export const TextareaBar = styled.div`
 `;
 
 export const Counter = styled.div<CounterProps>`
+  align-items: end;
   color: ${(props) => (props.isOverLimit ? 'var(--error)' : 'currentColor')};
+  display: flex;
+  justify-content: end;
+  width: 100%;
 `;
 
 export const Errors = styled.ul`
@@ -110,4 +134,31 @@ export const Error = styled.li`
   &:last-of-type {
     margin-bottom: 0;
   }
+`;
+
+export const DialogIllustrationContainer = styled.div`
+  border: 1px solid var(--flashy);
+  border-radius: var(--rounded);
+  box-shadow: 0 0 10px var(--flashy), inset 0 0 10px var(--flashy);
+  position: relative;
+
+  &::after {
+    background-image: url(${HoloEffect.src});
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+`;
+
+export const DialogIllustration = styled(Image)`
+  border-radius: var(--rounded);
+  display: block;
+  filter: grayscale(30%);
+  height: auto;
+  width: 100%;
 `;

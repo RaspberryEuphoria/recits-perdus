@@ -38,6 +38,19 @@ export const ImageUploadIcon = styled.div`
   }
 `;
 
+export const InitialImage = styled.div<{
+  width: number;
+  height: number;
+}>`
+  height: 230px;
+  width: 680px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+  }
+`;
+
 export const AvatarPreview = styled.div<{
   width?: number;
   height?: number;

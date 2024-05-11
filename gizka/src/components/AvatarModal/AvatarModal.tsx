@@ -14,26 +14,27 @@ import * as Styled from './styled';
 
 const HARD_MAX_SIZE = 1000;
 
+type Crop = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
 export function AvatarModal({
   isOpen,
   closeAvatarModal,
   onAvatarSave,
   targetWidth,
   targetHeight,
+  initialImage,
 }: {
   isOpen: boolean;
   closeAvatarModal: () => void;
-  onAvatarSave: (
-    crop: {
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    },
-    base64Image: string,
-  ) => void;
+  onAvatarSave: (crop: Crop, base64Image: string) => void;
   targetWidth: number;
   targetHeight: number;
+  initialImage?: string | null;
 }) {
   const MAX_AVATAR_WIDTH = useMemo(() => Math.min(HARD_MAX_SIZE, targetWidth * 3), [targetWidth]);
   const MAX_AVATAR_HEIGHT = useMemo(
@@ -169,10 +170,16 @@ export function AvatarModal({
               onChange={handleImageChange}
             />
             <Styled.ImageUploadLabel htmlFor="avatar">
-              <Styled.ImageUploadIcon>
-                <ThumbnailIcon />
-              </Styled.ImageUploadIcon>
-              {t('character-editor.avatar-modal.step-1.upload')}
+              {initialImage ? (
+                <Styled.InitialImage width={targetWidth} height={targetHeight}>
+                  <img src={initialImage} alt="Preview" />
+                </Styled.InitialImage>
+              ) : (
+                <Styled.ImageUploadIcon>
+                  <ThumbnailIcon />
+                </Styled.ImageUploadIcon>
+              )}
+              {t(`character-editor.avatar-modal.step-1.${initialImage ? 'replace' : 'upload'}`)}
             </Styled.ImageUploadLabel>
           </Styled.ImageUpload>
         </>

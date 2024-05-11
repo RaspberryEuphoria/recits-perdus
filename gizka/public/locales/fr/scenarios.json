@@ -76,6 +76,12 @@
           "empty": "Le champ de texte est vide.",
           "too-long": "Votre réponse est trop longue.",
           "invalid-move": "Vous n'avez pas sélectionné d'options pour votre action."
+        },
+        "show-preview-button": {
+          "label": "Prévisualiser"
+        },
+        "hide-preview-button": {
+          "label": "Revenir à l'édition"
         }
       }
     },

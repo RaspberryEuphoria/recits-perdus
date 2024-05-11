@@ -51,7 +51,8 @@
       "avatar-modal": {
         "step-1": {
           "title": "Sélectionner une image",
-          "upload": "Uploader une image"
+          "upload": "Uploader une image",
+          "replace": "Remplacer l'image"
         },
         "step-2": {
           "title": "Modifier l'image",

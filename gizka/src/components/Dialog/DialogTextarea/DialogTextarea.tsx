@@ -11,6 +11,7 @@ import { MovesProps } from '@/components/Moves/Moves';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import ThumbnailIcon from '@/public/images/icons/thumbnail.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
+import { formatPostContent } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Moves as MoveId, Post, SkillId, Stat } from '@/utils/types/scenario';
 
@@ -68,6 +69,8 @@ export function DialogTextarea({
   const [formErrors, setFormErrors] = useState<string[]>([]);
   const [isIllustrationModalOpen, setIsIllustrationModalOpen] = useState(false);
   const [illustration, setIllustration] = useState<Illustration | null>(null);
+  const [illustrationPreview, setIllustrationPreview] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const mode = postId ? Mode.EDIT : Mode.NEW;
   const currentLength = content?.length || 0;
@@ -176,6 +179,17 @@ export function DialogTextarea({
     base64Image: string,
   ) => {
     setIllustration({ crop, base64Image });
+
+    const illustrationPreview = await httpBffClient.post<{ croppedImage: string }>(`/image-crop`, {
+      crop,
+      base64Image,
+      targetWidth: 680,
+      targetHeight: 230,
+    });
+
+    if (!isHttpError(illustrationPreview)) {
+      setIllustrationPreview(illustrationPreview.croppedImage);
+    }
   };
 
   const moves = renderMoves(onMovePicked, onBurnCheck);
@@ -204,6 +218,10 @@ export function DialogTextarea({
     computeFormErrors();
   };
 
+  const togglePreview = () => {
+    setShowPreview((prev) => !prev);
+  };
+
   useEffect(() => {
     computeFormErrors();
   }, [currentMove, computeFormErrors]);
@@ -216,6 +234,7 @@ export function DialogTextarea({
         onAvatarSave={saveIllustration}
         targetWidth={680}
         targetHeight={230}
+        initialImage={illustrationPreview}
       />
 
       {mode === Mode.EDIT && (
@@ -232,25 +251,51 @@ export function DialogTextarea({
           <p>{t(`en-cours.textarea.${mode}.help.what-to-do.subtitle`)}</p>
         </Styled.Help>
 
-        <Styled.Textarea
-          ref={textareaRef}
-          placeholder=""
-          onChange={handleTextareaChange}
-          value={content}
-          onBlur={handleTextareaBlur}
-        ></Styled.Textarea>
+        <Styled.TextareaBar>
+          <Button onClick={togglePreview} variant="small" outline>
+            {t(`en-cours.textarea.${showPreview ? 'hide' : 'show'}-preview-button.label`)}
+          </Button>
+
+          {mode === Mode.NEW && (
+            <Button onClick={openIllustrationModal} variant="small" outline={!illustration}>
+              <ThumbnailIcon />
+              {t('en-cours.textarea.new.illustration-button.label')}
+            </Button>
+          )}
+        </Styled.TextareaBar>
+
+        {showPreview ? (
+          <>
+            <Styled.Preview
+              dangerouslySetInnerHTML={{ __html: formatPostContent(content) }}
+              color={initialNextPoster.textColor}
+            />
+            {illustrationPreview && (
+              <Styled.DialogIllustrationContainer>
+                <Styled.DialogIllustration
+                  src={illustrationPreview}
+                  alt="Illustration"
+                  width={680}
+                  height={230}
+                  quality={100}
+                />
+              </Styled.DialogIllustrationContainer>
+            )}
+          </>
+        ) : (
+          <Styled.Textarea
+            ref={textareaRef}
+            placeholder=""
+            onChange={handleTextareaChange}
+            value={content}
+            onBlur={handleTextareaBlur}
+          ></Styled.Textarea>
+        )}
 
         <Styled.TextareaBar>
           <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
             {currentLength}/{MAX_LENGTH}
           </Styled.Counter>
-
-          {mode === Mode.NEW && (
-            <Button onClick={openIllustrationModal} variant="small">
-              <ThumbnailIcon />
-              {t('en-cours.textarea.new.illustration-button.label')}
-            </Button>
-          )}
         </Styled.TextareaBar>
 
         {mode === Mode.NEW && (

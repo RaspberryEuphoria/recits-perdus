@@ -66,10 +66,9 @@ export function DialogPost({
         <Styled.DialogIllustrationContainer>
           <Styled.DialogIllustration
             src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/posts/illustrations/${illustration}`}
-            alt=""
+            alt="Illustration"
             width={680}
             height={230}
-            color={textColor}
             quality={100}
           />
         </Styled.DialogIllustrationContainer>
