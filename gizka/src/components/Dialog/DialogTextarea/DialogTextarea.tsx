@@ -4,10 +4,12 @@ import { useTranslations } from 'next-intl';
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 
+import { AvatarModal } from '@/components/AvatarModal';
 import { Button } from '@/components/DesignSystem/Button';
 import { Row } from '@/components/DesignSystem/Row';
 import { MovesProps } from '@/components/Moves/Moves';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
+import ThumbnailIcon from '@/public/images/icons/thumbnail.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { Character } from '@/utils/types/character';
 import { Moves as MoveId, Post, SkillId, Stat } from '@/utils/types/scenario';
@@ -30,6 +32,11 @@ type DialogTextareaProps = {
 export type Move = {
   id: MoveId;
   meta?: Record<string, string | number | boolean | SkillId | Stat | undefined>;
+};
+
+type Illustration = {
+  crop: { x: number; y: number; width: number; height: number };
+  base64Image: string;
 };
 
 enum Mode {
@@ -59,6 +66,8 @@ export function DialogTextarea({
   const [hasMomentumBurn, sethasMomentumBurn] = useState<boolean>(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [formErrors, setFormErrors] = useState<string[]>([]);
+  const [isIllustrationModalOpen, setIsIllustrationModalOpen] = useState(false);
+  const [illustration, setIllustration] = useState<Illustration | null>(null);
 
   const mode = postId ? Mode.EDIT : Mode.NEW;
   const currentLength = content?.length || 0;
@@ -102,7 +111,8 @@ export function DialogTextarea({
 
     const dialog = {
       characterId: nextPoster.id,
-      content: content,
+      content,
+      illustration,
       action: {
         move,
       },
@@ -153,6 +163,21 @@ export function DialogTextarea({
     sethasMomentumBurn(hasMomentumBurn);
   };
 
+  const openIllustrationModal = () => {
+    setIsIllustrationModalOpen(true);
+  };
+
+  const closeIllustrationModal = () => {
+    setIsIllustrationModalOpen(false);
+  };
+
+  const saveIllustration = async (
+    crop: { x: number; y: number; width: number; height: number },
+    base64Image: string,
+  ) => {
+    setIllustration({ crop, base64Image });
+  };
+
   const moves = renderMoves(onMovePicked, onBurnCheck);
 
   const socketInitializer = async () => {
@@ -185,6 +210,14 @@ export function DialogTextarea({
 
   return (
     <>
+      <AvatarModal
+        isOpen={isIllustrationModalOpen}
+        closeAvatarModal={closeIllustrationModal}
+        onAvatarSave={saveIllustration}
+        targetWidth={680}
+        targetHeight={230}
+      />
+
       {mode === Mode.EDIT && (
         <Row>
           <Styled.BackButton onClick={onTextareaSubmit}>
@@ -207,9 +240,18 @@ export function DialogTextarea({
           onBlur={handleTextareaBlur}
         ></Styled.Textarea>
 
-        <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
-          {currentLength}/{MAX_LENGTH}
-        </Styled.Counter>
+        <Styled.TextareaBar>
+          <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
+            {currentLength}/{MAX_LENGTH}
+          </Styled.Counter>
+
+          {mode === Mode.NEW && (
+            <Button onClick={openIllustrationModal} variant="small">
+              <ThumbnailIcon />
+              {t('en-cours.textarea.new.illustration-button.label')}
+            </Button>
+          )}
+        </Styled.TextareaBar>
 
         {mode === Mode.NEW && (
           <>

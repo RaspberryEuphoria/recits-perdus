@@ -2,8 +2,14 @@ import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
 
 import { DiscordService } from '../../services/DiscordService';
+import { FileRepository } from '../user/infrastructure/file.repository';
 import { scenarioRoutes } from './api/scenario.api';
-import { CreatePostDto, UpdatePostDto } from './domain/post/entities/post';
+import {
+  CreatePostDto,
+  UpdatePostDto,
+  UpdatePostIllustrationDto,
+} from './domain/post/entities/post';
+import { addIllustrationToPostUsecase } from './domain/post/usecases/addIllustrationToPost.usecase';
 import { createPostUsecase } from './domain/post/usecases/createPost.usecase';
 import { updatePostUsecase } from './domain/post/usecases/updatePost.usecase';
 import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/scenario';
@@ -23,6 +29,7 @@ export class ScenarioContainer {
   private skillRepository: SkillRepository;
   private characterRepository: CharacterRepository;
   private scenarioRoutes: Router;
+  private fileRepository: FileRepository;
 
   constructor(db: PrismaClient, private readonly discord: DiscordService) {
     this.scenarioRepository = new ScenarioRepository(db);
@@ -30,6 +37,9 @@ export class ScenarioContainer {
     this.skillRepository = new SkillRepository(db);
     this.characterRepository = new CharacterRepository(db);
     this.scenarioRoutes = scenarioRoutes(this);
+    this.fileRepository = new FileRepository(
+      `${process.env.PUBLIC_FOLDER_PATH}/${process.env.POSTS_FOLDER_PATH}`,
+    );
   }
 
   get repository() {
@@ -72,5 +82,9 @@ export class ScenarioContainer {
 
   updatePost(post: UpdatePostDto) {
     return updatePostUsecase(this.postRepository)(post);
+  }
+
+  addIllustrationToPost(illustrationDto: UpdatePostIllustrationDto) {
+    return addIllustrationToPostUsecase(this.postRepository, this.fileRepository)(illustrationDto);
   }
 }

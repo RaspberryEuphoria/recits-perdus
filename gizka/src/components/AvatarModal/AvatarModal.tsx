@@ -2,7 +2,7 @@
 import 'react-image-crop/dist/ReactCrop.css';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ReactCrop, { type PixelCrop } from 'react-image-crop';
 
 import { Button } from '@/components/DesignSystem/Button';
@@ -12,26 +12,14 @@ import ThumbnailIcon from '@/public/images/icons/thumbnail.svg';
 
 import * as Styled from './styled';
 
-const AVATAR_WIDTH = 200;
-const AVATAR_HEIGHT = 230;
-const MAX_AVATAR_WIDTH = AVATAR_WIDTH * 3;
-const MAX_AVATAR_HEIGHT = AVATAR_HEIGHT * 3;
-
-const cropOptions = {
-  x: 0,
-  y: 0,
-  width: AVATAR_WIDTH,
-  height: AVATAR_HEIGHT,
-  minWidth: AVATAR_WIDTH,
-  minHeight: AVATAR_HEIGHT,
-  aspect: AVATAR_WIDTH / AVATAR_HEIGHT,
-  unit: 'px' as PixelCrop['unit'],
-};
+const HARD_MAX_SIZE = 1000;
 
 export function AvatarModal({
   isOpen,
   closeAvatarModal,
   onAvatarSave,
+  targetWidth,
+  targetHeight,
 }: {
   isOpen: boolean;
   closeAvatarModal: () => void;
@@ -44,17 +32,45 @@ export function AvatarModal({
     },
     base64Image: string,
   ) => void;
+  targetWidth: number;
+  targetHeight: number;
 }) {
+  const MAX_AVATAR_WIDTH = useMemo(() => Math.min(HARD_MAX_SIZE, targetWidth * 3), [targetWidth]);
+  const MAX_AVATAR_HEIGHT = useMemo(
+    () => Math.min(HARD_MAX_SIZE, targetHeight * 3),
+    [targetHeight],
+  );
+
   const t = useTranslations('characters');
-  const [crop, setCrop] = useState<PixelCrop>(cropOptions);
+
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
   const [maxAllowedSize, setMaxAllowedSize] = useState({
     width: MAX_AVATAR_WIDTH,
     height: MAX_AVATAR_HEIGHT,
   });
-
   const maxImageSize = getMaxSize(imageSize, maxAllowedSize);
+
+  const cropOptions = useMemo(() => {
+    const width = imageSize
+      ? Math.min(maxImageSize.maxWidth, imageSize.width, targetWidth)
+      : targetWidth;
+    const height = imageSize
+      ? Math.min(maxImageSize.maxHeight, imageSize.height, targetHeight)
+      : targetHeight;
+
+    return {
+      x: 0,
+      y: 0,
+      width,
+      height,
+      minWidth: width,
+      minHeight: height,
+      aspect: width / height,
+      unit: 'px' as PixelCrop['unit'],
+    };
+  }, [imageSize, maxImageSize.maxHeight, maxImageSize.maxWidth, targetHeight, targetWidth]);
+  const [crop, setCrop] = useState<PixelCrop>(cropOptions);
 
   const clearAvatar = () => {
     setBase64Image(null);
@@ -78,6 +94,7 @@ export function AvatarModal({
       },
       base64Image,
     );
+
     clearAvatar();
     closeAvatarModal();
   };
@@ -117,6 +134,17 @@ export function AvatarModal({
     }
   }, [maxAllowedSize.height, maxAllowedSize.width]);
 
+  useEffect(() => {
+    setCrop(cropOptions);
+  }, [
+    cropOptions,
+    imageSize,
+    maxImageSize.maxHeight,
+    maxImageSize.maxWidth,
+    targetHeight,
+    targetWidth,
+  ]);
+
   if (!isOpen) {
     return null;
   }
@@ -127,7 +155,10 @@ export function AvatarModal({
         <>
           <Text as="h1">{t('character-editor.avatar-modal.step-1.title')}</Text>
           <Text as="p" size="sm">
-            {t('character-editor.avatar-modal.step-2.help')}
+            {t('character-editor.avatar-modal.step-2.help', {
+              width: targetWidth,
+              height: targetHeight,
+            })}
           </Text>
 
           <Styled.ImageUpload>
@@ -187,11 +218,11 @@ export function AvatarModal({
 
 function getMaxSize(
   size: { width: number; height: number } | null,
-  maxSize: { width: number; height: number },
+  maxAllowedSize: { width: number; height: number },
 ) {
-  if (!size) return { maxWidth: maxSize.width, maxHeight: maxSize.height };
+  if (!size) return { maxWidth: maxAllowedSize.width, maxHeight: maxAllowedSize.height };
 
-  if (size.width < maxSize.width && size.height < maxSize.height) {
+  if (size.width < maxAllowedSize.width && size.height < maxAllowedSize.height) {
     return {
       maxWidth: size.width,
       maxHeight: size.height,
@@ -200,13 +231,13 @@ function getMaxSize(
 
   if (size.width > size.height) {
     return {
-      maxWidth: maxSize.width,
-      maxHeight: (maxSize.width * size.height) / size.width,
+      maxWidth: maxAllowedSize.width,
+      maxHeight: (maxAllowedSize.width * size.height) / size.width,
     };
   }
 
   return {
-    maxWidth: (maxSize.height * size.width) / size.height,
-    maxHeight: maxSize.height,
+    maxWidth: (maxAllowedSize.height * size.width) / size.height,
+    maxHeight: maxAllowedSize.height,
   };
 }

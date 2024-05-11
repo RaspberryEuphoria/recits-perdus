@@ -257,6 +257,8 @@ export function CharacterEditor({
         isOpen={isAvatarModalOpen}
         closeAvatarModal={closeAvatarModal}
         onAvatarSave={saveAvatar}
+        targetWidth={200}
+        targetHeight={230}
       />
       {isEditMode && (
         <Row justify="end">

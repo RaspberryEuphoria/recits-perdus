@@ -12,6 +12,7 @@ type DialogPostProps = {
   character?: Character;
   characters: Record<string, Character>;
   content: string;
+  illustration?: string;
   moves?: Array<Move>;
   isEditable: boolean;
   handlePostEdit?: (post: { id: number; content: string }) => void;
@@ -22,6 +23,7 @@ export function DialogPost({
   character,
   characters,
   content,
+  illustration,
   moves,
   isEditable,
   handlePostEdit,
@@ -60,6 +62,18 @@ export function DialogPost({
         dangerouslySetInnerHTML={{ __html: formatPostContent(content) }}
         color={textColor}
       />
+      {illustration && (
+        <Styled.DialogIllustrationContainer>
+          <Styled.DialogIllustration
+            src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/posts/illustrations/${illustration}`}
+            alt=""
+            width={680}
+            height={230}
+            color={textColor}
+            quality={100}
+          />
+        </Styled.DialogIllustrationContainer>
+      )}
       {moves &&
         moves.map((move) => (
           <DialogMove key={move.id} character={character} characters={characters} move={move} />

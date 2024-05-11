@@ -13,8 +13,6 @@ export async function POST(request: Request, { params: { id } }: { params: { id:
 
   const { characterId, textColor } = await request.json();
 
-  console.log({ characterId, textColor });
-
   const data = await httpClient.post<Scenario>(
     `/scenario/${id}/character`,
     {

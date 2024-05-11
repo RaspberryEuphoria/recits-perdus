@@ -94,6 +94,17 @@ export class PostRepository {
     return updatedPost;
   }
 
+  async updateIllustration({ id, illustration }: { id: number; illustration: string }) {
+    return await this.db.post.update({
+      where: {
+        id,
+      },
+      data: {
+        illustration,
+      },
+    });
+  }
+
   async getById(id: number): Promise<PostWithCharacterSkills | null> {
     const post = await this.db.post.findUnique({
       where: {

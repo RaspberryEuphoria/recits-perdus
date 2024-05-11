@@ -67,7 +67,7 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
     }
   });
 
-  // Register character in scenario
+  // Start scenario
   router.post(`/:id/start`, async (req, res, next) => {
     try {
       const loggedUser = req.loggedUser;
@@ -102,11 +102,25 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
   });
 
   // Post in scenario
-  router.post(`/:id/post`, async (_req, _res, next) => {
+  router.post(`/:id/post`, async (req, res, next) => {
     try {
-      const scenarioId = parseInt(_req.params.id);
-      const scenario = await scenarioContainer.createPost({ ..._req.body, scenarioId });
-      _res.json(scenario);
+      const scenarioId = parseInt(req.params.id);
+      const { illustration, ...body } = req.body;
+
+      const newPost = await scenarioContainer.createPost({ ...body, scenarioId });
+
+      if (!illustration) {
+        res.json(newPost);
+        return;
+      }
+
+      const illustrationFilename = await scenarioContainer.addIllustrationToPost({
+        ...illustration,
+        id: newPost.id,
+      });
+
+      res.json({ ...newPost, illustration: illustrationFilename });
+      return;
     } catch (error) {
       next(error);
     }

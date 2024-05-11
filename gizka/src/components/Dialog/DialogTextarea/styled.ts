@@ -91,7 +91,6 @@ export const TextareaBar = styled.div`
 `;
 
 export const Counter = styled.div<CounterProps>`
-  align-self: end;
   color: ${(props) => (props.isOverLimit ? 'var(--error)' : 'currentColor')};
 `;
 

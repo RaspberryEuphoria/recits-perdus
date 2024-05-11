@@ -36,4 +36,12 @@ type UpdatePostDto = {
   content: string;
 };
 
-export { Asset, CreatePostDto, Dice, Post, UpdatePostDto };
+type Crop = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+type UpdatePostIllustrationDto = { id: number; base64Image: string; crop: Crop };
+
+export { Asset, CreatePostDto, Dice, Post, UpdatePostDto, UpdatePostIllustrationDto };

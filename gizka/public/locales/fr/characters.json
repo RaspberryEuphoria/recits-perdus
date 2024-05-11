@@ -54,8 +54,8 @@
           "upload": "Uploader une image"
         },
         "step-2": {
-          "title": "Modifier l'avatar",
-          "help": "Taille minimale recommandée : 200 (largeur) x 230 (hauteur)",
+          "title": "Modifier l'image",
+          "help": "Taille minimale recommandée : {width} (largeur) x {height} (hauteur)",
           "cancel": "Annuler",
           "save": "Enregistrer"
         }

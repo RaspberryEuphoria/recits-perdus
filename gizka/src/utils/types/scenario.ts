@@ -17,6 +17,7 @@ export type Post = {
   characterSkill?: CharacterSkill;
   nextPoster?: Character;
   moves?: Move[];
+  illustration?: string;
   turn: number;
 };
 

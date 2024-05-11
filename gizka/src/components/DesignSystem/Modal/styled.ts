@@ -7,6 +7,7 @@ export const Mask = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1000;
 `;
 
 export const Modal = styled.div`

@@ -67,6 +67,9 @@
           },
           "submit-button": {
             "label": "Envoyer"
+          },
+          "illustration-button": {
+            "label": "Ajouter une illustration"
           }
         },
         "errors": {

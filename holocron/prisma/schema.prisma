@@ -90,6 +90,7 @@ model Post {
   characterId  Int
   isGameMaster Boolean        @default(false)
   turn         Int
+  illustration String?        @db.VarChar(255)
   moves        MovesOnPosts[]
   character    Character      @relation(fields: [characterId], references: [id])
   scenario     Scenario       @relation(fields: [scenarioId], references: [id])
