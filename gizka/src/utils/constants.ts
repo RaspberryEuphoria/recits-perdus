@@ -10,6 +10,7 @@ export enum TextColor {
   Green = '#5cb959',
   Grey = '#7fafc8',
   Purple = '#8c3cdb',
+  PaleYellow = '#ffffbe',
 
   Default = '#11b6f7',
 }
@@ -33,6 +34,7 @@ export const colorOptions: Array<{ value: TextColor }> = [
   {
     value: TextColor.Purple,
   },
+  { value: TextColor.PaleYellow },
 ];
 
 export enum Media {
