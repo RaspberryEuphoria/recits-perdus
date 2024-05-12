@@ -22,6 +22,7 @@ type DialogTextareaProps = {
   nextPoster: Character;
   content: string;
   postId: number | null;
+  maxLength: number;
   onContentChange: (content: string) => void;
   onTextareaSubmit: () => void;
   renderMoves: (
@@ -44,9 +45,6 @@ enum Mode {
   NEW = 'new',
   EDIT = 'edit',
 }
-
-const MAX_LENGTH = 1000;
-
 let socket: Socket;
 
 export function DialogTextarea({
@@ -54,6 +52,7 @@ export function DialogTextarea({
   nextPoster: initialNextPoster,
   content: initialContent,
   postId,
+  maxLength,
   onContentChange,
   onTextareaSubmit,
   renderMoves,
@@ -76,7 +75,7 @@ export function DialogTextarea({
   const currentLength = content?.length || 0;
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value.substring(0, MAX_LENGTH));
+    setContent(e.target.value.substring(0, maxLength));
   };
 
   const computeFormErrors = useCallback(() => {
@@ -84,11 +83,11 @@ export function DialogTextarea({
     const errors = [];
 
     if (!isMoveValid) errors.push('invalid-move');
-    if (currentLength > MAX_LENGTH) errors.push('too-long');
+    if (currentLength > maxLength) errors.push('too-long');
     if (!currentLength) errors.push('empty');
 
     setFormErrors(errors);
-  }, [currentLength, currentMove]);
+  }, [currentLength, currentMove, maxLength]);
 
   const submit = () => {
     if (formErrors.length) return;
@@ -293,8 +292,8 @@ export function DialogTextarea({
         )}
 
         <Styled.TextareaBar>
-          <Styled.Counter isOverLimit={currentLength === MAX_LENGTH}>
-            {currentLength}/{MAX_LENGTH}
+          <Styled.Counter isOverLimit={currentLength === maxLength}>
+            {currentLength}/{maxLength}
           </Styled.Counter>
         </Styled.TextareaBar>
 

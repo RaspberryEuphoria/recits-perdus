@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 import { CharacterList } from '@/components/CharacterList';
@@ -19,6 +19,8 @@ import { Post, Scenario } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
 
 import * as Styled from './styled';
+
+const MAX_LENGTH = 1000;
 
 type EnCoursWithIdPageProps = {
   id: string;
@@ -66,6 +68,13 @@ export function EnCoursWithIdPage({
 
   const isItMyTurn = currentUser ? currentUser.id === nextPoster.userId : false;
   const isEditAllowed = openTabId === Tab.Status;
+  const showTextarea = currentUser && openTabId === Tab.Posting && (isItMyTurn || postId);
+  const maxPostLength = useMemo(() => {
+    const lastPost = dialogs.findLast((dialog) => dialog.character.userId === currentUser?.id);
+    if (!lastPost) return MAX_LENGTH;
+
+    return Math.max(MAX_LENGTH, MAX_LENGTH + (MAX_LENGTH - lastPost.content.length));
+  }, [dialogs, currentUser]);
 
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
@@ -186,9 +195,10 @@ export function EnCoursWithIdPage({
             <ScenarioResources supplies={supplies} />
           </CharacterList>
         )}
-        {currentUser && openTabId === Tab.Posting && (isItMyTurn || postId) && (
+        {showTextarea && (
           <DialogTextarea
             scenarioId={id}
+            maxLength={maxPostLength}
             nextPoster={nextPoster}
             content={content}
             onContentChange={handleContentChange}

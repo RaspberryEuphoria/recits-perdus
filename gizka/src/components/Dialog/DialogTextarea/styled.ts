@@ -70,6 +70,8 @@ export const Preview = styled.p<{ color: string }>`
   border-radius: var(--rounded);
   font-size: 1.4rem;
   line-height: 2rem;
+  min-height: 350px;
+  min-width: 100%;
   padding: 1rem;
   text-shadow: 0 0 3px var(--primary), 1px 1px 3px var(--primary);
   white-space: pre-line;
