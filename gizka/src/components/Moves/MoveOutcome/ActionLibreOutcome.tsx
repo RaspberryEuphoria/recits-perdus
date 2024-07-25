@@ -23,7 +23,7 @@ export function ActionLibreOutcome(props: MoveOutcomeProps) {
     [dices],
   );
 
-  const score = actionDie.value;
+  const score = actionDie.value + skillValue;
 
   return (
     <Styled.MoveOutcome>
