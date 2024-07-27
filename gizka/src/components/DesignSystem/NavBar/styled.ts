@@ -12,13 +12,21 @@ export const NavBar = styled.nav`
 
 export const Link = styled.div<{ isDisabled: boolean }>`
   position: relative;
-  gap: 2rem;
   font-size: 1.5rem;
 
   ${({ isDisabled }) => isDisabled && `display: none;`}
 
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+
   a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
     color: var(--light);
+    gap: 0.5rem;
     text-decoration: none;
     transition: color 0.3s ease-out;
 

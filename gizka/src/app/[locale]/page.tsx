@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { NavBar } from '@/components/DesignSystem/NavBar';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { LoginOrRegister } from '@/components/LoginOrRegister';
+import DiscordLogo from '@/public/images/icons/discord_logo.svg';
 
 export const metadata: Metadata = {
   title: 'Star Wars - Les Récits Perdus',
@@ -50,6 +51,7 @@ const links = [
   },
   {
     label: 'Discord',
+    logo: <DiscordLogo />,
     href: `${process.env.NEXT_PUBLIC_DISCORD_LINK}`,
     isDisabled: false,
     isBlank: true,

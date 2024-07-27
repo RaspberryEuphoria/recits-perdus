@@ -12,6 +12,7 @@ export function NavBar({
     href: string;
     isDisabled: boolean;
     isBlank?: boolean;
+    logo?: JSX.Element;
   }>;
 }) {
   return (
@@ -20,6 +21,7 @@ export function NavBar({
         <Styled.Link key={link.label} isDisabled={link.isDisabled}>
           <Link href={link.href} target={link.isBlank ? '_blank' : '_self'}>
             {link.label}
+            {link.logo}
           </Link>
         </Styled.Link>
       ))}
