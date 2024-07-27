@@ -33,11 +33,11 @@ export const Footer = styled.footer`
   background: var(--primary);
   border-top: 1px solid var(--flashy);
   display: flex;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   justify-content: space-between;
   min-height: 4rem;
-  padding-top: 8px; /* to compensate for the border */
   padding: 0 var(--space-1);
+  padding-top: 8px; /* to compensate for the border */
   position: relative;
 
   &::after {

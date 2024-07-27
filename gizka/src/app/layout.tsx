@@ -46,9 +46,15 @@ export default function RootLayout({
       <NextIntlClientProvider locale="fr" timeZone="Europe/France" messages={messages}>
         <body>
           <StyleProvider>
-            <Layout>{children}</Layout>
+            <Layout
+              footer={[
+                `Programmé et designé avec ❤️ par <em>Harmonie</em>`,
+                `<em>Star Wars : Les Récits Perdus</em> est l&apos;héritier de <em>Tales of Galaxy</em>`,
+              ]}
+            >
+              {children}
+            </Layout>
           </StyleProvider>
-          {/* <Layout footer={pageProps.footer}>{children}</Layout> */}
         </body>
       </NextIntlClientProvider>
     </html>
