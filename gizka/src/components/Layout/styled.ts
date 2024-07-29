@@ -60,7 +60,7 @@ export const MainSection = styled.section`
   overflow-y: auto;
 `;
 
-export const AsideSection = styled.aside`
+export const AsideSection = styled.aside<{ fullwidth?: boolean }>`
   background: url('${DialogBackground.src}'), var(--dark-08);
   border-left: 1px solid var(--flashy);
   border-right: 1px solid var(--flashy);
@@ -73,9 +73,19 @@ export const AsideSection = styled.aside`
   overflow-y: auto;
   position: relative;
   width: 40%;
+
+  ${(props) =>
+    props.fullwidth &&
+    `
+      flex: 60%;
+      margin: 0 auto;
+      max-width: 60%;
+      min-width: 1000px;
+      width: 60%;
+  `}
 `;
 
-export const Nav = styled.nav`
+export const Nav = styled.nav<{ justifyCenter?: boolean }>`
   align-items: center;
   justify-content: space-between;
   background: var(--dark-08);
@@ -85,14 +95,20 @@ export const Nav = styled.nav`
   font-weight: bold;
   top: 0;
   left: 0;
+  padding: var(--space-1);
   position: sticky;
+
+  ${(props) =>
+    props.justifyCenter &&
+    `
+      justify-content: center;
+  `}
 `;
 
 export const Tabs = styled.div`
   align-items: center;
   display: flex;
   gap: var(--space-1);
-  margin-right: var(--space-2);
   height: 100%;
 `;
 
@@ -208,7 +224,6 @@ export const Content = styled.div`
 export const Bradcrumb = styled.div`
   align-items: center;
   display: flex;
-  margin: var(--space-1);
 `;
 
 export const BradcrumbSeparator = styled.span`

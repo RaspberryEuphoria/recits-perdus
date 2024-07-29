@@ -42,6 +42,7 @@ function mapScenarioCharacters(scenarioCharacters: Character[]) {
 enum Tab {
   Status = 'status',
   Posting = 'posting',
+  Reading = 'reading',
 }
 
 let socket: Socket;
@@ -77,6 +78,8 @@ export function EnCoursWithIdPage({
 
     return Math.max(MAX_LENGTH, MAX_LENGTH + (MAX_LENGTH - lastPost.content.length));
   }, [dialogs, currentUser?.id, postId]);
+
+  const displayMainSection = openTabId !== Tab.Reading;
 
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
@@ -168,58 +171,70 @@ export function EnCoursWithIdPage({
     };
   }, []);
 
+  const tabs = useMemo(() => {
+    return [
+      {
+        label: t('en-cours.tabs.status'),
+        id: Tab.Status,
+        isOpen: openTabId === Tab.Status,
+        isDisabled: false,
+      },
+      {
+        label: t('en-cours.tabs.read'),
+        id: Tab.Reading,
+        isOpen: openTabId === Tab.Reading,
+        isDisabled: false,
+      },
+      {
+        label: t('en-cours.tabs.play'),
+        id: Tab.Posting,
+        isOpen: openTabId === Tab.Posting,
+        isDisabled: !isItMyTurn,
+      },
+    ];
+  }, [isItMyTurn, openTabId, t]);
+
   return (
     <>
-      <LayoutMainSection
-        breadcrumb={[
-          { label: t('en-cours.breadcrumb.home'), href: '/' },
-          { label: t('en-cours.breadcrumb.current'), href: '/scenarios/en-cours' },
-          { label: title, href: '#' },
-        ]}
-        tabs={[
-          {
-            label: t('en-cours.tabs.status'),
-            id: Tab.Status,
-            isOpen: openTabId === Tab.Status,
-            isDisabled: false,
-          },
-          {
-            label: t('en-cours.tabs.play'),
-            id: Tab.Posting,
-            isOpen: openTabId === Tab.Posting,
-            isDisabled: !isItMyTurn,
-          },
-        ]}
-        onTabChange={(tab: Tab) => setOpenTabId(tab)}
-      >
-        {openTabId === Tab.Status && (
-          <CharacterList characters={Object.values(characters)}>
-            <ScenarioResources supplies={supplies} />
-          </CharacterList>
-        )}
-        {showTextarea && (
-          <DialogTextarea
-            scenarioId={id}
-            maxLength={maxPostLength}
-            nextPoster={nextPoster}
-            content={content}
-            onContentChange={handleContentChange}
-            onTextareaSubmit={handleTextareaSubmit}
-            postId={postId}
-            renderMoves={(
-              onMovePicked: (move: Move | null) => void,
-              onBurnCheck: (hasMomentumBurn: boolean) => void,
-            ) => (
-              <Moves
-                onMovePicked={onMovePicked}
-                onBurnCheck={onBurnCheck}
-                character={nextPoster}
-                characters={Object.values(characters)}
-              />
-            )}
-          />
-        )}
-      </LayoutMainSection>
+      {displayMainSection && (
+        <LayoutMainSection
+          breadcrumb={[
+            { label: t('en-cours.breadcrumb.home'), href: '/' },
+            { label: t('en-cours.breadcrumb.current'), href: '/scenarios/en-cours' },
+            { label: title, href: '#' },
+          ]}
+          tabs={tabs}
+          onTabChange={(tab: Tab) => setOpenTabId(tab)}
+        >
+          {openTabId === Tab.Status && (
+            <CharacterList characters={Object.values(characters)}>
+              <ScenarioResources supplies={supplies} />
+            </CharacterList>
+          )}
+          {showTextarea && (
+            <DialogTextarea
+              scenarioId={id}
+              maxLength={maxPostLength}
+              nextPoster={nextPoster}
+              content={content}
+              onContentChange={handleContentChange}
+              onTextareaSubmit={handleTextareaSubmit}
+              postId={postId}
+              renderMoves={(
+                onMovePicked: (move: Move | null) => void,
+                onBurnCheck: (hasMomentumBurn: boolean) => void,
+              ) => (
+                <Moves
+                  onMovePicked={onMovePicked}
+                  onBurnCheck={onBurnCheck}
+                  character={nextPoster}
+                  characters={Object.values(characters)}
+                />
+              )}
+            />
+          )}
+        </LayoutMainSection>
+      )}
       <LayoutAsideSection
         stickyFooter={
           <Styled.Footer>
@@ -231,6 +246,9 @@ export function EnCoursWithIdPage({
             </Styled.ArrowButton>
           </Styled.Footer>
         }
+        onTabChange={(tab: Tab) => setOpenTabId(tab)}
+        fullwidth={openTabId === Tab.Reading}
+        tabs={openTabId === Tab.Reading ? tabs : []}
       >
         <DialogThread
           currentUserId={currentUser?.id || null}

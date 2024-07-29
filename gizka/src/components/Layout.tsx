@@ -11,18 +11,18 @@ import LogoImage from '@/public/images/logo.png';
 
 import * as Styled from './Layout/styled';
 
-type LayoutProps = {
+type LayoutProps<T> = {
   children: React.ReactNode;
   footer?: string[];
-};
-
-type MainLayoutProps<T> = LayoutProps & {
-  breadcrumb?: Array<{ label: string; href: string }>;
   tabs?: Array<{ label: string; id: T; isOpen: boolean; isDisabled: boolean }>;
   onTabChange?: (tab: T) => void;
 };
 
-export function Layout(props: LayoutProps) {
+type MainLayoutProps<T> = LayoutProps<T> & {
+  breadcrumb?: Array<{ label: string; href: string }>;
+};
+
+export function Layout<T>(props: LayoutProps<T>) {
   return (
     <UserProvider>
       <Styled.Header>
@@ -113,9 +113,34 @@ export function LayoutMainSection<T>(props: MainLayoutProps<T>) {
   );
 }
 
-export function LayoutAsideSection(props: LayoutProps & { stickyFooter?: React.ReactNode }) {
+export function LayoutAsideSection<T>(
+  props: LayoutProps<T> & { stickyFooter?: React.ReactNode; fullwidth?: boolean },
+) {
+  const handleTabClick = (tabId: T) => {
+    if (props.onTabChange) {
+      props.onTabChange(tabId);
+    }
+  };
+
   return (
-    <Styled.AsideSection>
+    <Styled.AsideSection fullwidth={props.fullwidth}>
+      {props.tabs && props.tabs.length > 0 && (
+        <Styled.Nav justifyCenter>
+          <Styled.Tabs>
+            {props.tabs.map((tab) => (
+              <Styled.Tab
+                key={tab.label}
+                isOpen={tab.isOpen}
+                isDisabled={tab.isDisabled}
+                onClick={() => !tab.isDisabled && handleTabClick(tab.id)}
+              >
+                <Styled.TabLabel>{tab.label}</Styled.TabLabel>
+                <Styled.TabHiddenLabel>{tab.label}</Styled.TabHiddenLabel>
+              </Styled.Tab>
+            ))}
+          </Styled.Tabs>
+        </Styled.Nav>
+      )}
       <Styled.ContentWrapper>
         <Styled.Content>{props.children}</Styled.Content>
       </Styled.ContentWrapper>

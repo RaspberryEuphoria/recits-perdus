@@ -53,6 +53,8 @@ export const DialogIllustrationContainer = styled.div`
   border: 1px solid var(--flashy);
   border-radius: var(--rounded);
   box-shadow: 0 0 10px var(--flashy), inset 0 0 10px var(--flashy);
+  margin: 0 auto;
+  max-width: 886px;
   position: relative;
 
   &::after {
