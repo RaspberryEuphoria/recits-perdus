@@ -74,7 +74,7 @@ function Mixed({ character, move }: MoveOutcomeProps) {
   const lossValue = ['health', 'spirit'].includes(danger) ? (
     <>
       {' '}
-      (<Keyword stat={danger}>+1</Keyword> {t(danger)})
+      (<Keyword stat={danger}>+1</Keyword> {t(`stats.${danger}`)})
     </>
   ) : (
     ''
