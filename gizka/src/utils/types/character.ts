@@ -27,6 +27,7 @@ export type CharacterScenario = {
   health: number;
   spirit: number;
   momentum: number;
+  isNextPoster?: boolean;
 };
 
 export type CharacterSkill = {

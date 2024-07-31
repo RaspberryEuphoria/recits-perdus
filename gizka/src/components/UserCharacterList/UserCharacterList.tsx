@@ -43,7 +43,11 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
                 <Link href={`/mes-personnages/${character.id}-${getSafeName(character)}`}>
                   <CharacterAvatar character={character} />
                 </Link>
-                <CharacterScenario scenario={character.characterScenario.scenario} />
+                <CharacterScenario
+                  scenario={character.characterScenario.scenario}
+                  isNextPoster={character.characterScenario.isNextPoster}
+                  textColor={character.textColor}
+                />
               </Styled.CharacterPreview>
             ))}
           </Styled.Row>
@@ -68,12 +72,25 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
   );
 }
 
-function CharacterScenario({ scenario }: { scenario: Scenario }) {
+function CharacterScenario({
+  scenario,
+  isNextPoster,
+  textColor,
+}: {
+  scenario: Scenario;
+  isNextPoster?: boolean;
+  textColor: string;
+}) {
+  const t = useTranslations('characters');
+
   return (
     <Text size="sm">
       <Styled.Scenario href={`/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}`}>
-        {scenario.title}
+        {scenario.title}{' '}
       </Styled.Scenario>
+      {isNextPoster && (
+        <Styled.YourTurn color={textColor}>{t('my-characters.your-turn')}</Styled.YourTurn>
+      )}
     </Text>
   );
 }

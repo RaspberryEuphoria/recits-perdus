@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const Home = styled.div`
+export const Home = styled.div<{ fullwidth?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 65%;
+  width: ${({ fullwidth }) => (fullwidth ? '100%' : '65%')};
   height: 100%;
   margin: 0 auto;
 `;

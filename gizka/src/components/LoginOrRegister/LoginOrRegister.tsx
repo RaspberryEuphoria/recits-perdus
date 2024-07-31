@@ -2,10 +2,10 @@
 
 import { useContext, useEffect, useState } from 'react';
 
-import { CharacterList } from '@/components/CharacterList';
 import { Button } from '@/components/DesignSystem/Button';
 import { LoginForm } from '@/components/LoginForm';
 import { RegisterForm } from '@/components/RegisterForm';
+import { UserCharacterList } from '@/components/UserCharacterList';
 import { UserContext } from '@/contexts/user';
 import { useCharactersByUser } from '@/hooks/useCharacters';
 import { httpBffClient, isHttpError } from '@/services/http-client';
@@ -72,7 +72,11 @@ export function LoginOrRegister() {
   if (!hasLoaded) return null;
 
   if (currentUser) {
-    return <Styled.Home>{characters && <CharacterList characters={characters} />}</Styled.Home>;
+    return (
+      <Styled.Home fullwidth>
+        {characters && <UserCharacterList characters={characters} />}
+      </Styled.Home>
+    );
   }
 
   return (

@@ -26,4 +26,16 @@ export const CharacterPreview = styled.div`
   }
 `;
 
-export const Scenario = styled(Link)``;
+export const Scenario = styled(Link)`
+  &:hover {
+    color: var(--flashy);
+  }
+`;
+
+export const YourTurn = styled.div<{ color: string }>`
+  color: ${({ color }) => color};
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 5px ${({ color }) => color};
+`;

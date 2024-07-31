@@ -7,6 +7,7 @@ import {
   UpdateCharacterAvatarDto,
   UpdateCharacterDto,
 } from '../scenario/domain/character/entities/character';
+import { ScenarioRepository } from '../scenario/infrastructure/scenario-sql.repository';
 import { userRoutes } from './api/user.api';
 import { CreateUserDto, User } from './domain/user/entities/user';
 import { createCharacterUsecase } from './domain/user/usecases/createCharacter.usecase';
@@ -21,11 +22,13 @@ import { UserRepository } from './infrastructure/user-sql.repository';
 
 export class UserContainer {
   private userRepository: UserRepository;
+  private scenarioRepository: ScenarioRepository;
   private userRoutes: Router;
   private fileRepository: FileRepository;
 
   constructor(db: PrismaClient, authService: AuthService) {
     this.userRepository = new UserRepository(db, authService);
+    this.scenarioRepository = new ScenarioRepository(db);
     this.userRoutes = userRoutes(this);
     this.fileRepository = new FileRepository(
       `${process.env.PUBLIC_FOLDER_PATH}/${process.env.USERS_FOLDER_PATH}`,
@@ -49,7 +52,7 @@ export class UserContainer {
   }
 
   getCharacters(userId: number) {
-    return getCharactersUsecase(this.userRepository)(userId);
+    return getCharactersUsecase(this.userRepository, this.scenarioRepository)(userId);
   }
 
   getCharacter(userId: number, characterId: number) {

@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
 import { MoveId } from '../domain/post/entities/move';
+import { getNextPosterId } from '../domain/post/usecases/createPost.usecase';
 import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/scenario';
 
 type FullScenario = Prisma.ScenarioGetPayload<{
@@ -91,6 +92,39 @@ export class ScenarioRepository {
     });
 
     return scenarios.map(mapScenario);
+  }
+
+  async getNextPosterId(scenarioId: number) {
+    const scenario = await this.db.scenario.findUnique({
+      where: {
+        id: scenarioId,
+      },
+      include: {
+        posts: {
+          include: {
+            character: true,
+          },
+        },
+        characters: {
+          include: {
+            character: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!scenario) {
+      return null;
+    }
+
+    return getNextPosterId(
+      scenario.characters.map((character) => character.character.id),
+      scenario.posts,
+    );
   }
 
   async getById(id: number) {

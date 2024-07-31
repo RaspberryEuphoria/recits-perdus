@@ -81,6 +81,14 @@ export function getNextPoster(characters: Character[], posts: Post[]) {
   return characters[lastPosterIndex + 1] || characters[0];
 }
 
+export function getNextPosterId(charactersIds: number[], posts: Post[]) {
+  const lastPosterId = posts[posts.length - 1]?.characterId;
+  if (!lastPosterId) return charactersIds[0];
+
+  const lastPosterIndex = charactersIds.findIndex((characterId) => characterId === lastPosterId);
+  return charactersIds[lastPosterIndex + 1] || charactersIds[0];
+}
+
 export function getTurnForNewPost(posts: Post[], charactersCount: number) {
   const postsCount = posts.length;
 

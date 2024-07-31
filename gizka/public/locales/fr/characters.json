@@ -1,6 +1,14 @@
 {
   "characters": {
     "title": "Les Récits Perdus",
+    "characters": {
+      "title": "Personnages - Les Récits Perdus",
+      "description": "Consulter les personnages enregistrés.",
+      "breadcrumb": {
+        "home": "Accueil",
+        "characters": "Personnages"
+      }
+    },
     "my-characters": {
       "title": "Mes personnages - Les Récits Perdus",
       "description": "Consulter ou modifier mes personnages.",
@@ -18,7 +26,8 @@
         "create": {
           "title": "Créer un nouveau personnage"
         }
-      }
+      },
+      "your-turn": "C'est à votre tour !"
     },
     "character-sheet": {
       "title": "Fiche de personnage"

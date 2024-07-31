@@ -5,6 +5,7 @@ import { Media } from '@/utils/constants';
 export const CharacterList = styled.div`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: var(--space-2);
   margin: auto;
   width: 100%;
