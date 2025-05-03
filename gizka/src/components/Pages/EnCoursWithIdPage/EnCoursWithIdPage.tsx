@@ -70,15 +70,6 @@ export function EnCoursWithIdPage({
   const isItMyTurn = currentUser ? currentUser.id === nextPoster.userId : false;
   const isEditAllowed = openTabId === Tab.Status;
   const showTextarea = currentUser && openTabId === Tab.Posting && (isItMyTurn || postId);
-  const maxPostLength = useMemo(() => {
-    const lastPost = dialogs.findLast(
-      (dialog) => dialog.character.userId === currentUser?.id && dialog.id !== postId,
-    );
-    if (!lastPost) return MAX_LENGTH;
-
-    return Math.max(MAX_LENGTH, MAX_LENGTH + (MAX_LENGTH - lastPost.content.length));
-  }, [dialogs, currentUser?.id, postId]);
-
   const displayMainSection = openTabId !== Tab.Reading;
 
   const handleContentChange = (newContent: string) => {
@@ -214,7 +205,7 @@ export function EnCoursWithIdPage({
           {showTextarea && (
             <DialogTextarea
               scenarioId={id}
-              maxLength={maxPostLength}
+              maxLength={MAX_LENGTH}
               nextPoster={nextPoster}
               content={content}
               onContentChange={handleContentChange}

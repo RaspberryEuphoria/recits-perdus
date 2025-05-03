@@ -75,7 +75,7 @@ export function DialogTextarea({
   const currentLength = content?.length || 0;
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value.substring(0, maxLength));
+    setContent(e.target.value);
   };
 
   const computeFormErrors = useCallback(() => {
@@ -83,11 +83,10 @@ export function DialogTextarea({
     const errors = [];
 
     if (!isMoveValid) errors.push('invalid-move');
-    if (currentLength > maxLength) errors.push('too-long');
     if (!currentLength) errors.push('empty');
 
     setFormErrors(errors);
-  }, [currentLength, currentMove, maxLength]);
+  }, [currentLength, currentMove]);
 
   const submit = () => {
     if (formErrors.length) return;
@@ -292,9 +291,11 @@ export function DialogTextarea({
         )}
 
         <Styled.TextareaBar>
-          <Styled.Counter isOverLimit={currentLength === maxLength}>
-            {currentLength}/{maxLength}
-          </Styled.Counter>
+          {currentLength > 0 && (
+            <Styled.Counter isOverLimit={currentLength >= maxLength}>
+              {currentLength}
+            </Styled.Counter>
+          )}
         </Styled.TextareaBar>
 
         {mode === Mode.NEW && (
