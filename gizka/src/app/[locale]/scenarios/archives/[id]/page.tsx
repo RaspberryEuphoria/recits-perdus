@@ -2,9 +2,9 @@ export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 
-import { EnAttenteWithIdPage } from '@/components/Pages/EnAttenteWithIdPage';
+import { ArchiveWithIdPage } from '@/components/Pages/ArchiveWithIdPage';
 import { httpBffClient, isHttpError } from '@/services/http-client';
-import { generateIntroduction } from '@/utils/scenario/helpers';
+import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { Scenario } from '@/utils/types/scenario';
 
@@ -29,7 +29,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function EnAttenteWithId({ params: { id } }: { params: { id: string } }) {
+export default async function ArchivesWithId({ params: { id } }: { params: { id: string } }) {
   if (!id) {
     throw new Error('No id provided');
   }
@@ -41,19 +41,23 @@ export default async function EnAttenteWithId({ params: { id } }: { params: { id
     throw new Error('Failed to fetch data');
   }
 
-  const { title, safeTitle } = scenario;
+  const { title, posts, supplies } = scenario;
   const introduction = generateIntroduction(scenario);
+  const nextPoster = getNextPoster(
+    scenario.characters,
+    scenario.posts[scenario.posts.length - 1]?.character,
+  );
   const characters = mapScenarioCharacters(scenario.characters);
-  const authorId = scenario.characters[0].userId;
 
   return (
-    <EnAttenteWithIdPage
+    <ArchiveWithIdPage
       id={id}
       introduction={introduction}
       title={title}
-      safeTitle={safeTitle}
+      posts={posts}
+      nextPoster={nextPoster}
       characters={characters}
-      authorId={authorId}
+      supplies={supplies}
     />
   );
 }

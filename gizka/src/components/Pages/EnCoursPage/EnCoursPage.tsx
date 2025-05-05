@@ -13,7 +13,7 @@ export function EnCoursPage({
   parentPage,
 }: {
   scenarios: Scenario[];
-  parentPage: 'en-cours' | 'en-attente';
+  parentPage: 'en-cours' | 'en-attente' | 'archives';
 }) {
   const t = useTranslations('scenarios');
 

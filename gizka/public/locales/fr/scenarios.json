@@ -86,6 +86,16 @@
         }
       }
     },
+    "archives": {
+      "breadcrumb": {
+        "home": "Accueil",
+        "current": "Scénarios archivés"
+      },
+      "tabs": {
+        "status": "Statut",
+        "read": "Lecture"
+      }
+    },
     "en-attente": {
       "breadcrumb": {
         "home": "Accueil",

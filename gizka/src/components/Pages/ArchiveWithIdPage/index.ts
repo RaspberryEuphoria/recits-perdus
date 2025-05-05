@@ -1,0 +1,1 @@
+export { ArchiveWithIdPage } from './ArchiveWithIdPage';

@@ -7,15 +7,13 @@ import { httpClient, isHttpError } from '@/services/http-client';
 import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
 
 export const metadata: Metadata = {
-  title: 'Scénarios en attente - Les Récits Perdus',
+  title: 'Scénarios en cours - Les Récits Perdus',
   description:
     'Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars',
 };
 
 async function getData(): Promise<Scenario[]> {
-  const scenarios = await httpClient.get<Scenario[]>(
-    `/scenario?status=${ScenarioStatus.INITIATED}`,
-  );
+  const scenarios = await httpClient.get<Scenario[]>(`/scenario?status=${ScenarioStatus.FINISHED}`);
 
   if (isHttpError(scenarios)) {
     throw new Error('Failed to fetch data');
@@ -24,8 +22,8 @@ async function getData(): Promise<Scenario[]> {
   return scenarios;
 }
 
-export default async function EnAttente() {
+export default async function Archives() {
   const scenarios = await getData();
 
-  return <EnCoursPage scenarios={scenarios} parentPage={'en-attente'} />;
+  return <EnCoursPage scenarios={scenarios} parentPage={'archives'} />;
 }

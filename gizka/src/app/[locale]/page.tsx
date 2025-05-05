@@ -45,9 +45,9 @@ const links = [
     isDisabled: false,
   },
   {
-    label: 'Scénarios finis',
-    href: '/scenarios/finis',
-    isDisabled: true,
+    label: 'Scénarios archivés',
+    href: '/scenarios/archives',
+    isDisabled: false,
   },
   {
     label: 'Discord',
