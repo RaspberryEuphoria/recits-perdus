@@ -27,9 +27,12 @@ function createScenarioUsecase(scenarioRepository: ScenarioRepository, discord: 
 function createSlugFromString(str: string) {
   return str
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, '-')
+    .replace(/'/g, '-')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-zA-Z0-9-]/g, '')
+    .replace(/--+/g, '-')
+    .replace(/-$/, '')
     .toLowerCase();
 }
 
