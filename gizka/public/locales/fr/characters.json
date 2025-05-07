@@ -12,6 +12,7 @@
     "my-characters": {
       "title": "Mes personnages - Les Récits Perdus",
       "description": "Consulter ou modifier mes personnages.",
+      "must-login": "Vous devez être connecté pour consulter un personnage.",
       "breadcrumb": {
         "home": "Accueil",
         "characters": "Mes personnages"

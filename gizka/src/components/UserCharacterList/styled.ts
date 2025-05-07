@@ -24,6 +24,11 @@ export const CharacterPreview = styled.div`
   a {
     text-decoration: none;
   }
+
+  p {
+    max-width: 200px;
+    text-align: center;
+  }
 `;
 
 export const Scenario = styled(Link)`

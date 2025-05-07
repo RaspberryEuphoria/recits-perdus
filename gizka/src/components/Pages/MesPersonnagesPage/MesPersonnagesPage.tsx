@@ -34,7 +34,7 @@ export function MesPersonnagesPage() {
             { label: t('my-characters.breadcrumb.characters'), href: '#' },
           ]}
         >
-          {''}
+          {t('my-characters.must-login')}
         </LayoutMainSection>
         <LayoutAsideSection>
           <LoginOrRegister />
