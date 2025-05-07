@@ -13,7 +13,6 @@ export async function cropImage(
   targetWidth: number,
   targetHeight: number,
 ) {
-  console.log({ base64Image, crop, targetWidth, targetHeight });
   const { x, y, width, height } = crop;
 
   return await sharp(Buffer.from(base64Image, 'base64'))
