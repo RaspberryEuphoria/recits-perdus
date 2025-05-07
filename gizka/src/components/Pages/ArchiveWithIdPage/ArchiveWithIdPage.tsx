@@ -8,6 +8,8 @@ import { DialogThread } from '@/components/Dialog/DialogThread';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
+import FullWidthToggleOffIcon from '@/public/images/icons/full_width_toggle_off.svg';
+import FullWidthToggleOnIcon from '@/public/images/icons/full_width_toggle_on.svg';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { Character } from '@/utils/types/character';
 import { Post } from '@/utils/types/scenario';
@@ -44,8 +46,7 @@ export function ArchiveWithIdPage({
   const [characters] = useState<Record<string, Character>>(initalCharacters);
   const [supplies] = useState<number>(initalSupplies);
   const [dialogs] = useState<Post[]>(initialDialogs);
-
-  const displayMainSection = openTabId !== Tab.Reading;
+  const [isDialogFullWidth, setIsDialogFullWidth] = useState(false);
 
   const scrollToBottom = () => {
     if (threadRef.current) threadRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -59,24 +60,30 @@ export function ArchiveWithIdPage({
         isOpen: openTabId === Tab.Status,
         isDisabled: false,
       },
-      {
-        label: t('archives.tabs.read'),
-        id: Tab.Reading,
-        isOpen: openTabId === Tab.Reading,
-        isDisabled: false,
-      },
     ];
   }, [openTabId, t]);
 
+  const breadcrumb = useMemo(() => {
+    return [
+      { label: t('archives.breadcrumb.home'), href: '/' },
+      { label: t('archives.breadcrumb.current'), href: '/scenarios/archives' },
+      { label: title, href: '#' },
+    ];
+  }, [t, title]);
+
+  const onToggleDialogFullWidth = () => {
+    setIsDialogFullWidth(!isDialogFullWidth);
+  };
+
+  const isLayoutMainSectionVisible = useMemo(() => {
+    return !isDialogFullWidth;
+  }, [isDialogFullWidth]);
+
   return (
     <>
-      {displayMainSection && (
+      {isLayoutMainSectionVisible && (
         <LayoutMainSection
-          breadcrumb={[
-            { label: t('archives.breadcrumb.home'), href: '/' },
-            { label: t('archives.breadcrumb.current'), href: '/scenarios/archives' },
-            { label: title, href: '#' },
-          ]}
+          breadcrumb={breadcrumb}
           tabs={tabs}
           onTabChange={(tab: Tab) => setOpenTabId(tab)}
         >
@@ -87,17 +94,25 @@ export function ArchiveWithIdPage({
           )}
         </LayoutMainSection>
       )}
+
       <LayoutAsideSection
         stickyFooter={
           <Styled.Footer>
-            <Styled.ArrowButton onClick={scrollToBottom}>
-              <DownArrowIcon />
-            </Styled.ArrowButton>
+            <Styled.SmallTextarea isDisabled></Styled.SmallTextarea>
+
+            <Styled.ButtonsWrapper>
+              <Styled.FullWidthButton onClick={onToggleDialogFullWidth}>
+                {isDialogFullWidth ? <FullWidthToggleOffIcon /> : <FullWidthToggleOnIcon />}
+              </Styled.FullWidthButton>
+
+              <Styled.ArrowButton onClick={scrollToBottom}>
+                <DownArrowIcon />
+              </Styled.ArrowButton>
+            </Styled.ButtonsWrapper>
           </Styled.Footer>
         }
-        onTabChange={(tab: Tab) => setOpenTabId(tab)}
-        fullwidth={openTabId === Tab.Reading}
-        tabs={openTabId === Tab.Reading ? tabs : []}
+        breadcrumb={isDialogFullWidth ? breadcrumb : []}
+        isFullWidth={isDialogFullWidth}
       >
         <DialogThread
           currentUserId={currentUser?.id || null}

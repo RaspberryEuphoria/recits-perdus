@@ -12,6 +12,8 @@ import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { Moves } from '@/components/Moves';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
+import FullWidthToggleOffIcon from '@/public/images/icons/full_width_toggle_off.svg';
+import FullWidthToggleOnIcon from '@/public/images/icons/full_width_toggle_on.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { Character } from '@/utils/types/character';
@@ -66,24 +68,28 @@ export function EnCoursWithIdPage({
   const [dialogs, setDialogs] = useState<Post[]>(initialDialogs);
   const [content, setContent] = useState<string>('');
   const [postId, setPostId] = useState<number | null>(null);
+  const [isDialogFullWidth, setIsDialogFullWidth] = useState(false);
 
   const isItMyTurn = currentUser ? currentUser.id === nextPoster.userId : false;
   const isEditAllowed = openTabId === Tab.Status;
   const showTextarea = currentUser && openTabId === Tab.Posting && (isItMyTurn || postId);
-  const displayMainSection = openTabId !== Tab.Reading;
 
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
   };
 
   const handleOpenTextarea = () => {
-    if (isItMyTurn) setOpenTabId(Tab.Posting);
+    if (isItMyTurn) {
+      setOpenTabId(Tab.Posting);
+      setIsDialogFullWidth(false);
+    }
   };
 
   const handlePostEdit = ({ id, content }: { id: number; content: string }) => {
     setPostId(id);
     setContent(content);
     setOpenTabId(Tab.Posting);
+    setIsDialogFullWidth(false);
   };
 
   const handleTextareaSubmit = () => {
@@ -171,12 +177,6 @@ export function EnCoursWithIdPage({
         isDisabled: false,
       },
       {
-        label: t('en-cours.tabs.read'),
-        id: Tab.Reading,
-        isOpen: openTabId === Tab.Reading,
-        isDisabled: false,
-      },
-      {
         label: t('en-cours.tabs.play'),
         id: Tab.Posting,
         isOpen: openTabId === Tab.Posting,
@@ -185,15 +185,27 @@ export function EnCoursWithIdPage({
     ];
   }, [isItMyTurn, openTabId, t]);
 
+  const breadcrumb = useMemo(() => {
+    return [
+      { label: t('en-cours.breadcrumb.home'), href: '/' },
+      { label: t('en-cours.breadcrumb.current'), href: '/scenarios/en-cours' },
+      { label: title, href: '#' },
+    ];
+  }, [t, title]);
+
+  const onToggleDialogFullWidth = () => {
+    setIsDialogFullWidth(!isDialogFullWidth);
+  };
+
+  const isLayoutMainSectionVisible = useMemo(() => {
+    return !isDialogFullWidth;
+  }, [isDialogFullWidth]);
+
   return (
     <>
-      {displayMainSection && (
+      {isLayoutMainSectionVisible && (
         <LayoutMainSection
-          breadcrumb={[
-            { label: t('en-cours.breadcrumb.home'), href: '/' },
-            { label: t('en-cours.breadcrumb.current'), href: '/scenarios/en-cours' },
-            { label: title, href: '#' },
-          ]}
+          breadcrumb={breadcrumb}
           tabs={tabs}
           onTabChange={(tab: Tab) => setOpenTabId(tab)}
         >
@@ -226,20 +238,27 @@ export function EnCoursWithIdPage({
           )}
         </LayoutMainSection>
       )}
+
       <LayoutAsideSection
         stickyFooter={
           <Styled.Footer>
             <Styled.SmallTextarea onClick={handleOpenTextarea} isDisabled={!isItMyTurn}>
               {placeholder}
             </Styled.SmallTextarea>
-            <Styled.ArrowButton onClick={scrollToBottom}>
-              <DownArrowIcon />
-            </Styled.ArrowButton>
+
+            <Styled.ButtonsWrapper>
+              <Styled.FullWidthButton onClick={onToggleDialogFullWidth}>
+                {isDialogFullWidth ? <FullWidthToggleOffIcon /> : <FullWidthToggleOnIcon />}
+              </Styled.FullWidthButton>
+
+              <Styled.ArrowButton onClick={scrollToBottom}>
+                <DownArrowIcon />
+              </Styled.ArrowButton>
+            </Styled.ButtonsWrapper>
           </Styled.Footer>
         }
-        onTabChange={(tab: Tab) => setOpenTabId(tab)}
-        fullwidth={openTabId === Tab.Reading}
-        tabs={openTabId === Tab.Reading ? tabs : []}
+        breadcrumb={isDialogFullWidth ? breadcrumb : []}
+        isFullWidth={isDialogFullWidth}
       >
         <DialogThread
           currentUserId={currentUser?.id || null}

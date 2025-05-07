@@ -77,11 +77,11 @@ export const AsideSection = styled.aside<{ fullwidth?: boolean }>`
   ${(props) =>
     props.fullwidth &&
     `
-      flex: 60%;
+      flex: 90%;
       margin: 0 auto;
-      max-width: 60%;
+      max-width: 90%;
       min-width: 1000px;
-      width: 60%;
+      width: 90%;
   `}
 `;
 
@@ -237,6 +237,7 @@ export const BradcrumbSeparator = styled.span`
     transform: rotate(-90deg);
   }
 `;
+
 export const TabLabel = styled.span`
   position: absolute;
   left: 50%;

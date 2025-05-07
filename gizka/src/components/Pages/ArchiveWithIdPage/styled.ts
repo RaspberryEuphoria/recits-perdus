@@ -34,6 +34,12 @@ export const SmallTextarea = styled.div<{ isDisabled: boolean }>`
       `}
 `;
 
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-1);
+`;
+
 export const ArrowButton = styled.div`
   background: var(--primary-alt);
   border-radius: 50%;
@@ -45,5 +51,22 @@ export const ArrowButton = styled.div`
   svg {
     width: 100%;
     height: 100%;
+  }
+`;
+
+export const FullWidthButton = styled.div`
+  background: var(--primary-alt);
+  border-radius: 50%;
+  color: var(--flashy);
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 70%;
+    height: 70%;
   }
 `;
