@@ -4,6 +4,7 @@ import fs from 'fs';
 import http from 'http';
 import https from 'https';
 
+import { CharacterContainer } from './app/character/character.container';
 import { ScenarioContainer } from './app/scenario/scenario.container';
 import { UserContainer } from './app/user/user.container';
 import { AuthService } from './services/AuthService';
@@ -35,9 +36,11 @@ const server =
 server.listen(port, () => {
   console.log(`TypeScript with Express http://localhost:${port}/`);
 
+  const characterContainer = new CharacterContainer(prisma);
   const scenarioContainer = new ScenarioContainer(prisma, discordService);
   const userContainer = new UserContainer(prisma, authService);
 
+  app.use('/character', characterContainer.routes);
   app.use('/scenario', scenarioContainer.routes);
   app.use('/user', userContainer.routes);
 });
@@ -52,7 +55,6 @@ app.get('/', (_req, res) => {
 });
 
 // log requests
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(async (req: express.Request, _res: express.Response, next: express.NextFunction) => {
   if (req.url.startsWith('/images')) {
     next();
