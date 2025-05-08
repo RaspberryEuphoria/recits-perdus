@@ -114,7 +114,7 @@
       "name": "Engager le Combat",
       "action": "décide d'",
       "summary": "Lorsque <important>vous engagez le combat</important>, décrivez votre action et faites un jet.",
-      "help": "Une fois le combat engagé, vous devez monter votre <important>Score de Progrès</important> en réalisant les actions <move>Attaquer</move> ou <move>Riposter</move>. Ce score servira à déterminer l'issue du combat lorsque vous serez prêt à <move>Mettre Fin au Combat</move>. La difficulté que vous choisissez lors de l'engagement détermine le dé de défi des ennemis lorsque vous y mettez fin.",
+      "help": "Une fois le combat engagé, vous devez monter votre <important>Score de Combat</important> en réalisant les actions <move>Attaquer</move> ou <move>Riposter</move>. Ce score servira à déterminer l'issue du combat lorsque vous serez prêt à <move>Mettre Fin au Combat</move>. La difficulté que vous choisissez lors de l'engagement détermine le dé de défi des ennemis lorsque vous y mettez fin.",
       "approach": "Si vous êtes...",
       "prompts": {
         "face": "Face à votre ennemi",
@@ -155,8 +155,8 @@
         "force": "Avec la Force"
       },
       "results": {
-        "strong-hit": "En cas de <important>succès total</important>, vous infligez des dégâts à vos adversaires. Vous conservez l'initiative et gagnez <progress>+2</progress> au Score de Progrès.",
-        "weak-hit": "En cas de <important>succès partiel</important>, vous infligez des dégâts, mais vous perdez l'initiative et gagnez <progress>+1</progress> au Score de Progrès.",
+        "strong-hit": "En cas de <important>succès total</important>, vous infligez des dégâts à vos adversaires. Vous conservez l'initiative et gagnez <progress>+2</progress> au Score de Combat.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous infligez des dégâts, mais vous perdez l'initiative et gagnez <progress>+1</progress> au Score de Combat.",
         "miss": "En cas d’<important>échec</important>, votre attaque échoue et vous devez en <move>Payer le Prix</move>. L'ennemi a l'initiative."
       },
       "outcomes": {
@@ -181,8 +181,8 @@
         "force": "Avec la Force"
       },
       "results": {
-        "strong-hit": "En cas de <important>succès total</important>, vous infligez des dégâts à vos adversaires et vous reprenez l'initiative. Gagnez <momentum>+1</momentum> ferveur et <progress>+1</progress> au Score de Progrès.",
-        "weak-hit": "En cas de <important>succès partiel</important>, vous infligez des dégâts, mais vous devez ensuite en <move>Payer le Prix</move>. L'ennemi conserve l'initiative. Gagnez <progress>+1</progress> au Score de Progrès.",
+        "strong-hit": "En cas de <important>succès total</important>, vous infligez des dégâts à vos adversaires et vous reprenez l'initiative. Gagnez <momentum>+1</momentum> ferveur et <progress>+1</progress> au Score de Combat.",
+        "weak-hit": "En cas de <important>succès partiel</important>, vous infligez des dégâts, mais vous devez ensuite en <move>Payer le Prix</move>. L'ennemi conserve l'initiative. Gagnez <progress>+1</progress> au Score de Combat.",
         "miss": "En cas d’<important>échec</important>, votre êtes dépassé et vous devez en <move>Payer le Prix</move>. L'ennemi conserve l'initiative."
       },
       "outcomes": {
@@ -198,7 +198,7 @@
     "METTRE_FIN_AU_COMBAT": {
       "name": "Mettre Fin au Combat",
       "action": "décide qu'il est temps de ",
-      "summary": "Lorsque <important>déclenchez une action décisive</important> et que vous obtenez un <important>succès total</important>, vous pouvez mettre fin au combat. Utilisez votre Score de Progrès comme valeur à opposer aux dés de défi.",
+      "summary": "Lorsque <important>déclenchez une action décisive</important> et que vous obtenez un <important>succès total</important>, vous pouvez mettre fin au combat. Utilisez votre Score de Combat comme valeur à opposer aux dés de défi.",
       "prompts": {
         "health": "Vous vous en sortez avec une nouvelle blessure :",
         "spirit": " Vous êtes dépassé :",
@@ -350,6 +350,6 @@
         "skill-check": "détermination"
       }
     },
-    "progress-score": "Score de Progrès"
+    "progress-score": "Score de Combat :"
   }
 }
