@@ -7,6 +7,16 @@ enum ScenarioStatus {
   LOCKED = 'LOCKED',
 }
 
+export type ScenarioStats = {
+  count: number;
+  postCount: number;
+  diceCount: number;
+  lastPostId: number;
+  lastPostAt: string;
+  lastPostCharacter: Pick<Character, 'firstName' | 'lastName' | 'textColor' | 'avatar'>;
+  lastPostScenario: Pick<Scenario, 'id' | 'title' | 'safeTitle' | 'status' | 'era' | 'location'>;
+};
+
 export type Post = {
   id: number;
   content: string;

@@ -18,6 +18,10 @@ export type Character = {
   characterScenario?: CharacterScenario;
 };
 
+export type CharacterStats = {
+  count: number;
+};
+
 export type CharacterInActiveScenario = Character & {
   characterScenario: CharacterScenario;
 };
