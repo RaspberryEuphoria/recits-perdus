@@ -43,7 +43,7 @@ function Chances({ progress, difficulty }: ChanceProps) {
   const Y = difficulty;
 
   // All dices greater than or equal to X
-  const outcomeProbabilityForFailure = Math.pow((Y - X + 1) / Y, 2) * 100;
+  const outcomeProbabilityForFailure = X > 0 ? Math.pow((Y - X + 1) / Y, 2) * 100 : 100;
 
   /**
    * If failure is garanteed 100%, we don't need to calculate mixed chances,
@@ -58,8 +58,8 @@ function Chances({ progress, difficulty }: ChanceProps) {
         (1 - probabilityThatBothDicesRollLessThanX(X, Y)) * 100
       : 0;
 
-  // Remaining probability equals success chances
-  const outcomeProbabilityForSuccess = probabilityThatBothDicesRollLessThanX(X, Y) * 100;
+  const outcomeProbabilityForSuccess =
+    X > 0 ? probabilityThatBothDicesRollLessThanX(X, Y) * 100 : 0;
 
   return (
     <Styled.Chances>

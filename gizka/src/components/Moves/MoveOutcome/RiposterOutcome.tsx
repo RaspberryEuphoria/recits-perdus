@@ -53,7 +53,7 @@ export function RiposterOutcome(props: MoveOutcomeProps) {
         ))}
       </Styled.MoveResult>
       <Outcome {...props} />
-      {progress > 0 && <MoveProgress progress={progress} difficulty={difficulty} />}
+      <MoveProgress progress={progress} difficulty={difficulty} />
     </Styled.MoveOutcome>
   );
 }
