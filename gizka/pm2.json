@@ -5,7 +5,8 @@
       "script": "node_modules/next/dist/bin/next",
       "args": "start",
       "instances": "1",
-      "exec_mode": "cluster"
+      "exec_mode": "cluster",
+      "log_date_format": "YYYY-MM-DD HH:mm Z"
     }
   ]
 }
