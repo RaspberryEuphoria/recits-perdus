@@ -97,7 +97,7 @@ export function ArchiveWithIdPage({
 
       <LayoutAsideSection
         stickyFooter={
-          <Styled.Footer>
+          <Styled.Footer isDisabled>
             <Styled.SmallTextarea isDisabled></Styled.SmallTextarea>
 
             <Styled.ButtonsWrapper>

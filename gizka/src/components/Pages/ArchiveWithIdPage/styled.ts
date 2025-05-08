@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Footer = styled.footer`
+export const Footer = styled.footer<{ isDisabled: boolean }>`
   align-self: flex-start;
   align-items: center;
   background: var(--dark);
@@ -13,6 +13,13 @@ export const Footer = styled.footer`
   height: 5rem;
   padding: var(--space-1);
   width: 100%;
+
+  ${({ isDisabled }) =>
+    isDisabled &&
+    `
+      background: none;
+      border-top: 1px solid transparent;
+    `}
 `;
 
 export const SmallTextarea = styled.div<{ isDisabled: boolean }>`
