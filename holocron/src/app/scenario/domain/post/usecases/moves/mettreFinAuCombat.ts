@@ -12,14 +12,13 @@ export class MettreFinAuCombatMove extends ActionMove {
     const maxDifficulty = await this.getCurrentFightDifficulty();
     const roll = await super.roll({ overridedScore: currentProgress, maxDifficulty });
 
+    this.updateMoveIntentMeta({ difficulty: maxDifficulty });
+
     switch (roll.moveResult) {
       case MoveResult.SUCCESS:
         this.onSuccess();
         break;
       case MoveResult.MIXED:
-        console.log(isStat(roll.meta.danger));
-        console.log(isStory(roll.meta.danger));
-
         if (!isStat(roll.meta.danger) && !isStory(roll.meta.danger)) {
           throw new Error(
             `Invalid danger ${roll.meta.danger} when attempting to use move ${this.moveId}`,

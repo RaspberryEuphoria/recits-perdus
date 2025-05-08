@@ -119,6 +119,17 @@ export abstract class ActionMove {
     return characterSkill?.level || 0;
   }
 
+  updateMoveIntentMeta(meta: Partial<MoveIntent['meta']>) {
+    if (!this.moveIntent.meta) {
+      throw new Error(`Move ${this.moveIntent.id} meta not found`);
+    }
+
+    this.moveIntent.meta = {
+      ...this.moveIntent.meta,
+      ...meta,
+    };
+  }
+
   async roll({
     overridedScore = null,
     maxDifficulty = MAX_CHALLENGE_VALUE,

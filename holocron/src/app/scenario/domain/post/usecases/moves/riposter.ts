@@ -7,6 +7,9 @@ export class RiposterMove extends ActionMove {
   moveId = MoveId.RIPOSTER;
 
   async roll() {
+    const difficulty = await this.getCurrentFightDifficulty();
+    this.updateMoveIntentMeta({ difficulty });
+
     const roll = await super.roll();
 
     switch (roll.moveResult) {

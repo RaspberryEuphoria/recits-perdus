@@ -37,6 +37,7 @@ export type Danger = DangerOnStat;
 
 export type MoveMeta = {
   danger?: Danger | number;
+  difficulty?: number;
   skillId?: number;
   hasMomentumBurn?: boolean;
   targetId?: number;

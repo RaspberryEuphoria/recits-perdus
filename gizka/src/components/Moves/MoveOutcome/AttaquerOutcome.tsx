@@ -27,6 +27,10 @@ export function AttaquerOutcome(props: MoveOutcomeProps) {
   const score = actionDie.value + skillValue;
   const meta = JSON.parse(move.meta);
   const progress = meta.progress;
+  const difficulty = meta.difficulty;
+  const difficultyText = difficulty
+    ? `(${t('outcomes.difficulty')} ${t(`difficulty.${difficulty}`)})`
+    : '';
 
   return (
     <Styled.MoveOutcome>
@@ -35,7 +39,7 @@ export function AttaquerOutcome(props: MoveOutcomeProps) {
           {character.firstName}
         </Styled.CharacterName>{' '}
         {t(`${move.moveId}.action`)}
-        <Keyword stat="move">{t(`${move.moveId}.name`)}</Keyword> !
+        <Keyword stat="move">{t(`${move.moveId}.name`)}</Keyword> {difficultyText} !
       </p>
       <Styled.MoveResult>
         <Styled.MoveScore
@@ -49,7 +53,7 @@ export function AttaquerOutcome(props: MoveOutcomeProps) {
         ))}
       </Styled.MoveResult>
       <Outcome {...props} />
-      {progress > 0 && <MoveProgress progress={progress} />}
+      {progress > 0 && <MoveProgress progress={progress} difficulty={difficulty} />}
     </Styled.MoveOutcome>
   );
 }

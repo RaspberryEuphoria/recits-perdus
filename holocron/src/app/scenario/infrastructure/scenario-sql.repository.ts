@@ -353,7 +353,7 @@ export class ScenarioRepository {
   }
 
   async getCurrentFightDifficulty(scenarioId: number, postId: number, characterId: number) {
-    const endingLastFightPost = await this.db.post.findFirst({
+    const startingCurrentFightPost = await this.db.post.findFirst({
       where: {
         scenarioId,
         characterId,
@@ -362,27 +362,12 @@ export class ScenarioRepository {
         },
         moves: {
           some: {
-            moveId: MoveId.METTRE_FIN_AU_COMBAT,
+            moveId: MoveId.ENGAGER_LE_COMBAT,
           },
         },
       },
       orderBy: {
         id: 'desc',
-      },
-    });
-
-    const startingCurrentFightPost = await this.db.post.findFirst({
-      where: {
-        scenarioId,
-        id: {
-          gt: endingLastFightPost?.id,
-        },
-        moves: {
-          some: { moveId: MoveId.ENGAGER_LE_COMBAT },
-        },
-      },
-      orderBy: {
-        id: 'asc',
       },
       include: {
         moves: true,
