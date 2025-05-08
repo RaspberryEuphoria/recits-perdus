@@ -13,6 +13,7 @@ import { CreateUserDto, User } from './domain/user/entities/user';
 import { createCharacterUsecase } from './domain/user/usecases/createCharacter.usecase';
 import { getCharacterUsecase } from './domain/user/usecases/getCharacter.usecase';
 import { getCharactersUsecase } from './domain/user/usecases/getCharacters.usecase';
+import { getStatsUsecase } from './domain/user/usecases/getStats.usecase';
 import { loginUserUsecase } from './domain/user/usecases/loginUser.usecase';
 import { registerUserUsecase } from './domain/user/usecases/registerUser.usecase';
 import { updateCharacterUsecase } from './domain/user/usecases/updateCharacter.usecase';
@@ -41,6 +42,10 @@ export class UserContainer {
 
   get routes() {
     return this.userRoutes;
+  }
+
+  getStats() {
+    return getStatsUsecase(this.userRepository)();
   }
 
   register(user: CreateUserDto) {

@@ -13,6 +13,11 @@ export class CharacterRepository {
     this.db = db;
   }
 
+  async getStats() {
+    const count = await this.db.character.count();
+    return { count };
+  }
+
   async getAll() {
     return this.db.character.findMany();
   }

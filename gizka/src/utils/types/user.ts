@@ -4,3 +4,7 @@ export type User = {
   email: string;
   accessToken: string;
 };
+
+export type UserStats = {
+  count: number;
+};

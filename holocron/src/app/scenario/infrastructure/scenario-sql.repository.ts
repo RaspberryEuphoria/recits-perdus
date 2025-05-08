@@ -53,6 +53,51 @@ export class ScenarioRepository {
     this.db = db;
   }
 
+  async getStats() {
+    const count = await this.db.scenario.count();
+    const postCount = await this.db.post.count();
+    const diceCount = await this.db.dicesOnMoves.count();
+
+    const lastPostWithCharacterAndScenario = await this.db.post.findFirst({
+      include: {
+        character: true,
+        scenario: true,
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    });
+
+    const characterFromScenario = await this.db.charactersOnScenarios.findFirst({
+      where: {
+        scenarioId: lastPostWithCharacterAndScenario?.scenario.id,
+        characterId: lastPostWithCharacterAndScenario?.character.id,
+      },
+    });
+
+    return {
+      count,
+      postCount,
+      diceCount,
+      lastPostId: lastPostWithCharacterAndScenario?.id,
+      lastPostAt: lastPostWithCharacterAndScenario?.createdAt,
+      lastPostCharacter: {
+        firstName: lastPostWithCharacterAndScenario?.character.firstName,
+        lastName: lastPostWithCharacterAndScenario?.character.lastName,
+        textColor: characterFromScenario?.textColor,
+        avatar: lastPostWithCharacterAndScenario?.character.avatar,
+      },
+      lastPostScenario: {
+        id: lastPostWithCharacterAndScenario?.scenario.id,
+        title: lastPostWithCharacterAndScenario?.scenario.title,
+        safeTitle: lastPostWithCharacterAndScenario?.scenario.safeTitle,
+        era: lastPostWithCharacterAndScenario?.scenario.era,
+        location: lastPostWithCharacterAndScenario?.scenario.location,
+        status: lastPostWithCharacterAndScenario?.scenario.status,
+      },
+    };
+  }
+
   async getAllScenariosByStatus(status: ScenarioStatus) {
     const scenarios = await this.db.scenario.findMany({
       where: {

@@ -5,6 +5,15 @@ import { UserContainer } from '../user.container';
 const router = express.Router();
 
 function userRoutes(userContainer: UserContainer) {
+  router.get('/stats', async (req, res, next) => {
+    try {
+      const stats = await userContainer.getStats();
+      res.json(stats);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.post(`/register`, async (req, res, next) => {
     try {
       const user = await userContainer.register(req.body);

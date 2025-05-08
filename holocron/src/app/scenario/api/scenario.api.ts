@@ -10,6 +10,15 @@ function isScenarioStatusAllowed(status: ScenarioStatus): status is ScenarioStat
 }
 
 function scenarioRoutes(scenarioContainer: ScenarioContainer) {
+  router.get('/stats', async (req, res, next) => {
+    try {
+      const stats = await scenarioContainer.getStats();
+      res.json(stats);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   // Get scenarios
   router.get(
     `/`,

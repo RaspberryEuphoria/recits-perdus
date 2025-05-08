@@ -17,6 +17,7 @@ import { addCharacterUsecase } from './domain/scenario/usecases/addCharacter.use
 import { createScenarioUsecase } from './domain/scenario/usecases/createScenario.usecase';
 import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usecase';
 import { getScenarioByIdUsecase } from './domain/scenario/usecases/getScenarioById.usecase';
+import { getStatsUsecase } from './domain/scenario/usecases/getStats.usecase';
 import { startScenarioUsecase } from './domain/scenario/usecases/startScenario.usecase';
 import { CharacterRepository } from './infrastructure/character-sql.repository';
 import { PostRepository } from './infrastructure/post-sql.repository';
@@ -48,6 +49,10 @@ export class ScenarioContainer {
 
   get routes() {
     return this.scenarioRoutes;
+  }
+
+  getStats() {
+    return getStatsUsecase(this.scenarioRepository)();
   }
 
   getAllScenarios(scenarioStatus: ScenarioStatus) {

@@ -3,6 +3,7 @@ import { Router } from 'express';
 
 import { characterRoutes } from './api/character.api';
 import { getAllCharacters } from './domain/character/usecases/getAllCharacters.usecase';
+import { getStatsUsecase } from './domain/character/usecases/getStats.usecase';
 import { CharacterRepository } from './infrastructure/character-sql.repository';
 
 export class CharacterContainer {
@@ -20,6 +21,10 @@ export class CharacterContainer {
 
   get routes() {
     return this.characterRoutes;
+  }
+
+  getStats() {
+    return getStatsUsecase(this.characterRepository)();
   }
 
   getAllCharacters() {

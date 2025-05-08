@@ -49,6 +49,11 @@ export class UserRepository {
     this.authService = authService;
   }
 
+  async getStats() {
+    const count = await this.db.user.count();
+    return { count };
+  }
+
   async create(user: CreateUserDto) {
     const hashedUser = await this.authService.hashUser(user);
 
