@@ -161,10 +161,7 @@ EnAttenteWithIdPageProps) {
 
             {isAuthor && (
               <Row justify="start">
-                <Button
-                  disabled={!isAuthor || Object.keys(characters).length < 2}
-                  onClick={startScenario}
-                >
+                <Button disabled={!isAuthor} onClick={startScenario}>
                   {t(`en-attente.author.start`)}
                 </Button>
               </Row>
