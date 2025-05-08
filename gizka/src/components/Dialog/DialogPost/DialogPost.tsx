@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 import { MoveOutcome } from '@/components/Moves/MoveOutcome';
+import DefaultAvatarSrc from '@/public/images/default_avatar.png';
 import PencilIcon from '@/public/images/icons/pencil.svg';
 import { getFullName } from '@/utils/character/helpers';
 import { formatPostContent } from '@/utils/scenario/helpers';
@@ -28,6 +31,12 @@ export function DialogPost({
   isEditable,
   handlePostEdit,
 }: DialogPostProps) {
+  const [avatarSrc, setAvatarSrc] = useState<string>(
+    character && character.avatar
+      ? `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`
+      : DefaultAvatarSrc.src,
+  );
+
   if (!character) {
     return (
       <Styled.DialogPost id={`message-${id}`}>
@@ -43,11 +52,12 @@ export function DialogPost({
     <Styled.DialogPost id={`message-${id}`}>
       <Styled.DialogInfos>
         <Styled.DialogAvatar
-          src={`${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`}
-          alt="[Avatar manquant]"
+          src={avatarSrc}
+          alt={`Avatar de ${character.firstName}`}
           width={200}
           height={230}
           color={textColor}
+          onError={() => setAvatarSrc(DefaultAvatarSrc.src)}
         />
         <Styled.CharacterName color={character.textColor}>
           <Styled.DialogPostAuthor>
