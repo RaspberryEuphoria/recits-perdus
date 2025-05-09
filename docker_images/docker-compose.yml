@@ -1,0 +1,29 @@
+services:
+  recitsperdus-frontend:
+    image: node:18.17
+    build: ./
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    env_file: ./.env
+    environment:
+      - DB_HOST=postgresdb
+      - DB_USER=$POSTGRESDB_USER
+      - DB_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+      - DB_NAME=$POSTGRESDB_DATABASE
+      - DB_PORT=$POSTGRESDB_DOCKER_PORT
+    restart: unless-stopped
+    depends_on:
+      - recitsperdus-backend
+  recitsperdus-backend:
+    image: postgre:16.2
+    restart: unless-stopped
+    ports:
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    env_file: ./.env
+    environment:
+      - DB_USER=$POSTGRESDB_USER
+      - DB_PASSWORD=$POSTGRESDB_PASSWORD
+      - DB_NAME=$POSTGRESDB_DATABASE
+
+volumes:
+  db-data:
