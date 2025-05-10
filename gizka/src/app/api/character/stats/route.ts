@@ -1,3 +1,5 @@
+export const revalidate = 0;
+
 import { NextResponse } from 'next/server';
 
 import { httpClient } from '@/services/http-client';
