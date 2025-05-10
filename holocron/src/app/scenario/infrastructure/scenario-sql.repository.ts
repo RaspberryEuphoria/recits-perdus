@@ -56,7 +56,11 @@ export class ScenarioRepository {
   async getStats() {
     const count = await this.db.scenario.count();
     const postCount = await this.db.post.count();
-    const diceCount = await this.db.dicesOnMoves.count();
+    const diceCount = await this.db.dicesOnMoves.count({
+      where: {
+        type: 'ACTION',
+      },
+    });
 
     const lastPostWithCharacterAndScenario = await this.db.post.findFirst({
       include: {
