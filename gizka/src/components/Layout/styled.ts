@@ -117,6 +117,10 @@ export const Tabs = styled.div`
   display: flex;
   height: 100%;
   margin: 0 auto;
+
+  @media (max-width: ${Media.md}) {
+    flex-direction: column;
+  }
 `;
 
 export const Tab = styled.button<{ isOpen: boolean; isDisabled: boolean }>`
@@ -201,6 +205,13 @@ export const Tab = styled.button<{ isOpen: boolean; isDisabled: boolean }>`
       opacity: 0.5;
       pointer-events: none;
     `}
+
+  @media (max-width: ${Media.md}) {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
 `;
 
 export const Main = styled.main`
@@ -222,10 +233,6 @@ export const Main = styled.main`
     ${Nav} {
       position: initial;
       flex-direction: column;
-    }
-
-    ${Tabs} {
-      margin: var(--space-1);
     }
 
     ${Tab} {
