@@ -8,28 +8,28 @@ export function timeSince(date: string | Date): { value: number; unit: string } 
   const months = Math.floor(days / 30.44); // Average month length
   const years = Math.floor(days / 365.25); // Average year length
 
-  if (seconds < 60) {
+  if (seconds < 120) {
     return {
       value: seconds,
-      unit: 'seconds',
+      unit: 'Sec',
     };
   }
 
-  if (minutes < 60) {
-    return { value: minutes, unit: 'minutes' };
+  if (minutes < 120) {
+    return { value: minutes, unit: 'Min' };
   }
 
-  if (hours < 24) {
-    return { value: hours, unit: 'hours' };
+  if (hours < 48) {
+    return { value: hours, unit: 'Hr' };
   }
 
-  if (days < 30) {
-    return { value: days, unit: 'days' };
+  if (days < 60) {
+    return { value: days, unit: 'Day' };
   }
 
   if (months < 12) {
-    return { value: months, unit: 'months' };
+    return { value: months, unit: 'Mon' };
   }
 
-  return { value: years, unit: 'years' };
+  return { value: years, unit: 'Yr' };
 }

@@ -1,0 +1,25 @@
+{
+  "common": {
+    "title": "Les Récits Perdus",
+    "stats": {
+      "characters": "personnages imaginés par",
+      "players": "joueurs",
+      "scenarios": "scénarios ouverts et",
+      "turns": "tours joués",
+      "dices": "jets de dés effectués",
+      "lastMessageBy": "Dernier message par",
+      "lastMessageIn": "dans",
+      "lastMessageAt": "il y a",
+      "lastMessageAtUnit": {
+        "Sec": "secondes",
+        "Min": "minutes",
+        "Hr": "heures",
+        "Day": "jours",
+        "Mon": "mois",
+        "Yr": "années"
+      },
+      "era": "Époque :",
+      "location": "lieu :"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { NavBar } from '@/components/DesignSystem/NavBar';
@@ -100,6 +101,8 @@ export function HomePage(props: HomePageProps) {
     lastPost: { character, scenario, ...post },
   } = props;
 
+  const t = useTranslations('common');
+
   const [avatarSrc, setAvatarSrc] = useState<string>(
     character && character.avatar
       ? `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars/${character.avatar}`
@@ -115,15 +118,15 @@ export function HomePage(props: HomePageProps) {
 
           <Styled.Texts>
             <Text as="h1" size="xl">
-              <Styled.Title>Les Récits Perdus</Styled.Title>
+              <Styled.Title>{t('title')}</Styled.Title>
             </Text>
 
             <Styled.TextBlock>
               <Row align="center" gap="05" as="p">
                 <CharacterIcon />
                 <Styled.Stat>
-                  <strong>{characterCount}</strong> personnages imaginés par{' '}
-                  <strong>{userCount}</strong> joueurs
+                  <strong>{characterCount}</strong> {t('stats.characters')}{' '}
+                  <strong>{userCount}</strong> {t('stats.players')}
                 </Styled.Stat>
               </Row>
 
@@ -132,8 +135,8 @@ export function HomePage(props: HomePageProps) {
               <Row align="center" gap="05" as="p">
                 <PencilIcon />
                 <Styled.Stat>
-                  <strong>{scenarioCount}</strong> scénarios ouverts et <strong>{postCount}</strong>{' '}
-                  tours joués
+                  <strong>{scenarioCount}</strong> {t('stats.scenarios')}{' '}
+                  <strong>{postCount}</strong> {t('stats.turns')}
                 </Styled.Stat>
               </Row>
 
@@ -142,7 +145,7 @@ export function HomePage(props: HomePageProps) {
               <Row align="center" gap="05" as="p">
                 <D6Icon />
                 <Styled.Stat>
-                  <strong>{diceCount}</strong> jets de dés effectués
+                  <strong>{diceCount}</strong> {t('stats.dices')}
                 </Styled.Stat>
               </Row>
             </Styled.TextBlock>
@@ -158,14 +161,16 @@ export function HomePage(props: HomePageProps) {
                   onError={() => setAvatarSrc(DefaultAvatarSrc.src)}
                 />
                 <Text size="sm">
-                  Dernier message par{' '}
+                  {t('stats.lastMessageBy')}{' '}
                   <Styled.CharacterName color={character.textColor}>
                     {getFullName(character)}
-                  </Styled.CharacterName>
-                  dans <Link href={post.url}>{scenario.title}</Link> (Époque : {scenario.era}, lieu
-                  : {scenario.location}), il y a{' '}
+                  </Styled.CharacterName>{' '}
+                  {t('stats.lastMessageIn')} <Link href={post.url}>{scenario.title}</Link> (
+                  {t('stats.era')} {scenario.era}, {t('stats.location')} {scenario.location}),{' '}
+                  {t('stats.lastMessageAt')}{' '}
                   <strong title={post.postAt}>
-                    {timeSinceLastPost.value} {timeSinceLastPost.unit}
+                    {timeSinceLastPost.value}{' '}
+                    {t(`stats.lastMessageAtUnit.${timeSinceLastPost.unit}`)}
                   </strong>
                 </Text>
               </Styled.LastPost>
