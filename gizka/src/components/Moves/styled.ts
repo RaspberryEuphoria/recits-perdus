@@ -16,6 +16,15 @@ export const MovesList = styled.div`
   grid-gap: 10px;
 `;
 
+export const MoveIcon = styled.div`
+  margin-right: var(--space-05);
+
+  svg {
+    height: 20px;
+    width: 20px;
+  }
+`;
+
 export const MoveItem = styled.div<{ isDisabled: boolean }>`
   align-items: center;
   background: var(--secondary);

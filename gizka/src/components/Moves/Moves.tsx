@@ -6,6 +6,18 @@ import { Prompt } from '@/components/DesignSystem/Prompt';
 import { Text } from '@/components/DesignSystem/Text';
 import { Move } from '@/components/Dialog/DialogTextarea/DialogTextarea';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
+import ActionLibreIcon from '@/public/images/icons/move_action_libre.svg';
+import AttaquerIcon from '@/public/images/icons/move_attaquer.svg';
+import ContraindreIcon from '@/public/images/icons/move_contraindre.svg';
+import EngagerLeCombatIcon from '@/public/images/icons/move_engager_le_combat.svg';
+import FaireFaceAuDangerIcon from '@/public/images/icons/move_faire_face_au_danger.svg';
+import MarchanderIcon from '@/public/images/icons/move_marchander.svg';
+import MettreFinAuCombatIcon from '@/public/images/icons/move_mettre_fin_au_combat.svg';
+import PrendreUnAvantageIcon from '@/public/images/icons/move_prendre_un_avantage.svg';
+import ProdiguerDesSoinsIcon from '@/public/images/icons/move_prodiguer_des_soins.svg';
+import RavitaillerIcon from '@/public/images/icons/move_ravitailler.svg';
+import RecolterDesInformationsIcon from '@/public/images/icons/move_recolter_des_informations.svg';
+import RiposterIcon from '@/public/images/icons/move_riposter.svg';
 import { Character } from '@/utils/types/character';
 import { Moves as MoveId } from '@/utils/types/scenario';
 
@@ -23,11 +35,11 @@ const categories = [
   {
     key: 'adventure',
     moves: [
-      { id: MoveId.FAIRE_FACE_AU_DANGER, isDisabled: false },
-      { id: MoveId.PRENDRE_UN_AVANTAGE, isDisabled: false },
-      { id: MoveId.PRODIGUER_DES_SOINS, isDisabled: false },
-      { id: MoveId.RAVITAILLER, isDisabled: false },
-      { id: MoveId.ACTION_LIBRE, isDisabled: false },
+      { id: MoveId.FAIRE_FACE_AU_DANGER, isDisabled: false, icon: <FaireFaceAuDangerIcon /> },
+      { id: MoveId.PRENDRE_UN_AVANTAGE, isDisabled: false, icon: <PrendreUnAvantageIcon /> },
+      { id: MoveId.PRODIGUER_DES_SOINS, isDisabled: false, icon: <ProdiguerDesSoinsIcon /> },
+      { id: MoveId.RAVITAILLER, isDisabled: false, icon: <RavitaillerIcon /> },
+      { id: MoveId.ACTION_LIBRE, isDisabled: false, icon: <ActionLibreIcon /> },
       // { id: MoveId.MONTER_LE_CAMP, isDisabled: true },
       // { id: MoveId.VOYAGER, isDisabled: true },
       // { id: MoveId.ATTEINDRE_SA_DESTINATION, isDisabled: true },
@@ -36,18 +48,22 @@ const categories = [
   {
     key: 'social',
     moves: [
-      { id: MoveId.RECOLTER_DES_INFORMATIONS, isDisabled: false },
-      { id: MoveId.MARCHANDER, isDisabled: false },
-      { id: MoveId.CONTRAINDRE, isDisabled: false },
+      {
+        id: MoveId.RECOLTER_DES_INFORMATIONS,
+        isDisabled: false,
+        icon: <RecolterDesInformationsIcon />,
+      },
+      { id: MoveId.MARCHANDER, isDisabled: false, icon: <MarchanderIcon /> },
+      { id: MoveId.CONTRAINDRE, isDisabled: false, icon: <ContraindreIcon /> },
     ],
   },
   {
     key: 'fight',
     moves: [
-      { id: MoveId.ENGAGER_LE_COMBAT, isDisabled: false },
-      { id: MoveId.ATTAQUER, isDisabled: false },
-      { id: MoveId.RIPOSTER, isDisabled: false },
-      { id: MoveId.METTRE_FIN_AU_COMBAT, isDisabled: false },
+      { id: MoveId.ENGAGER_LE_COMBAT, isDisabled: false, icon: <EngagerLeCombatIcon /> },
+      { id: MoveId.ATTAQUER, isDisabled: false, icon: <AttaquerIcon /> },
+      { id: MoveId.RIPOSTER, isDisabled: false, icon: <RiposterIcon /> },
+      { id: MoveId.METTRE_FIN_AU_COMBAT, isDisabled: false, icon: <MettreFinAuCombatIcon /> },
     ],
   },
 ];
@@ -105,7 +121,8 @@ export function Moves({ onMovePicked, onBurnCheck, character, characters }: Move
                 onClick={() => !move.isDisabled && openMoveCard(move.id)}
                 isDisabled={move.isDisabled}
               >
-                {t(`${move.id}.name`)} {move.isDisabled && '(WiP)'}
+                {move.icon && <Styled.MoveIcon>{move.icon}</Styled.MoveIcon>} {t(`${move.id}.name`)}{' '}
+                {move.isDisabled && '(WiP)'}
               </Styled.MoveItem>
             ))}
           </Styled.MovesList>
