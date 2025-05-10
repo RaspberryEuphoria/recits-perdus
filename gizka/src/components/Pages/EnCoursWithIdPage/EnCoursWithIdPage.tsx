@@ -44,7 +44,7 @@ function mapScenarioCharacters(scenarioCharacters: Character[]) {
 enum Tab {
   Status = 'status',
   Posting = 'posting',
-  Reading = 'reading',
+  Notes = 'notes',
 }
 
 let socket: Socket;
@@ -175,6 +175,12 @@ export function EnCoursWithIdPage({
         id: Tab.Status,
         isOpen: openTabId === Tab.Status,
         isDisabled: false,
+      },
+      {
+        label: t('en-cours.tabs.notes'),
+        id: Tab.Posting,
+        isOpen: openTabId === Tab.Notes,
+        isDisabled: true,
       },
       {
         label: t('en-cours.tabs.play'),
