@@ -216,3 +216,7 @@ a {
   color: var(--flashy-alt);
   text-decoration: underline;
 }
+
+a:hover {
+  color: var(--flashy);
+}

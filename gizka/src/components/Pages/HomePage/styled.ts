@@ -72,7 +72,6 @@ export const Title = styled.span`
   color: var(--flashy-alt);
   display: block;
   position: relative;
-  text-align: center;
   text-shadow: var(--shadow);
   z-index: 100;
 `;
@@ -94,4 +93,22 @@ export const LastPost = styled.div`
   align-items: center;
   display: flex;
   gap: var(--space-05);
+`;
+
+export const PartnersWrapper = styled.div`
+  padding-left: var(--space-1);
+  padding-bottom: var(--space-1);
+  padding: var(--space-2);
+`;
+
+export const Partners = styled.ul`
+  display: flex;
+  align-items: center;
+  margin-top: var(--space-05);
+`;
+
+export const Partner = styled.li`
+  img {
+    border: 1px solid var(--flashy);
+  }
 `;

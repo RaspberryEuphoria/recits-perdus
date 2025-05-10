@@ -20,6 +20,9 @@
       },
       "era": "Époque :",
       "location": "lieu :"
+    },
+    "partners": {
+      "title": "Nos partenaires"
     }
   }
 }

@@ -1,0 +1,1 @@
+export { PartenaireWithIdPage } from './PartenaireWithIdPage';

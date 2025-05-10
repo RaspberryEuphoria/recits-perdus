@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
-import { TextSize } from './Text';
+import { TextAlign, TextSize } from './Text';
 
-export const Text = styled.p<{ size: TextSize }>`
+export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign }>`
+  text-align: ${({ textAlign }) => textAlign};
+
   font-size: ${({ size }) => {
     switch (size) {
       case 'xs':

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -14,6 +15,7 @@ import CharacterIcon from '@/public/images/icons/character.svg';
 import D6Icon from '@/public/images/icons/d6.svg';
 import DiscordLogo from '@/public/images/icons/discord_logo.svg';
 import PencilIcon from '@/public/images/icons/pencil.svg';
+import PartnerTLSLogo from '@/public/images/partners/tls_logo.jpg';
 import { getFullName } from '@/utils/character/helpers';
 import { timeSince } from '@/utils/dates/helpers';
 
@@ -117,7 +119,7 @@ export function HomePage(props: HomePageProps) {
           <NavBar links={links} />
 
           <Styled.Texts>
-            <Text as="h1" size="xl">
+            <Text as="h1" size="xl" textAlign="center">
               <Styled.Title>{t('title')}</Styled.Title>
             </Text>
 
@@ -177,6 +179,26 @@ export function HomePage(props: HomePageProps) {
             </Styled.TextBlock>
           </Styled.Texts>
         </Styled.Main>
+
+        <Styled.PartnersWrapper>
+          <Text as="h1" size="md">
+            <Styled.Title>
+              <Link href="/partenaires">{t('partners.title')}</Link>
+            </Styled.Title>
+          </Text>
+          <Styled.Partners>
+            <Styled.Partner>
+              <a href="https://swtls.forumactif.com/" target="_blank" rel="noreferrer">
+                <Image
+                  src={PartnerTLSLogo.src}
+                  alt="Star Wars The Last Stand"
+                  width={50}
+                  height={50}
+                />
+              </a>
+            </Styled.Partner>
+          </Styled.Partners>
+        </Styled.PartnersWrapper>
       </LayoutMainSection>
 
       <LayoutAsideSection>

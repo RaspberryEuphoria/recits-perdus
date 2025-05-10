@@ -5,6 +5,7 @@ export default getRequestConfig(async ({ locale }) => {
     ...(await import(`@/public/locales/${locale}/common.json`)).default,
     ...(await import(`@/public/locales/${locale}/characters.json`)).default,
     ...(await import(`@/public/locales/${locale}/moves.json`)).default,
+    ...(await import(`@/public/locales/${locale}/partners.json`)).default,
     ...(await import(`@/public/locales/${locale}/scenarios.json`)).default,
   };
 
