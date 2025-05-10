@@ -85,7 +85,7 @@ export const AsideSection = styled.aside<{ fullwidth?: boolean }>`
   `}
 `;
 
-export const Nav = styled.nav<{ justifyCenter?: boolean }>`
+export const Nav = styled.nav<{ justifyCenter?: boolean; noPadding?: boolean }>`
   align-items: center;
   justify-content: space-between;
   background: var(--dark-08);
@@ -103,45 +103,93 @@ export const Nav = styled.nav<{ justifyCenter?: boolean }>`
     `
       justify-content: center;
   `}
+
+  ${(props) =>
+    props.noPadding &&
+    `
+      padding: 0;
+  `}
 `;
 
 export const Tabs = styled.div`
   align-items: center;
+  justify-content: center;
   display: flex;
-  gap: var(--space-1);
   height: 100%;
+  margin: 0 auto;
 `;
 
 export const Tab = styled.button<{ isOpen: boolean; isDisabled: boolean }>`
   background: none;
   color: var(--light);
-  border: 1px solid var(--light);
-  border-radius: var(--rounded);
-  box-shadow: 0 0 10px var(--light-05), inset 0 0 10px var(--light-05);
-  /* border: none; */
-  padding: 5px var(--space-2);
+  border: none;
+  padding: var(--space-1) var(--space-2);
   position: relative;
   font-size: 1.2rem;
   font-weight: bold;
   font-family: 'Philosopher';
   text-transform: uppercase;
-  transform: skew(35deg);
   transition: border 0.2s ease-in, box-shadow 0.2s ease-in;
 
   &:hover {
-    border-color: var(--flashy-alt);
-    box-shadow: 0 0 10px var(--flashy-alt-05), inset 0 0 10px var(--flashy-alt-05);
     cursor: ${(props) => (props.isDisabled ? 'default' : 'pointer')};
     text-shadow: 0 0 5px var(--flashy-alt);
+
+    &::before {
+      box-shadow: 0 0 5px var(--flashy-05);
+    }
+
+    &::after {
+      background-color: var(--flashy);
+      width: 9px;
+      height: 9px;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -19px;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    background-color: var(--dark);
+    border: 2px solid var(--flashy);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    width: 9px;
+    height: 0;
+    background-color: var(--dark);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.3s ease-out, height 0.1s ease-out;
   }
 
   ${(props) =>
     props.isOpen &&
     `
-      box-shadow: 0 0 10px var(--flashy-alt-05), inset 0 0 10px var(--flashy-alt-05);
-      color: var(--light);
-      border-color: var(--flashy-alt);
-      text-shadow: 0 0 5px var(--flashy-alt);
+      border: none;
+      box-shadow: none;
+      color: var(--flashy-alt);
+      pointer-events: none;
+      text-shadow: none;
+
+      &::before {
+        box-shadow: 0 0 15px var(--flashy-05);
+      }
+
+      &::after {
+        background-color: var(--flashy);
+        width: 9px;
+        height: 9px;
+      }
     `}
 
   ${(props) =>
@@ -236,15 +284,4 @@ export const BradcrumbSeparator = styled.span`
     height: 20px;
     transform: rotate(-90deg);
   }
-`;
-
-export const TabLabel = styled.span`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) skew(-35deg);
-`;
-
-export const TabHiddenLabel = styled.span`
-  opacity: 0;
 `;

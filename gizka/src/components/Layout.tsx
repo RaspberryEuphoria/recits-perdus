@@ -95,7 +95,7 @@ export function LayoutMainSection<T>(props: LayoutProps<T>) {
       </Styled.Nav>
 
       {props.tabs && props.tabs.length > 0 && (
-        <Styled.Nav>
+        <Styled.Nav noPadding>
           <Styled.Tabs>
             {props.tabs.map((tab) => (
               <Styled.Tab
@@ -104,8 +104,7 @@ export function LayoutMainSection<T>(props: LayoutProps<T>) {
                 isDisabled={tab.isDisabled}
                 onClick={() => !tab.isDisabled && handleTabClick(tab.id)}
               >
-                <Styled.TabLabel>{tab.label}</Styled.TabLabel>
-                <Styled.TabHiddenLabel>{tab.label}</Styled.TabHiddenLabel>
+                {tab.label}
               </Styled.Tab>
             ))}
           </Styled.Tabs>
