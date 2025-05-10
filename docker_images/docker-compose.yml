@@ -1,5 +1,5 @@
 services:
-  recitsperdus-frontend:
+  recitsperdus-gizka:
     image: node:18.17
     build: ./
     ports:
@@ -13,10 +13,21 @@ services:
       - DB_PORT=$POSTGRESDB_DOCKER_PORT
     restart: unless-stopped
     depends_on:
-      - recitsperdus-backend
-  recitsperdus-backend:
+      - recitsperdus-db
+      - recitsperdus-holocron
+  recitsperdus-holocron:
+    image: node:18.17
+    restart: unless-stopped
+    build: ./
+    volumes:
+      - db-data
+    depends-on:
+      - recitsperdus-db
+  recitsperdus-db:
     image: postgre:16.2
     restart: unless-stopped
+    volumes:
+      - db-data
     ports:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     env_file: ./.env
