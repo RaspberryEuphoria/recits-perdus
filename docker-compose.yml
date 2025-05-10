@@ -1,4 +1,5 @@
 services:
+
   recitsperdus-gizka:
     image: node:18.17
     build: ./
@@ -15,6 +16,7 @@ services:
     depends_on:
       - recitsperdus-db
       - recitsperdus-holocron
+
   recitsperdus-holocron:
     image: node:18.17
     restart: unless-stopped
@@ -23,6 +25,7 @@ services:
       - db-data
     depends-on:
       - recitsperdus-db
+
   recitsperdus-db:
     image: postgre:16.2
     restart: unless-stopped
