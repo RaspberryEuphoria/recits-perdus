@@ -1,21 +1,24 @@
-FROM node:18.17.0-alpine as builder
+FROM node:18.17.0-alpine AS base
 
 WORKDIR /app
+COPY package.json .
 
-COPY package.json ./
+RUN pwd
+RUN npm install sharp --ignore-scripts
+RUN npm install
 
-RUN npm install --only-production
-
-COPY ../../holocron/* .
-
-RUN npm run build
-
-FROM node:18.17.0-alpine
-
-WORKDIR /app
-
-COPY --from=builder /app/dist /app/
-
+COPY . .
 EXPOSE 8080
 
-CMD ["npm", "start"]
+FROM base AS prod
+
+RUN npm run build
+RUN rm -rf ./src && mkdir ./src && mv ./build/src ./src
+#RUN npm run db:migrate:prod
+#CMD ["npm", "run", "start:prod"]
+CMD ["ls", "-la", "/app"]
+
+FROM base AS dev
+
+RUN npm run db:migrate:dev
+CMD ["npm", "run", "dev"]

@@ -1,3 +1,3 @@
 FROM postgres:16.2
 
-RUN 
+EXPOSE 5432

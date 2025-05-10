@@ -1,43 +1,60 @@
 services:
 
-  recitsperdus-gizka:
-    image: node:18.17
-    build: ./
+  recitsperdus-db:
+    image: postgres:16.2
+    container_name: recitsperdus-db
+    #build:
+    #  context: .
+    #  dockerfile: ./postgres/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - $DATABASE_LOCAL_PORT:$DATABASE_DOCKER_PORT
     env_file: ./.env
     environment:
-      - DB_HOST=postgresdb
-      - DB_USER=$POSTGRESDB_USER
-      - DB_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
-      - DB_NAME=$POSTGRESDB_DATABASE
-      - DB_PORT=$POSTGRESDB_DOCKER_PORT
-    restart: unless-stopped
-    depends_on:
-      - recitsperdus-db
-      - recitsperdus-holocron
+      - POSTGRES_USER=$DATABASE_USER
+      - POSTGRES_DB=$DATABASE_DATABASE
+      - POSTGRES_PASSWORD=$DATABASE_ROOT_PASSWORD
 
   recitsperdus-holocron:
-    image: node:18.17
-    restart: unless-stopped
-    build: ./
-    volumes:
-      - db-data
-    depends-on:
-      - recitsperdus-db
-
-  recitsperdus-db:
-    image: postgre:16.2
-    restart: unless-stopped
-    volumes:
-      - db-data
+    build:
+      context: ./holocron
+      dockerfile: ./Dockerfile
+      target: prod
+    container_name: recitsperdus-holocron
     ports:
-      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+      - $HOLOCRON_LOCAL_PORT:$HOLOCRON_DOCKER_PORT
+    restart: unless-stopped
+    depends_on:
+      recitsperdus-db:
+        condition: service_started
+        restart: false
+
+  recitsperdus-gizka:
+    build:
+      context: ./gizka
+      dockerfile: ./Dockerfile
+    container_name: recitsperdus-gizka
+    ports:
+      - $GIZKA_LOCAL_PORT:$GIZKA_DOCKER_PORT
     env_file: ./.env
     environment:
-      - DB_USER=$POSTGRESDB_USER
-      - DB_PASSWORD=$POSTGRESDB_PASSWORD
-      - DB_NAME=$POSTGRESDB_DATABASE
+      - DB_HOST=recitsperdus-db
+      - DB_USER=$DATABASE_USER
+      - DB_PASSWORD=$DATABASE_ROOT_PASSWORD
+      - DB_NAME=$DATABASE_DATABASE
+      - DB_PORT=$DATABASE_DOCKER_PORT
+    restart: unless-stopped
+    depends_on:
+      recitsperdus-db:
+        condition: service_started
+        restart: true
+      recitsperdus-holocron:
+        condition: service_started
+        restart: false
 
 volumes:
-  db-data:
+  postgres_data:
+  postgres_backup:
