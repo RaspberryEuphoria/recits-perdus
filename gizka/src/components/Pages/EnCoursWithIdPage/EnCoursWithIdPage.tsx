@@ -10,6 +10,7 @@ import { Move } from '@/components/Dialog/DialogTextarea/DialogTextarea';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
 import { Moves } from '@/components/Moves';
+import { Notes } from '@/components/Notes';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import FullWidthToggleOffIcon from '@/public/images/icons/full_width_toggle_off.svg';
@@ -178,9 +179,9 @@ export function EnCoursWithIdPage({
       },
       {
         label: t('en-cours.tabs.notes'),
-        id: Tab.Posting,
+        id: Tab.Notes,
         isOpen: openTabId === Tab.Notes,
-        isDisabled: true,
+        isDisabled: false,
       },
       {
         label: t('en-cours.tabs.play'),
@@ -220,6 +221,7 @@ export function EnCoursWithIdPage({
               <ScenarioResources supplies={supplies} />
             </CharacterList>
           )}
+          {openTabId === Tab.Notes && <Notes />}
           {showTextarea && (
             <DialogTextarea
               scenarioId={id}
