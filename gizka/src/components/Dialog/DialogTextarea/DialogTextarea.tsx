@@ -313,7 +313,7 @@ export function DialogTextarea({
           </Styled.Errors>
         )}
 
-        <Styled.Help>{currentMove ? 4 : 3}. Que la Force vous !</Styled.Help>
+        <Styled.Help>3. Que la Force soit avec vous !</Styled.Help>
 
         <Styled.TextareaBar>
           <Button
