@@ -103,7 +103,7 @@
       },
       "author": {
         "title": "Vous êtes l'auteur de ce scénario",
-        "help": "Vous pourrez démarrer dès qu'au moins qu'il y aura au moins deux participants. N'hésitez pas à inviter des membres du <discord>Discord</discord> à vous rejoindre !",
+        "help": "Vous pourrez démarrer dès que vous le souhaitez, mais n'hésiter pas à attendre d'autres joueurs. Vous pouvez inviter des membres du <discord>Discord</discord> à vous rejoindre !",
         "start": "Démarrer"
       },
       "registered": {
