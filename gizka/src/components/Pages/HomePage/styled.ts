@@ -85,8 +85,8 @@ export const CharacterName = styled.span<{ color: string }>`
 
 export const Avatar = styled(Image)<{ color: string }>`
   border: 1px solid ${({ color }) => color};
-  width: 40px;
-  height: 46px;
+  width: 80px;
+  height: 90px;
 `;
 
 export const LastPost = styled.div`

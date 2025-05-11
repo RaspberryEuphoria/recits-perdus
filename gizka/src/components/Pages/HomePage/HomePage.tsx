@@ -157,8 +157,8 @@ export function HomePage(props: HomePageProps) {
                 <Styled.Avatar
                   src={avatarSrc}
                   alt={`Avatar de ${character.firstName}`}
-                  width={40}
-                  height={46}
+                  width={80}
+                  height={90}
                   color={character.textColor}
                   onError={() => setAvatarSrc(DefaultAvatarSrc.src)}
                 />
