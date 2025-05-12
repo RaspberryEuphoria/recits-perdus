@@ -7,7 +7,7 @@ import { httpClient, isHttpError } from '@/services/http-client';
 import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
 
 export const metadata: Metadata = {
-  title: 'Scénarios en cours - Les Récits Perdus',
+  title: 'Scénarios archivés - Les Récits Perdus',
   description:
     'Star Wars - Les Récits Perdus : Un Jeu de Rôle moderne par et pour des fans de Star Wars',
 };
