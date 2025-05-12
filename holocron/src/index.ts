@@ -50,7 +50,7 @@ app.use(express.static('public'));
 
 app.get('/', (_req, res) => {
   res.json({
-    message: 'TypeScript With Express',
+    message: 'SWRP api is running',
   });
 });
 
