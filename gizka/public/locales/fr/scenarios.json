@@ -122,6 +122,44 @@
         "register": "Inscrire le personnage"
       },
       "or": "ou"
+    },
+    "notes": {
+      "categories": {
+        "character": "Personnages",
+        "location": "Lieux",
+        "item": "Objets",
+        "clue": "Indices"
+      },
+      "form": {
+        "labels": {
+          "category": {
+            "select": "Catégorie",
+            "character": "Personnage",
+            "location": "Lieu",
+            "item": "Objet",
+            "clue": "Indice"
+          },
+          "title": "Titre",
+          "subtitle": "Sous-titre",
+          "description": "Description"
+        },
+        "back-button": {
+          "label": "Retour"
+        },
+        "submit-button": {
+          "label": "Enregistrer"
+        },
+        "open-form-button": {
+          "label": {
+            "new": "Ajouter une entrée",
+            "edit": "Modifier l'entrée"
+          }
+        },
+        "errors": {
+          "empty": "Le champ de texte est vide.",
+          "too-long": "Votre réponse est trop longue."
+        }
+      }
     }
   }
 }

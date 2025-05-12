@@ -21,7 +21,7 @@ export function Select(props: SelectProps) {
       <Styled.Caret>
         <DownArrowIcon />
       </Styled.Caret>
-      <Styled.Select {...props}>
+      <Styled.Select {...props} defaultValue={props.defaultValue}>
         <Styled.Option value={''}></Styled.Option>
         {props.options.map((option) => (
           <Styled.Option key={option.value} value={option.value} disabled={option.isDisabled}>

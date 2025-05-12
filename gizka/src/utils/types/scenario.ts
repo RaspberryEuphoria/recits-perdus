@@ -31,6 +31,24 @@ export type Post = {
   turn: number;
 };
 
+export enum NoteCategory {
+  CHARACTER = 'CHARACTER',
+  LOCATION = 'LOCATION',
+  ITEM = 'ITEM',
+  CLUE = 'CLUE',
+}
+
+export type Note = {
+  id: number;
+  authorId: number;
+  scenarioId: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  category: NoteCategory;
+  illustration?: string;
+};
+
 type Scenario = {
   id: number;
   title: string;

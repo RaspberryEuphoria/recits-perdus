@@ -12,6 +12,8 @@ export enum TextColor {
   Purple = '#8c3cdb',
   PaleYellow = '#ffffbe',
 
+  Flashy = 'var(--flashy)',
+  FlashyAlt = 'var(--flashy-alt)',
   Default = '#11b6f7',
 }
 

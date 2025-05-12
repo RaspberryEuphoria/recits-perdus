@@ -18,7 +18,7 @@ import FullWidthToggleOnIcon from '@/public/images/icons/full_width_toggle_on.sv
 import { httpBffClient, isHttpError } from '@/services/http-client';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { Character } from '@/utils/types/character';
-import { Post, Scenario } from '@/utils/types/scenario';
+import { Note, Post, Scenario } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
 
 import * as Styled from './styled';
@@ -29,6 +29,7 @@ type EnCoursWithIdPageProps = {
   id: string;
   title: string;
   posts: Post[];
+  notes: Note[];
   introduction: string;
   nextPoster: Character;
   characters: Record<string, Character>;
@@ -55,6 +56,7 @@ export function EnCoursWithIdPage({
   title,
   introduction,
   posts: initialDialogs,
+  notes,
   nextPoster: initialNextPoster,
   characters: initalCharacters,
   supplies: initalSupplies,
@@ -208,6 +210,14 @@ export function EnCoursWithIdPage({
     return !isDialogFullWidth;
   }, [isDialogFullWidth]);
 
+  // If one day users are able to have multiple characters on a single scenario,
+  // this will broke spectacularly
+  const currentCharacter = currentUser
+    ? Object.values(characters).find((character) => character.userId === currentUser.id)
+    : null;
+
+  const scenarioId = parseInt(id.split('-')[0]);
+
   return (
     <>
       {isLayoutMainSectionVisible && (
@@ -221,7 +231,9 @@ export function EnCoursWithIdPage({
               <ScenarioResources supplies={supplies} />
             </CharacterList>
           )}
-          {openTabId === Tab.Notes && <Notes />}
+          {openTabId === Tab.Notes && (
+            <Notes notes={notes} characterId={currentCharacter?.id} scenarioId={scenarioId} />
+          )}
           {showTextarea && (
             <DialogTextarea
               scenarioId={id}

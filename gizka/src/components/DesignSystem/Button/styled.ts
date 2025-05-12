@@ -38,6 +38,7 @@ export const Button = styled.button<{
   transition: background 0.3s ease-in;
   width: 100%;
   justify-content: center;
+  height: 100%;
 
   svg {
     width: 25px;

@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 import { TextAlign, TextSize } from './Text';
 
-export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign }>`
+export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign; color?: string }>`
+  ${({ color }) => color && `color: ${color};`}
   text-align: ${({ textAlign }) => textAlign};
 
   font-size: ${({ size }) => {

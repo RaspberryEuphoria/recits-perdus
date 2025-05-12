@@ -3,10 +3,10 @@ export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 
 import { EnCoursWithIdPage } from '@/components/Pages/EnCoursWithIdPage';
-import { httpBffClient, isHttpError } from '@/services/http-client';
+import { httpBffClient, httpClient, isHttpError } from '@/services/http-client';
 import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
-import { Scenario } from '@/utils/types/scenario';
+import { Note, Scenario } from '@/utils/types/scenario';
 
 export async function generateMetadata({
   params: { id },
@@ -36,10 +36,17 @@ export default async function EnCoursWithId({ params: { id } }: { params: { id: 
 
   const [scenarioId] = id.split('-');
   const scenario = await httpBffClient.get<Scenario>(`/scenario/${scenarioId}`);
+  const notesResponse = await httpClient.get<Note[]>(`/scenario/${scenarioId}/note`);
 
   if (isHttpError(scenario)) {
-    throw new Error('Failed to fetch data');
+    throw new Error(`Failed to fetch scenario data for scenario ${scenarioId}`);
   }
+
+  if (isHttpError(notesResponse)) {
+    console.error(`Failed to fetch notes data for scenario ${scenarioId}`);
+  }
+
+  const notes = isHttpError(notesResponse) ? [] : notesResponse;
 
   const { title, posts, supplies } = scenario;
   const introduction = generateIntroduction(scenario);
@@ -55,6 +62,7 @@ export default async function EnCoursWithId({ params: { id } }: { params: { id: 
       introduction={introduction}
       title={title}
       posts={posts}
+      notes={notes}
       nextPoster={nextPoster}
       characters={characters}
       supplies={supplies}

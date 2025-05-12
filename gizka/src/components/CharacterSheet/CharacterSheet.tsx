@@ -29,7 +29,7 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
   return (
     <Styled.CharacterSheet>
       {handleBackClick && (
-        <Row justify="end">
+        <Row justify="start">
           <Button onClick={handleBackClick} outline variant="small">
             Retour
           </Button>

@@ -44,6 +44,7 @@ export const Card = styled(Link)<{ background?: string }>`
   text-align: center;
   overflow: hidden;
   height: 100%;
+  aspect-ratio: 3 / 1;
 
   &:hover {
     box-shadow: 0px 0px 10px 0px var(--flashy), inset 0px 0px 10px 0px var(--flashy);

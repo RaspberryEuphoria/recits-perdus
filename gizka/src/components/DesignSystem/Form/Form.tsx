@@ -17,7 +17,7 @@ type Input = {
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   defaultValue?: string | number;
   help?: string;
-  mandatory: boolean;
+  mandatory?: boolean;
 };
 
 export function Form({
