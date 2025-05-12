@@ -127,11 +127,13 @@ export function Notes(props: NotesProps) {
 
   return (
     <Styled.Container>
-      <Row gap="1" space="1" justify="end">
-        <Button variant="small" outline onClick={openNotesForm}>
-          <PencilIcon /> {t('notes.form.open-form-button.label.new')}
-        </Button>
-      </Row>
+      {characterId && (
+        <Row gap="1" space="1" justify="end">
+          <Button variant="small" outline onClick={openNotesForm}>
+            <PencilIcon /> {t('notes.form.open-form-button.label.new')}
+          </Button>
+        </Row>
+      )}
 
       {notesByCategory.map(({ category, notes }) => (
         <Fragment key={category}>
