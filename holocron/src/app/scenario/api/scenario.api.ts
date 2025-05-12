@@ -110,6 +110,90 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
     }
   });
 
+  // Create a character note in scenario
+  router.post(`/:id/character/:characterId/note`, async (req, res, next) => {
+    try {
+      const loggedUser = req.loggedUser;
+
+      if (!loggedUser) {
+        res.status(401).json({ message: 'Unauthorized: user must be authenticated' });
+        return;
+      }
+
+      const scenarioId = parseInt(req.params.id);
+      const characterId = parseInt(req.params.characterId);
+
+      const isCharacterOwnedByUser = await scenarioContainer.checkUserIdUsecase(
+        characterId,
+        loggedUser.id,
+      );
+
+      if (!isCharacterOwnedByUser) {
+        res.status(401).json({
+          message: 'Unauthorized: user is not the owner of the character',
+        });
+        return;
+      }
+
+      const newNote = await scenarioContainer.createNote({
+        ...req.body,
+        authorId: characterId,
+        scenarioId,
+      });
+
+      res.json(newNote);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Edit a character note in scenario
+  router.patch(`/:id/character/:characterId/note/:noteId`, async (req: Request, res, next) => {
+    try {
+      const loggedUser = req.loggedUser;
+
+      if (!loggedUser) {
+        res.status(401).json({ message: 'Unauthorized: user must be authenticated' });
+        return;
+      }
+
+      const characterId = parseInt(req.params.characterId);
+      const noteId = parseInt(req.params.noteId);
+
+      const isCharacterOwnedByUser = await scenarioContainer.checkUserIdUsecase(
+        characterId,
+        loggedUser.id,
+      );
+
+      if (!isCharacterOwnedByUser) {
+        res.status(401).json({
+          message: 'Unauthorized: user is not the owner of the character',
+        });
+        return;
+      }
+
+      const updatedNote = await scenarioContainer.updateNote({
+        ...req.body,
+        id: noteId,
+      });
+
+      res.json(updatedNote);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Get notes in scenario
+  router.get(`/:id/note`, async (req, res, next) => {
+    try {
+      const scenarioId = parseInt(req.params.id);
+      const notes = await scenarioContainer.getNotes(scenarioId);
+      res.json(notes);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   // Post in scenario
   router.post(`/:id/post`, async (req, res, next) => {
     try {

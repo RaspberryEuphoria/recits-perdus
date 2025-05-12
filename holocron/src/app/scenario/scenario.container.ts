@@ -4,6 +4,7 @@ import { Router } from 'express';
 import { DiscordService } from '../../services/DiscordService';
 import { FileRepository } from '../user/infrastructure/file.repository';
 import { scenarioRoutes } from './api/scenario.api';
+import { checkUserIdUsecase } from './domain/character/usecases/checkUserId.usecase';
 import {
   CreatePostDto,
   UpdatePostDto,
@@ -12,13 +13,17 @@ import {
 import { addIllustrationToPostUsecase } from './domain/post/usecases/addIllustrationToPost.usecase';
 import { createPostUsecase } from './domain/post/usecases/createPost.usecase';
 import { updatePostUsecase } from './domain/post/usecases/updatePost.usecase';
+import { CreateNoteDto, UpdateNoteDto } from './domain/scenario/entities/note';
 import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/scenario';
 import { addCharacterUsecase } from './domain/scenario/usecases/addCharacter.usecase';
+import { createNoteUsecase } from './domain/scenario/usecases/createNote.usecase';
 import { createScenarioUsecase } from './domain/scenario/usecases/createScenario.usecase';
 import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usecase';
+import { getNotesUsecase } from './domain/scenario/usecases/getNotes.usecase';
 import { getScenarioByIdUsecase } from './domain/scenario/usecases/getScenarioById.usecase';
 import { getStatsUsecase } from './domain/scenario/usecases/getStats.usecase';
 import { startScenarioUsecase } from './domain/scenario/usecases/startScenario.usecase';
+import { updateNoteUsecase } from './domain/scenario/usecases/updateNote.usecase';
 import { CharacterRepository } from './infrastructure/character-sql.repository';
 import { PostRepository } from './infrastructure/post-sql.repository';
 import { ScenarioRepository } from './infrastructure/scenario-sql.repository';
@@ -89,7 +94,23 @@ export class ScenarioContainer {
     return updatePostUsecase(this.postRepository)(post);
   }
 
+  getNotes(scenarioId: number) {
+    return getNotesUsecase(this.scenarioRepository)(scenarioId);
+  }
+
+  createNote(note: CreateNoteDto) {
+    return createNoteUsecase(this.scenarioRepository)(note);
+  }
+
+  updateNote(note: UpdateNoteDto) {
+    return updateNoteUsecase(this.scenarioRepository)(note);
+  }
+
   addIllustrationToPost(illustrationDto: UpdatePostIllustrationDto) {
     return addIllustrationToPostUsecase(this.postRepository, this.fileRepository)(illustrationDto);
+  }
+
+  checkUserIdUsecase(characterId: number, userId: number) {
+    return checkUserIdUsecase(this.characterRepository)(characterId, userId);
   }
 }

@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 import { MoveId } from '../domain/post/entities/move';
 import { getNextPosterId } from '../domain/post/usecases/createPost.usecase';
+import { CreateNoteDto, UpdateNoteDto } from '../domain/scenario/entities/note';
 import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/scenario';
 
 type FullScenario = Prisma.ScenarioGetPayload<{
@@ -428,6 +429,33 @@ export class ScenarioRepository {
     }
 
     return JSON.parse(startingCurrentFightPost.moves[0].meta as string).difficulty;
+  }
+
+  async createNote(noteDto: CreateNoteDto) {
+    return this.db.note.create({
+      data: noteDto,
+    });
+  }
+
+  async updateNote(noteDto: UpdateNoteDto) {
+    console.log({ noteDto });
+    return this.db.note.update({
+      where: {
+        id: noteDto.id,
+      },
+      data: noteDto,
+    });
+  }
+
+  async getNotes(scenarioId: number) {
+    return this.db.note.findMany({
+      where: {
+        scenarioId,
+      },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
   }
 }
 

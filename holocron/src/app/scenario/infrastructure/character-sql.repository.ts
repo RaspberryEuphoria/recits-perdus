@@ -16,6 +16,15 @@ export class CharacterRepository {
     this.db = db;
   }
 
+  async countCharacterWithUserId(characterId: number, userId: number) {
+    return this.db.character.count({
+      where: {
+        id: characterId,
+        userId,
+      },
+    });
+  }
+
   async getOnScenario(characterId: number, scenarioId: number) {
     return this.db.charactersOnScenarios.findFirst({
       where: {
