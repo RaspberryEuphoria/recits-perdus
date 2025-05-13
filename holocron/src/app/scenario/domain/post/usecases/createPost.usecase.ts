@@ -31,7 +31,10 @@ export function createPostUsecase(
     const { action, ...post } = postDto;
     const hasMove = action && action.move;
 
-    const newPost = await postRepository.create(post);
+    const newPost = await postRepository.create({
+      ...post,
+      content: post.content.trim(),
+    });
     const nextPosterAfterNewPost = getNextPoster(scenario.characters, [...scenario.posts, newPost]);
 
     if (!hasMove) {
