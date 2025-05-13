@@ -17,6 +17,7 @@ import DiscordLogo from '@/public/images/icons/discord_logo.svg';
 import PencilIcon from '@/public/images/icons/pencil.svg';
 import PartnerTLSLogo from '@/public/images/partners/tls_logo.jpg';
 import { getFullName } from '@/utils/character/helpers';
+import { TextColor } from '@/utils/constants';
 import { timeSince } from '@/utils/dates/helpers';
 
 import * as Styled from './styled';
@@ -33,7 +34,7 @@ type HomePageProps = {
     character: {
       firstName: string;
       lastName: string;
-      textColor: string;
+      textColor: TextColor;
       avatar: string;
     };
     scenario: {

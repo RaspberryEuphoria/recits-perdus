@@ -1,3 +1,4 @@
+import { TextColor } from '../constants';
 import { Scenario } from './scenario';
 
 export type Character = {
@@ -8,7 +9,7 @@ export type Character = {
   origin: string;
   story: string;
   userId: number;
-  textColor: string;
+  textColor: TextColor;
   avatar: string;
   skills: CharacterSkill[];
   health: number;
