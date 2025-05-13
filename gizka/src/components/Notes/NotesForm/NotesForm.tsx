@@ -1,12 +1,16 @@
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 
+import { AvatarModal, Illustration } from '@/components/AvatarModal/AvatarModal';
 import { Button } from '@/components/DesignSystem/Button';
 import { Form } from '@/components/DesignSystem/Form';
 import { Row } from '@/components/DesignSystem/Row';
 import ThumbnailIcon from '@/public/images/icons/thumbnail.svg';
 import { httpBffClient, isHttpError } from '@/services/http-client';
-import { Note } from '@/utils/types/scenario';
+import { Note, NoteDto } from '@/utils/types/scenario';
+
+import * as Styled from './styled';
 
 type NotesFormProps = {
   note?: Note | null;
@@ -17,9 +21,26 @@ type NotesFormProps = {
   onSaved: (note: Note) => void;
 };
 
+const ILLUSTRATION_SIZE = {
+  targetWidth: 200,
+  targetHeight: 230,
+};
+
+const NOTES_FOLDER = 'notes/illustrations';
+
 export function NotesForm(props: NotesFormProps) {
   const { note, scenarioId, characterId, isEditMode, onClose, onSaved } = props;
+
+  const initialIllustration = note?.illustration
+    ? `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/${NOTES_FOLDER}/${note.illustration}`
+    : null;
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isIllustrationModalOpen, setIsIllustrationModalOpen] = useState(false);
+  const [illustration, setIllustration] = useState<Illustration | null>(null);
+  const [illustrationPreview, setIllustrationPreview] = useState<string | null>(
+    initialIllustration,
+  );
 
   const t = useTranslations('scenarios');
 
@@ -39,6 +60,7 @@ export function NotesForm(props: NotesFormProps) {
       title,
       subtitle,
       description,
+      illustration,
     };
 
     if (isEditMode) {
@@ -48,7 +70,13 @@ export function NotesForm(props: NotesFormProps) {
     }
   };
 
-  const createNewNote = async ({ category, title, subtitle, description }: Partial<Note>) => {
+  const createNewNote = async ({
+    category,
+    title,
+    subtitle,
+    description,
+    illustration,
+  }: Partial<NoteDto>) => {
     setIsLoading(true);
 
     const newNote = await httpBffClient.post<Note>(
@@ -58,6 +86,7 @@ export function NotesForm(props: NotesFormProps) {
         title,
         subtitle,
         description,
+        illustration,
       },
     );
 
@@ -70,12 +99,16 @@ export function NotesForm(props: NotesFormProps) {
     setIsLoading(false);
   };
 
-  const editNote = async ({ category, title, subtitle, description }: Partial<Note>) => {
+  const editNote = async ({
+    category,
+    title,
+    subtitle,
+    description,
+    illustration,
+  }: Partial<NoteDto>) => {
     if (!note) return;
 
     setIsLoading(true);
-
-    console.log('UPDATE', `/scenario/${scenarioId}/character/${characterId}/note/${note.id}`);
 
     const updatedNote = await httpBffClient.patch<Note>(
       `/scenario/${scenarioId}/character/${characterId}/note/${note.id}`,
@@ -84,6 +117,7 @@ export function NotesForm(props: NotesFormProps) {
         title,
         subtitle,
         description,
+        illustration,
       },
     );
 
@@ -97,7 +131,28 @@ export function NotesForm(props: NotesFormProps) {
   };
 
   const openIllustrationModal = () => {
-    console.log('Open illustration modal');
+    setIsIllustrationModalOpen(true);
+  };
+
+  const closeIllustrationModal = () => {
+    setIsIllustrationModalOpen(false);
+  };
+
+  const saveIllustration = async (
+    crop: { x: number; y: number; width: number; height: number },
+    base64Image: string,
+  ) => {
+    setIllustration({ crop, base64Image });
+
+    const illustrationPreview = await httpBffClient.post<{ croppedImage: string }>(`/image-crop`, {
+      crop,
+      base64Image,
+      ...ILLUSTRATION_SIZE,
+    });
+
+    if (!isHttpError(illustrationPreview)) {
+      setIllustrationPreview(illustrationPreview.croppedImage);
+    }
   };
 
   const inputs = useMemo(() => {
@@ -135,10 +190,16 @@ export function NotesForm(props: NotesFormProps) {
     ];
   }, [t]);
 
-  const illustration = false;
-
   return (
     <>
+      <AvatarModal
+        isOpen={isIllustrationModalOpen}
+        closeAvatarModal={closeIllustrationModal}
+        onAvatarSave={saveIllustration}
+        initialImage={illustrationPreview}
+        {...ILLUSTRATION_SIZE}
+      />
+
       <Row gap="1" space="1" justify="space-between">
         <Button variant="small" outline onClick={onClose} disabled={isLoading}>
           {t('notes.form.back-button.label')}
@@ -147,13 +208,14 @@ export function NotesForm(props: NotesFormProps) {
           onClick={openIllustrationModal}
           variant="small"
           outline={!illustration}
-          disabled
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore WiP
-          title="En construction"
+          disabled={isLoading}
         >
           <ThumbnailIcon />
-          {t('en-cours.textarea.new.illustration-button.label')}
+          {t(
+            `notes.form.labels.illustration.${
+              illustration || initialIllustration ? 'edit' : 'new'
+            }`,
+          )}
         </Button>
       </Row>
 
@@ -166,6 +228,20 @@ export function NotesForm(props: NotesFormProps) {
           </Button>
         }
       />
+
+      {illustrationPreview && (
+        <Row gap="1" space="1" justify="space-between">
+          <Styled.IllustrationPreview>
+            <Image
+              src={illustrationPreview}
+              width={ILLUSTRATION_SIZE.targetWidth}
+              height={ILLUSTRATION_SIZE.targetHeight}
+              quality={100}
+              alt="Illustration"
+            />
+          </Styled.IllustrationPreview>
+        </Row>
+      )}
     </>
   );
 }

@@ -14,4 +14,12 @@ type Note = {
 type CreateNoteDto = Omit<Note, 'id'>;
 type UpdateNoteDto = Omit<Note, 'authorId' | 'scenarioId'>;
 
-export type { CreateNoteDto, Note, UpdateNoteDto };
+type Crop = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+type UpdateNoteIllustrationDto = { id: number; base64Image: string; crop: Crop };
+
+export type { CreateNoteDto, Note, UpdateNoteDto, UpdateNoteIllustrationDto };

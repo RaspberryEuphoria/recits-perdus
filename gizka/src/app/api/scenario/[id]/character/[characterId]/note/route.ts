@@ -14,7 +14,7 @@ export async function POST(
     return NextResponse.error();
   }
 
-  const { category, title, subtitle, description } = await request.json();
+  const { category, title, subtitle, description, illustration } = await request.json();
 
   const data = await httpClient.post<Note>(
     `/scenario/${id}/character/${characterId}/note`,
@@ -23,6 +23,7 @@ export async function POST(
       title,
       subtitle,
       description,
+      illustration,
     },
     { accessToken },
   );

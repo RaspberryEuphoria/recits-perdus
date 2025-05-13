@@ -17,6 +17,8 @@ type NoteProps = {
   onEdit: () => void;
 };
 
+const NOTES_FOLDER = 'notes/illustrations';
+
 /**
  * @todo Create a design system component to re-use here and in CharacterSheet
  */
@@ -29,7 +31,7 @@ export function NoteSheet({ note, characterId, onClose, onEdit }: NoteProps) {
         <Button variant="small" outline onClick={onClose}>
           {t('notes.form.back-button.label')}
         </Button>
-        {note.authorId === characterId && (
+        {characterId && (
           <Button variant="small" outline onClick={onEdit}>
             <PencilIcon /> {t('notes.form.open-form-button.label.edit')}
           </Button>
@@ -38,7 +40,7 @@ export function NoteSheet({ note, characterId, onClose, onEdit }: NoteProps) {
 
       <Row justify="end">
         <Styled.AvatarWrapper>
-          <Avatar name={note.title} avatarSrc={note.illustration} />
+          <Avatar name={note.title} avatarSrc={`${NOTES_FOLDER}/${note.illustration}`} />
         </Styled.AvatarWrapper>
 
         <Styled.Content>

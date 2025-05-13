@@ -16,7 +16,7 @@ export async function PATCH(
     return NextResponse.error();
   }
 
-  const { category, title, subtitle, description } = await request.json();
+  const { category, title, subtitle, description, illustration } = await request.json();
 
   console.log('Attempt to update note', `/scenario/${id}/character/${characterId}/note/${noteId}`);
 
@@ -27,6 +27,7 @@ export async function PATCH(
       title,
       subtitle,
       description,
+      illustration,
     },
     { accessToken },
   );

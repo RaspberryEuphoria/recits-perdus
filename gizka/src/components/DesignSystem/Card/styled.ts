@@ -24,15 +24,19 @@ export const Description = styled.span`
   width: calc(100% - 40px * 2); // Let some space for the avatar
 `;
 
-export const Card = styled(Link)<{ background?: string }>`
+export const Card = styled(Link)`
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   padding: 1rem;
-  background-image: ${(props) => props.background && `url(${props.background}),`}
-    linear-gradient(43deg, var(--flashy-02) 0%, var(--flashy-08) 46%, var(--flashy-05) 100%);
+  background-image: linear-gradient(
+    43deg,
+    var(--flashy-02) 0%,
+    var(--flashy-08) 46%,
+    var(--flashy-05) 100%
+  );
   background-size: cover, auto, auto, auto;
   box-shadow: 0px 0px 10px 0px var(--flashy-05), inset 0px 0px 10px 0px var(--flashy-05);
   border: 1px solid var(--flashy);

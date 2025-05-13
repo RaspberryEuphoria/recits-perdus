@@ -6,7 +6,7 @@ import { UpdatePostIllustrationDto } from '../entities/post';
 
 function addIllustrationToPostUsecase(
   postRepository: PostRepository,
-  postFileRepository: FileRepository,
+  fileRepository: FileRepository,
 ) {
   return async function (updatePostIllustrationDto: UpdatePostIllustrationDto) {
     const { base64Image } = updatePostIllustrationDto;
@@ -22,7 +22,7 @@ function addIllustrationToPostUsecase(
       }
 
       const croppedFile = await cropImage(file, updatePostIllustrationDto.crop);
-      await postFileRepository.uploadFile(croppedFile, 'illustrations', newFilename);
+      await fileRepository.uploadFile(croppedFile, 'illustrations', newFilename);
 
       await postRepository.updateIllustration({
         id: updatePostIllustrationDto.id,

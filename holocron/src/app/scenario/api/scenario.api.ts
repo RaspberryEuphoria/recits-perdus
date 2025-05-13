@@ -134,14 +134,27 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
         });
         return;
       }
+      const { illustration, ...body } = req.body;
 
       const newNote = await scenarioContainer.createNote({
-        ...req.body,
+        ...body,
         authorId: characterId,
         scenarioId,
       });
 
+      if (!illustration) {
+        res.json(newNote);
+        return;
+      }
+
       res.json(newNote);
+
+      const illustrationFilename = await scenarioContainer.addIllustrationToNote({
+        ...illustration,
+        id: newNote.id,
+      });
+
+      res.json({ ...newNote, illustration: illustrationFilename });
     } catch (error) {
       next(error);
     }
@@ -172,12 +185,24 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
         return;
       }
 
+      const { illustration, ...body } = req.body;
+
       const updatedNote = await scenarioContainer.updateNote({
-        ...req.body,
+        ...body,
         id: noteId,
       });
 
-      res.json(updatedNote);
+      if (!illustration) {
+        res.json(updatedNote);
+        return;
+      }
+
+      const illustrationFilename = await scenarioContainer.addIllustrationToNote({
+        ...illustration,
+        id: updatedNote.id,
+      });
+
+      res.json({ ...updatedNote, illustration: illustrationFilename });
     } catch (error) {
       next(error);
     }
@@ -213,7 +238,6 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
       });
 
       res.json({ ...newPost, illustration: illustrationFilename });
-      return;
     } catch (error) {
       next(error);
     }

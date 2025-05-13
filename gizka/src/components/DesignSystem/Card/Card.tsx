@@ -11,10 +11,10 @@ type CardProps = {
 };
 
 export function Card(props: CardProps) {
-  const { title, subTitle, description, icon, backgroundUrl, href = '', onClick } = props;
+  const { title, subTitle, description, icon, href = '', onClick } = props;
 
   return (
-    <Styled.Card background={backgroundUrl} href={href} onClick={onClick}>
+    <Styled.Card href={href} onClick={onClick}>
       <Styled.Title>{title}</Styled.Title>
       {subTitle && <Styled.SubTitle>{subTitle}</Styled.SubTitle>}
       {description && <Styled.Description>{description}</Styled.Description>}

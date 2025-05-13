@@ -16,6 +16,7 @@ import { updatePostUsecase } from './domain/post/usecases/updatePost.usecase';
 import { CreateNoteDto, UpdateNoteDto } from './domain/scenario/entities/note';
 import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/scenario';
 import { addCharacterUsecase } from './domain/scenario/usecases/addCharacter.usecase';
+import { addIllustrationToNoteUsecase } from './domain/scenario/usecases/addIllustrationToNote.usecase';
 import { createNoteUsecase } from './domain/scenario/usecases/createNote.usecase';
 import { createScenarioUsecase } from './domain/scenario/usecases/createScenario.usecase';
 import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usecase';
@@ -25,6 +26,7 @@ import { getStatsUsecase } from './domain/scenario/usecases/getStats.usecase';
 import { startScenarioUsecase } from './domain/scenario/usecases/startScenario.usecase';
 import { updateNoteUsecase } from './domain/scenario/usecases/updateNote.usecase';
 import { CharacterRepository } from './infrastructure/character-sql.repository';
+import { NoteRepository } from './infrastructure/note-sql.repository';
 import { PostRepository } from './infrastructure/post-sql.repository';
 import { ScenarioRepository } from './infrastructure/scenario-sql.repository';
 import { SkillRepository } from './infrastructure/skill-sql.repository';
@@ -32,19 +34,25 @@ import { SkillRepository } from './infrastructure/skill-sql.repository';
 export class ScenarioContainer {
   private scenarioRepository: ScenarioRepository;
   private postRepository: PostRepository;
+  private noteRepository: NoteRepository;
   private skillRepository: SkillRepository;
   private characterRepository: CharacterRepository;
   private scenarioRoutes: Router;
-  private fileRepository: FileRepository;
+  private postFileRepository: FileRepository;
+  private noteFileRepository: FileRepository;
 
   constructor(db: PrismaClient, private readonly discord: DiscordService) {
     this.scenarioRepository = new ScenarioRepository(db);
     this.postRepository = new PostRepository(db);
+    this.noteRepository = new NoteRepository(db);
     this.skillRepository = new SkillRepository(db);
     this.characterRepository = new CharacterRepository(db);
     this.scenarioRoutes = scenarioRoutes(this);
-    this.fileRepository = new FileRepository(
+    this.postFileRepository = new FileRepository(
       `${process.env.PUBLIC_FOLDER_PATH}/${process.env.POSTS_FOLDER_PATH}`,
+    );
+    this.noteFileRepository = new FileRepository(
+      `${process.env.PUBLIC_FOLDER_PATH}/${process.env.NOTES_FOLDER_PATH}`,
     );
   }
 
@@ -107,7 +115,17 @@ export class ScenarioContainer {
   }
 
   addIllustrationToPost(illustrationDto: UpdatePostIllustrationDto) {
-    return addIllustrationToPostUsecase(this.postRepository, this.fileRepository)(illustrationDto);
+    return addIllustrationToPostUsecase(
+      this.postRepository,
+      this.postFileRepository,
+    )(illustrationDto);
+  }
+
+  addIllustrationToNote(illustrationDto: UpdatePostIllustrationDto) {
+    return addIllustrationToNoteUsecase(
+      this.noteRepository,
+      this.noteFileRepository,
+    )(illustrationDto);
   }
 
   checkUserIdUsecase(characterId: number, userId: number) {

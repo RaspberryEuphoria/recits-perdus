@@ -14,6 +14,11 @@ import * as Styled from './styled';
 
 const HARD_MAX_SIZE = 1000;
 
+export type Illustration = {
+  crop: { x: number; y: number; width: number; height: number };
+  base64Image: string;
+};
+
 type Crop = {
   x: number;
   y: number;

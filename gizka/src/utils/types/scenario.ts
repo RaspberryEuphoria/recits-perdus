@@ -1,3 +1,5 @@
+import { Illustration } from '@/components/AvatarModal/AvatarModal';
+
 import { Character, CharacterSkill } from './character';
 
 enum ScenarioStatus {
@@ -47,6 +49,10 @@ export type Note = {
   description: string;
   category: NoteCategory;
   illustration?: string;
+};
+
+export type NoteDto = Omit<Note, 'illustration'> & {
+  illustration?: Illustration | null;
 };
 
 type Scenario = {

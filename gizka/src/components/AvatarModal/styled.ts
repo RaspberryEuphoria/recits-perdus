@@ -42,8 +42,8 @@ export const InitialImage = styled.div<{
   width: number;
   height: number;
 }>`
-  height: 230px;
-  width: 680px;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
   overflow: hidden;
 
   img {

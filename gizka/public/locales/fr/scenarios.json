@@ -141,7 +141,11 @@
           },
           "title": "Titre",
           "subtitle": "Sous-titre",
-          "description": "Description"
+          "description": "Description",
+          "illustration": {
+            "new": "Ajouter une illustration",
+            "edit": "Modifier l'illustration"
+          }
         },
         "back-button": {
           "label": "Retour"
