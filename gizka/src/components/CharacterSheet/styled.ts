@@ -1,21 +1,10 @@
 import styled from 'styled-components';
 
-import { CharacterAvatar } from '@/components/CharacterAvatar/styled';
-
 export const CharacterSheet = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   width: 100%;
-
-  ${CharacterAvatar} {
-    border-right: 0;
-
-    &:hover {
-      box-shadow: none;
-      cursor: default;
-    }
-  }
 `;
 
 export const Character = styled.div`
