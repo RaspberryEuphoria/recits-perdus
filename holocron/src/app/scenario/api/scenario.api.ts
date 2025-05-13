@@ -147,8 +147,6 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
         return;
       }
 
-      res.json(newNote);
-
       const illustrationFilename = await scenarioContainer.addIllustrationToNote({
         ...illustration,
         id: newNote.id,
