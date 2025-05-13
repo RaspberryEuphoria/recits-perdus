@@ -438,7 +438,6 @@ export class ScenarioRepository {
   }
 
   async updateNote(noteDto: UpdateNoteDto) {
-    console.log({ noteDto });
     return this.db.note.update({
       where: {
         id: noteDto.id,
