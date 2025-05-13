@@ -33,7 +33,8 @@ export const CharacterPreview = styled.div`
 
 export const Scenario = styled(Link)``;
 
-export const YourTurn = styled.div<{ color: string }>`
+export const YourTurn = styled.span<{ color: string }>`
+  display: block;
   color: ${({ color }) => color};
   font-style: italic;
   font-weight: bold;
