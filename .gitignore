@@ -4,6 +4,6 @@ research
 .env.*
 *.log
 gizka/public/images/users/*
-holocron/public/images/users/*
+holocron/public/images/*/*
 todo.md
 build
