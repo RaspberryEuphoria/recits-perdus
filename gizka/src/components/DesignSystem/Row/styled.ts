@@ -7,8 +7,10 @@ export const Row = styled.div<{
   space?: '05' | '1' | '2';
   justify?: 'start' | 'center' | 'end' | 'space-between';
   align?: 'start' | 'center' | 'end';
+  direction?: 'row' | 'column';
 }>`
   display: ${({ display }) => display || 'flex'};
+  flex-direction: ${({ direction }) => direction || 'row'};
   ${({ display, gridRepeat }) =>
     display === 'grid' && `grid-template-columns: repeat(${gridRepeat || 3}, 1fr);`}
 

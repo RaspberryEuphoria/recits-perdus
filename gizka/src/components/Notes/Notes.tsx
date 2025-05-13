@@ -1,6 +1,10 @@
 import { useTranslations } from 'next-intl';
 import { Fragment, useMemo, useState } from 'react';
 
+import { Button } from '@/components/DesignSystem/Button';
+import { DetailedPicture } from '@/components/DesignSystem/DetailedPicture';
+import { Row } from '@/components/DesignSystem/Row';
+import { Text } from '@/components/DesignSystem/Text';
 import NotesCharacterIcon from '@/public/images/icons/notes_character.svg';
 import NotesClueIcon from '@/public/images/icons/notes_clues.svg';
 import NotesItemIcon from '@/public/images/icons/notes_item.svg';
@@ -9,10 +13,6 @@ import PencilIcon from '@/public/images/icons/pencil.svg';
 import { TextColor } from '@/utils/constants';
 import { Note, NoteCategory } from '@/utils/types/scenario';
 
-import { Button } from '../DesignSystem/Button';
-import { Card } from '../DesignSystem/Card';
-import { Row } from '../DesignSystem/Row';
-import { Text } from '../DesignSystem/Text';
 import { NotesForm } from './NotesForm';
 import { NoteSheet } from './NoteSheet/NoteSheet';
 import * as Styled from './styled';
@@ -22,6 +22,8 @@ type NotesProps = {
   characterId?: number;
   notes: Note[];
 };
+
+const ILLUSTRATION_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/notes/illustrations`;
 
 const categories = [
   NoteCategory.CHARACTER,
@@ -143,14 +145,14 @@ export function Notes(props: NotesProps) {
               {t(`notes.categories.${category.toLowerCase()}`)}
             </Text>
           </Row>
-          <Row display="grid" gap="1" justify="space-between" gridRepeat={4}>
+          <Row display="grid" gap="1" align="start" justify="space-between" gridRepeat={6}>
             {notes.map((note) => (
-              <Card
+              <DetailedPicture
                 key={note.id}
                 title={note.title}
                 subTitle={note.subtitle}
-                backgroundUrl={note.illustration}
-                onClick={() => openNote(note.id)}
+                imageSrc={`${ILLUSTRATION_SRC_PREFIX}/${note.illustration}`}
+                handleClick={() => openNote(note.id)}
               />
             ))}
           </Row>

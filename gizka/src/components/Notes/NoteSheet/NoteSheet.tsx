@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 
-import { Avatar } from '@/components/DesignSystem/Avatar';
 import { Button } from '@/components/DesignSystem/Button';
+import { DetailedPicture } from '@/components/DesignSystem/DetailedPicture';
 import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
 import PencilIcon from '@/public/images/icons/pencil.svg';
@@ -17,7 +17,7 @@ type NoteProps = {
   onEdit: () => void;
 };
 
-const NOTES_FOLDER = 'notes/illustrations';
+const ILLUSTRATION_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/notes/illustrations`;
 
 /**
  * @todo Create a design system component to re-use here and in CharacterSheet
@@ -40,7 +40,13 @@ export function NoteSheet({ note, characterId, onClose, onEdit }: NoteProps) {
 
       <Row justify="end">
         <Styled.AvatarWrapper>
-          <Avatar name={note.title} avatarSrc={`${NOTES_FOLDER}/${note.illustration}`} />
+          <DetailedPicture
+            title={note.title}
+            subTitle={note.subtitle}
+            imageSrc={`${ILLUSTRATION_SRC_PREFIX}/${note.illustration}`}
+            textColor={TextColor.Default}
+            hideBorder
+          />
         </Styled.AvatarWrapper>
 
         <Styled.Content>

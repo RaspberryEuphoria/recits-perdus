@@ -95,7 +95,7 @@ export function NotesForm(props: NotesFormProps) {
       return;
     }
 
-    onSaved(newNote);
+    onSaved({ ...newNote, illustration: newNote.illustration });
     setIsLoading(false);
   };
 
@@ -126,7 +126,7 @@ export function NotesForm(props: NotesFormProps) {
       return;
     }
 
-    onSaved(updatedNote);
+    onSaved({ ...updatedNote, illustration: updatedNote.illustration });
     setIsLoading(false);
   };
 

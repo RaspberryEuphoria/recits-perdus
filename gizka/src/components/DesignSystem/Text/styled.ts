@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TextAlign, TextSize } from './Text';
 
 export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign; color?: string }>`
-  ${({ color }) => color && `color: ${color};`}
+  ${({ color }) => color && `color: ${color || 'var(--light)'};`}
   text-align: ${({ textAlign }) => textAlign};
 
   white-space: pre-line;
