@@ -1,18 +1,19 @@
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
-import { CharacterAvatar } from '@/components/CharacterAvatar';
+import { DetailedPicture } from '@/components/DesignSystem/DetailedPicture';
 import { Text } from '@/components/DesignSystem/Text';
 import { getSafeName } from '@/utils/character/helpers';
 import { Character, CharacterInActiveScenario } from '@/utils/types/character';
-import { Scenario, ScenarioStatus } from '@/utils/types/scenario';
+import { ScenarioStatus } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
 
 type UserCharacterListProps = {
   characters: Character[];
 };
+
+const AVATAR_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars`;
 
 function hasActiveScenario(character: Character): character is CharacterInActiveScenario {
   return Boolean(
@@ -39,16 +40,16 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
           <Text as="h1">{t('my-characters.sections.in-progress.title')}</Text>
           <Styled.Row>
             {charactersInActiveScenario.map((character) => (
-              <Styled.CharacterPreview key={character.id}>
-                <Link href={`/mes-personnages/${character.id}-${getSafeName(character)}`}>
-                  <CharacterAvatar character={character} />
-                </Link>
-                <CharacterScenario
-                  scenario={character.characterScenario.scenario}
-                  isNextPoster={character.characterScenario.isNextPoster}
-                  textColor={character.textColor}
-                />
-              </Styled.CharacterPreview>
+              <DetailedPicture
+                key={character.id}
+                title={character.firstName}
+                subTitle={character.characterScenario.scenario.title}
+                textColor={character.textColor}
+                imageSrc={`${AVATAR_SRC_PREFIX}/${character.avatar}`}
+                imageLinkHref={`/mes-personnages/${character.id}-${getSafeName(character)}`}
+                subTitleLinkHref={`/scenarios/en-cours/${character.characterScenario.scenario.id}-${character.characterScenario.scenario.safeTitle}`}
+                displayPill={character.characterScenario.isNextPoster}
+              />
             ))}
           </Styled.Row>
         </section>
@@ -59,38 +60,17 @@ export function UserCharacterList({ characters }: UserCharacterListProps) {
           <Text as="h1">{t('my-characters.sections.reserve.title')}</Text>
           <Styled.Row>
             {charactersNotInActiveScenario.map((character) => (
-              <Styled.CharacterPreview key={character.id}>
-                <Link href={`/mes-personnages/${character.id}-${getSafeName(character)}`}>
-                  <CharacterAvatar character={character} />
-                </Link>
-              </Styled.CharacterPreview>
+              <DetailedPicture
+                key={character.id}
+                title={character.firstName}
+                textColor={character.textColor}
+                imageSrc={`${AVATAR_SRC_PREFIX}/${character.avatar}`}
+                imageLinkHref={`/mes-personnages/${character.id}-${getSafeName(character)}`}
+              />
             ))}
           </Styled.Row>
         </section>
       )}
     </Styled.UserCharacterList>
-  );
-}
-
-function CharacterScenario({
-  scenario,
-  isNextPoster,
-  textColor,
-}: {
-  scenario: Scenario;
-  isNextPoster?: boolean;
-  textColor: string;
-}) {
-  const t = useTranslations('characters');
-
-  return (
-    <Text size="sm">
-      <Styled.Scenario href={`/scenarios/en-cours/${scenario.id}-${scenario.safeTitle}`}>
-        {scenario.title}{' '}
-      </Styled.Scenario>
-      {isNextPoster && (
-        <Styled.YourTurn color={textColor}>{t('my-characters.your-turn')}</Styled.YourTurn>
-      )}
-    </Text>
   );
 }

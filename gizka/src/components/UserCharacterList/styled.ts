@@ -14,23 +14,6 @@ export const Row = styled.div`
   gap: var(--space-2);
 `;
 
-export const CharacterPreview = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1 0 21%;
-  align-items: center;
-  gap: var(--space-1);
-
-  a {
-    text-decoration: none;
-  }
-
-  p {
-    max-width: 200px;
-    text-align: center;
-  }
-`;
-
 export const Scenario = styled(Link)``;
 
 export const YourTurn = styled.span<{ color: string }>`

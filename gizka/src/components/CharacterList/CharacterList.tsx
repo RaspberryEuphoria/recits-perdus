@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { CharacterAvatar } from '@/components/CharacterAvatar';
 import { CharacterSheet } from '@/components/CharacterSheet';
+import { DetailedPicture } from '@/components/DesignSystem/DetailedPicture';
 import HealthIcon from '@/public/images/icons/health.svg';
 import MomentumIcon from '@/public/images/icons/momentum.svg';
 import SpiritIcon from '@/public/images/icons/spirit.svg';
@@ -13,6 +13,8 @@ type CharacterListProps = {
   characters: Character[];
   children?: React.ReactNode;
 };
+
+const AVATAR_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars`;
 
 export function CharacterList({ characters, children }: CharacterListProps) {
   const [character, setCharacter] = useState<Character | null>();
@@ -34,7 +36,12 @@ export function CharacterList({ characters, children }: CharacterListProps) {
       <Styled.CharacterList>
         {characters.map((character) => (
           <Styled.CharacterPreview key={character.id}>
-            <CharacterAvatar character={character} handleClick={() => selectCharacter(character)} />
+            <DetailedPicture
+              title={character.firstName}
+              imageSrc={`${AVATAR_SRC_PREFIX}/${character.avatar}`}
+              textColor={character.textColor}
+              handleClick={() => selectCharacter(character)}
+            />
             <Styled.Stats color={character.textColor}>
               <Styled.Stat color="var(--health)">
                 <HealthIcon />

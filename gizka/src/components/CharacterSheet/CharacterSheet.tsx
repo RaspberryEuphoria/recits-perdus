@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { CharacterAvatar } from '@/components/CharacterAvatar';
 import { Button } from '@/components/DesignSystem/Button';
+import { DetailedPicture } from '@/components/DesignSystem/DetailedPicture';
 import { Keyword } from '@/components/DesignSystem/Keyword';
 import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
@@ -12,6 +12,8 @@ import { convertHexadecimalColorToHsl } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 
 import * as Styled from './styled';
+
+const AVATAR_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars`;
 
 type CharacterSheetProps = {
   character: Character;
@@ -38,7 +40,12 @@ export function CharacterSheet({ character, handleBackClick }: CharacterSheetPro
 
       <Row justify="end">
         <Styled.Character>
-          <CharacterAvatar character={character} />
+          <DetailedPicture
+            title={character.firstName}
+            imageSrc={`${AVATAR_SRC_PREFIX}/${character.avatar}`}
+            textColor={character.textColor}
+            hideBorder
+          />
 
           {character.health != null && (
             <Styled.Stats>
