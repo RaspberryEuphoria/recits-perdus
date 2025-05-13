@@ -6,6 +6,8 @@ export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign; color?: st
   ${({ color }) => color && `color: ${color};`}
   text-align: ${({ textAlign }) => textAlign};
 
+  white-space: pre-line;
+
   font-size: ${({ size }) => {
     switch (size) {
       case 'xs':
