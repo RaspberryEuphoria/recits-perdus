@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 import DefaultAvatarSrc from '@/public/images/default_avatar.png';
+import { RenderWithLinkAsNecessary } from '@/utils/components/renderWithLinkAsNecessary';
 import { TextColor } from '@/utils/constants';
 import { convertHexadecimalColorToHsl } from '@/utils/scenario/helpers';
 
@@ -18,14 +18,6 @@ type DetailedPictureProps = {
   displayPill?: boolean;
   hideBorder?: boolean;
   handleClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-};
-
-const RenderWithLinkAsNecessary = (props: { href?: string; children: React.ReactNode }) => {
-  if (props.href) {
-    return <Link href={props.href}>{props.children}</Link>;
-  }
-
-  return props.children;
 };
 
 export function DetailedPicture({
