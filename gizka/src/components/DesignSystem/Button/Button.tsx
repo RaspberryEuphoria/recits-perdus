@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import ExternalLinkIcon from '@/public/images/icons/external-link.svg';
 import LoadingIcon from '@/public/images/icons/loading.svg';
 
 import * as Styled from './styled';
@@ -14,6 +15,7 @@ type ButtonProps = {
   children: React.ReactNode;
   tabIndex?: number;
   href?: string;
+  target?: '_blank' | '_self';
 };
 
 export function Button({ children, ...props }: ButtonProps) {
@@ -32,7 +34,7 @@ export function Button({ children, ...props }: ButtonProps) {
     return (
       <Styled.Border width={props.width} isDisabled={props.disabled}>
         <Styled.Button {...props} as={Link} href={props.href}>
-          {children}
+          {children} <ExternalLinkIcon />
         </Styled.Button>
       </Styled.Border>
     );

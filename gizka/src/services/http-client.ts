@@ -108,7 +108,7 @@ const httpClient = new HttpClient(process.env.API_PREFIX_URL || '');
 const httpBffClient = new HttpClient(`${process.env.NEXT_PUBLIC_BFF_PREFIX_URL}/api` || '');
 
 function isHttpError(data: any): data is HttpError {
-  return data.status >= 300;
+  return !data || data.status >= 300;
 }
 
 export { httpBffClient, httpClient, isHttpError };

@@ -1,6 +1,52 @@
 {
   "common": {
     "title": "Les Récits Perdus",
+    "welcome": "Bienvenue",
+    "navigation": {
+      "home": "Accueil",
+      "howToPlay": "Comment jouer",
+      "characters": "Mes Personnages",
+      "discord": "Discord"
+    },
+    "howToPlay": {
+      "title": "Comment jouer",
+      "subTitle": "Les bases pour démarrer rapidement",
+      "description": "Les Récits Perdus est un jeu de rôle narratif en ligne. Vous pouvez créer des personnages, les faire évoluer dans des scénarios et interagir avec d'autres joueurs.",
+      "breadcrumb": {
+        "home": "Accueil",
+        "current": "Comment jouer"
+      },
+      "intro": "Les Récits Perdus est un jeu de rôle narratif en coopération. Le jeu fonctionne au tour par tour en écrivant simplement ce que fait et dit votre personnage. Des mécaniques de jeu de rôle permettent de lancer des dés pour réaliser les actions plus complexes.",
+      "sections": {
+        "first": {
+          "id": "creer-un-personnage",
+          "title": "1. Créer un personnage",
+          "content": "Votre personnage peut être tiré de l'univers de Star Wars (les films, séries, jeux, etc) ou, plus amusant, être totalement inventé. Libre à vous de jouer un Jedi ou un Sith, un mercenaire, un contrebandier, ou bien même un civil.",
+          "openEditor": "Ouvrir l'éditeur de personnage",
+          "closeEditor": "Fermer l'éditeur de personnage",
+          "congratulations": "Félicitations, vous avez créé un personnage :",
+          "goodLuck": "Trouvez-lui un bel avatar et réflechissez à une histoire qui vous inspire. Que la Force vous guide !",
+          "retrieveCharacter": "Votre personnage vous attend à la page",
+          "myCharacters": "Mes personnages"
+        },
+        "second": {
+          "id": "participer-a-un-scenario",
+          "title": "2. Participer à un scénario",
+          "content": "Vous pouvez participer à un scénario créé par un autre joueur ou même créer le votre. Si vous avez plusieurs personnages, vous pouvez jouer à plusieurs scénarios en même temps. Les scénarios peuvent se dérouler à différentes époques de la chronologie Star Wars, partout dans la galaxie.",
+          "createScenario": "Créer un scénario",
+          "joinScenario": "Rejoindre un scénario"
+        },
+        "third": {
+          "id": "jouer-votre-premier-tour",
+          "title": "3. Jouer votre premier tour",
+          "content": "Une fois le scénario démarré, attendez patiemment que votre tour arrive. Ce sera alors à vous de jouer ! Mettez-vous dans la peau de votre personnage et réagissez comme il ou elle le ferait. Votre imagination est la seule limite !"
+        }
+      },
+      "example": {
+        "closeExample": "Cacher l'exemple",
+        "openExample": "Afficher un exemple de role play"
+      }
+    },
     "stats": {
       "characters": "personnages imaginés par",
       "players": "joueurs",
