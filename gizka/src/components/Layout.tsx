@@ -2,10 +2,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment } from 'react';
+import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Fragment, useMemo } from 'react';
 
+import { NavBar } from '@/components/DesignSystem/NavBar';
 import { UserContext, UserProvider } from '@/contexts/user';
 import BackgroundStarmapImage from '@/public/images/background_starmap.png';
+import DiscordLogo from '@/public/images/icons/discord_logo.svg';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import LogoImage from '@/public/images/logo.png';
 
@@ -25,26 +29,69 @@ type AsideLayoutProps<T> = Omit<LayoutProps<T>, 'tabs' | 'onTabChange'> & {
 };
 
 export function Layout<T>(props: LayoutProps<T>) {
+  const t = useTranslations('common');
+  const pathname = usePathname();
+
+  const computeLinks = useMemo(
+    () =>
+      ({ isLoggedIn, pathname }: { isLoggedIn: boolean; pathname: string | null }) =>
+        [
+          {
+            label: t('navigation.home'),
+            href: '/',
+            isDisabled: false,
+            isActive: pathname === '/',
+          },
+          {
+            label: t('navigation.howToPlay'),
+            href: '/comment-jouer',
+            isDisabled: false,
+            isActive: pathname === '/comment-jouer',
+          },
+          {
+            label: t('navigation.characters'),
+            href: '/mes-personnages',
+            isDisabled: !isLoggedIn,
+            isActive: pathname === '/mes-personnages',
+          },
+          {
+            label: t('navigation.discord'),
+            logo: <DiscordLogo />,
+            href: `${process.env.NEXT_PUBLIC_DISCORD_LINK}`,
+            isDisabled: false,
+            isBlank: true,
+          },
+        ],
+    [t],
+  );
+
   return (
     <UserProvider>
       <Styled.Header>
-        <Link href={'/'}>
-          <Image
-            src={LogoImage.src}
-            alt="Les Récits Perdus"
-            width={354}
-            height={118}
-            quality={100}
-          />
-        </Link>
+        <Styled.Logo>
+          <Link href={'/'}>
+            <Image
+              src={LogoImage.src}
+              alt="Les Récits Perdus"
+              width={354}
+              height={118}
+              quality={100}
+            />
+          </Link>
+        </Styled.Logo>
         <UserContext.Consumer>
-          {({ currentUser, logout }) =>
-            currentUser && (
-              <span onClick={logout}>
-                Bienvenue, <strong>{currentUser.name}</strong>
-              </span>
-            )
-          }
+          {({ currentUser, logout }) => (
+            <>
+              <NavBar links={computeLinks({ isLoggedIn: !!currentUser, pathname })} />
+              {currentUser ? (
+                <span onClick={logout}>
+                  {t('welcome')}, <strong>{currentUser.name}</strong>
+                </span>
+              ) : (
+                <span />
+              )}
+            </>
+          )}
         </UserContext.Consumer>
       </Styled.Header>
       <Styled.Main style={{ backgroundImage: `url(${BackgroundStarmapImage.src})` }}>

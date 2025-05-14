@@ -13,6 +13,14 @@ export const Header = styled.header`
   background: var(--primary);
   padding: 0 var(--space-1);
 
+  > &:first-child {
+    margin-right: auto;
+  }
+
+  > &:last-child {
+    margin-left: auto;
+  }
+
   strong {
     color: var(--flashy-alt);
   }
@@ -24,6 +32,20 @@ export const Header = styled.header`
     height: 1px;
     left: 0;
     position: absolute;
+    width: 100%;
+  }
+
+  @media (max-width: ${Media.md}) {
+    flex-direction: column;
+    min-height: auto;
+    padding: var(--space-1) 0;
+  }
+`;
+
+export const Logo = styled.div`
+  @media (max-width: ${Media.md}) {
+    border-bottom: 1px solid var(--flashy);
+    text-align: center;
     width: 100%;
   }
 `;

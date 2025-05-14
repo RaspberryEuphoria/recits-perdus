@@ -50,16 +50,6 @@ type HomePageProps = {
 
 const links = [
   {
-    label: 'Apprendre à jouer',
-    href: '/create',
-    isDisabled: true,
-  },
-  {
-    label: 'Mes personnages',
-    href: '/mes-personnages',
-    isDisabled: false,
-  },
-  {
     label: 'Créer un scénario',
     href: '/scenarios',
     isDisabled: false,
@@ -78,13 +68,6 @@ const links = [
     label: 'Scénarios archivés',
     href: '/scenarios/archives',
     isDisabled: false,
-  },
-  {
-    label: 'Discord',
-    logo: <DiscordLogo />,
-    href: `${process.env.NEXT_PUBLIC_DISCORD_LINK}`,
-    isDisabled: false,
-    isBlank: true,
   },
 ];
 

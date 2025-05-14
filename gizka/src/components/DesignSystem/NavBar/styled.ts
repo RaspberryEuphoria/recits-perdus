@@ -1,14 +1,20 @@
 import styled from 'styled-components';
 
 import SystemImage from '@/public/images/system.png';
+import { Media } from '@/utils/constants';
 
 export const NavBar = styled.nav`
   display: flex;
-  gap: 2.5rem;
+  gap: var(--space-2);
   justify-content: center;
   text-transform: uppercase;
   font-family: 'Exo 2', sans-serif;
   font-weight: 900;
+
+  @media (max-width: ${Media.md}) {
+    flex-direction: column;
+    gap: var(--space-05);
+  }
 `;
 
 export const Link = styled.div<{ isDisabled: boolean; isActive?: boolean }>`
@@ -49,15 +55,6 @@ export const Link = styled.div<{ isDisabled: boolean; isActive?: boolean }>`
     animation: rotate 5s linear infinite;
   }
 
-  @keyframes rotate {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
-  }
-
   &:hover {
     a {
       color: var(--flashy);
@@ -74,4 +71,13 @@ export const Link = styled.div<{ isDisabled: boolean; isActive?: boolean }>`
     `
       color: var(--flashy-alt);
     `}
+
+  @keyframes rotate {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
 `;
