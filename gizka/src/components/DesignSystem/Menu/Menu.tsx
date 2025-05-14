@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import * as Styled from './styled';
 
-export function NavBar({
+export function Menu({
   links,
 }: {
   links: Array<{
@@ -16,7 +16,7 @@ export function NavBar({
   }>;
 }) {
   return (
-    <Styled.NavBar>
+    <Styled.Menu>
       {links.map((link) => (
         <Styled.Link key={link.label} isDisabled={link.isDisabled}>
           <Link href={link.href} target={link.isBlank ? '_blank' : '_self'}>
@@ -25,6 +25,6 @@ export function NavBar({
           </Link>
         </Styled.Link>
       ))}
-    </Styled.NavBar>
+    </Styled.Menu>
   );
 }

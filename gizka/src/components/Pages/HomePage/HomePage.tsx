@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { NavBar } from '@/components/DesignSystem/NavBar';
+import { Menu } from '@/components/DesignSystem/Menu';
 import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
@@ -13,7 +13,6 @@ import { LoginOrRegister } from '@/components/LoginOrRegister';
 import DefaultAvatarSrc from '@/public/images/default_avatar.png';
 import CharacterIcon from '@/public/images/icons/character.svg';
 import D6Icon from '@/public/images/icons/d6.svg';
-import DiscordLogo from '@/public/images/icons/discord_logo.svg';
 import PencilIcon from '@/public/images/icons/pencil.svg';
 import PartnerTLSLogo from '@/public/images/partners/tls_logo.jpg';
 import { getFullName } from '@/utils/character/helpers';
@@ -112,7 +111,7 @@ export function HomePage(props: HomePageProps) {
     <>
       <LayoutMainSection>
         <Styled.Main>
-          <NavBar links={links} />
+          <Menu links={links} />
 
           <Styled.Texts>
             <Text as="h1" size="xl" textAlign="center">
