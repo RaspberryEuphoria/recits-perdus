@@ -9,6 +9,10 @@ export const Border = styled.div<{
   width: ${(props) => (props.width ? props.width : 'auto')};
   padding: 3px;
 
+  a {
+    text-decoration: none;
+  }
+
   ${(props) =>
     props.isDisabled &&
     css`
