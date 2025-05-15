@@ -1,24 +1,16 @@
-FROM node:18.17.0-alpine AS base
+FROM node:18.17-slim
 
 WORKDIR /app
+
 COPY package.json .
-
-RUN pwd
-RUN npm install sharp --ignore-scripts
+RUN apt-get update
+RUN apt-get install python3 python3-pip curl -y
 RUN npm install
-
 COPY . .
 EXPOSE 8080
 
-FROM base AS prod
-
 RUN npm run build
-RUN rm -rf ./src && mkdir ./src && mv ./build/src ./src
-#RUN npm run db:migrate:prod
-#CMD ["npm", "run", "start:prod"]
-CMD ["ls", "-la", "/app"]
 
-FROM base AS dev
-
-RUN npm run db:migrate:dev
-CMD ["npm", "run", "dev"]
+# La commande suivante copie le contenu de /build/src dans /src à la racine
+# pour avoir des fichiers .js et non pas des fichiers .ts
+RUN cd /app && rm -rf src && cp -r build/src .

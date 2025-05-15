@@ -4,13 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 ENV DIST_DIR=build
-
 RUN npm install
-#RUN npm run build
-
 COPY . .
-
+RUN npm run build
 EXPOSE 3000
-
-#CMD ["npm", "run", "start:prod"]
-CMD ["ls", "-la", "/app"]

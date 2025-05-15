@@ -11,50 +11,94 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - postgres_backup:/backups
     ports:
-      - $DATABASE_LOCAL_PORT:$DATABASE_DOCKER_PORT
+      - $DATABASE_HOST_PORT:$DATABASE_CONTAINER_PORT
     env_file: ./.env
     environment:
       - POSTGRES_USER=$DATABASE_USER
       - POSTGRES_DB=$DATABASE_DATABASE
       - POSTGRES_PASSWORD=$DATABASE_ROOT_PASSWORD
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_DATABASE}"]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    #links:
+    #  - recitsperdus-gizka
+    #  - recitsperdus-holocron
+    networks:
+      recitsperdus-network:
+        ipv4_address: 20.2.93.30
 
   recitsperdus-holocron:
     build:
       context: ./holocron
       dockerfile: ./Dockerfile
-      target: prod
     container_name: recitsperdus-holocron
+    # Commande pour de la Production
+    command: sh -c "npm run db:migrate:prod && npm run start:prod"
+    # Commande pour du Dev
+    #command: sh -c "npm run db:migrate:dev && npm run dev"
     ports:
-      - $HOLOCRON_LOCAL_PORT:$HOLOCRON_DOCKER_PORT
-    restart: unless-stopped
+      - $HOLOCRON_HOST_PORT:$HOLOCRON_CONTAINER_PORT
+    restart: no
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8080 || exit 1"]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    #links:
+    #  - recitsperdus-gizka
+    #  - recitsperdus-db
     depends_on:
       recitsperdus-db:
-        condition: service_started
+        condition: service_healthy
         restart: false
+    networks:
+      recitsperdus-network:
+        ipv4_address: 20.2.93.20
 
   recitsperdus-gizka:
     build:
       context: ./gizka
       dockerfile: ./Dockerfile
     container_name: recitsperdus-gizka
+    command: sh -c "npm run start:prod"
     ports:
-      - $GIZKA_LOCAL_PORT:$GIZKA_DOCKER_PORT
+      - $GIZKA_HOST_PORT:$GIZKA_CONTAINER_PORT
     env_file: ./.env
     environment:
       - DB_HOST=recitsperdus-db
       - DB_USER=$DATABASE_USER
       - DB_PASSWORD=$DATABASE_ROOT_PASSWORD
       - DB_NAME=$DATABASE_DATABASE
-      - DB_PORT=$DATABASE_DOCKER_PORT
-    restart: unless-stopped
+      - DB_PORT=$DATABASE_CONTAINER_PORT
+    restart: no
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:3000 || exit 1"]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    #links:
+    #  - recitsperdus-holocron
+    #  - recitsperdus-db
     depends_on:
-      recitsperdus-db:
-        condition: service_started
-        restart: true
       recitsperdus-holocron:
         condition: service_started
         restart: false
+    networks:
+      recitsperdus-network:
+        ipv4_address: 20.2.93.10
 
 volumes:
   postgres_data:
   postgres_backup:
+
+networks:
+  recitsperdus-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "20.2.93.0/24"

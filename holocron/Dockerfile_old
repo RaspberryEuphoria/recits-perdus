@@ -1,0 +1,30 @@
+FROM node:18.17.0-alpine AS base
+
+WORKDIR /app
+
+ENV npm_config_python="/usr/bin/python"
+ENV PATH="$PATH:/usr/bin/python:/usr/bin/python3:/usr/bin/python3.11:/usr/lib/python3.11"
+ENV PYTHON="/usr/bin/python"
+
+COPY package.json .
+RUN apk add --update --no-cache python3 py3-pip make g++
+RUN apk add --update --no-cache --repository https://dl-3.alpinelinux.org/alpine/edge/community --repository https://dl-3.alpinelinux.org/alpine/edge/main vips-dev
+RUN npm install --cpu=x64 --os=linux --libc=musl --platform=linuxmusl-x64 sharp
+RUN npm install --platform=linuxmusl-x64
+COPY . .
+EXPOSE 8080
+
+FROM base AS prod
+
+RUN npm run build
+
+# La commande suivante copie le contenu de /build/src dans /src à la racine
+# pour avoir des fichiers .js et non pas des fichiers .ts
+#RUN cd /app && rm -rf src && cp -r build/src .
+
+#CMD ["npm", "run", "db:migrate:prod", "&&", "npm", "run", "start:prod", "&"]
+#CMD ["ls", "-la", "/app/src"]
+
+FROM base AS dev
+
+#CMD ["npm", "run", "db:migrate:dev", "&&", "npm", "run", "dev"]
