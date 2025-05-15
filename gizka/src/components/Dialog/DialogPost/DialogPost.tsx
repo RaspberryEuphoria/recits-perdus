@@ -98,9 +98,5 @@ type DialogMoveProps = {
 };
 
 function DialogMove({ character, characters, move }: DialogMoveProps) {
-  return (
-    <Styled.DialogMove result={move.moveResult}>
-      <MoveOutcome move={move} character={character} characters={characters} />
-    </Styled.DialogMove>
-  );
+  return <MoveOutcome move={move} character={character} characters={characters} />;
 }

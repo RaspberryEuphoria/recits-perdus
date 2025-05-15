@@ -64,8 +64,6 @@ function Success({ character, move }: MoveOutcomeProps) {
 
   return (
     <p>
-      {t('outcomes.demonstrating')} {t(`skills.${move.skill.name}.partitif`)}
-      {move.skill.name.toLowerCase()},{' '}
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
       {t(`${move.moveId}.outcomes.harvest`)} {t(`${move.moveId}.outcomes.no-time-loss`)} (
       <Keyword stat="supplies">+2</Keyword> {t('stats.supplies')}).
@@ -81,10 +79,9 @@ function Mixed({ character, move }: MoveOutcomeProps) {
   return (
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.no-lack-of')} {t(`skills.${move.skill.name}.partitif`)}
-      {move.skill.name.toLowerCase()} {t('outcomes.and')} {t(`${move.moveId}.outcomes.harvest`)}{' '}
-      {t(`${move.moveId}.outcomes.time-loss`)} (<Keyword stat="supplies">+{danger}</Keyword>{' '}
-      {t('stats.supplies')}, <Keyword stat="momentum">-{danger}</Keyword> {t('stats.momentum')}).
+      {t(`${move.moveId}.outcomes.harvest`)} {t(`${move.moveId}.outcomes.time-loss`)} (
+      <Keyword stat="supplies">+{danger}</Keyword> {t('stats.supplies')},{' '}
+      <Keyword stat="momentum">-{danger}</Keyword> {t('stats.momentum')}).
     </p>
   );
 }

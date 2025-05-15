@@ -60,7 +60,7 @@
       },
       "outcomes": {
         "harvest": "récolte des provisions",
-        "time-loss": "mais y perd un peu de temps",
+        "time-loss": "mais perd un peu de temps",
         "no-time-loss": "sans perdre de temps"
       }
     },

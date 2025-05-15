@@ -1,6 +1,38 @@
 import styled from 'styled-components';
 
 import StarMap from '@/public/images/background_starmap.png';
+import { MoveResult as MoveRes } from '@/utils/types/scenario';
+
+export const Container = styled.div<{ result: MoveRes }>`
+  background: var(--secondary);
+  border-radius: var(--rounded);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-05);
+  padding: var(--space-1);
+
+  ${({ result }) => {
+    switch (result) {
+      case MoveRes.SUCCESS:
+        return `
+          box-shadow: 0 0 10px var(--success), inset 0 0 10px var(--success);
+          border: 1px solid var(--success);
+        `;
+      case MoveRes.MIXED:
+        return `
+          box-shadow: 0 0 10px var(--mixed), inset 0 0 10px var(--mixed);
+          border: 1px solid var(--mixed);
+        `;
+      case MoveRes.FAILURE:
+        return `
+          box-shadow: 0 0 10px var(--failure), inset 0 0 10px var(--failure);
+          border: 1px solid var(--failure);
+        `;
+      default:
+        return '';
+    }
+  }}
+`;
 
 export const MoveOutcome = styled.div`
   display: flex;

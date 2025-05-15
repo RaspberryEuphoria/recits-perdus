@@ -50,7 +50,7 @@ export function AttaquerOutcome(props: MoveOutcomeProps) {
       />
 
       <Outcome {...props} />
-      <MoveProgress progress={progress} difficulty={difficulty} />
+      {progress && <MoveProgress progress={progress} difficulty={difficulty} />}
     </Styled.MoveOutcome>
   );
 }

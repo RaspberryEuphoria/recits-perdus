@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { Dices } from '@/components/DesignSystem/Dices';
 import { Keyword } from '@/components/DesignSystem/Keyword';
-import { statFrToEn } from '@/utils/scenario/helpers';
+import { statEnToFr } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
@@ -105,7 +105,7 @@ function Mixed({ move, isTargetPlayer }: ProdiguerDesoinsOutcomeProps) {
 
   return (
     <p>
-      {t(`${move.moveId}.outcomes.mixed`)} (<Keyword stat={statFrToEn(stat)}>-1</Keyword> {stat}
+      {t(`${move.moveId}.outcomes.mixed`)} (<Keyword stat={stat}>-1</Keyword> {statEnToFr(stat)}
       {isTargetPlayer && (
         <>
           {' '}

@@ -14,6 +14,7 @@ import { ProdiguerDesSoinsOutcome } from './ProdiguerDesSoinsOutcome';
 import { RavitaillerOutcome } from './RavitaillerOutcome';
 import { RecolterDesInformationsOutcome } from './RecolterDesInformationsOutcome';
 import { RiposterOutcome } from './RiposterOutcome';
+import * as Styled from './styled';
 
 export type MoveOutcomeProps = {
   move: Move;
@@ -24,31 +25,83 @@ export type MoveOutcomeProps = {
 export function MoveOutcome(props: MoveOutcomeProps) {
   switch (props.move.moveId) {
     case Moves.FAIRE_FACE_AU_DANGER:
-      return <FaireFaceAuDangerOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <FaireFaceAuDangerOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.PRENDRE_UN_AVANTAGE:
-      return <PrendreUnAvantageOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <PrendreUnAvantageOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.RECOLTER_DES_INFORMATIONS:
-      return <RecolterDesInformationsOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <RecolterDesInformationsOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.PAYER_LE_PRIX:
-      return <PayerLePrixOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <PayerLePrixOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.RAVITAILLER:
-      return <RavitaillerOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <RavitaillerOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.MARCHANDER:
-      return <MarchanderOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <MarchanderOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.CONTRAINDRE:
-      return <ContraindreOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <ContraindreOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.PRODIGUER_DES_SOINS:
-      return <ProdiguerDesSoinsOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <ProdiguerDesSoinsOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.ENGAGER_LE_COMBAT:
-      return <EngagerLeCombatOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <EngagerLeCombatOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.ATTAQUER:
-      return <AttaquerOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <AttaquerOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.RIPOSTER:
-      return <RiposterOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <RiposterOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.METTRE_FIN_AU_COMBAT:
-      return <MettreFinAuCombatOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <MettreFinAuCombatOutcome {...props} />
+        </Styled.Container>
+      );
     case Moves.ACTION_LIBRE:
-      return <ActionLibreOutcome {...props} />;
+      return (
+        <Styled.Container result={props.move.moveResult}>
+          <ActionLibreOutcome {...props} />
+        </Styled.Container>
+      );
     default:
       return null;
   }

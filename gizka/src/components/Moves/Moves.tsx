@@ -29,6 +29,7 @@ export type MovesProps = {
   onBurnCheck: (hasMomentumBurn: boolean) => void;
   character: Character;
   characters: Character[];
+  allowBurnCheck?: boolean;
 };
 
 const categories = [
@@ -68,7 +69,13 @@ const categories = [
   },
 ];
 
-export function Moves({ onMovePicked, onBurnCheck, character, characters }: MovesProps) {
+export function Moves({
+  onMovePicked,
+  onBurnCheck,
+  character,
+  characters,
+  allowBurnCheck = true,
+}: MovesProps) {
   const t = useTranslations('moves');
   const [selectedMoveId, setSelectedMoveId] = useState<MoveId | null>(null);
 
@@ -94,15 +101,19 @@ export function Moves({ onMovePicked, onBurnCheck, character, characters }: Move
         character={character}
         characters={characters}
       >
-        <Prompt stat="momentum">
-          <MomentumIcon />
-          <label htmlFor="burn">Brûler de la ferveur ?</label>{' '}
-          <Checkbox id="burn" onChange={handleBurnCheck} />
-        </Prompt>
-        <Text size="sm">
-          Si vous avez assez de ferveur, elle sera automatiquement consommée pour annuler un échec
-          lorsque c&apos;est possible. En cas de succès, vous conservez votre ferveur.
-        </Text>
+        {allowBurnCheck && (
+          <>
+            <Prompt stat="momentum">
+              <MomentumIcon />
+              <label htmlFor="burn">Brûler de la ferveur ?</label>{' '}
+              <Checkbox id="burn" onChange={handleBurnCheck} />
+            </Prompt>
+            <Text size="sm">
+              Si vous avez assez de ferveur, elle sera automatiquement consommée pour annuler un
+              échec lorsque c&apos;est possible. En cas de succès, vous conservez votre ferveur.
+            </Text>
+          </>
+        )}
       </MoveCard>
     );
   }
