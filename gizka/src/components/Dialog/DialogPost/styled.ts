@@ -101,7 +101,7 @@ export const DialogMove = styled.div<{ result: MoveResult }>`
   display: flex;
   flex-direction: column;
   gap: var(--space-05);
-  padding: var(--space-05) var(--space-1);
+  padding: var(--space-1);
 
   ${({ result }) => {
     switch (result) {

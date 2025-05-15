@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
+import { Dices } from '@/components/DesignSystem/Dices';
 import { Keyword } from '@/components/DesignSystem/Keyword';
-import { ChallengeDie } from '@/components/Moves/ChallengeDie';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
 import { MoveOutcomeProps } from '.';
@@ -23,20 +23,19 @@ export function MettreFinAuCombatOutcome(props: MoveOutcomeProps) {
 
   return (
     <Styled.MoveOutcome>
-      <p>
+      <Styled.MoveTitle>
         <Styled.CharacterName color={character.textColor}>
           {character.firstName}
         </Styled.CharacterName>{' '}
         {t(`${move.moveId}.action`)} <Keyword stat="move">{t(`${move.moveId}.name`)}</Keyword> !
-      </p>
-      <Styled.MoveResult>
-        <Styled.MoveScore title={t('progress-score')} color={character.textColor}>
-          {score}
-        </Styled.MoveScore>
-        {challengeDices.map((dice) => (
-          <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
-        ))}
-      </Styled.MoveResult>
+      </Styled.MoveTitle>
+
+      <Dices
+        score={{ value: score, color: character.textColor }}
+        scoreLabel={t('progress-score')}
+        challengeDices={challengeDices}
+      />
+
       <Outcome {...props} />
     </Styled.MoveOutcome>
   );

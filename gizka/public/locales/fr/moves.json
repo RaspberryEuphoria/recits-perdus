@@ -5,6 +5,11 @@
       "fight": "Combat",
       "social": "Social"
     },
+    "dices": {
+      "result": "Résultat",
+      "versus": "VS",
+      "challenge": "Dés de défi"
+    },
     "FAIRE_FACE_AU_DANGER": {
       "name": "Faire Face au Danger"
     },
@@ -350,6 +355,7 @@
         "skill-check": "détermination"
       }
     },
-    "progress-score": "Score de Combat :"
+    "progress-score": "Score de Combat",
+    "colon": " :"
   }
 }

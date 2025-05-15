@@ -194,6 +194,15 @@ export abstract class ActionMove {
       isResolved: true,
     };
 
+    console.log('this.moveBonus', this.moveBonus);
+
+    if (this.moveBonus.length > 0) {
+      this.move.meta = {
+        ...this.move.meta,
+        actionBonus: this.moveBonus,
+      };
+    }
+
     this.hasRolled = true;
 
     return this.move;

@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
+import { Dices } from '@/components/DesignSystem/Dices';
 import { Keyword } from '@/components/DesignSystem/Keyword';
-import { ChallengeDie } from '@/components/Moves/ChallengeDie';
 import { statFrToEn } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
@@ -41,7 +41,7 @@ export function ProdiguerDesSoinsOutcome(props: MoveOutcomeProps) {
 
   return (
     <Styled.MoveOutcome>
-      <p>
+      <Styled.MoveTitle>
         <Styled.CharacterName color={character.textColor}>
           {character.firstName}
         </Styled.CharacterName>{' '}
@@ -56,18 +56,15 @@ export function ProdiguerDesSoinsOutcome(props: MoveOutcomeProps) {
           </>
         )}{' '}
         !
-      </p>
-      <Styled.MoveResult>
-        <Styled.MoveScore
-          title={`Dé d'action (${actionDie.value}) + attribut ${skillName} (${skillValue})`}
-          color={character.textColor}
-        >
-          {score}
-        </Styled.MoveScore>
-        {challengeDices.map((dice) => (
-          <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
-        ))}
-      </Styled.MoveResult>
+      </Styled.MoveTitle>
+
+      <Dices
+        score={{ value: score, color: character.textColor }}
+        actionDie={{ value: actionDie.value }}
+        challengeDices={challengeDices}
+        skill={{ name: skillName, value: skillValue }}
+      />
+
       <Outcome {...props} selfHealing={selfHealing} isTargetPlayer={meta.targetId > 0} />
     </Styled.MoveOutcome>
   );

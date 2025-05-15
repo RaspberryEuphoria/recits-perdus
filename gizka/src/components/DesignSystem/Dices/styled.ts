@@ -2,18 +2,6 @@ import styled from 'styled-components';
 
 import StarMap from '@/public/images/background_starmap.png';
 
-export const MoveOutcome = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-05);
-  font-size: 1.2rem;
-  position: relative;
-`;
-
-export const MoveTitle = styled.p`
-  text-align: right;
-`;
-
 export const DiceLabel = styled.span`
   color: var(--move);
   font-family: 'Exo 2';
@@ -22,7 +10,7 @@ export const DiceLabel = styled.span`
   text-transform: uppercase;
 `;
 
-export const MoveDices = styled.div`
+export const Dices = styled.div`
   align-items: center;
   border-radius: var(--rounded);
   border: 1px solid var(--dark-05);
@@ -42,20 +30,14 @@ export const MoveDices = styled.div`
     top: 0;
     width: 100%;
     pointer-events: none;
+    z-index: 0;
   }
-`;
-
-export const DiceName = styled.span``;
-
-export const MoveResult = styled.div`
-  align-items: center;
-  display: flex;
-  gap: var(--space-05);
 `;
 
 export const ChallengeDices = styled.div`
   display: flex;
   gap: var(--space-05);
+  z-index: 10;
 `;
 
 export const VersusLabel = styled.span`
@@ -67,18 +49,35 @@ export const VersusLabel = styled.span`
   text-transform: uppercase;
 `;
 
-export const MoveScore = styled.div<{ color: string }>`
+export const Score = styled.div<{ color: string }>`
   align-items: center;
-  border: 3px dashed ${(props) => props.color};
-  border-radius: 1rem;
-  color: ${(props) => props.color};
+  background: #dbe4f1;
+  border: 3px solid var(--dark);
+  border-radius: 10px;
+  color: var(--dark);
   display: flex;
   font-family: 'Philosopher';
   font-size: 2rem;
   font-weight: bold;
   height: 55px;
   justify-content: center;
+  position: relative;
   width: 55px;
+  z-index: 10;
+
+  &::after {
+    background: #bbc0c7;
+    bottom: -5px;
+    border-radius: 0 0 10px 10px;
+    border: 3px solid var(--dark);
+    border-top: 2px solid var(--dark);
+    content: '';
+    display: block;
+    height: 5px;
+    left: -3px;
+    position: absolute;
+    width: 100%;
+  }
 `;
 
 export const DestinyScore = styled.span`
@@ -90,15 +89,4 @@ export const DestinyScore = styled.span`
   height: 65px;
   position: absolute;
   height: auto;
-`;
-
-export const CharacterName = styled.span<{ color: string }>`
-  color: ${({ color }) => color};
-  font-weight: bold;
-`;
-
-export const Move = styled.span`
-  color: var(--move);
-  font-style: italic;
-  text-shadow: var(--shadow);
 `;

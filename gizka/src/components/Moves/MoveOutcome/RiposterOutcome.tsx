@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
+import { Dices } from '@/components/DesignSystem/Dices';
 import { Keyword } from '@/components/DesignSystem/Keyword';
-import { ChallengeDie } from '@/components/Moves/ChallengeDie';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
 import { MoveProgress } from '../MoveProgress';
@@ -34,24 +34,21 @@ export function RiposterOutcome(props: MoveOutcomeProps) {
 
   return (
     <Styled.MoveOutcome>
-      <p>
+      <Styled.MoveTitle>
         <Styled.CharacterName color={character.textColor}>
           {character.firstName}
         </Styled.CharacterName>{' '}
         {t(`${move.moveId}.action`)}
         <Keyword stat="move">{t(`${move.moveId}.name`)}</Keyword> {difficultyText} !
-      </p>
-      <Styled.MoveResult>
-        <Styled.MoveScore
-          title={`Dé d'action (${actionDie.value}) + attribut ${skillName} (${skillValue})`}
-          color={character.textColor}
-        >
-          {score}
-        </Styled.MoveScore>
-        {challengeDices.map((dice) => (
-          <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
-        ))}
-      </Styled.MoveResult>
+      </Styled.MoveTitle>
+
+      <Dices
+        score={{ value: score, color: character.textColor }}
+        actionDie={{ value: actionDie.value }}
+        challengeDices={challengeDices}
+        skill={{ name: skillName, value: skillValue }}
+      />
+
       <Outcome {...props} />
       <MoveProgress progress={progress} difficulty={difficulty} />
     </Styled.MoveOutcome>

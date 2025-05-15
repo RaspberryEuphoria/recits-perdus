@@ -20,7 +20,8 @@ export function MoveProgress({ progress, difficulty }: MoveProgressProps) {
   return (
     <Styled.MoveProgress>
       <Styled.Score>
-        {t('progress-score')} {progress}
+        {t('progress-score')}
+        {t('colon')} {progress}
         <Styled.ProgressBar>
           <Styled.Progress width={Math.min(currentValue, moveDifficulty)} color="move" />
           <Styled.Progress width={remainingValue + 10} color="dark" />

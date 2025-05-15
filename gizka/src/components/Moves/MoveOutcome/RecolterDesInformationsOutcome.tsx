@@ -1,5 +1,5 @@
+import { Dices } from '@/components/DesignSystem/Dices';
 import { Keyword } from '@/components/DesignSystem/Keyword';
-import { ChallengeDie } from '@/components/Moves/ChallengeDie';
 import { movesNames } from '@/utils/scenario/helpers';
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
@@ -22,6 +22,7 @@ export function RecolterDesInformationsOutcome(props: MoveOutcomeProps) {
   }
 
   const score = actionDie.value + skillValue;
+  const meta = JSON.parse(move.meta);
 
   const Outcome = (props: MoveOutcomeProps) => {
     switch (props.move.moveResult) {
@@ -38,24 +39,21 @@ export function RecolterDesInformationsOutcome(props: MoveOutcomeProps) {
 
   return (
     <Styled.MoveOutcome>
-      <p>
+      <Styled.MoveTitle>
         <Styled.CharacterName color={character.textColor}>
           {character.firstName}
         </Styled.CharacterName>
         &nbsp;cherche à &nbsp;
         <Keyword stat="move">{movesNames(move.moveId)}</Keyword>&nbsp;!
-      </p>
-      <Styled.MoveResult>
-        <Styled.MoveScore
-          title={`Dé d'action (${actionDie.value}) + attribut ${skillName} (${skillValue})`}
-          color={character.textColor}
-        >
-          {score}
-        </Styled.MoveScore>
-        {challengeDices.map((dice) => (
-          <ChallengeDie key={dice.id} score={score} value={dice.value} isBurned={dice.isBurned} />
-        ))}
-      </Styled.MoveResult>
+      </Styled.MoveTitle>
+
+      <Dices
+        score={{ value: score, color: character.textColor }}
+        actionDie={{ value: actionDie.value, bonus: meta.actionBonus }}
+        challengeDices={challengeDices}
+        skill={{ name: skillName, value: skillValue }}
+      />
+
       <Outcome {...props} />
     </Styled.MoveOutcome>
   );
