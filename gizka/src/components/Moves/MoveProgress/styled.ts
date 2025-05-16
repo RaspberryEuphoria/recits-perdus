@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Media } from '@/utils/constants';
+
 export const MoveProgress = styled.div`
   align-items: center;
   display: flex;
@@ -39,6 +41,10 @@ export const Progress = styled.div<{ width: number; color: string }>`
 export const Chances = styled.div`
   font-size: 0.9rem;
   color: var(--light);
+
+  @media (max-width: ${Media.md}) {
+    display: none;
+  }
 `;
 
 export const Success = styled.span`

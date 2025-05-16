@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import StarMap from '@/public/images/background_starmap.png';
+import { Media } from '@/utils/constants';
 
 export const DiceLabel = styled.span`
   color: var(--move);
@@ -8,6 +9,10 @@ export const DiceLabel = styled.span`
   font-style: italic;
   font-weight: bold;
   text-transform: uppercase;
+
+  @media (max-width: ${Media.md}) {
+    display: none;
+  }
 `;
 
 export const Dices = styled.div`
@@ -15,8 +20,9 @@ export const Dices = styled.div`
   border-radius: var(--rounded);
   border: 1px solid var(--dark-05);
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   gap: var(--space-05);
+  justify-content: center;
   padding: var(--space-05) 0;
   position: relative;
 
@@ -31,6 +37,10 @@ export const Dices = styled.div`
     width: 100%;
     pointer-events: none;
     z-index: 0;
+  }
+
+  @media (max-width: ${Media.md}) {
+    flex-direction: column;
   }
 `;
 
