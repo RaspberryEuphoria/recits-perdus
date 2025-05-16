@@ -11,12 +11,11 @@ import * as Styled from './styled';
 
 type CharacterListProps = {
   characters: Character[];
-  children?: React.ReactNode;
 };
 
 const AVATAR_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/users/avatars`;
 
-export function CharacterList({ characters, children }: CharacterListProps) {
+export function CharacterList({ characters }: CharacterListProps) {
   const [character, setCharacter] = useState<Character | null>();
 
   const selectCharacter = (character: Character) => {
@@ -62,7 +61,6 @@ export function CharacterList({ characters, children }: CharacterListProps) {
           </Styled.CharacterPreview>
         ))}
       </Styled.CharacterList>
-      {children}
     </>
   );
 }

@@ -12,6 +12,7 @@ export type TextProps = {
   textAlign?: TextAlign;
   children: React.ReactNode;
   color?: TextColor;
+  fontStyle?: 'italic';
 };
 
 export function Text({ size = 'md', ...props }: TextProps) {

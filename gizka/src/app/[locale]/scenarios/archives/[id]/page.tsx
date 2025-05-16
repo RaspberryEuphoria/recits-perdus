@@ -3,10 +3,10 @@ export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 
 import { ArchiveWithIdPage } from '@/components/Pages/ArchiveWithIdPage';
-import { httpBffClient, isHttpError } from '@/services/http-client';
+import { httpBffClient, httpClient, isHttpError } from '@/services/http-client';
 import { generateIntroduction, getNextPoster } from '@/utils/scenario/helpers';
 import { Character } from '@/utils/types/character';
-import { Scenario } from '@/utils/types/scenario';
+import { Note, Scenario } from '@/utils/types/scenario';
 
 export async function generateMetadata({
   params: { id },
@@ -35,13 +35,20 @@ export default async function ArchivesWithId({ params: { id } }: { params: { id:
   }
 
   const [scenarioId] = id.split('-');
-  const scenario = await httpBffClient.get<Scenario>(`/scenario/${scenarioId}`);
+  const scenario = await httpClient.get<Scenario>(`/scenario/${scenarioId}`);
+  const notesResponse = await httpClient.get<Note[]>(`/scenario/${scenarioId}/note`);
 
   if (isHttpError(scenario)) {
     throw new Error('Failed to fetch data');
   }
 
-  const { title, posts, supplies } = scenario;
+  if (isHttpError(notesResponse)) {
+    console.error(`Failed to fetch notes data for scenario ${scenarioId}`);
+  }
+
+  const notes = isHttpError(notesResponse) ? [] : notesResponse;
+
+  const { title, posts, supplies, era, location } = scenario;
   const introduction = generateIntroduction(scenario);
   const nextPoster = getNextPoster(
     scenario.characters,
@@ -53,8 +60,11 @@ export default async function ArchivesWithId({ params: { id } }: { params: { id:
     <ArchiveWithIdPage
       id={id}
       introduction={introduction}
+      era={era}
+      location={location}
       title={title}
       posts={posts}
+      notes={notes}
       nextPoster={nextPoster}
       characters={characters}
       supplies={supplies}

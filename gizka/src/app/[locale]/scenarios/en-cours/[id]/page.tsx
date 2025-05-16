@@ -48,7 +48,7 @@ export default async function EnCoursWithId({ params: { id } }: { params: { id: 
 
   const notes = isHttpError(notesResponse) ? [] : notesResponse;
 
-  const { title, posts, supplies } = scenario;
+  const { title, posts, supplies, era, location } = scenario;
   const introduction = generateIntroduction(scenario);
   const nextPoster = getNextPoster(
     scenario.characters,
@@ -60,6 +60,8 @@ export default async function EnCoursWithId({ params: { id } }: { params: { id: 
     <EnCoursWithIdPage
       id={id}
       introduction={introduction}
+      era={era}
+      location={location}
       title={title}
       posts={posts}
       notes={notes}

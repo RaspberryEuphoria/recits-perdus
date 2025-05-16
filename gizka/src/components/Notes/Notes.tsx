@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { Fragment, useMemo, useState } from 'react';
 
+import { Block } from '@/components/DesignSystem/Block';
 import { Button } from '@/components/DesignSystem/Button';
 import { DetailedPicture } from '@/components/DesignSystem/DetailedPicture';
 import { Row } from '@/components/DesignSystem/Row';
@@ -10,6 +11,7 @@ import NotesClueIcon from '@/public/images/icons/notes_clues.svg';
 import NotesItemIcon from '@/public/images/icons/notes_item.svg';
 import NotesLocationIcon from '@/public/images/icons/notes_location.svg';
 import PencilIcon from '@/public/images/icons/pencil.svg';
+import PlanetIcon from '@/public/images/icons/planet.svg';
 import { TextColor } from '@/utils/constants';
 import { Note, NoteCategory } from '@/utils/types/scenario';
 
@@ -21,6 +23,8 @@ type NotesProps = {
   scenarioId: number;
   characterId?: number;
   notes: Note[];
+  era: string;
+  location: string;
 };
 
 const ILLUSTRATION_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/notes/illustrations`;
@@ -45,7 +49,7 @@ function filterNotesByCategory(notes: Note[], category: NoteCategory) {
 }
 
 export function Notes(props: NotesProps) {
-  const { notes: initialNotes, scenarioId, characterId } = props;
+  const { notes: initialNotes, scenarioId, characterId, era, location } = props;
   const t = useTranslations('scenarios');
 
   const [isNotesFormOpen, setIsNotesFormOpen] = useState(false);
@@ -136,6 +140,21 @@ export function Notes(props: NotesProps) {
           </Button>
         </Row>
       )}
+
+      <Row space="1" direction="column" align="start">
+        <Block color={TextColor.Flashy}>
+          <Row justify="end">
+            <PlanetIcon width="25" fill={TextColor.FlashyAlt} />
+          </Row>
+
+          <Text color={TextColor.Flashy} fontStyle="italic" size="sm">
+            {location},
+          </Text>
+          <Text color={TextColor.Flashy} fontStyle="italic" size="sm">
+            {era}
+          </Text>
+        </Block>
+      </Row>
 
       {notesByCategory.map(({ category, notes }) => (
         <Fragment key={category}>

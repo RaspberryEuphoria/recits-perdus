@@ -16,10 +16,10 @@ import { MoveOutcome } from '@/components/Moves/MoveOutcome';
 import { getSafeName } from '@/utils/character/helpers';
 import { TextColor } from '@/utils/constants';
 import { Character } from '@/utils/types/character';
-import { Moves as MoveId, Post } from '@/utils/types/scenario';
+import { MoveResult, Moves as MoveId, Post } from '@/utils/types/scenario';
 
 import * as Styled from './styled';
-import { generateRandomMoveOutcome } from './utils';
+import { generateRandomMoveOutcome, MoveOutcome as MoveOutcomeType, rand } from './utils';
 
 type CommentJouerPageProps = {
   introduction?: string;
@@ -51,7 +51,7 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
   >(null);
 
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
-  const [roll, setRoll] = useState(0);
+  const [moveOutcome, setMoveOutcome] = useState<MoveOutcomeType | null>(null);
 
   const breadcrumb = useMemo(() => {
     return [
@@ -94,10 +94,11 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
     if (!currentMove || !currentMove.meta) return;
 
     setCurrentModule('dices');
-    setRoll(roll + 1);
+    setMoveOutcome(generateRandomMoveOutcome(currentMove));
   };
 
   const onMovePicked = (move: Move | null) => {
+    setCurrentModule(null);
     setCurrentMove(move);
   };
 
@@ -255,16 +256,29 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
 
         {currentModule === 'dices' && characters && currentMove && (
           <>
-            <MoveOutcome
-              key={roll}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
-              move={{
-                ...generateRandomMoveOutcome(currentMove),
-                meta: JSON.stringify({ ...currentMove.meta }),
-              }}
-              character={Object.values(characters)[0]}
-            />
+            <Row gap="1" direction="column">
+              <MoveOutcome
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                move={{
+                  ...moveOutcome,
+                  meta: JSON.stringify({ ...currentMove.meta }),
+                }}
+                character={Object.values(characters)[0]}
+              />
+
+              {moveOutcome && moveOutcome.moveResult === MoveResult.FAILURE && (
+                <MoveOutcome
+                  move={{
+                    moveId: MoveId.PAYER_LE_PRIX,
+                    // @ts-expect-error PayThePrice is a special move with only one dice
+                    dices: [{ value: rand(1, 6) }],
+                    moveResult: MoveResult.FAILURE,
+                  }}
+                  character={Object.values(characters)[0]}
+                />
+              )}
+            </Row>
 
             <Row space="1" align="start">
               <ul>
@@ -284,7 +298,7 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
                   <Text size="md">
                     3. Vous faites un <Keyword stat="success">succès</Keyword> si le résultat est
                     supérieur aux deux dés de défi, un <Keyword stat="mixed">succès mitigé</Keyword>{' '}
-                    s&apos;ail est supérieur à un seul des deux, et sinon, un{' '}
+                    s&apos;il est supérieur à un seul des deux, et sinon, un{' '}
                     <Keyword stat="failure">échec</Keyword>.
                   </Text>
                 </li>

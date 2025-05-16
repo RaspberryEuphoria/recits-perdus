@@ -6,13 +6,14 @@ import { useMemo, useRef, useState } from 'react';
 import { CharacterList } from '@/components/CharacterList';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
+import { Notes } from '@/components/Notes';
 import { ScenarioResources } from '@/components/ScenarioResources';
 import DownArrowIcon from '@/public/images/icons/down_arrow.svg';
 import FullWidthToggleOffIcon from '@/public/images/icons/full_width_toggle_off.svg';
 import FullWidthToggleOnIcon from '@/public/images/icons/full_width_toggle_on.svg';
 import { useLocalStorage } from '@/utils/hooks/localStorage';
 import { Character } from '@/utils/types/character';
-import { Post } from '@/utils/types/scenario';
+import { Note, Post } from '@/utils/types/scenario';
 import { User } from '@/utils/types/user';
 
 import * as Styled from './styled';
@@ -21,7 +22,10 @@ type ArchiveWithIdPageProps = {
   id: string;
   title: string;
   posts: Post[];
+  notes: Note[];
   introduction: string;
+  era: string;
+  location: string;
   nextPoster: Character;
   characters: Record<string, Character>;
   supplies: number;
@@ -29,13 +33,17 @@ type ArchiveWithIdPageProps = {
 
 enum Tab {
   Status = 'status',
-  Reading = 'reading',
+  Notes = 'notes',
 }
 
 export function ArchiveWithIdPage({
+  id,
   title,
   introduction,
+  era,
+  location,
   posts: initialDialogs,
+  notes,
   characters: initalCharacters,
   supplies: initalSupplies,
 }: ArchiveWithIdPageProps) {
@@ -60,6 +68,12 @@ export function ArchiveWithIdPage({
         isOpen: openTabId === Tab.Status,
         isDisabled: false,
       },
+      {
+        label: t('en-cours.tabs.notes'),
+        id: Tab.Notes,
+        isOpen: openTabId === Tab.Notes,
+        isDisabled: false,
+      },
     ];
   }, [openTabId, t]);
 
@@ -79,6 +93,8 @@ export function ArchiveWithIdPage({
     return !isDialogFullWidth;
   }, [isDialogFullWidth]);
 
+  const scenarioId = parseInt(id.split('-')[0]);
+
   return (
     <>
       {isLayoutMainSectionVisible && (
@@ -88,9 +104,13 @@ export function ArchiveWithIdPage({
           onTabChange={(tab: Tab) => setOpenTabId(tab)}
         >
           {openTabId === Tab.Status && (
-            <CharacterList characters={Object.values(characters)}>
+            <>
+              <CharacterList characters={Object.values(characters)} />
               <ScenarioResources supplies={supplies} />
-            </CharacterList>
+            </>
+          )}
+          {openTabId === Tab.Notes && (
+            <Notes notes={notes} scenarioId={scenarioId} era={era} location={location} />
           )}
         </LayoutMainSection>
       )}

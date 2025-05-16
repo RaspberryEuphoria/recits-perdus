@@ -31,6 +31,8 @@ type EnCoursWithIdPageProps = {
   posts: Post[];
   notes: Note[];
   introduction: string;
+  era: string;
+  location: string;
   nextPoster: Character;
   characters: Record<string, Character>;
   supplies: number;
@@ -55,6 +57,8 @@ export function EnCoursWithIdPage({
   id,
   title,
   introduction,
+  era,
+  location,
   posts: initialDialogs,
   notes,
   nextPoster: initialNextPoster,
@@ -227,12 +231,19 @@ export function EnCoursWithIdPage({
           onTabChange={(tab: Tab) => setOpenTabId(tab)}
         >
           {openTabId === Tab.Status && (
-            <CharacterList characters={Object.values(characters)}>
+            <>
+              <CharacterList characters={Object.values(characters)} />
               <ScenarioResources supplies={supplies} />
-            </CharacterList>
+            </>
           )}
           {openTabId === Tab.Notes && (
-            <Notes notes={notes} characterId={currentCharacter?.id} scenarioId={scenarioId} />
+            <Notes
+              notes={notes}
+              characterId={currentCharacter?.id}
+              scenarioId={scenarioId}
+              era={era}
+              location={location}
+            />
           )}
           {showTextarea && (
             <DialogTextarea

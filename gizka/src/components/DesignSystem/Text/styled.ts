@@ -2,7 +2,12 @@ import styled from 'styled-components';
 
 import { TextAlign, TextSize } from './Text';
 
-export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign; color?: string }>`
+export const Text = styled.p<{
+  size: TextSize;
+  textAlign?: TextAlign;
+  color?: string;
+  fontStyle?: 'italic';
+}>`
   ${({ color }) => color && `color: ${color || 'var(--light)'};`}
   text-align: ${({ textAlign }) => textAlign};
 
@@ -22,6 +27,8 @@ export const Text = styled.p<{ size: TextSize; textAlign?: TextAlign; color?: st
         return '2.5rem';
     }
   }};
+
+  ${({ fontStyle }) => fontStyle && `font-style: ${fontStyle};`}
 
   line-height: ${({ size }) => {
     switch (size) {
