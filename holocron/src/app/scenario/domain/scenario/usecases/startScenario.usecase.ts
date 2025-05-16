@@ -20,10 +20,14 @@ function startScenarioUsecase(scenarioRepository: ScenarioRepository, discord: D
       status: ScenarioStatus.IN_PROGRESS,
     });
 
-    discord.startedScenario({
-      scenario: scenario,
-      characters: scenario.characters,
-    });
+    try {
+      discord.startedScenario({
+        scenario: scenario,
+        characters: scenario.characters,
+      });
+    } catch (err) {
+      /* empty */
+    }
 
     return startedScenario;
   };

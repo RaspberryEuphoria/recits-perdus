@@ -57,6 +57,7 @@ model SkillsOnCharacters {
 
 model Scenario {
   id           Int                     @id @default(autoincrement())
+  threadId     String?                 @db.VarChar(255)
   title        String                  @db.VarChar(255)
   status       ScenarioStatus          @default(INITIATED)
   era          String?                 @db.VarChar(255)

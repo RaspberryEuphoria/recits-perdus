@@ -11,6 +11,7 @@ enum ScenarioStatus {
 // @todo replace by import from Prisma.Client instead
 type Scenario = {
   id: number;
+  threadId: string;
   title: string;
   safeTitle: string;
   posts: Post[];
@@ -27,6 +28,7 @@ type CreateScenarioDto = Pick<
 > & {
   characterId: number;
   textColor: TextColor;
+  threadId?: string;
 };
 
 export { CreateScenarioDto, Scenario, ScenarioStatus };

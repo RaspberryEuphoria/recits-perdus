@@ -10,10 +10,18 @@ function createScenarioUsecase(scenarioRepository: ScenarioRepository, discord: 
       safeTitle: createSlugFromString(scenario.title),
     });
 
-    discord.createScenario({
-      scenario: newScenario,
-      character: newScenario.characters[0].character,
-    });
+    try {
+      const { id } = await discord.createScenario({
+        scenario: newScenario,
+        character: newScenario.characters[0].character,
+      });
+
+      await scenarioRepository.update(newScenario.id, {
+        threadId: id,
+      });
+    } catch (err) {
+      /* empty */
+    }
 
     return newScenario;
   };
