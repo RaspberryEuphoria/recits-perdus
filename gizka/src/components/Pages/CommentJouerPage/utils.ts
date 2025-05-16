@@ -1,6 +1,28 @@
 import { DiceType, MoveResult } from '@/utils/types/scenario';
 
-export function generateRandomMoveOutcome(currentMove: any) {
+export type MoveOutcome = {
+  id: number;
+  moveId: number;
+  skill: {
+    name: string;
+    value: number;
+    id: number;
+    skillId: number;
+    level: number;
+    skill: object;
+  };
+  skillId: number;
+  skillValue: number;
+  dices: {
+    id: number;
+    value: number;
+    type: DiceType;
+    isBurned: boolean;
+  }[];
+  moveResult: MoveResult;
+};
+
+export function generateRandomMoveOutcome(currentMove: any): MoveOutcome {
   const result = rand(1, 3);
 
   // Failure
@@ -118,6 +140,6 @@ export function generateRandomMoveOutcome(currentMove: any) {
   };
 }
 
-function rand(min: number, max: number) {
+export function rand(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
