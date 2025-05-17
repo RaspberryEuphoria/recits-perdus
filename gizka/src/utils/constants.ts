@@ -11,7 +11,10 @@ export enum TextColor {
   Grey = '#7fafc8',
   Purple = '#8c3cdb',
   PaleYellow = '#ffffbe',
-
+  BlueAlt = '#4b5887',
+  Jade = '#00b5a1',
+  Rose = '#f2a3b8',
+  Yellow = '#ffd800',
   Flashy = 'var(--flashy)',
   FlashyAlt = 'var(--flashy-alt)',
   Default = '#11b6f7',
@@ -37,6 +40,12 @@ export const colorOptions: Array<{ value: TextColor }> = [
     value: TextColor.Purple,
   },
   { value: TextColor.PaleYellow },
+  {
+    value: TextColor.BlueAlt,
+  },
+  { value: TextColor.Jade },
+  { value: TextColor.Rose },
+  { value: TextColor.Yellow },
 ];
 
 export enum Media {
