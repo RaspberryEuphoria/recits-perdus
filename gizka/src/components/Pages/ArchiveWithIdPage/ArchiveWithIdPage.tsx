@@ -69,13 +69,13 @@ export function ArchiveWithIdPage({
         isDisabled: false,
       },
       {
-        label: t('en-cours.tabs.notes'),
+        label: `${t('en-cours.tabs.notes')} (${notes.length})`,
         id: Tab.Notes,
         isOpen: openTabId === Tab.Notes,
         isDisabled: false,
       },
     ];
-  }, [openTabId, t]);
+  }, [notes.length, openTabId, t]);
 
   const breadcrumb = useMemo(() => {
     return [

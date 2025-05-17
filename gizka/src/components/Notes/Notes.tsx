@@ -25,6 +25,7 @@ type NotesProps = {
   notes: Note[];
   era: string;
   location: string;
+  onSaveNote?: (note: Note) => void;
 };
 
 const ILLUSTRATION_SRC_PREFIX = `${process.env.NEXT_PUBLIC_IMAGES_PREFIX_URL}/notes/illustrations`;
@@ -49,11 +50,10 @@ function filterNotesByCategory(notes: Note[], category: NoteCategory) {
 }
 
 export function Notes(props: NotesProps) {
-  const { notes: initialNotes, scenarioId, characterId, era, location } = props;
+  const { notes, scenarioId, characterId, era, location, onSaveNote } = props;
   const t = useTranslations('scenarios');
 
   const [isNotesFormOpen, setIsNotesFormOpen] = useState(false);
-  const [notes, setNotes] = useState(initialNotes);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   const openNote = (noteId: number) => {
@@ -79,19 +79,9 @@ export function Notes(props: NotesProps) {
   const saveNote = (note: Note) => {
     closeNotesForm();
 
-    setNotes((prevNotes) => {
-      if (!prevNotes) return [note];
-
-      const existingNoteIndex = prevNotes.findIndex((n) => n.id === note.id);
-
-      if (existingNoteIndex !== -1) {
-        const updatedNotes = [...prevNotes];
-        updatedNotes[existingNoteIndex] = note;
-        return updatedNotes;
-      }
-
-      return [...prevNotes, note];
-    });
+    if (typeof onSaveNote === 'function') {
+      onSaveNote(note);
+    }
 
     if (selectedNote) {
       setSelectedNote(note);

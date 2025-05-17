@@ -60,7 +60,7 @@ export function EnCoursWithIdPage({
   era,
   location,
   posts: initialDialogs,
-  notes,
+  notes: initialNotes,
   nextPoster: initialNextPoster,
   characters: initalCharacters,
   supplies: initalSupplies,
@@ -73,6 +73,7 @@ export function EnCoursWithIdPage({
   const [nextPoster, setNextPoster] = useState<Character>(initialNextPoster);
   const [supplies, setSupplies] = useState<number>(initalSupplies);
   const [dialogs, setDialogs] = useState<Post[]>(initialDialogs);
+  const [notes, setNotes] = useState<Note[]>(initialNotes);
   const [content, setContent] = useState<string>('');
   const [postId, setPostId] = useState<number | null>(null);
   const [isDialogFullWidth, setIsDialogFullWidth] = useState(false);
@@ -167,6 +168,22 @@ export function EnCoursWithIdPage({
     });
   };
 
+  const onSaveNote = (note: Note) => {
+    setNotes((prevNotes) => {
+      if (!prevNotes) return [note];
+
+      const existingNoteIndex = prevNotes.findIndex((n) => n.id === note.id);
+
+      if (existingNoteIndex !== -1) {
+        const updatedNotes = [...prevNotes];
+        updatedNotes[existingNoteIndex] = note;
+        return updatedNotes;
+      }
+
+      return [...prevNotes, note];
+    });
+  };
+
   useEffect(() => {
     socketInitializer();
 
@@ -184,7 +201,7 @@ export function EnCoursWithIdPage({
         isDisabled: false,
       },
       {
-        label: t('en-cours.tabs.notes'),
+        label: `${t('en-cours.tabs.notes')} (${notes.length})`,
         id: Tab.Notes,
         isOpen: openTabId === Tab.Notes,
         isDisabled: false,
@@ -196,7 +213,7 @@ export function EnCoursWithIdPage({
         isDisabled: !isItMyTurn,
       },
     ];
-  }, [isItMyTurn, openTabId, t]);
+  }, [isItMyTurn, notes.length, openTabId, t]);
 
   const breadcrumb = useMemo(() => {
     return [
@@ -243,6 +260,7 @@ export function EnCoursWithIdPage({
               scenarioId={scenarioId}
               era={era}
               location={location}
+              onSaveNote={onSaveNote}
             />
           )}
           {showTextarea && (
