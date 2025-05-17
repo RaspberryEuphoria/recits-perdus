@@ -104,10 +104,9 @@ export function ArchiveWithIdPage({
           onTabChange={(tab: Tab) => setOpenTabId(tab)}
         >
           {openTabId === Tab.Status && (
-            <>
-              <CharacterList characters={Object.values(characters)} />
+            <CharacterList characters={Object.values(characters)}>
               <ScenarioResources supplies={supplies} />
-            </>
+            </CharacterList>
           )}
           {openTabId === Tab.Notes && (
             <Notes notes={notes} scenarioId={scenarioId} era={era} location={location} />
