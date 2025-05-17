@@ -56,7 +56,8 @@ function Chances({ progress, difficulty }: ChanceProps) {
   const outcomeProbabilityForMixed =
     outcomeProbabilityForFailure < 100
       ? // At least one die greater than or equal to X
-        (1 - probabilityThatBothDicesRollLessThanX(X, Y)) * 100
+        // Minus the probability of both dices being greater than or equal to X
+        (1 - probabilityThatBothDicesRollLessThanX(X, Y)) * 100 - outcomeProbabilityForFailure
       : 0;
 
   const outcomeProbabilityForSuccess =
