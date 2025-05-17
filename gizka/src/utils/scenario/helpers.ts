@@ -7,7 +7,7 @@ export function generateIntroduction(scenario: Scenario, withColor = true) {
   const replacements = [getCharactersList({ characters: scenario.characters, withColor })];
 
   return tokens.reduce(
-    (acc, token, index) => acc.replace(token, replacements[index]),
+    (acc, token, index) => acc.replaceAll(token, replacements[index]),
     scenario.introduction,
   );
 }
