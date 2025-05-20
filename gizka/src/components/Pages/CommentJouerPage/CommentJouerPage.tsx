@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
 import { CharacterEditor } from '@/components/CharacterEditor';
 import { Button } from '@/components/DesignSystem/Button';
@@ -11,8 +11,10 @@ import { Row } from '@/components/DesignSystem/Row';
 import { Text } from '@/components/DesignSystem/Text';
 import { DialogThread } from '@/components/Dialog/DialogThread';
 import { LayoutAsideSection, LayoutMainSection } from '@/components/Layout';
+import { LoginOrRegister } from '@/components/LoginOrRegister';
 import { Moves } from '@/components/Moves';
 import { MoveOutcome } from '@/components/Moves/MoveOutcome';
+import { UserContext } from '@/contexts/user';
 import { getSafeName } from '@/utils/character/helpers';
 import { TextColor } from '@/utils/constants';
 import { Character } from '@/utils/types/character';
@@ -43,6 +45,7 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
 
   const t = useTranslations('common');
 
+  const { currentUser } = useContext(UserContext);
   const [openTabId, setOpenTabId] = useState<Tab>(Tab.ToBegin);
 
   const [character, setCharacter] = useState<Character | null>(null);
@@ -240,9 +243,17 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
       </LayoutMainSection>
 
       <LayoutAsideSection>
-        {currentModule === 'characterEditor' && (
-          <CharacterEditor onCharacterSaved={onCharacterSaved} />
-        )}
+        {currentModule === 'characterEditor' &&
+          (currentUser ? (
+            <CharacterEditor onCharacterSaved={onCharacterSaved} />
+          ) : (
+            <>
+              <Text as="p" textAlign="center">
+                {t(`howToPlay.toBegin.mustBeLogged`)}
+              </Text>
+              <LoginOrRegister defaultActiveForm="register" />
+            </>
+          ))}
 
         {currentModule === 'rolePlayExample' && introduction && posts && characters && (
           <DialogThread
@@ -272,7 +283,7 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
                   move={{
                     moveId: MoveId.PAYER_LE_PRIX,
                     // @ts-expect-error PayThePrice is a special move with only one dice
-                    dices: [{ value: rand(1, 6) }],
+                    dices: [{ value: rand(1, 100) }],
                     moveResult: MoveResult.FAILURE,
                   }}
                   character={Object.values(characters)[0]}

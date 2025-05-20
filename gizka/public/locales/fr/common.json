@@ -48,6 +48,7 @@
       "toBegin": {
         "title": "Les bases",
         "intro": "Les Récits Perdus est un jeu de rôle narratif en coopération. Le jeu fonctionne au tour par tour en écrivant simplement ce que fait et dit votre personnage. Des mécaniques de jeu de rôle permettent de lancer des dés pour réaliser les actions plus complexes.",
+        "mustBeLogged": "Vous devez être connecté pour créer un personnage",
         "sections": {
           "first": {
             "id": "creer-un-personnage",

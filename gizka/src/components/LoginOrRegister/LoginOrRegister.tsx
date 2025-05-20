@@ -13,9 +13,15 @@ import { User } from '@/utils/types/user';
 
 import * as Styled from './styled';
 
-export function LoginOrRegister() {
+type LoginOrRegisterProps = {
+  defaultActiveForm?: 'login' | 'register';
+};
+
+export function LoginOrRegister(props: LoginOrRegisterProps) {
+  const { defaultActiveForm } = props;
+
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [activeForm, setActiveForm] = useState<'login' | 'register'>('login');
+  const [activeForm, setActiveForm] = useState<'login' | 'register'>(defaultActiveForm || 'login');
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const { characters } = useCharactersByUser(currentUser?.id);
 
