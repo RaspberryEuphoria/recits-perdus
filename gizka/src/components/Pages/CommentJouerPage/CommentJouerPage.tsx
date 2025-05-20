@@ -216,14 +216,16 @@ export function CommentJouerPage(props: CommentJouerPageProps) {
                 <Text as="p">{t('howToPlay.dices.sections.first.content')}</Text>
 
                 {characters && (
-                  <Moves
-                    onMovePicked={onMovePicked}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onBurnCheck={() => {}}
-                    character={Object.values(characters)[0]}
-                    characters={Object.values(characters)}
-                    allowBurnCheck={false}
-                  />
+                  <Row direction="column" space="1">
+                    <Moves
+                      onMovePicked={onMovePicked}
+                      // eslint-disable-next-line @typescript-eslint/no-empty-function
+                      onBurnCheck={() => {}}
+                      character={Object.values(characters)[0]}
+                      characters={Object.values(characters)}
+                      allowBurnCheck={false}
+                    />
+                  </Row>
                 )}
               </Row>
 
