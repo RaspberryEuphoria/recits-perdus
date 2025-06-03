@@ -90,8 +90,8 @@ services:
     #  - recitsperdus-db
     depends_on:
       recitsperdus-holocron:
-        condition: service_started
-        restart: false
+        condition: service_healthy
+        restart: true
     networks:
       recitsperdus-network:
         ipv4_address: 20.2.93.10
