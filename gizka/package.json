@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "rm -rf .next && mv build .next",
     "start:prod": "next start",
     "lint": "next lint",
     "pm2": "pm2 start pm2.json"

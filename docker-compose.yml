@@ -64,16 +64,20 @@ services:
       context: ./gizka
       dockerfile: ./Dockerfile
     container_name: recitsperdus-gizka
-    command: sh -c "npm run start:prod"
+    command: sh -c "yarn start:prod"
     ports:
       - $GIZKA_HOST_PORT:$GIZKA_CONTAINER_PORT
-    env_file: ./.env
+    env_file:
+      - ./.env
+      - ./gizka/.env.local
     environment:
       - DB_HOST=recitsperdus-db
       - DB_USER=$DATABASE_USER
       - DB_PASSWORD=$DATABASE_ROOT_PASSWORD
       - DB_NAME=$DATABASE_DATABASE
       - DB_PORT=$DATABASE_CONTAINER_PORT
+      # production / development
+      - NEXT_PUBLIC_ENV=production
     restart: no
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:3000 || exit 1"]

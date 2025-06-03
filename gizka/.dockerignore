@@ -1,5 +1,7 @@
 npm-debug.log
 Dockerfile
+build
 .dockerignore
 .git
 .gitignore
+.next
