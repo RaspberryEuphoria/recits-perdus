@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY package.json .
 ENV DIST_DIR=build
+RUN apt-get update
+RUN apt-get install inetutils-ping curl -y
 RUN npm install --include=dev
 RUN npm install --global pm2
 COPY . .

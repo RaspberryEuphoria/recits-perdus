@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 RUN apt-get update
-RUN apt-get install python3 python3-pip curl -y
+RUN apt-get install python3 python3-pip inetutils-ping curl -y
 RUN npm install
 COPY . .
 EXPOSE 8080
