@@ -154,7 +154,7 @@ export function Notes(props: NotesProps) {
               {t(`notes.categories.${category.toLowerCase()}`)}
             </Text>
           </Row>
-          <Row display="grid" gap="1" align="start" justify="space-between" gridRepeat={6}>
+          <Row gap="1" align="start" justify="flex-start" flexWrap="wrap">
             {notes.map((note) => (
               <DetailedPicture
                 key={note.id}
