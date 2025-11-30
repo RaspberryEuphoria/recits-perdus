@@ -225,7 +225,13 @@
         "weak-damage": "remporte le combat, mais objet de valeur est perdu ou brisé, ou quelqu'un d'important souffre des conséquences inattendues !",
         "weak-goal-lost": "remporte le combat, mais un des objectifs de la mission est compromis !",
         "weak-vendetta": "remporte le combat, mais un proche de son ennemi jure vengeance !",
-        "miss": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu !"
+        "miss": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu !",
+        "miss-health": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu !",
+        "miss-spirit": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu !",
+        "miss-new-danger": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu ! Pire, un nouveau danger ou un nouvel ennemi apparaît, ou bien un danger existant empire !",
+        "miss-damage": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu ! Pire, un objet de valeur est perdu ou brisé, ou quelqu'un d'important souffre des conséquences inattendues !",
+        "miss-goal-lost": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu ! Pire, un des objectifs de la mission est compromis !",
+        "miss-vendetta": "tente le tout pour le tout, mais son adversaire parvient à remporter l'affrontement ! Le combat est perdu ! Pire, un des objectifs de la mission est compromis !"
       }
     },
     "ACTION_LIBRE": {

@@ -84,13 +84,15 @@ function Mixed({ character, move }: MoveOutcomeProps) {
   );
 }
 
-function Failure({ character }: MoveOutcomeProps) {
+function Failure({ character, move }: MoveOutcomeProps) {
   const t = useTranslations('moves');
+  const meta = JSON.parse(move.meta);
+  const stat = meta.danger.toLowerCase();
 
   return (
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t('outcomes.failure-aftermath')}
+      {t('outcomes.failure-aftermath')} (<Keyword stat={stat}>-1</Keyword> {t(`stats.${stat}`)})
     </p>
   );
 }

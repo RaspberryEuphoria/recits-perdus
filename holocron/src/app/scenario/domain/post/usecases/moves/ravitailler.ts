@@ -9,19 +9,19 @@ export class RavitaillerMove extends ActionMove {
   async roll() {
     const roll = await super.roll();
 
+    if (typeof roll.meta.danger !== 'number') {
+      throw new Error(`Move ${this.moveId} requires a number value as a danger!`);
+    }
+
     switch (roll.moveResult) {
       case MoveResult.SUCCESS:
         this.onSuccess();
         break;
       case MoveResult.MIXED:
-        if (typeof roll.meta.danger !== 'number') {
-          throw new Error(`Move ${this.moveId} requires a number value as a danger!`);
-        }
-
         this.onMixed(roll.meta.danger);
         break;
       case MoveResult.FAILURE:
-        this.onFailure();
+        this.onFailure(roll.meta.danger);
         break;
     }
 
@@ -37,7 +37,8 @@ export class RavitaillerMove extends ActionMove {
     this.selfStatsChange.momentum -= danger;
   }
 
-  private onFailure() {
+  private onFailure(danger: number) {
     this.mustPayThePrice = true;
+    this.onMixed(danger);
   }
 }

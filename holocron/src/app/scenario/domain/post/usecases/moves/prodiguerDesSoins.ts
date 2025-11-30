@@ -14,21 +14,21 @@ export class ProdiguerDesSoinsMove extends ActionMove {
       this.targetStatsChange.id = roll.meta.targetId;
     }
 
+    if (!isStat(roll.meta.danger)) {
+      throw new Error(
+        `Invalid danger ${roll.meta.danger} when attempting to use move ${this.moveId}`,
+      );
+    }
+
     switch (roll.moveResult) {
       case MoveResult.SUCCESS:
         this.onSuccess();
         break;
       case MoveResult.MIXED:
-        if (!isStat(roll.meta.danger)) {
-          throw new Error(
-            `Invalid danger ${roll.meta.danger} when attempting to use move ${this.moveId}`,
-          );
-        }
-
         this.onMixed(roll.meta.danger);
         break;
       case MoveResult.FAILURE:
-        this.onFailure();
+        this.onFailure(roll.meta.danger);
         break;
     }
 
@@ -51,7 +51,8 @@ export class ProdiguerDesSoinsMove extends ActionMove {
     }
   }
 
-  private onFailure() {
+  private onFailure(danger: DangerOnStat) {
     this.mustPayThePrice = true;
+    this.onMixed(danger);
   }
 }

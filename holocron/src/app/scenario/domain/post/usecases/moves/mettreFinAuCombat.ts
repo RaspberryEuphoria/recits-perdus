@@ -14,26 +14,21 @@ export class MettreFinAuCombatMove extends ActionMove {
 
     this.updateMoveIntentMeta({ difficulty: maxDifficulty });
 
+    if (!isStat(roll.meta.danger) && !isStory(roll.meta.danger)) {
+      throw new Error(
+        `Invalid danger ${roll.meta.danger} when attempting to use move ${this.moveId}`,
+      );
+    }
+
     switch (roll.moveResult) {
       case MoveResult.SUCCESS:
         this.onSuccess();
         break;
       case MoveResult.MIXED:
-        if (!isStat(roll.meta.danger) && !isStory(roll.meta.danger)) {
-          throw new Error(
-            `Invalid danger ${roll.meta.danger} when attempting to use move ${this.moveId}`,
-          );
-        }
-
-        if (isStat(roll.meta.danger)) {
-          this.onMixed(roll.meta.danger);
-        }
-
-        // There is no mechanical consequence to a danger on the story, that's why this case is not handled
-
+        this.onMixed(roll.meta.danger);
         break;
       case MoveResult.FAILURE:
-        this.onFailure();
+        this.onFailure(roll.meta.danger);
         break;
     }
 
@@ -55,7 +50,8 @@ export class MettreFinAuCombatMove extends ActionMove {
     }
   }
 
-  private onFailure() {
+  private onFailure(danger: DangerOnStat) {
     this.mustPayThePrice = true;
+    this.onMixed(danger);
   }
 }

@@ -118,9 +118,15 @@ function Mixed({ move, isTargetPlayer }: ProdiguerDesoinsOutcomeProps) {
 }
 
 function Failure({ move }: MoveOutcomeProps) {
+  const meta = JSON.parse(move.meta);
+  const stat = meta.danger.toLowerCase();
   const t = useTranslations('moves');
 
-  return <p>{t(`${move.moveId}.outcomes.failure`)} </p>;
+  return (
+    <p>
+      {t(`${move.moveId}.outcomes.failure`)} (<Keyword stat={stat}>-1</Keyword> {statEnToFr(stat)})
+    </p>
+  );
 }
 
 function getTarget(targetId: number, characterId: number, characters: Record<string, Character>) {

@@ -73,7 +73,7 @@ function Mixed({ character, move }: MoveOutcomeProps) {
   const lossValue = ['health', 'spirit'].includes(danger) ? (
     <>
       {' '}
-      (<Keyword stat={danger}>+1</Keyword> {t(`stats.${danger}`)})
+      (<Keyword stat={danger}>-1</Keyword> {t(`stats.${danger}`)})
     </>
   ) : (
     ''
@@ -89,12 +89,23 @@ function Mixed({ character, move }: MoveOutcomeProps) {
 }
 
 function Failure({ character, move }: MoveOutcomeProps) {
+  const meta = JSON.parse(move.meta);
+  const danger = meta.danger.toLowerCase();
   const t = useTranslations('moves');
+
+  const lossValue = ['health', 'spirit'].includes(danger) ? (
+    <>
+      {' '}
+      (<Keyword stat={danger}>-1</Keyword> {t(`stats.${danger}`)})
+    </>
+  ) : (
+    ''
+  );
 
   return (
     <p>
       <Styled.CharacterName color={character.textColor}>{character.firstName}</Styled.CharacterName>{' '}
-      {t(`${move.moveId}.outcomes.miss`)}
+      {t(`${move.moveId}.outcomes.miss-${danger}`)} {lossValue}
     </p>
   );
 }
