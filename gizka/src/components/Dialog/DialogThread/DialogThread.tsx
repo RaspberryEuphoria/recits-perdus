@@ -1,5 +1,6 @@
-import { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, forwardRef, useMemo, useState } from 'react';
 
+import { Button } from '@/components/DesignSystem/Button';
 import { Character } from '@/utils/types/character';
 import { Post } from '@/utils/types/scenario';
 
@@ -15,6 +16,8 @@ type DialogThreadProps = {
   isEditAllowed: boolean;
 };
 
+const DIALOGS_PER_PAGE = 5;
+
 const DialogThread = forwardRef(
   (
     {
@@ -29,6 +32,16 @@ const DialogThread = forwardRef(
   ) => {
     const lastPostId = dialogs.at(-1)?.id;
 
+    const [numberOfDialogsToShow, setNumberOfDialogsToShow] = useState(DIALOGS_PER_PAGE);
+    const lastDialogs = useMemo(
+      () => dialogs.filter((_, index) => index >= dialogs.length - numberOfDialogsToShow),
+      [dialogs, numberOfDialogsToShow],
+    );
+
+    const showMore = () => {
+      setNumberOfDialogsToShow((prev) => prev + DIALOGS_PER_PAGE);
+    };
+
     return (
       <Styled.DialogThread ref={ref}>
         <DialogPost
@@ -38,7 +51,12 @@ const DialogThread = forwardRef(
           isEditable={false}
           handlePostEdit={handlePostEdit}
         />
-        {dialogs.map((dialog) => (
+        {lastDialogs.length < dialogs.length && (
+          <Button onClick={showMore} variant="small">
+            Afficher plus de messages... ({numberOfDialogsToShow}/{dialogs.length})
+          </Button>
+        )}
+        {lastDialogs.map((dialog) => (
           <DialogPost
             key={dialog.id}
             {...dialog}
