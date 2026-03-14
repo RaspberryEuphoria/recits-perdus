@@ -13,6 +13,11 @@ type Note = {
 
 type CreateNoteDto = Omit<Note, 'id'>;
 type UpdateNoteDto = Omit<Note, 'authorId' | 'scenarioId'>;
+type ImportNotesDto = {
+  notesIds: number[];
+  scenarioId: Scenario['id'];
+  authorId: Character['id'];
+};
 
 type Crop = {
   x: number;
@@ -22,4 +27,4 @@ type Crop = {
 };
 type UpdateNoteIllustrationDto = { id: number; base64Image: string; crop: Crop };
 
-export type { CreateNoteDto, Note, UpdateNoteDto, UpdateNoteIllustrationDto };
+export type { CreateNoteDto, ImportNotesDto, Note, UpdateNoteDto, UpdateNoteIllustrationDto };

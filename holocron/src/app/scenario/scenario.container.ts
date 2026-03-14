@@ -13,7 +13,7 @@ import {
 import { addIllustrationToPostUsecase } from './domain/post/usecases/addIllustrationToPost.usecase';
 import { createPostUsecase } from './domain/post/usecases/createPost.usecase';
 import { updatePostUsecase } from './domain/post/usecases/updatePost.usecase';
-import { CreateNoteDto, UpdateNoteDto } from './domain/scenario/entities/note';
+import { CreateNoteDto, ImportNotesDto, UpdateNoteDto } from './domain/scenario/entities/note';
 import { CreateScenarioDto, ScenarioStatus } from './domain/scenario/entities/scenario';
 import { addCharacterUsecase } from './domain/scenario/usecases/addCharacter.usecase';
 import { addIllustrationToNoteUsecase } from './domain/scenario/usecases/addIllustrationToNote.usecase';
@@ -23,6 +23,7 @@ import { getAllScenarios } from './domain/scenario/usecases/getAllScenarios.usec
 import { getNotesUsecase } from './domain/scenario/usecases/getNotes.usecase';
 import { getScenarioByIdUsecase } from './domain/scenario/usecases/getScenarioById.usecase';
 import { getStatsUsecase } from './domain/scenario/usecases/getStats.usecase';
+import { importNotesUsecase } from './domain/scenario/usecases/importNotes.usecase';
 import { startScenarioUsecase } from './domain/scenario/usecases/startScenario.usecase';
 import { updateNoteUsecase } from './domain/scenario/usecases/updateNote.usecase';
 import { CharacterRepository } from './infrastructure/character-sql.repository';
@@ -112,6 +113,10 @@ export class ScenarioContainer {
 
   updateNote(note: UpdateNoteDto) {
     return updateNoteUsecase(this.scenarioRepository)(note);
+  }
+
+  importNotes(importNotesDto: ImportNotesDto) {
+    return importNotesUsecase(this.scenarioRepository)(importNotesDto);
   }
 
   addIllustrationToPost(illustrationDto: UpdatePostIllustrationDto) {

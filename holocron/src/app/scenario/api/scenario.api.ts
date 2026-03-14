@@ -110,6 +110,25 @@ function scenarioRoutes(scenarioContainer: ScenarioContainer) {
     }
   });
 
+  // Import notes from another scenario
+  router.post(`/:id/character/:characterId/import-notes`, async (req, res, next) => {
+    try {
+      const characterId = parseInt(req.params.characterId);
+      const scenarioId = parseInt(req.params.id);
+      const notesIds = req.body.notesIds ?? req.body.notesId ?? [];
+
+      const notes = await scenarioContainer.importNotes({
+        notesIds: Array.isArray(notesIds) ? notesIds.map(Number) : [Number(notesIds)],
+        scenarioId,
+        authorId: characterId,
+      });
+
+      res.json(notes);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   // Create a character note in scenario
   router.post(`/:id/character/:characterId/note`, async (req, res, next) => {
     try {

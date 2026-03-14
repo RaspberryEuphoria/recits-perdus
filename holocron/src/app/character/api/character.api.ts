@@ -1,4 +1,4 @@
-import express, { Request } from 'express';
+import express from 'express';
 
 import { CharacterContainer } from '../character.container';
 
@@ -14,7 +14,17 @@ function characterRoutes(characterContainer: CharacterContainer) {
     }
   });
 
-  router.get(`/`, async (_req: Request<unknown, unknown, unknown>, _res, next) => {
+  router.get(`/:id/notes`, async (req, res, next) => {
+    try {
+      const characterId = parseInt(req.params.id);
+      const notes = await characterContainer.getAllNotes(characterId);
+      res.json(notes);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get(`/`, async (_req, _res, next) => {
     try {
       const characters = await characterContainer.getAllCharacters();
       _res.json(characters);

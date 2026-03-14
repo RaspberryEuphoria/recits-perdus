@@ -153,9 +153,13 @@
         "submit-button": {
           "label": "Enregistrer"
         },
+        "import-button": {
+          "label": "Importer"
+        },
         "open-form-button": {
           "label": {
             "new": "Ajouter une entrée",
+            "import": "Importer une entrée",
             "edit": "Modifier l'entrée"
           }
         },

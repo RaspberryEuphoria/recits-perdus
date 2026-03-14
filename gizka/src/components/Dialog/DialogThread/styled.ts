@@ -10,3 +10,7 @@ export const DialogThread = styled.div`
     padding: 5px;
   }
 `;
+
+export const ShowMore = styled.p`
+  text-align: center;
+`;

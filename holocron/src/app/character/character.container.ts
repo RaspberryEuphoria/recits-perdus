@@ -30,4 +30,8 @@ export class CharacterContainer {
   getAllCharacters() {
     return getAllCharacters(this.characterRepository)();
   }
+
+  getAllNotes(characterId: number) {
+    return this.characterRepository.getAllNotes(characterId);
+  }
 }

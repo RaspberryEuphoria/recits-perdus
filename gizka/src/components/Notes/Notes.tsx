@@ -17,6 +17,7 @@ import { Note, NoteCategory } from '@/utils/types/scenario';
 
 import { NotesForm } from './NotesForm';
 import { NoteSheet } from './NoteSheet/NoteSheet';
+import { NotesImport } from './NotesImport/NotesImport';
 import * as Styled from './styled';
 
 type NotesProps = {
@@ -54,6 +55,7 @@ export function Notes(props: NotesProps) {
   const t = useTranslations('scenarios');
 
   const [isNotesFormOpen, setIsNotesFormOpen] = useState(false);
+  const [isNotesImportOpen, setIsNotesImportOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   const openNote = (noteId: number) => {
@@ -74,6 +76,14 @@ export function Notes(props: NotesProps) {
 
   const closeNotesForm = () => {
     setIsNotesFormOpen(false);
+  };
+
+  const openNotesImport = () => {
+    setIsNotesImportOpen(true);
+  };
+
+  const closeNotesImport = () => {
+    setIsNotesImportOpen(false);
   };
 
   const saveNote = (note: Note) => {
@@ -110,6 +120,19 @@ export function Notes(props: NotesProps) {
     );
   }
 
+  if (isNotesImportOpen && characterId) {
+    return (
+      <Styled.Container>
+        <NotesImport
+          scenarioId={scenarioId}
+          characterId={characterId}
+          onClose={closeNotesImport}
+          onSaved={saveNote}
+        />
+      </Styled.Container>
+    );
+  }
+
   if (selectedNote) {
     return (
       <NoteSheet
@@ -125,6 +148,10 @@ export function Notes(props: NotesProps) {
     <Styled.Container>
       {characterId && (
         <Row gap="1" space="1" justify="end">
+          <Button variant="small" outline onClick={openNotesImport}>
+            <PencilIcon /> {t('notes.form.open-form-button.label.import')}
+          </Button>
+
           <Button variant="small" outline onClick={openNotesForm}>
             <PencilIcon /> {t('notes.form.open-form-button.label.new')}
           </Button>

@@ -13,6 +13,7 @@ export type TextProps = {
   children: React.ReactNode;
   color?: TextColor;
   fontStyle?: 'italic';
+  htmlFor?: string;
 };
 
 export function Text({ size = 'md', ...props }: TextProps) {

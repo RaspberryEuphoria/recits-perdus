@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 import { MoveId } from '../domain/post/entities/move';
 import { getNextPosterId } from '../domain/post/usecases/createPost.usecase';
-import { CreateNoteDto, UpdateNoteDto } from '../domain/scenario/entities/note';
+import { CreateNoteDto, ImportNotesDto, UpdateNoteDto } from '../domain/scenario/entities/note';
 import { CreateScenarioDto, ScenarioStatus } from '../domain/scenario/entities/scenario';
 
 type FullScenario = Prisma.ScenarioGetPayload<{
@@ -455,6 +455,58 @@ export class ScenarioRepository {
         updatedAt: 'desc',
       },
     });
+  }
+
+  async importNotes(importNotesDto: ImportNotesDto) {
+    const { notesIds, scenarioId, authorId } = importNotesDto;
+
+    if (!notesIds.length) {
+      return [];
+    }
+
+    const notesToImport = await this.db.note.findMany({
+      where: {
+        id: {
+          in: [...new Set(notesIds)],
+        },
+        scenarioId: {
+          not: scenarioId,
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        subtitle: true,
+        description: true,
+        category: true,
+        illustration: true,
+      },
+    });
+
+    const notesById = new Map(notesToImport.map((note) => [note.id, note]));
+    const orderedNotesToCreate = [...new Set(notesIds)]
+      .map((noteId) => notesById.get(noteId))
+      .filter((note): note is NonNullable<typeof note> => Boolean(note));
+
+    if (!orderedNotesToCreate.length) {
+      return [];
+    }
+
+    return this.db.$transaction(
+      orderedNotesToCreate.map((note) =>
+        this.db.note.create({
+          data: {
+            title: note.title,
+            subtitle: note.subtitle,
+            description: note.description,
+            category: note.category,
+            illustration: note.illustration,
+            scenarioId,
+            authorId,
+          },
+        }),
+      ),
+    );
   }
 }
 
