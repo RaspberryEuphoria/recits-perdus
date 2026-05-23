@@ -14,7 +14,11 @@ export async function POST(request: Request) {
   });
 
   if (!isHttpError(data)) {
-    cookies().set('userAccessToken', data.accessToken);
+    cookies().set('userAccessToken', data.accessToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    });
   }
 
   return NextResponse.json(data);
