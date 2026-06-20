@@ -1,0 +1,75 @@
+services:
+  # ──────────────────────────────────────────────
+  # PostgreSQL Database
+  # ──────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-recits}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-recits_perdus}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-recits}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ──────────────────────────────────────────────
+  # Holocron — Express API (backend)
+  # ──────────────────────────────────────────────
+  holocron:
+    build:
+      context: ..
+      dockerfile: docker/holocron.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-recits}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-recits_perdus}?schema=public
+      PROTOCOL: http
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET:?Set ACCESS_TOKEN_SECRET in .env}
+      DISCORD_ENABLED: ${DISCORD_ENABLED:-false}
+      DISCORD_HOLONET_WEBHOOK_ID: ${DISCORD_HOLONET_WEBHOOK_ID:-}
+      DISCORD_HOLONET_WEBHOOK_TOKEN: ${DISCORD_HOLONET_WEBHOOK_TOKEN:-}
+      DISCORD_HOLONET_APP_TOKEN: ${DISCORD_HOLONET_APP_TOKEN:-}
+      DISCORD_HOLONET_CHANNEL_ID: ${DISCORD_HOLONET_CHANNEL_ID:-}
+      PUBLIC_FOLDER_PATH: ${PUBLIC_FOLDER_PATH:-/app/public/images}
+      USERS_FOLDER_PATH: ${USERS_FOLDER_PATH:-users/avatars}
+      POSTS_FOLDER_PATH: ${POSTS_FOLDER_PATH:-posts/illustrations}
+      NOTES_FOLDER_PATH: ${NOTES_FOLDER_PATH:-notes/illustrations}
+    volumes:
+      - holocron_uploads:/app/public/images
+    ports:
+      - "${HOLOCRON_PORT:-8080}:8080"
+
+  # ──────────────────────────────────────────────
+  # Gizka — Next.js Frontend
+  # ──────────────────────────────────────────────
+  gizka:
+    build:
+      context: ..
+      dockerfile: docker/gizka.Dockerfile
+      args:
+        NEXT_PUBLIC_IMAGES_PREFIX_URL: ${NEXT_PUBLIC_IMAGES_PREFIX_URL:-http://localhost:8080/images}
+        NEXT_PUBLIC_BFF_PREFIX_URL: ${NEXT_PUBLIC_BFF_PREFIX_URL:-http://localhost:8080}
+        NEXT_PUBLIC_BFF_PREFIX_HOSTNAME: ${NEXT_PUBLIC_BFF_PREFIX_HOSTNAME:-localhost}
+        NEXT_PUBLIC_PROTOCOL: ${NEXT_PUBLIC_PROTOCOL:-http}
+        NEXT_PUBLIC_DISCORD_LINK: ${NEXT_PUBLIC_DISCORD_LINK:-}
+    restart: unless-stopped
+    depends_on:
+      - holocron
+    environment:
+      API_PREFIX_URL: http://holocron:8080
+      NODE_ENV: production
+    ports:
+      - "${GIZKA_PORT:-3000}:3000"
+
+volumes:
+  pgdata:
+  holocron_uploads:

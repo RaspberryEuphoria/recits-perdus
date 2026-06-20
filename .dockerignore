@@ -1,0 +1,15 @@
+node_modules
+.next
+build
+.git
+.gitignore
+*.md
+.env
+.env.*
+!.env.example
+docker
+vscode
+rules
+research
+todo.md
+*.log
