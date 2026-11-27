@@ -2,50 +2,68 @@ import bcrypt from 'bcryptjs';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
-
 import { CreateUserDto, User } from '../app/user/domain/user/entities/user';
 
-function signAccessToken(payload: User) {
+const ACCESS_TOKEN_TTL = '30d';
+const BCRYPT_COST = 10;
+
+/** Fields safe to embed in the token and to send back to the client */
+export type PublicUser = Pick<User, 'id' | 'name' | 'email'>;
+
+function getSecret() {
+  const secret = process.env.ACCESS_TOKEN_SECRET;
+  if (!secret) throw new Error('ACCESS_TOKEN_SECRET is not set');
+  return secret;
+}
+
+export function toPublicUser(user: User | PublicUser): PublicUser {
+  return { id: user.id, name: user.name, email: user.email };
+}
+
+function signAccessToken(user: PublicUser): Promise<string> {
   return new Promise((resolve, reject) => {
-    jwt.sign({ payload }, accessTokenSecret, {}, (err, token) => {
-      if (err) {
-        reject(createHttpError.InternalServerError());
-      }
-      resolve(token);
-    });
+    jwt.sign(
+      { payload: toPublicUser(user) },
+      getSecret(),
+      { expiresIn: ACCESS_TOKEN_TTL },
+      (err, token) => {
+        if (err || !token) {
+          reject(createHttpError.InternalServerError());
+          return;
+        }
+        resolve(token);
+      },
+    );
   });
 }
 
 export class AuthService {
   async hashUser(user: CreateUserDto) {
-    return { ...user, password: bcrypt.hashSync(user.password, 8) };
+    return { ...user, password: await bcrypt.hash(user.password, BCRYPT_COST) };
   }
 
-  async giveAccessToken(user: User) {
+  async giveAccessToken(user: User | PublicUser) {
     const accessToken = await signAccessToken(user);
-    return { ...user, accessToken };
+    return { ...toPublicUser(user), accessToken };
   }
 
   async loginUser(password: string, hashedUser: User) {
-    const checkPassword = bcrypt.compareSync(password, hashedUser.password);
+    const checkPassword = await bcrypt.compare(password, hashedUser.password);
     if (!checkPassword) throw createHttpError.Unauthorized('Email address or password not valid');
-    const accessToken = await signAccessToken(hashedUser);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...user } = hashedUser;
-    return { ...user, accessToken };
+    return this.giveAccessToken(hashedUser);
   }
 
-  async getUserByAccessToken(accessToken: string): Promise<User> {
-    return new Promise((resolve, reject) => {
-      jwt.verify(accessToken, accessTokenSecret, (err, decoded) => {
-        if (err) {
-          reject(createHttpError.Unauthorized());
+  /**
+   * Resolves the user embedded in a valid token, or null if the token is invalid/expired.
+   */
+  async getUserByAccessToken(accessToken: string): Promise<PublicUser | null> {
+    return new Promise((resolve) => {
+      jwt.verify(accessToken, getSecret(), (err, decoded) => {
+        if (err || !decoded || typeof decoded === 'string' || !decoded.payload?.id) {
+          resolve(null);
+          return;
         }
-
-        if (decoded && typeof decoded !== 'string') {
-          resolve(decoded.payload as User);
-        }
+        resolve(toPublicUser(decoded.payload as PublicUser));
       });
     });
   }

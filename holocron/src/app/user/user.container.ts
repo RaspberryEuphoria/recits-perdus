@@ -9,7 +9,7 @@ import {
 } from '../scenario/domain/character/entities/character';
 import { ScenarioRepository } from '../scenario/infrastructure/scenario-sql.repository';
 import { userRoutes } from './api/user.api';
-import { CreateUserDto, User } from './domain/user/entities/user';
+import { CreateUserDto, LoginDto } from './domain/user/entities/user';
 import { createCharacterUsecase } from './domain/user/usecases/createCharacter.usecase';
 import { getCharacterUsecase } from './domain/user/usecases/getCharacter.usecase';
 import { getCharactersUsecase } from './domain/user/usecases/getCharacters.usecase';
@@ -52,7 +52,7 @@ export class UserContainer {
     return registerUserUsecase(this.userRepository)(user);
   }
 
-  login(user: User) {
+  login(user: LoginDto) {
     return loginUserUsecase(this.userRepository)(user);
   }
 

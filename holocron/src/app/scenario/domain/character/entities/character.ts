@@ -5,13 +5,17 @@ type CreateCharacterDTO = {
   origin: string;
   userId: number;
   age: number;
-  avatar: string;
+  avatar?: string;
   firstName: string;
   lastName: string;
   skills: number[];
 };
 
-type UpdateCharacterDto = Omit<CreateCharacterDTO, 'skills'> & { id: number; userId: number };
+/** Identity fields only: the avatar has its own endpoint, skills/stats are not editable. */
+type UpdateCharacterDto = Partial<Omit<CreateCharacterDTO, 'skills' | 'userId' | 'avatar'>> & {
+  id: number;
+  userId: number;
+};
 
 type Crop = {
   x: number;

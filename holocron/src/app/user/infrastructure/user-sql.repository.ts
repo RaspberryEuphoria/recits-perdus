@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import createHttpError from 'http-errors';
 
 import { TextColor } from '../../../constants';
 import { AuthService } from '../../../services/AuthService';
@@ -6,7 +7,7 @@ import {
   CreateCharacterDTO,
   UpdateCharacterDto,
 } from '../../scenario/domain/character/entities/character';
-import { CreateUserDto, User } from '../domain/user/entities/user';
+import { CreateUserDto, LoginDto } from '../domain/user/entities/user';
 
 type FullCharacter = Prisma.CharacterGetPayload<{
   select: {
@@ -55,25 +56,30 @@ export class UserRepository {
   }
 
   async create(user: CreateUserDto) {
+    const existing = await this.db.user.findFirst({
+      where: { email: { equals: user.email, mode: 'insensitive' } },
+      select: { id: true },
+    });
+    if (existing) throw createHttpError.Conflict('An account already exists with this email');
+
     const hashedUser = await this.authService.hashUser(user);
 
     const newUser = await this.db.user.create({
-      data: hashedUser,
+      data: { email: hashedUser.email, name: hashedUser.name, password: hashedUser.password },
     });
-
-    if (!newUser) throw new Error('User not created');
 
     return this.authService.giveAccessToken(newUser);
   }
 
-  async login(user: User) {
-    const hashedUser = await this.db.user.findUnique({
-      where: { email: user.email },
+  async login(credentials: LoginDto) {
+    const hashedUser = await this.db.user.findFirst({
+      where: { email: { equals: credentials.email, mode: 'insensitive' } },
     });
 
-    if (!hashedUser) throw new Error('Email address or password not valid');
+    // same error as a wrong password, so emails can't be enumerated
+    if (!hashedUser) throw createHttpError.Unauthorized('Email address or password not valid');
 
-    return this.authService.loginUser(user.password, hashedUser);
+    return this.authService.loginUser(credentials.password, hashedUser);
   }
 
   async getCharacters(userId: number) {
@@ -134,10 +140,14 @@ export class UserRepository {
     });
 
     if (!character) {
-      throw new Error(`Character ${characterId} not found`);
+      throw createHttpError.NotFound(`Character ${characterId} not found`);
     }
 
     return mapCharacters(character);
+  }
+
+  async countSkills(skillIds: number[]) {
+    return this.db.skill.count({ where: { id: { in: skillIds } } });
   }
 
   async createCharacter(createCharacterDto: CreateCharacterDTO) {

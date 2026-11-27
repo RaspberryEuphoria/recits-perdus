@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 import { httpClient } from '@/services/http-client';
@@ -6,17 +7,27 @@ export async function PUT(
   request: Request,
   { params: { id, characterId } }: { params: { id: string; characterId: string } },
 ) {
+  const accessToken = cookies().get('userAccessToken')?.value;
+
+  if (!accessToken) {
+    return NextResponse.json({ status: 401, message: 'Unauthorized' }, { status: 401 });
+  }
+
   const body = await request.json();
 
-  const data = await httpClient.put(`/user/${id}/characters/${characterId}/avatar`, {
-    base64Avatar: body.base64Image,
-    crop: {
-      x: body.crop.x,
-      y: body.crop.y,
-      width: body.crop.width,
-      height: body.crop.height,
+  const data = await httpClient.put(
+    `/user/${id}/characters/${characterId}/avatar`,
+    {
+      base64Avatar: body.base64Image,
+      crop: {
+        x: body.crop?.x,
+        y: body.crop?.y,
+        width: body.crop?.width,
+        height: body.crop?.height,
+      },
     },
-  });
+    { accessToken },
+  );
 
   return NextResponse.json(data);
 }

@@ -1,4 +1,3 @@
-import { TextColor } from '../../../../../constants';
 import { Post } from '../../post/entities/post';
 
 enum ScenarioStatus {
@@ -22,12 +21,14 @@ type Scenario = {
   introduction: string;
 };
 
-type CreateScenarioDto = Pick<
-  Scenario,
-  'title' | 'safeTitle' | 'status' | 'introduction' | 'era'
-> & {
+type CreateScenarioDto = Pick<Scenario, 'title' | 'introduction'> & {
+  era?: string;
+  location?: string;
+  status?: ScenarioStatus;
+  safeTitle?: string;
   characterId: number;
-  textColor: TextColor;
+  /** hex color, e.g. one of TextColor */
+  textColor: string;
   threadId?: string;
 };
 

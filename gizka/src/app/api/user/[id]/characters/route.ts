@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 import { httpClient } from '@/services/http-client';
@@ -10,16 +11,25 @@ export async function GET(request: Request, { params: { id } }: { params: { id: 
 }
 
 export async function POST(request: Request, { params: { id } }: { params: { id: string } }) {
-  const { characterSkills, ...body } = await request.json();
+  const accessToken = cookies().get('userAccessToken')?.value;
+
+  if (!accessToken) {
+    return NextResponse.json({ status: 401, message: 'Unauthorized' }, { status: 401 });
+  }
+
+  const { characterSkills, firstName, lastName, age, isTitleSuffix } = await request.json();
 
   const characterBody = {
-    ...body,
+    firstName,
+    lastName,
+    age,
+    isTitleSuffix,
     story: '',
     origin: '',
     title: '',
-    skills: characterSkills.map((skill: CharacterSkill) => skill.id),
+    skills: (characterSkills ?? []).map((skill: CharacterSkill) => skill.id),
   };
 
-  const data = await httpClient.post(`/user/${id}/characters`, characterBody);
+  const data = await httpClient.post(`/user/${id}/characters`, characterBody, { accessToken });
   return NextResponse.json(data);
 }

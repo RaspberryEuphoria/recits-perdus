@@ -1,3 +1,5 @@
+import createHttpError from 'http-errors';
+
 import { DiscordService } from '../../../../../services/DiscordService';
 import { ScenarioRepository } from '../../../infrastructure/scenario-sql.repository';
 import { ScenarioStatus } from '../entities/scenario';
@@ -6,28 +8,25 @@ function startScenarioUsecase(scenarioRepository: ScenarioRepository, discord: D
   return async function ({ scenarioId, userId }: { scenarioId: number; userId: number }) {
     const scenario = await scenarioRepository.getById(scenarioId);
     if (!scenario) {
-      throw new Error(`Unable to start scenario ${scenarioId}: scenario was not found`);
+      throw createHttpError.NotFound(`Scenario ${scenarioId} not found`);
+    }
+
+    if (scenario.status !== ScenarioStatus.INITIATED) {
+      throw createHttpError.Conflict(`Scenario ${scenarioId} has already started`);
     }
 
     const author = scenario.characters[0];
-    if (userId !== author.userId) {
-      throw new Error(
-        `Unable to start scenario ${scenarioId}: logged user (${userId}) is not the author (${author.userId})`,
-      );
+    if (!author || userId !== author.userId) {
+      throw createHttpError.Forbidden(`Only the author can start scenario ${scenarioId}`);
     }
 
     const startedScenario = await scenarioRepository.update(scenarioId, {
       status: ScenarioStatus.IN_PROGRESS,
     });
 
-    try {
-      discord.startedScenario({
-        scenario: scenario,
-        characters: scenario.characters,
-      });
-    } catch (err) {
-      /* empty */
-    }
+    Promise.resolve(
+      discord.startedScenario({ scenario: scenario, characters: scenario.characters }),
+    ).catch((err) => console.error(`Discord notification failed: ${err}`));
 
     return startedScenario;
   };

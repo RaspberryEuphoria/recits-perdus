@@ -26,16 +26,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return res.status(204).end();
   }
 
-  if (req.method === 'POST') {
-    const { characterId, content, illustration, action } = body;
-
-    const dialog = await httpClient.post<Post>(`/scenario/${scenarioId}/post`, {
-      content,
-      characterId,
-      illustration,
-      action,
-    });
-
-    res.status(200).json(dialog);
+  if (req.method !== 'POST') {
+    return res.status(405).json({ status: 405, message: 'Method not allowed' });
   }
+
+  const accessToken = req.cookies.userAccessToken;
+  if (!accessToken) {
+    return res.status(401).json({ status: 401, message: 'Unauthorized' });
+  }
+
+  const { characterId, content, illustration, action } = body;
+
+  const dialog = await httpClient.post<Post>(
+    `/scenario/${scenarioId}/post`,
+    { content, characterId, illustration, action },
+    { accessToken },
+  );
+
+  res.status(200).json(dialog);
 }

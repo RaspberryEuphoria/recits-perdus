@@ -1,10 +1,12 @@
 import { Character, Post } from '@prisma/client';
+import createHttpError from 'http-errors';
 
 import { DiscordService } from '../../../../../services/DiscordService';
 import { CharacterRepository } from '../../../infrastructure/character-sql.repository';
 import { PostRepository } from '../../../infrastructure/post-sql.repository';
 import { ScenarioRepository } from '../../../infrastructure/scenario-sql.repository';
 import { SkillRepository } from '../../../infrastructure/skill-sql.repository';
+import { ScenarioStatus } from '../../scenario/entities/scenario';
 import { CreatePostDto } from '../entities/post';
 import { useMove } from './moves';
 
@@ -17,23 +19,28 @@ export function createPostUsecase(
 ) {
   return async (postDto: CreatePostDto) => {
     const scenario = await scenarioRepository.getById(postDto.scenarioId);
-    if (!scenario) throw new Error(`Scenario ${postDto.scenarioId} not found`);
+    if (!scenario) throw createHttpError.NotFound(`Scenario ${postDto.scenarioId} not found`);
+
+    if (scenario.status !== ScenarioStatus.IN_PROGRESS) {
+      throw createHttpError.Conflict(`Scenario ${postDto.scenarioId} is not in progress`);
+    }
 
     const nextPoster = getNextPoster(scenario.characters, scenario.posts);
-    const isAllowedToPost = postDto.characterId === nextPoster.id;
+    const isAllowedToPost = Boolean(nextPoster) && postDto.characterId === nextPoster.id;
 
     if (!isAllowedToPost) {
-      throw new Error(
-        `Character ${postDto.characterId} is not allowed to post, next poster is ${nextPoster.id}`,
+      throw createHttpError.Forbidden(
+        `Character ${postDto.characterId} is not allowed to post, next poster is ${nextPoster?.id}`,
       );
     }
 
-    const { action, ...post } = postDto;
+    const { action } = postDto;
     const hasMove = action && action.move;
 
     const newPost = await postRepository.create({
-      ...post,
-      content: post.content.trim(),
+      content: postDto.content.trim(),
+      scenarioId: postDto.scenarioId,
+      characterId: postDto.characterId,
     });
     const nextPosterAfterNewPost = getNextPoster(scenario.characters, [...scenario.posts, newPost]);
 

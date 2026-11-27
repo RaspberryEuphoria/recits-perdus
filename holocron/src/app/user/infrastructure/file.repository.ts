@@ -1,4 +1,5 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export class FileRepository {
   private readonly publicFolderPath: string;
@@ -7,27 +8,22 @@ export class FileRepository {
     this.publicFolderPath = publicFolderPath;
   }
 
+  private resolve(folder: string, fileName: string) {
+    // file names are generated server-side, but never allow escaping the folder
+    return `${this.publicFolderPath}/${folder}/${path.basename(fileName)}`;
+  }
+
   async uploadFile(buffer: Buffer, folder: string, fileName: string) {
-    const path = `${this.publicFolderPath}/${folder}/${fileName}`;
-
-    fs.writeFile(path, buffer, function (err) {
-      if (err) throw new Error(`There was an error while uploading ${fileName}: ${err}`);
-
-      console.log(`File ${fileName} uploaded successfully!`);
-
-      return path;
-    });
+    const filePath = this.resolve(folder, fileName);
+    await fs.writeFile(filePath, buffer);
+    return filePath;
   }
 
   async removeFile(folder: string, fileName: string) {
-    const path = `${this.publicFolderPath}/${folder}/${fileName}`;
-
-    fs.unlink(path, function (err) {
-      if (err) {
-        console.error(`There was an error while removing ${fileName}: ${err}`);
-      } else {
-        console.log(`File ${fileName} removed successfully!`);
-      }
-    });
+    try {
+      await fs.unlink(this.resolve(folder, fileName));
+    } catch (err) {
+      console.error(`There was an error while removing ${fileName}: ${err}`);
+    }
   }
 }

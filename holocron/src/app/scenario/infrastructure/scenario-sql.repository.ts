@@ -233,12 +233,19 @@ export class ScenarioRepository {
     return mapScenario(scenario);
   }
 
-  async create(createScenarioDto: CreateScenarioDto) {
-    const { characterId, textColor, ...scenario } = createScenarioDto;
+  async create(
+    createScenarioDto: CreateScenarioDto & { safeTitle: string; status: ScenarioStatus },
+  ) {
+    const { characterId, textColor } = createScenarioDto;
 
     return this.db.scenario.create({
       data: {
-        ...scenario,
+        title: createScenarioDto.title,
+        safeTitle: createScenarioDto.safeTitle,
+        status: createScenarioDto.status,
+        introduction: createScenarioDto.introduction,
+        era: createScenarioDto.era,
+        location: createScenarioDto.location,
         characters: {
           create: {
             characterId,

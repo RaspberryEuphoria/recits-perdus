@@ -1,3 +1,5 @@
+import createHttpError from 'http-errors';
+
 import { UserRepository } from '../../../infrastructure/user-sql.repository';
 
 function getCharacterUsecase(userRepository: UserRepository) {
@@ -5,7 +7,7 @@ function getCharacterUsecase(userRepository: UserRepository) {
     const character = await userRepository.getCharacter(characterId);
 
     if (character.userId !== userId) {
-      throw new Error(`Character ${characterId} does not belong to ${userId}`);
+      throw createHttpError.Forbidden(`Character ${characterId} does not belong to ${userId}`);
     }
 
     return character;

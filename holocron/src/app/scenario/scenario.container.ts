@@ -133,6 +133,14 @@ export class ScenarioContainer {
     )(illustrationDto);
   }
 
+  getPost(postId: number) {
+    return this.postRepository.getById(postId);
+  }
+
+  getNote(noteId: number) {
+    return this.noteRepository.getNote(noteId);
+  }
+
   checkUserIdUsecase(characterId: number, userId: number) {
     return checkUserIdUsecase(this.characterRepository)(characterId, userId);
   }

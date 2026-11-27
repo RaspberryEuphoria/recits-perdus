@@ -58,8 +58,6 @@ export abstract class ActionMove {
   hasRolled = false;
   moveBonus: Array<MoveBonus> = [];
 
-  debugDices: number[] = [];
-
   constructor(
     private readonly scenarioRepository: ScenarioRepository,
     private readonly postRepository: PostRepository,
@@ -68,12 +66,7 @@ export abstract class ActionMove {
     private readonly characterOnScenario: CharactersOnScenarios,
     private readonly moveIntent: MoveIntent,
     private readonly post: PostWithCharacterSkills,
-  ) {
-    if (post.content.startsWith('debug#') && post.character.userId === 2) {
-      const [, values] = post.content.split('#');
-      this.debugDices = values.split(',').map(Number);
-    }
-  }
+  ) {}
 
   async getCurrentFightProgress() {
     return await this.scenarioRepository.getCurrentFightProgress(
@@ -153,9 +146,9 @@ export abstract class ActionMove {
     const rollD6 = createRoll(MAX_ACTION_VALUE);
     const rollD8 = createRoll(maxDifficulty);
 
-    const actionValue = this.debugDices[0] || rollD6();
-    const actionRoll = overridedScore || actionValue + computeBonus(this.moveBonus);
-    const challengeRolls = [this.debugDices[1] || rollD8(), this.debugDices[2] || rollD8()];
+    const actionValue = rollD6();
+    const actionRoll = overridedScore ?? actionValue + computeBonus(this.moveBonus);
+    const challengeRolls = [rollD8(), rollD8()];
     const score = actionRoll + skillValue;
 
     const challengeDices = resolveChallengeDices(
@@ -193,8 +186,6 @@ export abstract class ActionMove {
       moveId: this.moveId,
       isResolved: true,
     };
-
-    console.log('this.moveBonus', this.moveBonus);
 
     if (this.moveBonus.length > 0) {
       this.move.meta = {
