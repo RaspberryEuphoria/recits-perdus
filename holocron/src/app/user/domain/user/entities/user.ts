@@ -11,4 +11,6 @@ type CreateUserDto = {
   password: string;
 };
 
-export { CreateUserDto, User };
+type LoginDto = Pick<User, 'email' | 'password'>;
+
+export { CreateUserDto, LoginDto, User };

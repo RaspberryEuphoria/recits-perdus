@@ -9,8 +9,8 @@ export class RavitaillerMove extends ActionMove {
   async roll() {
     const roll = await super.roll();
 
-    if (typeof roll.meta.danger !== 'number') {
-      throw new Error(`Move ${this.moveId} requires a number value as a danger!`);
+    if (roll.meta.danger !== 1 && roll.meta.danger !== 2) {
+      throw new Error(`Move ${this.moveId} requires a danger of 1 or 2`);
     }
 
     switch (roll.moveResult) {

@@ -16,13 +16,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return res.status(204).end();
   }
 
-  if (req.method === 'PUT') {
-    const { content } = body;
-
-    const dialog = await httpClient.put<Post>(`/scenario/${scenarioId}/post/${postId}`, {
-      content,
-    });
-
-    res.status(200).json(dialog);
+  if (req.method !== 'PUT') {
+    return res.status(405).json({ status: 405, message: 'Method not allowed' });
   }
+
+  const accessToken = req.cookies.userAccessToken;
+  if (!accessToken) {
+    return res.status(401).json({ status: 401, message: 'Unauthorized' });
+  }
+
+  const dialog = await httpClient.put<Post>(
+    `/scenario/${scenarioId}/post/${postId}`,
+    { content: body.content },
+    { accessToken },
+  );
+
+  res.status(200).json(dialog);
 }

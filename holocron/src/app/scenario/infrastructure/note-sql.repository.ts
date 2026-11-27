@@ -15,6 +15,11 @@ export class NoteRepository {
     });
   }
 
+  /** Imported notes share the original's illustration file */
+  async countNotesUsingIllustration(illustration: string) {
+    return this.db.note.count({ where: { illustration } });
+  }
+
   async updateIllustration({ id, illustration }: { id: number; illustration: string }) {
     return await this.db.note.update({
       where: {

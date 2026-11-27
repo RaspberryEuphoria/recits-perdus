@@ -1,5 +1,4 @@
-import sharp from 'sharp';
-
+import { cropImage } from '../../../../../services/Cropper';
 import { FileRepository } from '../../../../user/infrastructure/file.repository';
 import { PostRepository } from '../../../infrastructure/post-sql.repository';
 import { UpdatePostIllustrationDto } from '../entities/post';
@@ -21,7 +20,7 @@ function addIllustrationToPostUsecase(
         );
       }
 
-      const croppedFile = await cropImage(file, updatePostIllustrationDto.crop);
+      const croppedFile = await cropImage(file, updatePostIllustrationDto.crop, 680, 230);
       await fileRepository.uploadFile(croppedFile, 'illustrations', newFilename);
 
       await postRepository.updateIllustration({
@@ -31,24 +30,9 @@ function addIllustrationToPostUsecase(
 
       return newFilename;
     } catch (err) {
-      console.error(`There was an error while updating character avatar: ${err}`);
+      console.error(`There was an error while adding a post illustration: ${err}`);
     }
   };
-}
-
-async function cropImage(base64Image: string, crop: UpdatePostIllustrationDto['crop']) {
-  const { x, y, width, height } = crop;
-
-  return await sharp(Buffer.from(base64Image, 'base64'))
-    .extract({
-      width: Math.floor(width),
-      height: Math.floor(height),
-      left: Math.floor(x),
-      top: Math.floor(y),
-    })
-    .resize(680, 230)
-    .png()
-    .toBuffer();
 }
 
 export { addIllustrationToPostUsecase };

@@ -1,11 +1,11 @@
-import { User } from '../../app/user/domain/user/entities/user';
+import { PublicUser } from '../../services/AuthService';
 
 export {};
 
 declare global {
   namespace Express {
     export interface Request {
-      loggedUser?: User;
+      loggedUser?: PublicUser;
     }
   }
 }
